@@ -6,7 +6,11 @@ namespace ArRetarget
     public class InputHandler : MonoBehaviour
     {
         DataHandler dataHandler;
-        public string sceneName = "Sample Scene";
+
+        public string ArCore_CameraPose = "Sample Scene";
+        public string ArCore_FaceMesh = "Sample Scene";
+        public string ArKit_CameraPose = "Sample Scene";
+        public string ArKit_ShapeKeys = "Sample Scene";
 
         private void Awake()
         {
@@ -21,14 +25,34 @@ namespace ArRetarget
         public void SendMail()
         {
             dataHandler.ToggleRecording();
-            dataHandler.JsonSerialization();
+            dataHandler.SerializeJson();
             RestartSession();
         }
 
         public void RestartSession()
         {
             Debug.Log("Restarting Session");
-            SceneManager.LoadScene(sceneName);
+            string scene = null;
+            switch (dataHandler.dataType)
+            {
+                case DataHandler.RecData.ArCore_CameraPose:
+                    scene = ArCore_CameraPose;
+                    break;
+                case DataHandler.RecData.ArCore_FaceMesh:
+                    scene = ArCore_FaceMesh;
+                    break;
+                case DataHandler.RecData.ArKit_CameraPose:
+                    scene = ArKit_CameraPose;
+                    break;
+                case DataHandler.RecData.ArKit_ShapeKeys:
+                    scene = ArKit_ShapeKeys;
+                    break;
+            }
+
+            if (scene != null)
+                SceneManager.LoadScene(scene);
+            else
+                Debug.Log("Load main menu");
         }
     }
 }

@@ -1,99 +1,128 @@
-﻿using System;
-using System.IO;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace ArRetarget
+public class DataHandler : MonoBehaviour
 {
-    public class DataHandler : MonoBehaviour
+    public SerializeJson jsonSerializer;
+
+    private CameraPoseHandler cameraPoseHandler;
+    private FaceMeshHandler faceMeshHandler;
+
+    private string attachmentPath;
+    private bool recording;
+    private int frame = 0;
+
+    public enum RecData
     {
-        private string attachmentPath;
-        private List<CameraData> cameraData = new List<CameraData>();
-        private bool recording;
-        GameObject MainCamera;
+        ArCore_CameraPose,
+        ArKit_CameraPose,
+        ArCore_FaceMesh,
+        ArKit_ShapeKeys
+    };
 
-        //camera is always enabled during the ar session so we get a ref at start
-        private void Start()
+    public RecData dataType
+    {
+        get;
+        set;
+    }
+
+    private void Start()
+    {
+        attachmentPath = Application.persistentDataPath + "/temp.json";
+        recording = false;
+
+        Debug.Log("Session started");
+    }
+
+    public void SetDataType(RecData data)
+    {
+        dataType = data;
+
+        switch (dataType)
         {
-            attachmentPath = Application.persistentDataPath + "/temp.json";
-            Debug.Log("Session started");
-            MainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-            recording = false;
-            ClearList();
-        }
+            case RecData.ArCore_CameraPose:
+                cameraPoseHandler = GameObject.FindGameObjectWithTag("retarget").GetComponent<CameraPoseHandler>();
+                Debug.Log("Assigned ArCore Camera Pose Method");
+                break;
 
-        int f = 0;
-        private void Update()
-        {
-            if (recording)
-            {
-                f++;
-                SetCameraData(f);
-            }
-        }
+            case RecData.ArCore_FaceMesh:
+                faceMeshHandler = GameObject.FindGameObjectWithTag("retarget").GetComponent<FaceMeshHandler>();
+                Debug.Log("Assigned ArCore Face Mesh Method");
+                break;
 
-        public void ToggleRecording()
-        {
-            recording = !recording;
-            Debug.Log($"recording: {recording}");
-        }
+            case RecData.ArKit_CameraPose:
+                Debug.Log("No Method assigned");
+                break;
 
-        public void SetCameraData(int f)
-        {
-            CameraData newData = new CameraData()
-            {
-                px = MainCamera.transform.position.x,
-                py = MainCamera.transform.position.y,
-                pz = MainCamera.transform.position.z,
-
-                rx = MainCamera.transform.eulerAngles.x,
-                ry = MainCamera.transform.eulerAngles.y,
-                rz = MainCamera.transform.eulerAngles.z,
-
-                f = f
-            };
-
-            cameraData.Add(newData);
-        }
-
-        public void JsonSerialization()
-        {
-            _CameraData data = new _CameraData()
-            {
-                _cameraData = cameraData
-            };
-
-            //json in app data
-            var json = JsonUtility.ToJson(data);
-            File.WriteAllText(attachmentPath, json);
-
-            DateTime localDate = DateTime.Now;
-            string mailSubject = "Ar Retarget " + localDate.ToString();
-            string s = Environment.NewLine;
-            string mailText = "Ar Retarget " + localDate.ToString();
-
-            StartCoroutine(NativeShare(filePath: attachmentPath, subject: mailSubject, text: mailText));
-        }
-
-        private IEnumerator NativeShare(string filePath, string subject, string text)
-        {
-            yield return new WaitForEndOfFrame();
-            new NativeShare().AddFile(filePath).SetSubject(subject).SetText(text).Share();
-        }
-
-        //clearing the list after a session
-        public void ClearList()
-        {
-            //Debug.Log("Cleared Cache");
-            //DeleteFile.FileAtMediaPath(attachmentPath);
-            cameraData.Clear();
+            case RecData.ArKit_ShapeKeys:
+                Debug.Log("No Method assigned");
+                break;
         }
     }
 
-    [System.Serializable]
-    public class _CameraData
+    public void ToggleRecording()
     {
-        public List<CameraData> _cameraData;
+        if (!recording)
+            InitRetargeting();
+
+        recording = !recording;
+    }
+
+    private void InitRetargeting()
+    {
+        switch (dataType)
+        {
+            case RecData.ArCore_CameraPose:
+                cameraPoseHandler.InitCameraData();
+                break;
+            case RecData.ArCore_FaceMesh:
+                faceMeshHandler.InitFaceMesh();
+                break;
+            case RecData.ArKit_CameraPose:
+                break;
+            case RecData.ArKit_ShapeKeys:
+                break;
+        }
+    }
+
+    private void Update()
+    {
+        if (recording)
+        {
+            frame++;
+            switch (dataType)
+            {
+                case RecData.ArCore_CameraPose:
+                    cameraPoseHandler.SetCameraData(frame);
+                    break;
+
+                case RecData.ArCore_FaceMesh:
+                    faceMeshHandler.ProcessMeshVerts(frame);
+                    break;
+
+                case RecData.ArKit_CameraPose:
+                    break;
+                case RecData.ArKit_ShapeKeys:
+                    break;
+            }
+        }
+    }
+
+    public void SerializeJson()
+    {
+        switch (dataType)
+        {
+            case RecData.ArCore_CameraPose:
+                jsonSerializer.SerializeCameraPoseData(cameraPoseHandler.cameraDataList, attachmentPath);
+                break;
+
+            case RecData.ArCore_FaceMesh:
+                jsonSerializer.SerializeMeshData(faceMeshHandler.meshVertsList, attachmentPath);
+                break;
+
+            case RecData.ArKit_CameraPose:
+                break;
+            case RecData.ArKit_ShapeKeys:
+                break;
+        }
     }
 }
