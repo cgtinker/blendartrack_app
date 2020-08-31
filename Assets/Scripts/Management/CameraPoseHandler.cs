@@ -1,48 +1,51 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using ArRetarget;
+﻿using UnityEngine;
+using System.Collections.Generic;
 
-public class CameraPoseHandler : MonoBehaviour
+namespace ArRetarget
 {
-    [HideInInspector]
-    public CameraPoseDataList cameraDataList;
-    private GameObject MainCamera;
-
-    public DataHandler dataHandler;
-
-    private void Start()
+    public class CameraPoseHandler : MonoBehaviour
     {
-        dataHandler.SetDataType(DataHandler.RecData.ArCore_CameraPose);
-    }
+        [HideInInspector]
+        public List<CameraPoseData> cameraDataList = new List<CameraPoseData>();
+        private GameObject MainCamera;
 
-    public void InitCameraData()
-    {
-        cameraDataList.poseList.Clear();
-        MainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-        cameraDataList = new CameraPoseDataList();
-    }
+        public DataHandler dataHandler;
 
-    public void SetCameraData(int f)
-    {
-        CameraPoseData tmp = new CameraPoseData()
+        private void Start()
         {
-            pos = new vector()
+            dataHandler.SetDataType(DataHandler.RecData.ArCore_CameraPose);
+        }
+
+        public void InitCameraData()
+        {
+            MainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        }
+
+        public void SetCameraData(int f)
+        {
+            var p = new vector()
             {
                 x = MainCamera.transform.position.x,
                 y = MainCamera.transform.position.y,
                 z = MainCamera.transform.position.z
-            },
+            };
 
-            rot = new vector()
+            var r = new vector()
             {
                 x = MainCamera.transform.eulerAngles.x,
                 y = MainCamera.transform.eulerAngles.y,
                 z = MainCamera.transform.eulerAngles.y,
-            },
+            };
 
-            frame = f
-        };
+            var tmp = new CameraPoseData()
+            {
+                pos = p,
+                rot = r,
 
-        cameraDataList.poseList.Add(tmp);
+                frame = f
+            };
+
+            cameraDataList.Add(tmp);
+        }
     }
 }

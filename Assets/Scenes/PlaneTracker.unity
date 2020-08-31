@@ -1187,9 +1187,11 @@ GameObject:
   - component: {fileID: 1105096398}
   - component: {fileID: 1105096399}
   - component: {fileID: 1105096397}
+  - component: {fileID: 1105096400}
+  - component: {fileID: 1105096401}
   m_Layer: 0
   m_Name: Manager
-  m_TagString: Untagged
+  m_TagString: retarget
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1206,7 +1208,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1538d55e67a8e40ebbff345434749a96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: SampleScene
+  ArCore_CameraPose: PlaneTracker
+  ArCore_FaceMesh: FaceTracker
+  ArKit_CameraPose: PlaneTracker
+  ArKit_ShapeKeys: Sample Scene
 --- !u!4 &1105096398
 Transform:
   m_ObjectHideFlags: 0
@@ -1234,6 +1239,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6ec2bac9647048868669976cbde82d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1105096400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105096396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cfe7aff2be24428974185cdae0dc9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1105096401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105096396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74b2827737b5d42d39349a41b2e80d19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraDataList: []
+  dataHandler: {fileID: 1105096399}
 --- !u!1 &1210041134
 GameObject:
   m_ObjectHideFlags: 0

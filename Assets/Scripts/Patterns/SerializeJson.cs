@@ -18,10 +18,9 @@ public class SerializeJson : MonoBehaviour
         JsonSerialization(json, attachmentPath);
     }
 
-    private void JsonSerialization(string data, string attachmentPath)
+    private void JsonSerialization(string json, string attachmentPath)
     {
         //json in app data
-        var json = JsonUtility.ToJson(data);
         File.WriteAllText(attachmentPath, json);
 
         DateTime localDate = DateTime.Now;

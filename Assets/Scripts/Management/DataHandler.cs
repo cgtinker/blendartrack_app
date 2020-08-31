@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using ArRetarget;
 
 public class DataHandler : MonoBehaviour
 {
-    public SerializeJson jsonSerializer;
+    SerializeJson jsonSerializer;
 
     private CameraPoseHandler cameraPoseHandler;
     private FaceMeshHandler faceMeshHandler;
@@ -29,7 +30,7 @@ public class DataHandler : MonoBehaviour
     {
         attachmentPath = Application.persistentDataPath + "/temp.json";
         recording = false;
-
+        jsonSerializer = this.gameObject.GetComponent<SerializeJson>();
         Debug.Log("Session started");
     }
 
@@ -57,6 +58,7 @@ public class DataHandler : MonoBehaviour
                 Debug.Log("No Method assigned");
                 break;
         }
+
     }
 
     public void ToggleRecording()
@@ -72,6 +74,7 @@ public class DataHandler : MonoBehaviour
         switch (dataType)
         {
             case RecData.ArCore_CameraPose:
+                Debug.Log("Init Camera");
                 cameraPoseHandler.InitCameraData();
                 break;
             case RecData.ArCore_FaceMesh:
@@ -112,7 +115,12 @@ public class DataHandler : MonoBehaviour
         switch (dataType)
         {
             case RecData.ArCore_CameraPose:
-                jsonSerializer.SerializeCameraPoseData(cameraPoseHandler.cameraDataList, attachmentPath);
+                CameraPoseDataList cpd = new CameraPoseDataList()
+                {
+                    poseList = cameraPoseHandler.cameraDataList
+                };
+                Debug.Log($"cpd count: {cpd.poseList.Count}, pose handler: {cameraPoseHandler.cameraDataList.Count}");
+                jsonSerializer.SerializeCameraPoseData(cpd, attachmentPath);
                 break;
 
             case RecData.ArCore_FaceMesh:
