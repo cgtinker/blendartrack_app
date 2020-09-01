@@ -13,7 +13,8 @@ namespace ArRetarget
         private void Start()
         {
             dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<DataManager>();
-            dataManager.SetDataType(DataManager.RecData.ArCore_CameraPose);
+            DeviceManager.Instance.SetDataType(DeviceManager.RecData.ArCore_CameraPose);
+            dataManager.AssignDataType();
         }
 
         public void InitCamera()

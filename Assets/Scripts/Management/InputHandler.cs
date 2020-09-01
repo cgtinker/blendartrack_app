@@ -12,6 +12,7 @@ namespace ArRetarget
         public string ArKit_CameraPose = "CameraTracker";
         public string ArKit_ShapeKeys = "Sample Scene";
 
+
         private void Awake()
         {
             dataManager = this.gameObject.GetComponent<DataManager>();
@@ -34,21 +35,52 @@ namespace ArRetarget
             Debug.Log("Restarting Session");
 
             string scene = null;
-            switch (dataManager.DataType)
+            switch (DeviceManager.Instance.device)
             {
-                case DataManager.RecData.ArCore_CameraPose:
-                    scene = ArCore_CameraPose;
+                case DeviceManager.Device.Android:
+                    switch (DeviceManager.Instance.DataType)
+                    {
+                        case DeviceManager.RecData.ArCore_CameraPose:
+                            scene = ArCore_CameraPose;
+                            break;
+
+                        case DeviceManager.RecData.ArCore_FaceMesh:
+                            scene = ArCore_FaceMesh;
+                            break;
+                    }
                     break;
-                case DataManager.RecData.ArCore_FaceMesh:
-                    scene = ArCore_FaceMesh;
+
+                case DeviceManager.Device.iOs:
+                    switch (DeviceManager.Instance.DataType)
+                    {
+                        case DeviceManager.RecData.ArKit_CameraPose:
+                            scene = ArKit_CameraPose;
+                            break;
+
+                        case DeviceManager.RecData.ArKit_ShapeKeys:
+                            scene = ArKit_ShapeKeys;
+                            break;
+                    }
                     break;
-                case DataManager.RecData.ArKit_CameraPose:
-                    scene = ArKit_CameraPose;
-                    break;
-                case DataManager.RecData.ArKit_ShapeKeys:
-                    scene = ArKit_ShapeKeys;
+
+                case DeviceManager.Device.Remote:
+                    switch (DeviceManager.Instance.DataType)
+                    {
+                        case DeviceManager.RecData.Remote_CameraPose:
+                            scene = ArKit_CameraPose;
+                            break;
+
+                        case DeviceManager.RecData.Remote_FaceMesh:
+                            scene = ArKit_ShapeKeys;
+                            break;
+
+                        case DeviceManager.RecData.Remote_FaceKeys:
+                            scene = ArKit_ShapeKeys;
+                            break;
+                    }
                     break;
             }
+
 
             if (scene != null)
                 SceneManager.LoadScene(scene);

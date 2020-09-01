@@ -12,7 +12,8 @@ public class FaceMeshHandler : MonoBehaviour
     private void Start()
     {
         dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<DataManager>();
-        dataManager.SetDataType(DataManager.RecData.ArCore_FaceMesh);
+        DeviceManager.Instance.SetDataType(DeviceManager.RecData.ArCore_FaceMesh);
+        dataManager.AssignDataType();
     }
 
     //only works with a single face mesh
