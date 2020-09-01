@@ -5,46 +5,47 @@ namespace ArRetarget
 {
     public class InputHandler : MonoBehaviour
     {
-        DataHandler dataHandler;
+        DataManager dataManager;
 
-        public string ArCore_CameraPose = "Sample Scene";
-        public string ArCore_FaceMesh = "Sample Scene";
-        public string ArKit_CameraPose = "Sample Scene";
+        public string ArCore_CameraPose = "CameraTracker";
+        public string ArCore_FaceMesh = "FaceTracker";
+        public string ArKit_CameraPose = "CameraTracker";
         public string ArKit_ShapeKeys = "Sample Scene";
 
         private void Awake()
         {
-            dataHandler = this.gameObject.GetComponent<DataHandler>();
+            dataManager = this.gameObject.GetComponent<DataManager>();
         }
 
         public void TrackData()
         {
-            dataHandler.ToggleRecording();
+            dataManager.ToggleRecording();
         }
 
-        public void SendMail()
+        public void SerializeAndShare()
         {
-            dataHandler.ToggleRecording();
-            dataHandler.SerializeJson();
+            dataManager.ToggleRecording();
+            dataManager.SerializeJson();
             RestartSession();
         }
 
         public void RestartSession()
         {
             Debug.Log("Restarting Session");
+
             string scene = null;
-            switch (dataHandler.dataType)
+            switch (dataManager.DataType)
             {
-                case DataHandler.RecData.ArCore_CameraPose:
+                case DataManager.RecData.ArCore_CameraPose:
                     scene = ArCore_CameraPose;
                     break;
-                case DataHandler.RecData.ArCore_FaceMesh:
+                case DataManager.RecData.ArCore_FaceMesh:
                     scene = ArCore_FaceMesh;
                     break;
-                case DataHandler.RecData.ArKit_CameraPose:
+                case DataManager.RecData.ArKit_CameraPose:
                     scene = ArKit_CameraPose;
                     break;
-                case DataHandler.RecData.ArKit_ShapeKeys:
+                case DataManager.RecData.ArKit_ShapeKeys:
                     scene = ArKit_ShapeKeys;
                     break;
             }

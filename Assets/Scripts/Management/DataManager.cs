@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using ArRetarget;
 
-public class DataHandler : MonoBehaviour
+public class DataManager : MonoBehaviour
 {
-    SerializeJson jsonSerializer;
+    JsonSerializer jsonSerializer;
 
     private CameraPoseHandler cameraPoseHandler;
     private FaceMeshHandler faceMeshHandler;
@@ -20,25 +20,25 @@ public class DataHandler : MonoBehaviour
         ArKit_ShapeKeys
     };
 
-    public RecData dataType
+    public RecData DataType
     {
         get;
         set;
     }
 
-    private void Start()
+    void Start()
     {
         attachmentPath = Application.persistentDataPath + "/temp.json";
         recording = false;
-        jsonSerializer = this.gameObject.GetComponent<SerializeJson>();
+        jsonSerializer = this.gameObject.GetComponent<JsonSerializer>();
         Debug.Log("Session started");
     }
 
     public void SetDataType(RecData data)
     {
-        dataType = data;
+        DataType = data;
 
-        switch (dataType)
+        switch (DataType)
         {
             case RecData.ArCore_CameraPose:
                 cameraPoseHandler = GameObject.FindGameObjectWithTag("retarget").GetComponent<CameraPoseHandler>();
@@ -59,6 +59,7 @@ public class DataHandler : MonoBehaviour
                 break;
         }
 
+        Debug.Log("Assigned Data Type");
     }
 
     public void ToggleRecording()
@@ -67,15 +68,16 @@ public class DataHandler : MonoBehaviour
             InitRetargeting();
 
         recording = !recording;
+
+        Debug.Log($"Recording: {recording}");
     }
 
     private void InitRetargeting()
     {
-        switch (dataType)
+        switch (DataType)
         {
             case RecData.ArCore_CameraPose:
-                Debug.Log("Init Camera");
-                cameraPoseHandler.InitCameraData();
+                cameraPoseHandler.InitCamera();
                 break;
             case RecData.ArCore_FaceMesh:
                 faceMeshHandler.InitFaceMesh();
@@ -85,17 +87,20 @@ public class DataHandler : MonoBehaviour
             case RecData.ArKit_ShapeKeys:
                 break;
         }
+
+        Debug.Log("Init Retargeting");
     }
 
-    private void Update()
+    void Update()
     {
         if (recording)
         {
             frame++;
-            switch (dataType)
+
+            switch (DataType)
             {
                 case RecData.ArCore_CameraPose:
-                    cameraPoseHandler.SetCameraData(frame);
+                    cameraPoseHandler.GetCameraPoseData(frame);
                     break;
 
                 case RecData.ArCore_FaceMesh:
@@ -112,19 +117,27 @@ public class DataHandler : MonoBehaviour
 
     public void SerializeJson()
     {
-        switch (dataType)
+        DeleteFile.FileAtMediaPath(attachmentPath);
+        Debug.Log("Serializing json");
+
+        switch (DataType)
         {
             case RecData.ArCore_CameraPose:
                 CameraPoseDataList cpd = new CameraPoseDataList()
                 {
                     poseList = cameraPoseHandler.cameraDataList
                 };
-                Debug.Log($"cpd count: {cpd.poseList.Count}, pose handler: {cameraPoseHandler.cameraDataList.Count}");
+
                 jsonSerializer.SerializeCameraPoseData(cpd, attachmentPath);
                 break;
 
             case RecData.ArCore_FaceMesh:
-                jsonSerializer.SerializeMeshData(faceMeshHandler.meshVertsList, attachmentPath);
+                MeshVertDataList mvd = new MeshVertDataList()
+                {
+                    meshVertsList = faceMeshHandler.meshVertsList
+                };
+
+                jsonSerializer.SerializeMeshData(mvd, attachmentPath);
                 break;
 
             case RecData.ArKit_CameraPose:

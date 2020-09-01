@@ -8,29 +8,29 @@ namespace ArRetarget
         [HideInInspector]
         public List<CameraPoseData> cameraDataList = new List<CameraPoseData>();
         private GameObject MainCamera;
-
-        public DataHandler dataHandler;
+        private DataManager dataManager;
 
         private void Start()
         {
-            dataHandler.SetDataType(DataHandler.RecData.ArCore_CameraPose);
+            dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<DataManager>();
+            dataManager.SetDataType(DataManager.RecData.ArCore_CameraPose);
         }
 
-        public void InitCameraData()
+        public void InitCamera()
         {
             MainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         }
 
-        public void SetCameraData(int f)
+        public void GetCameraPoseData(int f)
         {
-            var p = new vector()
+            var p = new Vector()
             {
                 x = MainCamera.transform.position.x,
                 y = MainCamera.transform.position.y,
                 z = MainCamera.transform.position.z
             };
 
-            var r = new vector()
+            var r = new Vector()
             {
                 x = MainCamera.transform.eulerAngles.x,
                 y = MainCamera.transform.eulerAngles.y,

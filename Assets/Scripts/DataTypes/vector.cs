@@ -2,7 +2,7 @@
 namespace ArRetarget
 {
     [System.Serializable]
-    public class vector
+    public class Vector
     {
         public float x;
         public float y;

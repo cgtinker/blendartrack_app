@@ -4,9 +4,9 @@ using System.Collections;
 using UnityEngine;
 using ArRetarget;
 
-public class SerializeJson : MonoBehaviour
+public class JsonSerializer : MonoBehaviour
 {
-    public void SerializeMeshData(MeshVertsList data, string attachmentPath)
+    public void SerializeMeshData(MeshVertDataList data, string attachmentPath)
     {
         var json = JsonUtility.ToJson(data);
         JsonSerialization(json, attachmentPath);

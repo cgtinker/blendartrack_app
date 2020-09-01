@@ -16,7 +16,9 @@ namespace ArRetarget
                     File.Delete(mediaPath);
                     Debug.Log("Deleted temp File at " + mediaPath);
                 }
-                else Debug.Log("File not found");
+
+                else
+                    Debug.Log("File not found");
             }
 
             catch (IOException ioExp)

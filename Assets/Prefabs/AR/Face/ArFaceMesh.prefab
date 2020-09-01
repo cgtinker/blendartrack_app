@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7775798157249432421}
   m_Layer: 0
   m_Name: ArFaceMesh
-  m_TagString: Untagged
+  m_TagString: face
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

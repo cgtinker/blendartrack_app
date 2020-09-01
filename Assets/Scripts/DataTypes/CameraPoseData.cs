@@ -11,8 +11,8 @@ namespace ArRetarget
     [System.Serializable]
     public class CameraPoseData
     {
-        public vector pos;
-        public vector rot;
+        public Vector pos;
+        public Vector rot;
         public int frame;
     }
 }
