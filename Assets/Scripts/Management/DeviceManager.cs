@@ -46,7 +46,7 @@ namespace ArRetarget
         public void SetDataType(Capabilities ability)
         {
             Ability = ability;
-            Debug.Log("Assigned Data Type");
+            Debug.Log($"Assigned Data Type: {ability}");
         }
 
 

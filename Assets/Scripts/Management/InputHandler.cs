@@ -84,7 +84,7 @@ namespace ArRetarget
 
 
             if (scene != null)
-                SceneManager.LoadScene(scene);
+                SceneManager.LoadSceneAsync(scene);
             else
                 Debug.Log("Load main menu");
         }

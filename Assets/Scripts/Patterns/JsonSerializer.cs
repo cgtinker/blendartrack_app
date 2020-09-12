@@ -9,15 +9,14 @@ public class JsonSerializer : MonoBehaviour
     public void SerializeMeshData(MeshDataContainer data, string persistentPath)
     {
         var json = JsonUtility.ToJson(data);
-        var path = persistentPath + Time().ToString() + "/FaceMeshData.json";
+        var path = persistentPath + "/FaceMeshData.json";
         JsonSerialization(json, path);
     }
 
     public void SerializeCameraPoseData(PoseDataContainer data, string persistentPath)
     {
         var json = JsonUtility.ToJson(data);
-        var path = $"{persistentPath}/CameraPose{Time()}.json";
-        //var path = persistentPath + Time().ToString() + "/CameraPoseData.json";
+        var path = $"{persistentPath}/CameraPose.json";
         JsonSerialization(json, path);
     }
 
@@ -43,7 +42,6 @@ public class JsonSerializer : MonoBehaviour
     private IEnumerator NativeShare(string filePath, string subject, string text)
     {
         yield return new WaitForEndOfFrame();
-        //new NativeShare().AddFile(filePath).SetSubject(subject).SetText(text).Share();
-        new NativeShare().AddFile(filePath).SetSubject(subject).SetTarget("target").SetTitle("Title").SetText(text).Share();
+        new NativeShare().AddFile(filePath).SetSubject(subject).SetText(text).Share();
     }
 }

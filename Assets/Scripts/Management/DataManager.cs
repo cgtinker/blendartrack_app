@@ -27,20 +27,16 @@ public class DataManager : MonoBehaviour
         {
             case DeviceManager.Capabilities.ArCore_CameraPose:
                 cameraPoseHandler = GameObject.FindGameObjectWithTag("retarget").GetComponent<CameraPoseHandler>();
-                Debug.Log("Assigned ArCore Camera Pose Method");
                 break;
 
             case DeviceManager.Capabilities.ArCore_FaceMesh:
                 faceMeshHandler = GameObject.FindGameObjectWithTag("retarget").GetComponent<FaceMeshHandler>();
-                Debug.Log("Assigned ArCore Face Mesh Method");
                 break;
 
             case DeviceManager.Capabilities.ArKit_CameraPose:
-                Debug.Log("No Method assigned");
                 break;
 
             case DeviceManager.Capabilities.ArKit_ShapeKeys:
-                Debug.Log("No Method assigned");
                 break;
         }
     }
@@ -100,7 +96,7 @@ public class DataManager : MonoBehaviour
 
     public void SerializeJson()
     {
-        DeleteFile.FileAtMediaPath(attachmentPath);
+        //DeleteFile.FileAtMediaPath(attachmentPath + "/*.json");
         Debug.Log("Serializing json");
 
         switch (DeviceManager.Instance.Ability)
