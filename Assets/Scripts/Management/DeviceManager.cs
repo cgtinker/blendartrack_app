@@ -1,59 +1,68 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-
-public class DeviceManager : Singleton<DeviceManager>
+namespace ArRetarget
 {
-    public enum Device
+    /// <summary>
+    /// The device manager helps to differentiate between the running device and their augemented reality capabilities
+    /// </summary>
+    public class DeviceManager : Singleton<DeviceManager>
     {
-        Remote,
-        iOs,
-        Android
-    };
+        public enum Device
+        {
+            Remote,
+            iOs,
+            Android
+        };
 
-    public Device device
-    {
-        get;
-        set;
-    }
+        public Device device
+        {
+            get;
+            set;
+        }
 
-    public enum RecData
-    {
-        ArCore_CameraPose,
-        ArKit_CameraPose,
-        ArCore_FaceMesh,
-        ArKit_ShapeKeys,
-        Remote_CameraPose,
-        Remote_FaceMesh,
-        Remote_FaceKeys
-    };
+        public enum Capabilities
+        {
+            ArCore_CameraPose,
+            ArKit_CameraPose,
 
-    public RecData DataType
-    {
-        get;
-        set;
-    }
+            ArCore_FaceMesh,
+            ArKit_ShapeKeys,
 
+            //implemented for futher tests
+            Remote_CameraPose,
+            Remote_FaceMesh,
+            Remote_FaceKeys,
 
-    public void SetDataType(RecData data)
-    {
-        DataType = data;
-        Debug.Log("Assigned Data Type");
-    }
+            MainMenu
+        };
+
+        public Capabilities Ability
+        {
+            get;
+            set;
+        }
 
 
-    // Start is called before the first frame update
-    void Awake()
-    {
+        public void SetDataType(Capabilities ability)
+        {
+            Ability = ability;
+            Debug.Log("Assigned Data Type");
+        }
+
+
+        // Start is called before the first frame update
+        void Awake()
+        {
 #if UNITY_EDITOR
-        device = Device.Remote;
+            device = Device.Remote;
 #endif
 #if UNITY_IPHONE
         device = Device.iOs;
 #endif
 #if UNITY_ANDROID
-        device = Device.Android;
+            device = Device.Android;
 #endif
+            Debug.Log($"Device: {device}");
+        }
     }
 }

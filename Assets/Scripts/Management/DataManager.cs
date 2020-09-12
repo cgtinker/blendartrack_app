@@ -14,7 +14,7 @@ public class DataManager : MonoBehaviour
 
     void Start()
     {
-        attachmentPath = Application.persistentDataPath + "/temp.json";
+        attachmentPath = Application.persistentDataPath;
         recording = false;
         jsonSerializer = this.gameObject.GetComponent<JsonSerializer>();
         Debug.Log("Session started");
@@ -23,23 +23,23 @@ public class DataManager : MonoBehaviour
     public void AssignDataType()
     {
 
-        switch (DeviceManager.Instance.DataType)
+        switch (DeviceManager.Instance.Ability)
         {
-            case DeviceManager.RecData.ArCore_CameraPose:
+            case DeviceManager.Capabilities.ArCore_CameraPose:
                 cameraPoseHandler = GameObject.FindGameObjectWithTag("retarget").GetComponent<CameraPoseHandler>();
                 Debug.Log("Assigned ArCore Camera Pose Method");
                 break;
 
-            case DeviceManager.RecData.ArCore_FaceMesh:
+            case DeviceManager.Capabilities.ArCore_FaceMesh:
                 faceMeshHandler = GameObject.FindGameObjectWithTag("retarget").GetComponent<FaceMeshHandler>();
                 Debug.Log("Assigned ArCore Face Mesh Method");
                 break;
 
-            case DeviceManager.RecData.ArKit_CameraPose:
+            case DeviceManager.Capabilities.ArKit_CameraPose:
                 Debug.Log("No Method assigned");
                 break;
 
-            case DeviceManager.RecData.ArKit_ShapeKeys:
+            case DeviceManager.Capabilities.ArKit_ShapeKeys:
                 Debug.Log("No Method assigned");
                 break;
         }
@@ -57,42 +57,42 @@ public class DataManager : MonoBehaviour
 
     private void InitRetargeting()
     {
-        switch (DeviceManager.Instance.DataType)
+        switch (DeviceManager.Instance.Ability)
         {
-            case DeviceManager.RecData.ArCore_CameraPose:
+            case DeviceManager.Capabilities.ArCore_CameraPose:
                 cameraPoseHandler.InitCamera();
                 break;
-            case DeviceManager.RecData.ArCore_FaceMesh:
+            case DeviceManager.Capabilities.ArCore_FaceMesh:
                 faceMeshHandler.InitFaceMesh();
                 break;
-            case DeviceManager.RecData.ArKit_CameraPose:
+            case DeviceManager.Capabilities.ArKit_CameraPose:
                 break;
-            case DeviceManager.RecData.ArKit_ShapeKeys:
+            case DeviceManager.Capabilities.ArKit_ShapeKeys:
                 break;
         }
 
         Debug.Log("Init Retargeting");
     }
 
-    void Update()
+    private void Update()
     {
         if (recording)
         {
             frame++;
 
-            switch (DeviceManager.Instance.DataType)
+            switch (DeviceManager.Instance.Ability)
             {
-                case DeviceManager.RecData.ArCore_CameraPose:
+                case DeviceManager.Capabilities.ArCore_CameraPose:
                     cameraPoseHandler.GetCameraPoseData(frame);
                     break;
 
-                case DeviceManager.RecData.ArCore_FaceMesh:
+                case DeviceManager.Capabilities.ArCore_FaceMesh:
                     faceMeshHandler.ProcessMeshVerts(frame);
                     break;
 
-                case DeviceManager.RecData.ArKit_CameraPose:
+                case DeviceManager.Capabilities.ArKit_CameraPose:
                     break;
-                case DeviceManager.RecData.ArKit_ShapeKeys:
+                case DeviceManager.Capabilities.ArKit_ShapeKeys:
                     break;
             }
         }
@@ -103,29 +103,29 @@ public class DataManager : MonoBehaviour
         DeleteFile.FileAtMediaPath(attachmentPath);
         Debug.Log("Serializing json");
 
-        switch (DeviceManager.Instance.DataType)
+        switch (DeviceManager.Instance.Ability)
         {
-            case DeviceManager.RecData.ArCore_CameraPose:
-                CameraPoseDataList cpd = new CameraPoseDataList()
+            case DeviceManager.Capabilities.ArCore_CameraPose:
+                PoseDataContainer cpd = new PoseDataContainer()
                 {
-                    poseList = cameraPoseHandler.cameraDataList
+                    poseList = cameraPoseHandler.cameraPoseList
                 };
 
                 jsonSerializer.SerializeCameraPoseData(cpd, attachmentPath);
                 break;
 
-            case DeviceManager.RecData.ArCore_FaceMesh:
-                MeshVertDataList mvd = new MeshVertDataList()
+            case DeviceManager.Capabilities.ArCore_FaceMesh:
+                MeshDataContainer mvd = new MeshDataContainer()
                 {
-                    meshVertsList = faceMeshHandler.meshVertsList
+                    mdList = faceMeshHandler.meshDataList
                 };
 
                 jsonSerializer.SerializeMeshData(mvd, attachmentPath);
                 break;
 
-            case DeviceManager.RecData.ArKit_CameraPose:
+            case DeviceManager.Capabilities.ArKit_CameraPose:
                 break;
-            case DeviceManager.RecData.ArKit_ShapeKeys:
+            case DeviceManager.Capabilities.ArKit_ShapeKeys:
                 break;
         }
     }

@@ -1,6 +1,9 @@
 ﻿
 namespace ArRetarget
 {
+    /// <summary>
+    /// vector3 as three floats for json serialization
+    /// </summary>
     [System.Serializable]
     public class Vector
     {

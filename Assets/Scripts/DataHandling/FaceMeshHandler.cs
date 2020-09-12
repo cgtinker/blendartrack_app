@@ -5,14 +5,14 @@ using ArRetarget;
 public class FaceMeshHandler : MonoBehaviour
 {
     [HideInInspector]
-    public List<MeshVertData> meshVertsList = new List<MeshVertData>();
+    public List<MeshData> meshDataList = new List<MeshData>();
     private MeshFilter meshFilter;
     private DataManager dataManager;
 
     private void Start()
     {
         dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<DataManager>();
-        DeviceManager.Instance.SetDataType(DeviceManager.RecData.ArCore_FaceMesh);
+        DeviceManager.Instance.SetDataType(DeviceManager.Capabilities.ArCore_FaceMesh);
         dataManager.AssignDataType();
     }
 
@@ -31,32 +31,37 @@ public class FaceMeshHandler : MonoBehaviour
 
     public void ProcessMeshVerts(int f)
     {
+        var meshData = GetMeshData(meshFilter, f);
+        meshDataList.Add(meshData);
+    }
+
+    public static MeshData GetMeshData(MeshFilter mf, int f)
+    {
         //tmp list for verts in mesh
         var tmpList = new List<Vector>();
 
         //getting mesh data
-        for (int i = 0; i < meshFilter.mesh.vertexCount; i++)
+        for (int i = 0; i < mf.mesh.vertexCount; i++)
         {
-            Vector3 tmp = meshFilter.mesh.vertices[i];
+            Vector3 tmp = mf.mesh.vertices[i];
 
-            var meshVert = new Vector()
+            var mVert = new Vector()
             {
                 x = tmp.x,
                 y = tmp.y,
                 z = tmp.z
             };
 
-            tmpList.Add(meshVert);
+            tmpList.Add(mVert);
         }
 
         //assigning frame and mesh data
-        var meshVertData = new MeshVertData()
+        var mvd = new MeshData()
         {
             meshVerts = tmpList,
             frame = f
         };
 
-        //adding data to list
-        meshVertsList.Add(meshVertData);
+        return mvd;
     }
 }

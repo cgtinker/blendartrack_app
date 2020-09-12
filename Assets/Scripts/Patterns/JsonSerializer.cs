@@ -6,22 +6,31 @@ using ArRetarget;
 
 public class JsonSerializer : MonoBehaviour
 {
-    public void SerializeMeshData(MeshVertDataList data, string attachmentPath)
+    public void SerializeMeshData(MeshDataContainer data, string persistentPath)
     {
         var json = JsonUtility.ToJson(data);
-        JsonSerialization(json, attachmentPath);
+        var path = persistentPath + Time().ToString() + "/FaceMeshData.json";
+        JsonSerialization(json, path);
     }
 
-    public void SerializeCameraPoseData(CameraPoseDataList data, string attachmentPath)
+    public void SerializeCameraPoseData(PoseDataContainer data, string persistentPath)
     {
         var json = JsonUtility.ToJson(data);
-        JsonSerialization(json, attachmentPath);
+        var path = $"{persistentPath}/CameraPose{Time()}.json";
+        //var path = persistentPath + Time().ToString() + "/CameraPoseData.json";
+        JsonSerialization(json, path);
+    }
+
+    public DateTime Time()
+    {
+        DateTime time = DateTime.Now;
+        return time;
     }
 
     private void JsonSerialization(string json, string attachmentPath)
     {
         //json in app data
-        File.WriteAllText(attachmentPath, json);
+        File.WriteAllText(path: attachmentPath, contents: json, encoding: System.Text.Encoding.UTF8);
 
         DateTime localDate = DateTime.Now;
         string mailSubject = "Ar Retarget " + localDate.ToString();
@@ -34,6 +43,7 @@ public class JsonSerializer : MonoBehaviour
     private IEnumerator NativeShare(string filePath, string subject, string text)
     {
         yield return new WaitForEndOfFrame();
-        new NativeShare().AddFile(filePath).SetSubject(subject).SetText(text).Share();
+        //new NativeShare().AddFile(filePath).SetSubject(subject).SetText(text).Share();
+        new NativeShare().AddFile(filePath).SetSubject(subject).SetTarget("target").SetTitle("Title").SetText(text).Share();
     }
 }

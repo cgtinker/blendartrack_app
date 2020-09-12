@@ -5,10 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class Lobby : MonoBehaviour
 {
-    public string ArCore_CameraPose = "CameraTracker";
-    public string ArCore_FaceMesh = "FaceTracker";
-    public string ArKit_CameraPose = "CameraTracker";
-    public string ArKit_ShapeKeys = "Sample Scene";
+    public static string ArCore_CameraPose = "CameraTracker";
+    public static string ArCore_FaceMesh = "FaceTracker";
+    public static string ArKit_CameraPose = "CameraTracker";
+    public static string ArKit_ShapeKeys = "Sample Scene";
 
     public void LoadCameraPoseScene()
     {

@@ -27,10 +27,11 @@ namespace ArRetarget
         {
             dataManager.ToggleRecording();
             dataManager.SerializeJson();
+
             RestartSession();
         }
 
-        public void RestartSession()
+        private void RestartSession()
         {
             Debug.Log("Restarting Session");
 
@@ -38,43 +39,43 @@ namespace ArRetarget
             switch (DeviceManager.Instance.device)
             {
                 case DeviceManager.Device.Android:
-                    switch (DeviceManager.Instance.DataType)
+                    switch (DeviceManager.Instance.Ability)
                     {
-                        case DeviceManager.RecData.ArCore_CameraPose:
+                        case DeviceManager.Capabilities.ArCore_CameraPose:
                             scene = ArCore_CameraPose;
                             break;
 
-                        case DeviceManager.RecData.ArCore_FaceMesh:
+                        case DeviceManager.Capabilities.ArCore_FaceMesh:
                             scene = ArCore_FaceMesh;
                             break;
                     }
                     break;
 
                 case DeviceManager.Device.iOs:
-                    switch (DeviceManager.Instance.DataType)
+                    switch (DeviceManager.Instance.Ability)
                     {
-                        case DeviceManager.RecData.ArKit_CameraPose:
+                        case DeviceManager.Capabilities.ArKit_CameraPose:
                             scene = ArKit_CameraPose;
                             break;
 
-                        case DeviceManager.RecData.ArKit_ShapeKeys:
+                        case DeviceManager.Capabilities.ArKit_ShapeKeys:
                             scene = ArKit_ShapeKeys;
                             break;
                     }
                     break;
 
                 case DeviceManager.Device.Remote:
-                    switch (DeviceManager.Instance.DataType)
+                    switch (DeviceManager.Instance.Ability)
                     {
-                        case DeviceManager.RecData.Remote_CameraPose:
-                            scene = ArKit_CameraPose;
+                        case DeviceManager.Capabilities.Remote_CameraPose:
+                            scene = ArCore_CameraPose;
                             break;
 
-                        case DeviceManager.RecData.Remote_FaceMesh:
-                            scene = ArKit_ShapeKeys;
+                        case DeviceManager.Capabilities.Remote_FaceMesh:
+                            scene = ArCore_FaceMesh;
                             break;
 
-                        case DeviceManager.RecData.Remote_FaceKeys:
+                        case DeviceManager.Capabilities.Remote_FaceKeys:
                             scene = ArKit_ShapeKeys;
                             break;
                     }
