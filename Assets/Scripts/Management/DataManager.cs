@@ -9,13 +9,13 @@ public class DataManager : MonoBehaviour
     private FaceMeshHandler faceMeshHandler;
 
     private string attachmentPath;
-    private bool recording;
+    private bool _recording;
     private int frame = 0;
 
     void Start()
     {
         attachmentPath = Application.persistentDataPath;
-        recording = false;
+        _recording = false;
         jsonSerializer = this.gameObject.GetComponent<JsonSerializer>();
         Debug.Log("Session started");
     }
@@ -43,12 +43,12 @@ public class DataManager : MonoBehaviour
 
     public void ToggleRecording()
     {
-        if (!recording)
+        if (!_recording)
             InitRetargeting();
 
-        recording = !recording;
+        _recording = !_recording;
 
-        Debug.Log($"Recording: {recording}");
+        Debug.Log($"Recording: {_recording}");
     }
 
     private void InitRetargeting()
@@ -72,7 +72,7 @@ public class DataManager : MonoBehaviour
 
     private void Update()
     {
-        if (recording)
+        if (_recording)
         {
             frame++;
 
@@ -99,6 +99,7 @@ public class DataManager : MonoBehaviour
         //DeleteFile.FileAtMediaPath(attachmentPath + "/*.json");
         Debug.Log("Serializing json");
 
+        //TODO: Interface for serialization
         switch (DeviceManager.Instance.Ability)
         {
             case DeviceManager.Capabilities.ArCore_CameraPose:

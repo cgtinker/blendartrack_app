@@ -20,12 +20,6 @@ public class JsonSerializer : MonoBehaviour
         JsonSerialization(json, path);
     }
 
-    public DateTime Time()
-    {
-        DateTime time = DateTime.Now;
-        return time;
-    }
-
     private void JsonSerialization(string json, string attachmentPath)
     {
         //json in app data

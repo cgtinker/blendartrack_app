@@ -28,16 +28,16 @@ namespace ArRetarget
             cameraPoseList.Add(cameraPose);
         }
 
-        public static PoseData GetPoseData(GameObject obj, int f)
+        public static PoseData GetPoseData(GameObject obj, int frame)
         {
-            var p = new Vector()
+            var pos = new Vector()
             {
                 x = obj.transform.position.x,
                 y = obj.transform.position.y,
                 z = obj.transform.position.z
             };
 
-            var r = new Vector()
+            var rot = new Vector()
             {
                 x = obj.transform.eulerAngles.x,
                 y = obj.transform.eulerAngles.y,
@@ -46,10 +46,10 @@ namespace ArRetarget
 
             var tmp = new PoseData()
             {
-                pos = p,
-                rot = r,
+                pos = pos,
+                rot = rot,
 
-                frame = f
+                frame = frame
             };
 
             return tmp;
