@@ -24,14 +24,14 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.visualstudio": {
-      "version": "2.0.2",
+      "version": "2.0.3",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.vscode": {
-      "version": "1.2.1",
+      "version": "1.2.2",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
@@ -117,47 +117,47 @@
       }
     },
     "com.unity.xr.arcore": {
-      "version": "3.1.5",
+      "version": "3.1.7",
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.unity.xr.arsubsystems": "3.1.3",
-        "com.unity.xr.management": "3.0.6",
+        "com.unity.xr.arsubsystems": "3.1.5",
+        "com.unity.xr.management": "3.2.13",
         "com.unity.modules.androidjni": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },
     "com.unity.xr.arfoundation": {
-      "version": "3.1.3",
+      "version": "3.1.5",
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.unity.xr.arsubsystems": "3.1.3"
+        "com.unity.xr.arsubsystems": "3.1.5"
       },
       "url": "https://packages.unity.com"
     },
     "com.unity.xr.arkit": {
-      "version": "3.1.3",
+      "version": "3.1.7",
       "depth": 1,
       "source": "registry",
       "dependencies": {
-        "com.unity.xr.arsubsystems": "3.1.3",
-        "com.unity.xr.management": "3.0.6"
+        "com.unity.xr.arsubsystems": "3.1.5",
+        "com.unity.xr.management": "3.2.13"
       },
       "url": "https://packages.unity.com"
     },
     "com.unity.xr.arkit-face-tracking": {
-      "version": "3.1.3",
+      "version": "3.1.6",
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.unity.xr.arkit": "3.1.3",
-        "com.unity.xr.arsubsystems": "3.1.3"
+        "com.unity.xr.arkit": "3.1.7",
+        "com.unity.xr.arsubsystems": "3.1.5"
       },
       "url": "https://packages.unity.com"
     },
     "com.unity.xr.arsubsystems": {
-      "version": "3.1.3",
+      "version": "3.1.5",
       "depth": 1,
       "source": "registry",
       "dependencies": {
