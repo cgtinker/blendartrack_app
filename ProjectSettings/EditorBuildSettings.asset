@@ -5,13 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Lobby.unity
     guid: 0b23976c3a59243539793f13422eeef1
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/CameraTracker.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/FaceTracker.unity
     guid: 6abb2efede512461b8e1175576713eb4
   m_configObjects:

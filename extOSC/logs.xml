@@ -1,0 +1,32 @@
+<root>
+  <message info="Receiver: 7000. From: 127.0.0.1:55361" type="Received">
+    <packet>I2J1bmRsZQAAAAAAAAAAAAAAABwvYWRkcmVzcwAAAAAsc3MAampqagAAAAB1dXUA</packet>
+  </message>
+  <message info="Transmitter: 127.0.0.1:7000" type="Transmitted">
+    <packet>I2J1bmRsZQAAAAAAAAAAAAAAABwvYWRkcmVzcwAAAAAsc3MAampqagAAAAB1dXUA</packet>
+  </message>
+  <message info="Receiver: 7000. From: 127.0.0.1:55361" type="Received">
+    <packet>I2J1bmRsZQAAAAAAAAAAAAAAABwvYWRkcmVzcwAAAAAsc3MAampqagAAAAB1dXUA</packet>
+  </message>
+  <message info="Transmitter: 127.0.0.1:7000" type="Transmitted">
+    <packet>I2J1bmRsZQAAAAAAAAAAAAAAABwvYWRkcmVzcwAAAAAsc3MAampqagAAAAB1dXUA</packet>
+  </message>
+  <message info="Receiver: 7000. From: 127.0.0.1:55361" type="Received">
+    <packet>I2J1bmRsZQAAAAAAAAAAAAAAABwvYWRkcmVzcwAAAAAsc3MAampqagAAAAB1dXUAAAAAHC9hZGRyZXNzAAAAACxzcwBqampqAAAAAHV1dQA=</packet>
+  </message>
+  <message info="Transmitter: 127.0.0.1:7000" type="Transmitted">
+    <packet>I2J1bmRsZQAAAAAAAAAAAAAAABwvYWRkcmVzcwAAAAAsc3MAampqagAAAAB1dXUAAAAAHC9hZGRyZXNzAAAAACxzcwBqampqAAAAAHV1dQA=</packet>
+  </message>
+  <message info="Receiver: 7000. From: Debug" type="Received">
+    <packet>L2FkZHJlc3MAAAAALHNzAGpqamoAAAAAdXV1AA==</packet>
+  </message>
+  <message info="Receiver: 7000. From: Debug" type="Received">
+    <packet>L2FkZHJlc3MAAAAALHNzAGpqamoAAAAAdXV1AA==</packet>
+  </message>
+  <message info="Receiver: 7000. From: 127.0.0.1:55361" type="Received">
+    <packet>I2J1bmRsZQAAAAAAAAAAAAAAABwvYWRkcmVzcwAAAAAsc3MAampqagAAAAB1dXUA</packet>
+  </message>
+  <message info="Transmitter: 127.0.0.1:7000" type="Transmitted">
+    <packet>I2J1bmRsZQAAAAAAAAAAAAAAABwvYWRkcmVzcwAAAAAsc3MAampqagAAAAB1dXUA</packet>
+  </message>
+</root>
