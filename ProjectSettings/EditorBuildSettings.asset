@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Lobby.unity
     guid: 0b23976c3a59243539793f13422eeef1
   - enabled: 1
-    path: Assets/Scenes/CameraTracker.unity
+    path: Assets/Scenes/PoseDataTracker.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
     path: Assets/Scenes/FaceTracker.unity
