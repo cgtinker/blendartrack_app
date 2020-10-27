@@ -114,7 +114,7 @@ public class DataManager : MonoBehaviour
             case DeviceManager.Capabilities.ArCore_FaceMesh:
                 MeshDataContainer mvd = new MeshDataContainer()
                 {
-                    mdList = faceMeshHandler.meshDataList
+                    meshDataList = faceMeshHandler.meshDataList
                 };
 
                 jsonSerializer.SerializeMeshData(mvd, attachmentPath);

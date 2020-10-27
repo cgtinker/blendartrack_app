@@ -11,7 +11,7 @@ namespace ArRetarget
         /// <summary>
         /// list of vertecies from a mesh
         /// </summary>
-        public List<Vector> meshVerts;
+        public List<Vector> pos;
         /// <summary>
         /// frame or index
         /// </summary>
@@ -24,6 +24,6 @@ namespace ArRetarget
     [System.Serializable]
     public class MeshDataContainer
     {
-        public List<MeshData> mdList;
+        public List<MeshData> meshDataList;
     }
 }

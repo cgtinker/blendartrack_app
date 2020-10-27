@@ -697,6 +697,81 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 946439909861457402, guid: c8b28a34e1f0841eb82736a7b558965e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 946439909861457402, guid: c8b28a34e1f0841eb82736a7b558965e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 946439909861457402, guid: c8b28a34e1f0841eb82736a7b558965e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 946439909861457402, guid: c8b28a34e1f0841eb82736a7b558965e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 946439909861457402, guid: c8b28a34e1f0841eb82736a7b558965e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: CameraRecorder, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 946439909861457402, guid: c8b28a34e1f0841eb82736a7b558965e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: StopRecording
+      objectReference: {fileID: 0}
+    - target: {fileID: 946439909861457402, guid: c8b28a34e1f0841eb82736a7b558965e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 946439909887102149, guid: c8b28a34e1f0841eb82736a7b558965e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 946439909887102149, guid: c8b28a34e1f0841eb82736a7b558965e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 946439909887102149, guid: c8b28a34e1f0841eb82736a7b558965e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 946439909887102149, guid: c8b28a34e1f0841eb82736a7b558965e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 946439909887102149, guid: c8b28a34e1f0841eb82736a7b558965e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 946439909887102149, guid: c8b28a34e1f0841eb82736a7b558965e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
+      value: CameraRecorder, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 946439909887102149, guid: c8b28a34e1f0841eb82736a7b558965e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
+      value: RecordVideo
+      objectReference: {fileID: 0}
+    - target: {fileID: 946439909887102149, guid: c8b28a34e1f0841eb82736a7b558965e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 946439909936807470, guid: c8b28a34e1f0841eb82736a7b558965e,
         type: 3}
       propertyPath: m_AnchorMin.y

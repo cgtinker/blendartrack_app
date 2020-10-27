@@ -22,9 +22,9 @@ namespace ArRetarget
             mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         }
 
-        public void GetCameraPoseData(int f)
+        public void GetCameraPoseData(int frame)
         {
-            var cameraPose = GetPoseData(mainCamera, f);
+            var cameraPose = GetPoseData(mainCamera, frame);
             cameraPoseList.Add(cameraPose);
         }
 

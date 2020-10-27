@@ -58,7 +58,7 @@ public class FaceMeshHandler : MonoBehaviour
         //assigning frame and mesh data
         var mvd = new MeshData()
         {
-            meshVerts = tmpList,
+            pos = tmpList,
             frame = f
         };
 
