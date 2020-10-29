@@ -58,7 +58,7 @@ namespace ArRetarget
                             scene = ArKit_CameraPose;
                             break;
 
-                        case DeviceManager.Capabilities.ArKit_ShapeKeys:
+                        case DeviceManager.Capabilities.ArKit_BlendShapes:
                             scene = ArKit_ShapeKeys;
                             break;
                     }

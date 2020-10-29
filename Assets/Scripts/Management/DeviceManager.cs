@@ -26,9 +26,9 @@ namespace ArRetarget
             ArKit_CameraPose,
 
             ArCore_FaceMesh,
-            ArKit_ShapeKeys,
+            ArKit_BlendShapes,
 
-            //implemented for futher tests
+            //implemented for futher tests? Might be cutted.
             Remote_CameraPose,
             Remote_FaceMesh,
             Remote_FaceKeys,
@@ -57,7 +57,7 @@ namespace ArRetarget
             device = Device.Remote;
 #endif
 #if UNITY_IPHONE
-        device = Device.iOs;
+            device = Device.iOs;
 #endif
 #if UNITY_ANDROID
             device = Device.Android;

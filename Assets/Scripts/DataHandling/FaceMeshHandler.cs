@@ -17,7 +17,7 @@ public class FaceMeshHandler : MonoBehaviour
     }
 
     //only works with a single face mesh
-    public void InitFaceMesh()
+    public void Init()
     {
         var mesh = GameObject.FindGameObjectWithTag("face");
         Debug.Log("Searching Face Mesh");

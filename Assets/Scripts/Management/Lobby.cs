@@ -8,19 +8,19 @@ public class Lobby : MonoBehaviour
     public static string[] AndroidScenes =
     {
         "PoseDataTracker",
-        "FaceTracker",
+        "FaceMeshTracker",
 
     };
     public static string[] IOSScenes =
     {
         "PoseDataTracker",
-        "ShapeKeys"
+        "ShapeKeyTracker"
     };
 
     public static string ArCore_CameraPose = "PoseDataTracker";
-    public static string ArCore_FaceMesh = "FaceTracker";
-    public static string ArKit_CameraPose = "CameraTracker";
-    public static string ArKit_ShapeKeys = "Sample Scene";
+    public static string ArCore_FaceMesh = "FaceMeshTracker";
+    public static string ArKit_CameraPose = "PoseDataTracker";
+    public static string ArKit_ShapeKeys = "ShapeKeyTracker";
 
     public void LoadCameraPoseScene()
     {
@@ -29,6 +29,6 @@ public class Lobby : MonoBehaviour
 
     public void LoadFaceMeshScene()
     {
-        SceneManager.LoadSceneAsync(ArCore_FaceMesh);
+        SceneManager.LoadSceneAsync(ArKit_ShapeKeys);
     }
 }

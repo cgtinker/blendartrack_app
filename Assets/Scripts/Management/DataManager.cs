@@ -36,7 +36,7 @@ public class DataManager : MonoBehaviour
             case DeviceManager.Capabilities.ArKit_CameraPose:
                 break;
 
-            case DeviceManager.Capabilities.ArKit_ShapeKeys:
+            case DeviceManager.Capabilities.ArKit_BlendShapes:
                 break;
         }
     }
@@ -56,14 +56,14 @@ public class DataManager : MonoBehaviour
         switch (DeviceManager.Instance.Ability)
         {
             case DeviceManager.Capabilities.ArCore_CameraPose:
-                cameraPoseHandler.InitCamera();
+                cameraPoseHandler.Init();
                 break;
             case DeviceManager.Capabilities.ArCore_FaceMesh:
-                faceMeshHandler.InitFaceMesh();
+                faceMeshHandler.Init();
                 break;
             case DeviceManager.Capabilities.ArKit_CameraPose:
                 break;
-            case DeviceManager.Capabilities.ArKit_ShapeKeys:
+            case DeviceManager.Capabilities.ArKit_BlendShapes:
                 break;
         }
 
@@ -88,7 +88,7 @@ public class DataManager : MonoBehaviour
 
                 case DeviceManager.Capabilities.ArKit_CameraPose:
                     break;
-                case DeviceManager.Capabilities.ArKit_ShapeKeys:
+                case DeviceManager.Capabilities.ArKit_BlendShapes:
                     break;
             }
         }
@@ -122,7 +122,7 @@ public class DataManager : MonoBehaviour
 
             case DeviceManager.Capabilities.ArKit_CameraPose:
                 break;
-            case DeviceManager.Capabilities.ArKit_ShapeKeys:
+            case DeviceManager.Capabilities.ArKit_BlendShapes:
                 break;
         }
     }
