@@ -41,24 +41,24 @@ namespace ArRetarget
                 case DeviceManager.Device.Android:
                     switch (DeviceManager.Instance.Ability)
                     {
-                        case DeviceManager.Capabilities.ArCore_CameraPose:
+                        case DeviceManager.TrackingType.ArCore_CameraPose:
                             scene = ArCore_CameraPose;
                             break;
 
-                        case DeviceManager.Capabilities.ArCore_FaceMesh:
+                        case DeviceManager.TrackingType.ArCore_FaceMesh:
                             scene = ArCore_FaceMesh;
                             break;
                     }
                     break;
 
-                case DeviceManager.Device.iOs:
+                case DeviceManager.Device.iOS:
                     switch (DeviceManager.Instance.Ability)
                     {
-                        case DeviceManager.Capabilities.ArKit_CameraPose:
+                        case DeviceManager.TrackingType.ArKit_CameraPose:
                             scene = ArKit_CameraPose;
                             break;
 
-                        case DeviceManager.Capabilities.ArKit_BlendShapes:
+                        case DeviceManager.TrackingType.ArKit_BlendShapes:
                             scene = ArKit_ShapeKeys;
                             break;
                     }
@@ -67,15 +67,15 @@ namespace ArRetarget
                 case DeviceManager.Device.Remote:
                     switch (DeviceManager.Instance.Ability)
                     {
-                        case DeviceManager.Capabilities.Remote_CameraPose:
+                        case DeviceManager.TrackingType.Remote_CameraPose:
                             scene = ArCore_CameraPose;
                             break;
 
-                        case DeviceManager.Capabilities.Remote_FaceMesh:
+                        case DeviceManager.TrackingType.Remote_FaceMesh:
                             scene = ArCore_FaceMesh;
                             break;
 
-                        case DeviceManager.Capabilities.Remote_FaceKeys:
+                        case DeviceManager.TrackingType.Remote_FaceKeys:
                             scene = ArKit_ShapeKeys;
                             break;
                     }

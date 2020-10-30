@@ -25,18 +25,18 @@ public class DataManager : MonoBehaviour
 
         switch (DeviceManager.Instance.Ability)
         {
-            case DeviceManager.Capabilities.ArCore_CameraPose:
+            case DeviceManager.TrackingType.ArCore_CameraPose:
                 cameraPoseHandler = GameObject.FindGameObjectWithTag("retarget").GetComponent<CameraPoseHandler>();
                 break;
 
-            case DeviceManager.Capabilities.ArCore_FaceMesh:
+            case DeviceManager.TrackingType.ArCore_FaceMesh:
                 faceMeshHandler = GameObject.FindGameObjectWithTag("retarget").GetComponent<FaceMeshHandler>();
                 break;
 
-            case DeviceManager.Capabilities.ArKit_CameraPose:
+            case DeviceManager.TrackingType.ArKit_CameraPose:
                 break;
 
-            case DeviceManager.Capabilities.ArKit_BlendShapes:
+            case DeviceManager.TrackingType.ArKit_BlendShapes:
                 break;
         }
     }
@@ -55,15 +55,15 @@ public class DataManager : MonoBehaviour
     {
         switch (DeviceManager.Instance.Ability)
         {
-            case DeviceManager.Capabilities.ArCore_CameraPose:
+            case DeviceManager.TrackingType.ArCore_CameraPose:
                 cameraPoseHandler.Init();
                 break;
-            case DeviceManager.Capabilities.ArCore_FaceMesh:
+            case DeviceManager.TrackingType.ArCore_FaceMesh:
                 faceMeshHandler.Init();
                 break;
-            case DeviceManager.Capabilities.ArKit_CameraPose:
+            case DeviceManager.TrackingType.ArKit_CameraPose:
                 break;
-            case DeviceManager.Capabilities.ArKit_BlendShapes:
+            case DeviceManager.TrackingType.ArKit_BlendShapes:
                 break;
         }
 
@@ -78,17 +78,17 @@ public class DataManager : MonoBehaviour
 
             switch (DeviceManager.Instance.Ability)
             {
-                case DeviceManager.Capabilities.ArCore_CameraPose:
+                case DeviceManager.TrackingType.ArCore_CameraPose:
                     cameraPoseHandler.GetCameraPoseData(frame);
                     break;
 
-                case DeviceManager.Capabilities.ArCore_FaceMesh:
+                case DeviceManager.TrackingType.ArCore_FaceMesh:
                     faceMeshHandler.ProcessMeshVerts(frame);
                     break;
 
-                case DeviceManager.Capabilities.ArKit_CameraPose:
+                case DeviceManager.TrackingType.ArKit_CameraPose:
                     break;
-                case DeviceManager.Capabilities.ArKit_BlendShapes:
+                case DeviceManager.TrackingType.ArKit_BlendShapes:
                     break;
             }
         }
@@ -102,7 +102,7 @@ public class DataManager : MonoBehaviour
         //TODO: Interface for serialization
         switch (DeviceManager.Instance.Ability)
         {
-            case DeviceManager.Capabilities.ArCore_CameraPose:
+            case DeviceManager.TrackingType.ArCore_CameraPose:
                 PoseDataContainer cpd = new PoseDataContainer()
                 {
                     poseList = cameraPoseHandler.cameraPoseList
@@ -111,7 +111,7 @@ public class DataManager : MonoBehaviour
                 jsonSerializer.SerializeCameraPoseData(cpd, attachmentPath);
                 break;
 
-            case DeviceManager.Capabilities.ArCore_FaceMesh:
+            case DeviceManager.TrackingType.ArCore_FaceMesh:
                 MeshDataContainer mvd = new MeshDataContainer()
                 {
                     meshDataList = faceMeshHandler.meshDataList
@@ -120,9 +120,9 @@ public class DataManager : MonoBehaviour
                 jsonSerializer.SerializeMeshData(mvd, attachmentPath);
                 break;
 
-            case DeviceManager.Capabilities.ArKit_CameraPose:
+            case DeviceManager.TrackingType.ArKit_CameraPose:
                 break;
-            case DeviceManager.Capabilities.ArKit_BlendShapes:
+            case DeviceManager.TrackingType.ArKit_BlendShapes:
                 break;
         }
     }

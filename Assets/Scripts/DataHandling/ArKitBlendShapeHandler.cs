@@ -8,25 +8,28 @@ using ArRetarget;
 using UnityEngine.XR.ARKit;
 #endif
 
-[RequireComponent(typeof(ARFace))]
-public class ArKitBlendShapeHandler : MonoBehaviour
+namespace ArRetarget
 {
+
+    [RequireComponent(typeof(ARFace))]
+    public class ArKitBlendShapeHandler : MonoBehaviour
+    {
 #if UNITY_IOS && UNITY_EDITOR
     //accessing sub system & init blend shape dict for mapping
     ARKitFaceSubsystem m_ARKitFaceSubsystem;
     private List<BlendShapeData> blendShapeDataList = new List<BlendShapeData>();
 #endif
 
-    ARFace m_Face;
+        ARFace m_Face;
 
-    void Awake()
-    {
-        m_Face = GetComponent<ARFace>();
-    }
+        void Awake()
+        {
+            m_Face = GetComponent<ARFace>();
+        }
 
-    void OnEnable()
-    {
-        Debug.Log("searching for the ar face manager, planning referencing");
+        void OnEnable()
+        {
+            Debug.Log("searching for the ar face manager, planning referencing");
 
 #if UNITY_IOS && UNITY_EDITOR
         var faceManager = FindObjectOfType<ARFaceManager>();
@@ -35,23 +38,23 @@ public class ArKitBlendShapeHandler : MonoBehaviour
             m_ARKitFaceSubsystem = (ARKitFaceSubsystem)faceManager.subsystem;
         }
 #endif
-        m_Face.updated += OnUpdated;
-    }
+            m_Face.updated += OnUpdated;
+        }
 
-    void OnDisable()
-    {
-        Debug.Log("Disabled Manager, stop referencing");
-        m_Face.updated -= OnUpdated;
-    }
+        void OnDisable()
+        {
+            Debug.Log("Disabled Manager, stop referencing");
+            m_Face.updated -= OnUpdated;
+        }
 
-    void OnUpdated(ARFaceUpdatedEventArgs eventArgs)
-    {
-        UpdateFaceFeatures();
-    }
+        void OnUpdated(ARFaceUpdatedEventArgs eventArgs)
+        {
+            UpdateFaceFeatures();
+        }
 
-    private int frame = 0;
-    void UpdateFaceFeatures()
-    {
+        private int frame = 0;
+        void UpdateFaceFeatures()
+        {
 #if UNITY_IOS && UNITY_EDITOR
         List<BlendShape> tmpBlendShapes = new List<BlendShape>();
         frame++;
@@ -78,5 +81,6 @@ public class ArKitBlendShapeHandler : MonoBehaviour
 
         blendShapeDataList.Add(blendShapeData);
 #endif
+        }
     }
 }
