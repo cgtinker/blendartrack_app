@@ -5,129 +5,121 @@ using UnityEngine.SceneManagement;
 
 public class AdditiveSceneManager : MonoBehaviour
 {
-    public int currentScene = 0;
+
+    #region SINGLETON PATTERN
+    private static AdditiveSceneManager _instance;
+    public static AdditiveSceneManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = GameObject.FindObjectOfType<AdditiveSceneManager>();
+
+                if (_instance == null)
+                {
+                    GameObject container = new GameObject("SceneManager");
+                    _instance = container.AddComponent<AdditiveSceneManager>();
+                }
+            }
+
+            return _instance;
+        }
+    }
+
+    #endregion
+
+    #region Device Management
+    public enum Device
+    {
+        iOS,
+        Android
+    };
+
+    public Device device
+    {
+        get;
+        set;
+    }
+
+    // Start is called before the first frame update
+    void Awake()
+    {
+#if UNITY_IPHONE
+            device = Device.iOS;
+#endif
+#if UNITY_ANDROID
+        device = Device.Android;
+#endif
+        Debug.Log($"Device: {device}");
+    }
+    #endregion
+
+    private static int curScene
+    {
+        get;
+        set;
+    }
 
     public static Dictionary<int, string> AndroidScenes = new Dictionary<int, string>
     {
         { 0, "Tutorial"},
-        { 1, "PoseDataTracker" },
-        { 2, "FaceMeshTracker" }
+        { 1, "Pose Data Tracker" },
+        { 2, "Face Mesh Tracker" }
     };
 
     public static Dictionary<int, string> IOSScenes = new Dictionary<int, string>
     {
         { 0, "Tutorial"},
-        { 1, "PoseDataTracker" },
-        { 2, "ShapeKeyTracker" }
+        { 1, "Pose Data Tracker" },
+        { 2, "Shape Key Tracker" }
     };
-
-    public static Dictionary<int, string> RemoteScenes = new Dictionary<int, string>
-    {
-        { 0, "Tutorial"},
-        { 1, "PoseDataTracker" },
-        { 2, "ShapeKeyTracker" }
-    };
-
-    public Dictionary<int, string> GetDeviceScenes()
-    {
-        switch (DeviceManager.Instance.device)
-        {
-            case DeviceManager.Device.Android:
-                return AndroidScenes;
-
-            case DeviceManager.Device.iOS:
-                return IOSScenes;
-
-            case DeviceManager.Device.Remote:
-                return RemoteScenes;
-
-            default:
-                return AndroidScenes;
-        }
-    }
 
     public void SwitchScene(int sceneIndex)
     {
-        Dictionary<int, string> tmp = GetDeviceScenes();
+        curScene = sceneIndex;
+        string tarScene = GetScene(sceneIndex);
+        Debug.Log("switching: " + tarScene + " || " + curScene);
+
+        LoadScene(tarScene);
     }
 
-    public void AddScene(int sceneIndex)
+    public void ReloadScene()
     {
-
+        Debug.Log("fetching string");
+        string tarScene = GetScene(curScene);
+        Debug.Log("reloading: " + tarScene + " || " + curScene);
+        LoadScene(tarScene);
     }
 
-    public void UnloadScene(int sceneIndex)
+    private void LoadScene(string tarScene)
     {
-
+        //loading the target scene and adding the ui
+        SceneManager.LoadSceneAsync(tarScene);
+        SceneManager.LoadSceneAsync("UserInterface", LoadSceneMode.Additive);
     }
 
-    public void ReloadCurrentScene(int sceneIndex)
+    public Dictionary<int, string> GetDeviceScenes()
     {
-        SceneManager.LoadSceneAsync("");
-    }
-
-
-
-
-
-    /*
-
-    private void RestartSession()
-    {
-        Debug.Log("Restarting Session");
-
-        string scene = null;
-        switch (DeviceManager.Instance.device)
+        //receiving scene dict depending on ui
+        switch (device)
         {
-            case DeviceManager.Device.Android:
-                switch (DeviceManager.Instance.Ability)
-                {
-                    case DeviceManager.TrackingType.ArCore_CameraPose:
-                        scene = ArCore_CameraPose;
-                        break;
+            case Device.Android:
+                return AndroidScenes;
 
-                    case DeviceManager.TrackingType.ArCore_FaceMesh:
-                        scene = ArCore_FaceMesh;
-                        break;
-                }
-                break;
+            case Device.iOS:
+                return IOSScenes;
 
-            case DeviceManager.Device.iOs:
-                switch (DeviceManager.Instance.Ability)
-                {
-                    case DeviceManager.TrackingType.ArKit_CameraPose:
-                        scene = ArKit_CameraPose;
-                        break;
-
-                    case DeviceManager.TrackingType.ArKit_BlendShapes:
-                        scene = ArKit_ShapeKeys;
-                        break;
-                }
-                break;
-
-            case DeviceManager.Device.Remote:
-                switch (DeviceManager.Instance.Ability)
-                {
-                    case DeviceManager.TrackingType.Remote_CameraPose:
-                        scene = ArCore_CameraPose;
-                        break;
-
-                    case DeviceManager.TrackingType.Remote_FaceMesh:
-                        scene = ArCore_FaceMesh;
-                        break;
-
-                    case DeviceManager.TrackingType.Remote_FaceKeys:
-                        scene = ArKit_ShapeKeys;
-                        break;
-                }
-                break;
+            default:
+                return IOSScenes;
         }
+    }
 
-
-        if (scene != null)
-            SceneManager.LoadSceneAsync(scene);
-        else
-            Debug.Log("Load main menu");
-        }
-    */
+    private string GetScene(int sceneKey)
+    {
+        //getting the scene by dictionary key
+        Dictionary<int, string> tmp = GetDeviceScenes();
+        string scene = tmp[sceneKey];
+        return scene;
+    }
 }

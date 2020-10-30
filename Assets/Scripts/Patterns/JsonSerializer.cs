@@ -6,18 +6,13 @@ using ArRetarget;
 
 public class JsonSerializer : MonoBehaviour
 {
-    public void SerializeMeshData(MeshDataContainer data, string persistentPath)
+    public void SerializeData(string data, string persistentPath, string prefix)
     {
-        var json = JsonUtility.ToJson(data);
-        var path = persistentPath + "/FaceMeshData.json";
-        JsonSerialization(json, path);
-    }
-
-    public void SerializeCameraPoseData(PoseDataContainer data, string persistentPath)
-    {
-        var json = JsonUtility.ToJson(data);
-        var path = $"{persistentPath}/CameraPose.json";
-        JsonSerialization(json, path);
+        Debug.Log("Serializing json data");
+        //TODO: Add time string method
+        string time = "10-10-10";
+        var path = $"{persistentPath}/{prefix}{time}.json";
+        JsonSerialization(data, path);
     }
 
     private void JsonSerialization(string json, string attachmentPath)

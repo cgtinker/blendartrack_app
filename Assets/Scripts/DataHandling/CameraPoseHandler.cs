@@ -1,31 +1,46 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace ArRetarget
 {
-    public class CameraPoseHandler : MonoBehaviour
+    public class CameraPoseHandler : MonoBehaviour, IInit, IGet<int>, IJson
     {
-        [HideInInspector]
-        public List<PoseData> cameraPoseList = new List<PoseData>();
+        private List<PoseData> cameraPoseList = new List<PoseData>();
         private GameObject mainCamera;
         private DataManager dataManager;
 
-        private void Start()
+        IEnumerator Start()
         {
-            dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<DataManager>();
-            DeviceManager.Instance.SetDataType(DeviceManager.TrackingType.ArCore_CameraPose);
-            dataManager.AssignDataType();
+            yield return new WaitForSeconds(1.0f);
+            DataManager dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<DataManager>();
+            dataManager.TrackingReference(this.gameObject);
         }
 
+        //obj to track
         public void Init()
         {
             mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         }
 
-        public void GetCameraPoseData(int frame)
+        //get data at a specific frame
+        public void GetFrameData(int frame)
         {
             var cameraPose = GetPoseData(mainCamera, frame);
             cameraPoseList.Add(cameraPose);
+        }
+
+        //tracked data to json
+        public string GetJsonString()
+        {
+            PoseDataContainer cpd = new PoseDataContainer()
+            {
+                poseList = cameraPoseList
+            };
+
+            //create json string
+            var json = JsonUtility.ToJson(cpd);
+            return json;
         }
 
         public static PoseData GetPoseData(GameObject obj, int frame)

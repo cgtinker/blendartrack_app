@@ -5,39 +5,42 @@ public class DataManager : MonoBehaviour
 {
     JsonSerializer jsonSerializer;
 
-    private CameraPoseHandler cameraPoseHandler;
-    private FaceMeshHandler faceMeshHandler;
-
-    private string attachmentPath;
+    private string persistentPath;
     private bool _recording;
     private int frame = 0;
 
+    private IGet<int> getter;
+    private IJson json;
+    private IInit init;
+    private IStop stop;
+
     void Start()
     {
-        attachmentPath = Application.persistentDataPath;
+        persistentPath = Application.persistentDataPath;
         _recording = false;
         jsonSerializer = this.gameObject.GetComponent<JsonSerializer>();
         Debug.Log("Session started");
     }
 
-    public void AssignDataType()
+    public void TrackingReference(GameObject obj)
     {
-
-        switch (DeviceManager.Instance.Ability)
+        if (obj.GetComponent<IInit>() != null && obj.GetComponent<IJson>() != null)
         {
-            case DeviceManager.TrackingType.ArCore_CameraPose:
-                cameraPoseHandler = GameObject.FindGameObjectWithTag("retarget").GetComponent<CameraPoseHandler>();
-                break;
+            Debug.Log("Received Tracker Init & Json Reference");
+            init = obj.GetComponent<IInit>();
+            json = obj.GetComponent<IJson>();
+        }
 
-            case DeviceManager.TrackingType.ArCore_FaceMesh:
-                faceMeshHandler = GameObject.FindGameObjectWithTag("retarget").GetComponent<FaceMeshHandler>();
-                break;
+        if (obj.GetComponent<IGet<int>>() != null)
+        {
+            Debug.Log("Received Tracker Get Reference");
+            getter = obj.GetComponent<IGet<int>>();
+        }
 
-            case DeviceManager.TrackingType.ArKit_CameraPose:
-                break;
-
-            case DeviceManager.TrackingType.ArKit_BlendShapes:
-                break;
+        if (obj.GetComponent<IStop>() != null)
+        {
+            stop = obj.GetComponent<IStop>();
+            Debug.Log("Received Tracker Stop Reference");
         }
     }
 
@@ -46,6 +49,9 @@ public class DataManager : MonoBehaviour
         if (!_recording)
             InitRetargeting();
 
+        else
+            StopRetargeting();
+
         _recording = !_recording;
 
         Debug.Log($"Recording: {_recording}");
@@ -53,77 +59,31 @@ public class DataManager : MonoBehaviour
 
     private void InitRetargeting()
     {
-        switch (DeviceManager.Instance.Ability)
-        {
-            case DeviceManager.TrackingType.ArCore_CameraPose:
-                cameraPoseHandler.Init();
-                break;
-            case DeviceManager.TrackingType.ArCore_FaceMesh:
-                faceMeshHandler.Init();
-                break;
-            case DeviceManager.TrackingType.ArKit_CameraPose:
-                break;
-            case DeviceManager.TrackingType.ArKit_BlendShapes:
-                break;
-        }
-
         Debug.Log("Init Retargeting");
+        init.Init();
+    }
+
+    private void StopRetargeting()
+    {
+        if (stop != null)
+        {
+            Debug.Log("Stop Retargeting");
+            stop.StopTracking();
+        }
     }
 
     private void Update()
     {
-        if (_recording)
+        if (_recording && getter != null)
         {
             frame++;
-
-            switch (DeviceManager.Instance.Ability)
-            {
-                case DeviceManager.TrackingType.ArCore_CameraPose:
-                    cameraPoseHandler.GetCameraPoseData(frame);
-                    break;
-
-                case DeviceManager.TrackingType.ArCore_FaceMesh:
-                    faceMeshHandler.ProcessMeshVerts(frame);
-                    break;
-
-                case DeviceManager.TrackingType.ArKit_CameraPose:
-                    break;
-                case DeviceManager.TrackingType.ArKit_BlendShapes:
-                    break;
-            }
+            getter.GetFrameData(frame);
         }
     }
 
     public void SerializeJson()
     {
-        //DeleteFile.FileAtMediaPath(attachmentPath + "/*.json");
-        Debug.Log("Serializing json");
-
-        //TODO: Interface for serialization
-        switch (DeviceManager.Instance.Ability)
-        {
-            case DeviceManager.TrackingType.ArCore_CameraPose:
-                PoseDataContainer cpd = new PoseDataContainer()
-                {
-                    poseList = cameraPoseHandler.cameraPoseList
-                };
-
-                jsonSerializer.SerializeCameraPoseData(cpd, attachmentPath);
-                break;
-
-            case DeviceManager.TrackingType.ArCore_FaceMesh:
-                MeshDataContainer mvd = new MeshDataContainer()
-                {
-                    meshDataList = faceMeshHandler.meshDataList
-                };
-
-                jsonSerializer.SerializeMeshData(mvd, attachmentPath);
-                break;
-
-            case DeviceManager.TrackingType.ArKit_CameraPose:
-                break;
-            case DeviceManager.TrackingType.ArKit_BlendShapes:
-                break;
-        }
+        string tmp = json.GetJsonString();
+        jsonSerializer.SerializeData(data: tmp, persistentPath: persistentPath, prefix: "prefix");
     }
 }

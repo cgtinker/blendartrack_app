@@ -5,21 +5,24 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/Lobby.unity
-    guid: 0b23976c3a59243539793f13422eeef1
-  - enabled: 0
-    path: Assets/Scenes/PoseDataTracker.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 0
-    path: Assets/Scenes/FaceMeshTracker.unity
-    guid: 6abb2efede512461b8e1175576713eb4
-  - enabled: 0
-    path: Assets/Scenes/ShapeKeyTracker.unity
-    guid: 26eeb938186e447d0ae9f04353ce6973
+  - enabled: 1
+    path: Assets/Scenes/StartUp.unity
+    guid: 551cb09185feb4e74b7b6d7bc0e33a05
   - enabled: 1
     path: Assets/Scenes/UserInterface.unity
     guid: 29a29c201bcc747f58d8d1d2fb6ccddc
+  - enabled: 1
+    path: Assets/Scenes/Cross/Tutorial.unity
+    guid: a041818c850b646518686c60fc9cce69
+  - enabled: 1
+    path: Assets/Scenes/Cross/Pose Data Tracker.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/Android/Face Mesh Tracker.unity
+    guid: 6abb2efede512461b8e1175576713eb4
+  - enabled: 1
+    path: Assets/Scenes/iOS/Shape Key Tracker.unity
+    guid: 26eeb938186e447d0ae9f04353ce6973
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 273c9ecc124c84beda7f536a4664f9ef,
       type: 2}

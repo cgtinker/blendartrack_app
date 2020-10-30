@@ -1,21 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ArRetarget
 {
 
-    public class FaceMeshHandler : MonoBehaviour
+    public class FaceMeshHandler : MonoBehaviour, IInit, IGet<int>, IJson
     {
         [HideInInspector]
-        public List<MeshData> meshDataList = new List<MeshData>();
+        private List<MeshData> meshDataList = new List<MeshData>();
         private MeshFilter meshFilter;
-        private DataManager dataManager;
 
-        private void Start()
+        IEnumerator Start()
         {
-            dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<DataManager>();
-            DeviceManager.Instance.SetDataType(DeviceManager.TrackingType.ArCore_FaceMesh);
-            dataManager.AssignDataType();
+            yield return new WaitForSeconds(0.5f);
+            DataManager dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<DataManager>();
+            dataManager.TrackingReference(this.gameObject);
         }
 
         //only works with a single face mesh
@@ -31,10 +31,23 @@ namespace ArRetarget
                 Debug.LogWarning("Couldn't find a Facemesh");
         }
 
-        public void ProcessMeshVerts(int f)
+        //getting verts at a frame
+        public void GetFrameData(int f)
         {
             var meshData = GetMeshData(meshFilter, f);
             meshDataList.Add(meshData);
+        }
+
+        //tracked data to json
+        public string GetJsonString()
+        {
+            MeshDataContainer tmp = new MeshDataContainer()
+            {
+                meshDataList = meshDataList
+            };
+
+            var json = JsonUtility.ToJson(tmp);
+            return json;
         }
 
         public static MeshData GetMeshData(MeshFilter mf, int f)
