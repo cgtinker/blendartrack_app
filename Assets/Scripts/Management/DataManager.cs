@@ -24,23 +24,21 @@ public class DataManager : MonoBehaviour
 
     public void TrackingReference(GameObject obj)
     {
+        Debug.Log("Receiving Tracker Type Reference");
         if (obj.GetComponent<IInit>() != null && obj.GetComponent<IJson>() != null)
         {
-            Debug.Log("Received Tracker Init & Json Reference");
             init = obj.GetComponent<IInit>();
             json = obj.GetComponent<IJson>();
         }
 
         if (obj.GetComponent<IGet<int>>() != null)
         {
-            Debug.Log("Received Tracker Get Reference");
             getter = obj.GetComponent<IGet<int>>();
         }
 
         if (obj.GetComponent<IStop>() != null)
         {
             stop = obj.GetComponent<IStop>();
-            Debug.Log("Received Tracker Stop Reference");
         }
     }
 

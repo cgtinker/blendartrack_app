@@ -8,6 +8,10 @@ using TMPro;
 public class RuntimeButton : MonoBehaviour, IPointerDownHandler
 {
     TextMeshProUGUI title;
+    TextMeshProUGUI mainMenuSceneTitle;
+    AdditiveSceneManager sceneManager;
+    GameObject mainMenu;
+    GameObject sceneMenu;
 
     public string sceneName
     {
@@ -18,11 +22,16 @@ public class RuntimeButton : MonoBehaviour, IPointerDownHandler
         get; private set;
     }
 
-    public void Init(string name, int key)
+    public void Init(string name, int key, AdditiveSceneManager sceneManager, GameObject mainMenu, GameObject sceneMenu, TextMeshProUGUI mainMenuSceneTitle)
     {
         //assigning properties based on the dict in the addive scene manager
         sceneName = name;
         sceneKey = key;
+
+        this.sceneManager = sceneManager;
+        this.sceneMenu = sceneMenu;
+        this.mainMenu = mainMenu;
+        this.mainMenuSceneTitle = mainMenuSceneTitle;
 
         title = this.gameObject.GetComponentInChildren<TextMeshProUGUI>();
         title.text = sceneName;
@@ -30,6 +39,11 @@ public class RuntimeButton : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        AdditiveSceneManager.Instance.SwitchScene(sceneKey);
+        sceneManager.SwitchScene(sceneKey);
+        sceneManager.ResetScene();
+        mainMenuSceneTitle.text = sceneName;
+
+        sceneMenu.SetActive(false);
+        mainMenu.SetActive(true);
     }
 }

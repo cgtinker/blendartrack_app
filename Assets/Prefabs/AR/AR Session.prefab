@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4853511892256271406}
   m_Layer: 0
   m_Name: AR Session
-  m_TagString: Untagged
+  m_TagString: arSession
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AttemptUpdate: 1
+  m_MatchFrameRate: 1
 --- !u!114 &4853511892256271406
 MonoBehaviour:
   m_ObjectHideFlags: 0

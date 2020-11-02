@@ -496,6 +496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 861284ef1bf1142a88871f113d995364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneManager: {fileID: 1521635527}
 --- !u!114 &720126798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -614,8 +615,8 @@ Camera:
   m_GameObject: {fileID: 1059753570}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -722,7 +723,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b7b337fa06a3412b94ab28f14a16213, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curScene: 0
 --- !u!4 &1521635528
 Transform:
   m_ObjectHideFlags: 0

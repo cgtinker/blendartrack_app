@@ -8,6 +8,7 @@ TagManager:
   - manager
   - face
   - sceneManager
+  - arSession
   layers:
   - Default
   - TransparentFX

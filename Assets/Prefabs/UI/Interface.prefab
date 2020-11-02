@@ -828,6 +828,10 @@ MonoBehaviour:
     type: 3}
   SceneButtonParent: {fileID: 7821487890075388977}
   Canvas: {fileID: 1412527694453307063}
+  MainMenu: {fileID: 1412527694381573623}
+  SceneMenu: {fileID: 7821487890847218165}
+  SceneTitle: {fileID: 7821487890343793891}
+  sceneManager: {fileID: 0}
 --- !u!1 &2722137792752845270
 GameObject:
   m_ObjectHideFlags: 0
@@ -2668,6 +2672,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1412527695106993570}
+        m_TargetAssemblyTypeName: ArRetarget.InputHandler, Assembly-CSharp
+        m_MethodName: DisableArSession
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

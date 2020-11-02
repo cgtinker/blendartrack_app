@@ -5,11 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class StartUp : MonoBehaviour
 {
+    public AdditiveSceneManager sceneManager;
+
     private IEnumerator Start()
     {
-        yield return new WaitForSeconds(1.5f);
-        this.gameObject.SetActive(false);
+        yield return new WaitForSeconds(1f);
 
-        AdditiveSceneManager.Instance.SwitchScene(0);
+        //loading last loaded scene
+        int sceneIndex = UserPreferences.Instance.GetIntPref("scene");
+        sceneManager.SwitchScene(sceneIndex);
+
+        Destroy(this.gameObject);
     }
 }

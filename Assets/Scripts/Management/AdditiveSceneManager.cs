@@ -2,33 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR.ARFoundation;
 
 public class AdditiveSceneManager : MonoBehaviour
 {
-
-    #region SINGLETON PATTERN
-    private static AdditiveSceneManager _instance;
-    public static AdditiveSceneManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = GameObject.FindObjectOfType<AdditiveSceneManager>();
-
-                if (_instance == null)
-                {
-                    GameObject container = new GameObject("SceneManager");
-                    _instance = container.AddComponent<AdditiveSceneManager>();
-                }
-            }
-
-            return _instance;
-        }
-    }
-
-    #endregion
-
     #region Device Management
     public enum Device
     {
@@ -51,15 +28,9 @@ public class AdditiveSceneManager : MonoBehaviour
 #if UNITY_ANDROID
         device = Device.Android;
 #endif
-        Debug.Log($"Device: {device}");
+        //Debug.Log($"Device: {device}");
     }
     #endregion
-
-    private static int curScene
-    {
-        get;
-        set;
-    }
 
     public static Dictionary<int, string> AndroidScenes = new Dictionary<int, string>
     {
@@ -77,26 +48,48 @@ public class AdditiveSceneManager : MonoBehaviour
 
     public void SwitchScene(int sceneIndex)
     {
-        curScene = sceneIndex;
-        string tarScene = GetScene(sceneIndex);
-        Debug.Log("switching: " + tarScene + " || " + curScene);
+        //unload the previous scene
+        string preScene = GetScene(UserPreferences.Instance.GetIntPref("scene"));
+        if (SceneManager.GetSceneByName(preScene).isLoaded)
+            SceneManager.UnloadSceneAsync(preScene);
 
-        LoadScene(tarScene);
+        //saving reference to the loaded scene
+        PlayerPrefs.SetInt("scene", sceneIndex);
+        string tarScene = GetScene(sceneIndex);
+
+        //LoadScene(tarScene);
+        SceneManager.LoadSceneAsync(tarScene, LoadSceneMode.Additive);
     }
 
-    public void ReloadScene()
+    public void ResetScene()
     {
-        Debug.Log("fetching string");
-        string tarScene = GetScene(curScene);
-        Debug.Log("reloading: " + tarScene + " || " + curScene);
-        LoadScene(tarScene);
+        var obj = GameObject.FindGameObjectWithTag("arSession");
+
+        if (obj != null)
+        {
+            var arSession = obj.GetComponent<ARSession>();
+            var inputManager = obj.GetComponent<ARInputManager>();
+
+            arSession.Reset();
+            arSession.enabled = true;
+            inputManager.enabled = true;
+        }
+
+
+        //getting scene to reload from user preferences
+        //int curScene = UserPreferences.Instance.GetIntPref("scene");
+        //string tarScene = GetScene(curScene);
+
+        //LoadScene(tarScene);
     }
 
     private void LoadScene(string tarScene)
     {
         //loading the target scene and adding the ui
-        SceneManager.LoadSceneAsync(tarScene);
-        SceneManager.LoadSceneAsync("UserInterface", LoadSceneMode.Additive);
+        //SceneManager.LoadSceneAsync(tarScene, LoadSceneMode.Additive);
+        //SceneManager.LoadScene("UserInterface", LoadSceneMode.Additive);
+
+        Debug.Log("Loading Scene additive: " + tarScene);
     }
 
     public Dictionary<int, string> GetDeviceScenes()
@@ -115,7 +108,7 @@ public class AdditiveSceneManager : MonoBehaviour
         }
     }
 
-    private string GetScene(int sceneKey)
+    public string GetScene(int sceneKey)
     {
         //getting the scene by dictionary key
         Dictionary<int, string> tmp = GetDeviceScenes();
