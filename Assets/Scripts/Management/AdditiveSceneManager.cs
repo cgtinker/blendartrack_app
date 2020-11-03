@@ -39,7 +39,6 @@ public class AdditiveSceneManager : MonoBehaviour
     #endregion
 
     #region Scene Dicts
-    //scenes for android
     public static Dictionary<int, string> AndroidScenes = new Dictionary<int, string>
     {
         { 0, "Tutorial"},
@@ -47,7 +46,6 @@ public class AdditiveSceneManager : MonoBehaviour
         { 2, "Face Mesh Tracker" }
     };
 
-    //scenes for ios
     public static Dictionary<int, string> IOSScenes = new Dictionary<int, string>
     {
         { 0, "Tutorial"},
@@ -94,7 +92,6 @@ public class AdditiveSceneManager : MonoBehaviour
             Debug.LogError("ArSession getting called and cannot be found");
     }
 
-    //getting the rel dictionary depending on the device
     public Dictionary<int, string> GetDeviceScenes()
     {
         switch (device)
