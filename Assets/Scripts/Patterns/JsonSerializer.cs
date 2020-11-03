@@ -2,7 +2,6 @@
 using System.IO;
 using System.Collections;
 using UnityEngine;
-using ArRetarget;
 
 public class JsonSerializer : MonoBehaviour
 {
@@ -17,7 +16,6 @@ public class JsonSerializer : MonoBehaviour
 
     private void JsonSerialization(string json, string attachmentPath)
     {
-        //json in app data
         File.WriteAllText(path: attachmentPath, contents: json, encoding: System.Text.Encoding.UTF8);
 
         DateTime localDate = DateTime.Now;

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// player prefs handler to set defaults and reset values
+/// </summary>
 public class UserPreferences : Singleton<UserPreferences>
 {
-    //key, value
     #region Reference dictionarys for default values
     private Dictionary<string, string> StringPrefDict = new Dictionary<string, string>()
     {

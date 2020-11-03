@@ -12,7 +12,7 @@ namespace ArRetarget
 {
 
     [RequireComponent(typeof(ARFace))]
-    public class ArKitBlendShapeHandler : MonoBehaviour, IInit, IJson, IStop
+    public class ArKitBlendShapeHandler : MonoBehaviour, IInit, IJson, IStop, IPrefix
     {
 #if UNITY_IOS && !UNITY_EDITOR
         //accessing sub system & init blend shape dict for mapping
@@ -29,11 +29,11 @@ namespace ArRetarget
 
         private void Start()
         {
-            DataManager dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<DataManager>();
+            TrackingDataManager dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
             dataManager.TrackingReference(this.gameObject);
         }
 
-        //previously was "OnEnable" - might goging to crash?
+        //might crash
         public void Init()
         {
             Debug.Log("searching for the ar face manager");
@@ -49,6 +49,7 @@ namespace ArRetarget
             recording = true;
         }
 
+        //generating json string
         public string GetJsonString()
         {
             BlendShapeContainter tmp = new BlendShapeContainter()
@@ -60,6 +61,13 @@ namespace ArRetarget
             return json;
         }
 
+        //json file prefix
+        public string GetJsonPrefix()
+        {
+            return "BS";
+        }
+
+        //if face is lost
         void OnDisable()
         {
             Debug.Log("Disabled Manager, stop referencing");
@@ -71,13 +79,14 @@ namespace ArRetarget
             recording = false;
         }
 
+        //receiving update
         void OnUpdated(ARFaceUpdatedEventArgs eventArgs)
         {
             UpdateFaceFeatures();
         }
 
         private int frame;
-        //updating facial features as soon the subsystem update occurs
+        //while recoring updating facial features and store them as blendshapedata as soon the subsystem update occurs
         void UpdateFaceFeatures()
         {
             if (recording)
@@ -100,6 +109,7 @@ namespace ArRetarget
                 }
             }
 
+            //getting blend shape data
             BlendShapeData blendShapeData = new BlendShapeData()
             {
                blendShapes = tmpBlendShapes,

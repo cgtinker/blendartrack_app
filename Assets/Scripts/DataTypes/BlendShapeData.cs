@@ -11,6 +11,9 @@ namespace ArRetarget
         public List<BlendShapeData> blendShapeData;
     }
 
+    /// <summary>
+    /// all blendshapes at a frame
+    /// </summary>
     [System.Serializable]
     public class BlendShapeData
     {
@@ -18,6 +21,9 @@ namespace ArRetarget
         public int frame;
     }
 
+    /// <summary>
+    /// a blend shape contains a floating value between 0-1 and its position (name)
+    /// </summary>
     [System.Serializable]
     public class BlendShape
     {

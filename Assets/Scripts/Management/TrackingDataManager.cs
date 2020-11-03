@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using ArRetarget;
+﻿using ArRetarget;
+using UnityEngine;
 
-public class DataManager : MonoBehaviour
+public class TrackingDataManager : MonoBehaviour
 {
     JsonSerializer jsonSerializer;
 
@@ -14,34 +14,43 @@ public class DataManager : MonoBehaviour
     private IInit init;
     private IStop stop;
 
+    #region initialize tracking session
     void Start()
     {
+        //prepare for tracking and serializing
         persistentPath = Application.persistentDataPath;
         _recording = false;
         jsonSerializer = this.gameObject.GetComponent<JsonSerializer>();
         Debug.Log("Session started");
     }
 
+    //the tracking references always contain some of the following interfaces
     public void TrackingReference(GameObject obj)
     {
-        Debug.Log("Receiving Tracker Type Reference");
+        //iinit -> setup || ijson -> serialze
         if (obj.GetComponent<IInit>() != null && obj.GetComponent<IJson>() != null)
         {
             init = obj.GetComponent<IInit>();
             json = obj.GetComponent<IJson>();
         }
 
+        //iget -> pulling data
         if (obj.GetComponent<IGet<int>>() != null)
         {
             getter = obj.GetComponent<IGet<int>>();
         }
 
+        //istop -> stop pushing data
         if (obj.GetComponent<IStop>() != null)
         {
             stop = obj.GetComponent<IStop>();
         }
-    }
 
+        Debug.Log("Receiving Tracker Type Reference");
+    }
+    #endregion
+
+    #region capturing
     public void ToggleRecording()
     {
         if (!_recording)
@@ -78,6 +87,7 @@ public class DataManager : MonoBehaviour
             getter.GetFrameData(frame);
         }
     }
+    #endregion
 
     public void SerializeJson()
     {

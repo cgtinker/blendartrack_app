@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.XR.ARFoundation;
-using System.Collections.Generic;
-using TMPro;
 using System.Collections;
+using TMPro;
+using System.Collections.Generic;
 
 namespace ArRetarget
 {
@@ -17,12 +17,15 @@ namespace ArRetarget
 
         [Header("Scene Management")]
         public TextMeshProUGUI SceneTitle;
-        DataManager dataManager;
-        public AdditiveSceneManager sceneManager;
+
+        TrackingDataManager dataManager;
+        AdditiveSceneManager sceneManager;
 
         private void Awake()
         {
-            dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<DataManager>();
+            GameObject obj = GameObject.FindGameObjectWithTag("manager");
+            dataManager = obj.GetComponent<TrackingDataManager>();
+            sceneManager = obj.GetComponent<AdditiveSceneManager>();
         }
 
         //generating buttons for scene handling
@@ -62,27 +65,14 @@ namespace ArRetarget
         }
         #endregion
 
+        //resetting the ar session, reloading can lead to bugs
         public void ReloadScene()
         {
             Debug.Log("attempt to reload the scene");
-
-            //AdditiveSceneManager.Instance.ReloadScene();
-            sceneManager.ResetScene();
-            /*
-            var obj = GameObject.FindGameObjectWithTag("arSession");
-
-            if (obj != null)
-            {
-                var arSession = obj.GetComponent<ARSession>();
-                var inputManager = obj.GetComponent<ARInputManager>();
-
-                arSession.Reset();
-                arSession.enabled = true;
-                inputManager.enabled = true;
-            }
-            */
+            sceneManager.ResetArScene();
         }
 
+        //disabling the ar session during scene changes / settings
         public void DisableArSession()
         {
             StartCoroutine("DisableRoutine");

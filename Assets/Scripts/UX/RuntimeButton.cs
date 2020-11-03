@@ -22,6 +22,7 @@ public class RuntimeButton : MonoBehaviour, IPointerDownHandler
         get; private set;
     }
 
+    //button gets instantiated by the inputHandler and is based on the dicts in the addaptive scene manager
     public void Init(string name, int key, AdditiveSceneManager sceneManager, GameObject mainMenu, GameObject sceneMenu, TextMeshProUGUI mainMenuSceneTitle)
     {
         //assigning properties based on the dict in the addive scene manager
@@ -40,7 +41,7 @@ public class RuntimeButton : MonoBehaviour, IPointerDownHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         sceneManager.SwitchScene(sceneKey);
-        sceneManager.ResetScene();
+        sceneManager.ResetArScene();
         mainMenuSceneTitle.text = sceneName;
 
         sceneMenu.SetActive(false);

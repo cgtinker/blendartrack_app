@@ -4,16 +4,16 @@ using System.Collections;
 
 namespace ArRetarget
 {
-    public class CameraPoseHandler : MonoBehaviour, IInit, IGet<int>, IJson
+    public class CameraPoseHandler : MonoBehaviour, IInit, IGet<int>, IJson, IPrefix
     {
         private List<PoseData> cameraPoseList = new List<PoseData>();
         private GameObject mainCamera;
-        private DataManager dataManager;
+        private TrackingDataManager dataManager;
 
         IEnumerator Start()
         {
             yield return new WaitForSeconds(1.0f);
-            DataManager dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<DataManager>();
+            dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
             dataManager.TrackingReference(this.gameObject);
         }
 
@@ -43,6 +43,13 @@ namespace ArRetarget
             return json;
         }
 
+        //json file prefix
+        public string GetJsonPrefix()
+        {
+            return "CP";
+        }
+
+        //receiving pose data from obj at frame
         public static PoseData GetPoseData(GameObject obj, int frame)
         {
             var pos = new Vector()

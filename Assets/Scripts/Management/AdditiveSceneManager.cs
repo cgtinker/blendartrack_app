@@ -4,8 +4,15 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR.ARFoundation;
 
+/// <summary>
+/// containting scene dictionarys
+/// dict strings got to match the scene names
+/// all scenes got to be added in the build settings
+/// matching dic keys improves crossplatform handling
+/// </summary>
 public class AdditiveSceneManager : MonoBehaviour
 {
+    //depending on the device, different scenes will be available
     #region Device Management
     public enum Device
     {
@@ -19,8 +26,8 @@ public class AdditiveSceneManager : MonoBehaviour
         set;
     }
 
-    // Start is called before the first frame update
-    void Awake()
+    //setting device
+    private void Awake()
     {
 #if UNITY_IPHONE
             device = Device.iOS;
@@ -28,10 +35,11 @@ public class AdditiveSceneManager : MonoBehaviour
 #if UNITY_ANDROID
         device = Device.Android;
 #endif
-        //Debug.Log($"Device: {device}");
     }
     #endregion
 
+    #region Scene Dicts
+    //scenes for android
     public static Dictionary<int, string> AndroidScenes = new Dictionary<int, string>
     {
         { 0, "Tutorial"},
@@ -39,29 +47,36 @@ public class AdditiveSceneManager : MonoBehaviour
         { 2, "Face Mesh Tracker" }
     };
 
+    //scenes for ios
     public static Dictionary<int, string> IOSScenes = new Dictionary<int, string>
     {
         { 0, "Tutorial"},
         { 1, "Pose Data Tracker" },
         { 2, "Shape Key Tracker" }
     };
+    #endregion
 
+    //the scenne switch uses an int to receive the scene input, to allow crossplatform handling
     public void SwitchScene(int sceneIndex)
     {
-        //unload the previous scene
+        //unload the previous scene (stored in the user preferences)
         string preScene = GetScene(UserPreferences.Instance.GetIntPref("scene"));
         if (SceneManager.GetSceneByName(preScene).isLoaded)
             SceneManager.UnloadSceneAsync(preScene);
 
-        //saving reference to the loaded scene
+        else
+            Debug.Log("User resetted app or uses first time");
+
+        //saving reference to the loaded scene (can be received in the userPrefs)
         PlayerPrefs.SetInt("scene", sceneIndex);
         string tarScene = GetScene(sceneIndex);
 
-        //LoadScene(tarScene);
+        //loading the target scene
         SceneManager.LoadSceneAsync(tarScene, LoadSceneMode.Additive);
     }
 
-    public void ResetScene()
+    //reloading the ar session multiple times results in various bug, thats why it has to be resetted
+    public void ResetArScene()
     {
         var obj = GameObject.FindGameObjectWithTag("arSession");
 
@@ -75,26 +90,13 @@ public class AdditiveSceneManager : MonoBehaviour
             inputManager.enabled = true;
         }
 
-
-        //getting scene to reload from user preferences
-        //int curScene = UserPreferences.Instance.GetIntPref("scene");
-        //string tarScene = GetScene(curScene);
-
-        //LoadScene(tarScene);
+        else
+            Debug.LogError("ArSession getting called and cannot be found");
     }
 
-    private void LoadScene(string tarScene)
-    {
-        //loading the target scene and adding the ui
-        //SceneManager.LoadSceneAsync(tarScene, LoadSceneMode.Additive);
-        //SceneManager.LoadScene("UserInterface", LoadSceneMode.Additive);
-
-        Debug.Log("Loading Scene additive: " + tarScene);
-    }
-
+    //getting the rel dictionary depending on the device
     public Dictionary<int, string> GetDeviceScenes()
     {
-        //receiving scene dict depending on ui
         switch (device)
         {
             case Device.Android:
@@ -108,6 +110,7 @@ public class AdditiveSceneManager : MonoBehaviour
         }
     }
 
+    //getting the scene name by the relative int
     public string GetScene(int sceneKey)
     {
         //getting the scene by dictionary key

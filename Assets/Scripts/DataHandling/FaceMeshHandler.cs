@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace ArRetarget
 {
 
-    public class FaceMeshHandler : MonoBehaviour, IInit, IGet<int>, IJson
+    public class FaceMeshHandler : MonoBehaviour, IInit, IGet<int>, IJson, IPrefix
     {
         [HideInInspector]
         private List<MeshData> meshDataList = new List<MeshData>();
@@ -14,7 +15,7 @@ namespace ArRetarget
         IEnumerator Start()
         {
             yield return new WaitForSeconds(0.5f);
-            DataManager dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<DataManager>();
+            TrackingDataManager dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
             dataManager.TrackingReference(this.gameObject);
         }
 
@@ -49,6 +50,13 @@ namespace ArRetarget
             var json = JsonUtility.ToJson(tmp);
             return json;
         }
+
+        //json file prefix
+        public string GetJsonPrefix()
+        {
+            return "FM";
+        }
+
 
         public static MeshData GetMeshData(MeshFilter mf, int f)
         {
