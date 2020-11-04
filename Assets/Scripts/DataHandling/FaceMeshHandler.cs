@@ -14,7 +14,7 @@ namespace ArRetarget
 
         IEnumerator Start()
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForEndOfFrame();
             TrackingDataManager dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
             dataManager.TrackingReference(this.gameObject);
         }

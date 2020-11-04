@@ -47,7 +47,7 @@ namespace ArRetarget
                 Vector3 tmpCanvasScale = Canvas.transform.localScale;
                 btn.transform.localScale = tmpCanvasScale;
 
-                RuntimeButton rbbtn = btn.GetComponent<RuntimeButton>();
+                SceneButton rbbtn = btn.GetComponent<SceneButton>();
                 rbbtn.Init(name: entry.Value, key: entry.Key, sceneManager: sceneManager, mainMenu: MainMenu, sceneMenu: SceneMenu, mainMenuSceneTitle: SceneTitle);
                 btn.transform.SetParent(SceneButtonParent);
             }

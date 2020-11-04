@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class RuntimeButton : MonoBehaviour, IPointerDownHandler
+public class SceneButton : MonoBehaviour, IPointerDownHandler
 {
     TextMeshProUGUI title;
     TextMeshProUGUI mainMenuSceneTitle;
