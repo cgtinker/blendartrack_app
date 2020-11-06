@@ -42,12 +42,12 @@ namespace ArRetarget
         //tracked data to json
         public string GetJsonString()
         {
-            MeshDataContainer tmp = new MeshDataContainer()
+            MeshDataContainer meshDataContainer = new MeshDataContainer()
             {
                 meshDataList = meshDataList
             };
 
-            var json = JsonUtility.ToJson(tmp);
+            var json = JsonUtility.ToJson(meshDataContainer);
             return json;
         }
 

@@ -6,7 +6,7 @@ namespace ArRetarget
     /// descripes the camera position and rotation at a given frame
     /// </summary>
     [System.Serializable]
-    public class PoseData
+    public class CameraPose
     {
         public Vector pos;
         public Vector rot;
@@ -17,8 +17,8 @@ namespace ArRetarget
     /// pose movement container
     /// </summary>
     [System.Serializable]
-    public class PoseDataContainer
+    public class CameraPoseContainer
     {
-        public List<PoseData> poseList;
+        public List<CameraPose> cameraPoseList;
     }
 }

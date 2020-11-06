@@ -6,7 +6,7 @@ namespace ArRetarget
 {
     public class CameraPoseHandler : MonoBehaviour, IInit, IGet<int>, IJson, IPrefix
     {
-        private List<PoseData> cameraPoseList = new List<PoseData>();
+        private List<CameraPose> cameraPoseList = new List<CameraPose>();
         private GameObject mainCamera;
         private TrackingDataManager dataManager;
 
@@ -33,13 +33,13 @@ namespace ArRetarget
         //tracked data to json
         public string GetJsonString()
         {
-            PoseDataContainer cpd = new PoseDataContainer()
+            CameraPoseContainer cameraPoseContainer = new CameraPoseContainer()
             {
-                poseList = cameraPoseList
+                cameraPoseList = cameraPoseList
             };
 
             //create json string
-            var json = JsonUtility.ToJson(cpd);
+            var json = JsonUtility.ToJson(cameraPoseContainer);
             return json;
         }
 
@@ -50,7 +50,7 @@ namespace ArRetarget
         }
 
         //receiving pose data from obj at frame
-        public static PoseData GetPoseData(GameObject obj, int frame)
+        public static CameraPose GetPoseData(GameObject obj, int frame)
         {
             var pos = new Vector()
             {
@@ -66,7 +66,7 @@ namespace ArRetarget
                 z = obj.transform.eulerAngles.y,
             };
 
-            var tmp = new PoseData()
+            var cameraPose = new CameraPose()
             {
                 pos = pos,
                 rot = rot,
@@ -74,7 +74,7 @@ namespace ArRetarget
                 frame = frame
             };
 
-            return tmp;
+            return cameraPose;
         }
     }
 }
