@@ -3,13 +3,13 @@ using System.Collections;
 
 namespace ArRetarget
 {
-    interface IInitViewer
+    interface IInitViewer<T>
     {
-        IEnumerator Init();
+        IEnumerator InitViewer(T data);
     }
 
-    interface IUpdate
+    interface IUpdate<T, C>
     {
-        IEnumerator UpdateData();
+        IEnumerator UpdateData(T obj, C data);
     }
 }

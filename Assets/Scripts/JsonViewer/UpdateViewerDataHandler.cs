@@ -44,9 +44,9 @@ namespace ArRetarget
 
         public void SetFrameEnd(int frames)
         {
-            if (frames > 0)
+            if (frames > 2)
             {
-                frameEnd = frames;
+                frameEnd = frames - 1;
             }
 
             else

@@ -133,8 +133,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 162635798}
-  - component: {fileID: 162635796}
   - component: {fileID: 162635795}
+  - component: {fileID: 162635796}
   m_Layer: 0
   m_Name: Viewer
   m_TagString: Untagged
@@ -165,11 +165,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 162635794}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38541730d3c964f648bb1a4645ace99f, type: 3}
+  m_Script: {fileID: 11500000, guid: 3275cbccc513841129ed0a6a06a8f88c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   path: 
-  jsonFile: {fileID: 4900000, guid: f13776789acb8433a93c4785d9e15daf, type: 3}
+  jsonFile: {fileID: 4900000, guid: cfa8e6f9091654ed387288a31c8da673, type: 3}
 --- !u!4 &162635798
 Transform:
   m_ObjectHideFlags: 0
@@ -178,7 +178,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 162635794}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 360, y: 640, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

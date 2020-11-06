@@ -4,24 +4,30 @@ using UnityEngine;
 
 namespace ArRetarget
 {
-    public class FaceMeshImporter : MonoBehaviour
+    public class FaceMeshImporter : MonoBehaviour, IInitViewer<MeshDataContainer>, IUpdate<List<GameObject>, MeshDataContainer>
     {
         public UpdateViewerDataHandler viewHandler;
         int meshDataListIndex = 0;
 
-        public IEnumerator InitJsonViewer(MeshDataContainer data)
+        public IEnumerator InitViewer(MeshDataContainer data)
         {
             //generating points if received the point amout
             if (GetPointAmount(data) > 0 && meshDataListIndex < data.meshDataList.Count)
             {
+                //setting frame end
+                viewHandler.SetFrameEnd(data.meshDataList.Count);
+                //generating points
                 List<GameObject> meshPoints = GeneratePoints(GetPointAmount(data));
-                StartCoroutine(UpdatePose(meshPoints, data));
+
+                yield return new WaitForEndOfFrame();
+                //start updating
+                StartCoroutine(UpdateData(meshPoints, data));
             }
 
             //restarting if there arent points at a certain frame
             else if (GetPointAmount(data) == 0 && meshDataListIndex > data.meshDataList.Count)
             {
-                StartCoroutine(InitJsonViewer(data));
+                StartCoroutine(InitViewer(data));
             }
 
             else
@@ -32,19 +38,21 @@ namespace ArRetarget
             yield return new WaitForEndOfFrame();
         }
 
-        private IEnumerator UpdatePose(List<GameObject> meshPoints, MeshDataContainer data)
+        public IEnumerator UpdateData(List<GameObject> obj, MeshDataContainer data)
         {
             for (int i = 0; i < data.meshDataList[viewHandler.frame].pos.Count; i++)
             {
                 var pos = data.meshDataList[viewHandler.frame].pos[i];
-                meshPoints[i].transform.position = new Vector3(pos.x * 10, pos.y * 10, pos.z * 10);
+                obj[i].transform.position = new Vector3(pos.x * 10, pos.y * 10, pos.z * 10);
             }
 
             yield return new WaitForEndOfFrame();
 
-            StartCoroutine(UpdatePose(meshPoints, data));
+            StartCoroutine(UpdateData(obj, data));
         }
 
+        #region point generation
+        //amount of points to generate
         private int GetPointAmount(MeshDataContainer data)
         {
             if (data.meshDataList[meshDataListIndex].pos.Count > 0)
@@ -59,6 +67,7 @@ namespace ArRetarget
             }
         }
 
+        //point styleing
         private List<GameObject> GeneratePoints(int meshPoints)
         {
             List<GameObject> meshPointList = new List<GameObject>();
@@ -81,5 +90,6 @@ namespace ArRetarget
 
             return meshPointList;
         }
+        #endregion
     }
 }
