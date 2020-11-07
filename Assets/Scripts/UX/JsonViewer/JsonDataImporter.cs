@@ -15,14 +15,14 @@ namespace ArRetarget
             { "ImportFaceMeshData", "meshDataList" },
             { "ImportBlendShapeData", "blend" }
         };
-
+        /*
         private void Start()
         {
             string fileContent = jsonFile.text;
             OpenFile(fileContent);
         }
-
-        public IEnumerator ImportPoseData(string fileContent)
+        */
+        private IEnumerator ImportPoseData(string fileContent)
         {
             yield return new WaitForEndOfFrame();
             //deserialzing the data
@@ -36,13 +36,13 @@ namespace ArRetarget
             StartCoroutine(importer.InitViewer(data));
         }
 
-        public IEnumerator ImportBlendShapeData(string fileContent)
+        private IEnumerator ImportBlendShapeData(string fileContent)
         {
             yield return new WaitForEndOfFrame();
             BlendShapeContainter data = JsonUtility.FromJson<BlendShapeContainter>(fileContent);
         }
 
-        public IEnumerator ImportFaceMeshData(string fileContent)
+        private IEnumerator ImportFaceMeshData(string fileContent)
         {
             yield return new WaitForEndOfFrame();
             //deserialzing the data
@@ -56,7 +56,7 @@ namespace ArRetarget
             StartCoroutine(importer.InitViewer(data));
         }
 
-        public GameObject ParentGameObject()
+        private GameObject ParentGameObject()
         {
             GameObject importParent = new GameObject("importParent");
             importParent.transform.SetParent(this.gameObject.transform);
@@ -67,8 +67,9 @@ namespace ArRetarget
         #region validation
         public void OpenFile(string fileContent)
         {
+            //validation for imported files (only)
             ValidationResponse response = ValidateJsonFile(fileContent);
-            Debug.Log("method: " + response.MethodName + ", title: " + response.StringTitle + " valid: " + response.Successful);
+            Debug.Log("method: " + response.MethodName + ", title: " + response.JsonDataType + " valid: " + response.Successful);
 
             if (response.Successful)
             {
@@ -82,11 +83,18 @@ namespace ArRetarget
             }
         }
 
+        /// <summary>
+        /// json data type has to be defined in the JsonType-Dict
+        /// the json string may contains a list with the json data type
+        /// returns the method to invoke, the json data type
+        /// </summary>
+        /// <param name="jsonString"></param>
+        /// <returns></returns>
         private static ValidationResponse ValidateJsonFile(string jsonString)
         {
             ValidationResponse validationResponse = new ValidationResponse()
             {
-                StringTitle = "",
+                JsonDataType = "",
                 Successful = false
             };
             //dict key = method name || value = title in json
@@ -94,7 +102,7 @@ namespace ArRetarget
             {
                 if (jsonString.Contains(refDict.Value) == true)
                 {
-                    validationResponse.StringTitle = refDict.Value;
+                    validationResponse.JsonDataType = refDict.Value;
                     validationResponse.MethodName = refDict.Key;
                     validationResponse.Successful = true;
                 }
@@ -108,7 +116,7 @@ namespace ArRetarget
     public class ValidationResponse
     {
         public bool Successful { get; set; }
-        public string StringTitle { get; set; }
+        public string JsonDataType { get; set; }
         public string MethodName { get; set; }
     }
 

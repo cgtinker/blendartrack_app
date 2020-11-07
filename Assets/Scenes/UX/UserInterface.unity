@@ -131,6 +131,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 926439066, guid: 79c7bea61e7e4493288cda2ef2f5369f, type: 3}
+      propertyPath: m_text
+      value: CB202010111931.json
+      objectReference: {fileID: 0}
+    - target: {fileID: 1482213095, guid: 79c7bea61e7e4493288cda2ef2f5369f, type: 3}
+      propertyPath: m_Name
+      value: Dropdown
+      objectReference: {fileID: 0}
+    - target: {fileID: 1482213095, guid: 79c7bea61e7e4493288cda2ef2f5369f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1482213096, guid: 79c7bea61e7e4493288cda2ef2f5369f, type: 3}
       propertyPath: m_AnchorMin.y
       value: 0
@@ -155,6 +167,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1577310055, guid: 79c7bea61e7e4493288cda2ef2f5369f, type: 3}
+      propertyPath: m_Name
+      value: FileButtonPanel
+      objectReference: {fileID: 0}
     - target: {fileID: 1577310056, guid: 79c7bea61e7e4493288cda2ef2f5369f, type: 3}
       propertyPath: m_AnchorMin.y
       value: 0
@@ -175,6 +191,14 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1625210553, guid: 79c7bea61e7e4493288cda2ef2f5369f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1625210553, guid: 79c7bea61e7e4493288cda2ef2f5369f, type: 3}
+      propertyPath: m_Name
+      value: Filename
+      objectReference: {fileID: 0}
     - target: {fileID: 1625210554, guid: 79c7bea61e7e4493288cda2ef2f5369f, type: 3}
       propertyPath: m_AnchorMin.y
       value: 0
@@ -194,6 +218,14 @@ PrefabInstance:
     - target: {fileID: 1625210554, guid: 79c7bea61e7e4493288cda2ef2f5369f, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1969741843, guid: 79c7bea61e7e4493288cda2ef2f5369f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1969741843, guid: 79c7bea61e7e4493288cda2ef2f5369f, type: 3}
+      propertyPath: m_Name
+      value: Selector
       objectReference: {fileID: 0}
     - target: {fileID: 1969741844, guid: 79c7bea61e7e4493288cda2ef2f5369f, type: 3}
       propertyPath: m_AnchorMin.y

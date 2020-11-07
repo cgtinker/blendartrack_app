@@ -3,7 +3,7 @@ using System.IO;
 
 namespace ArRetarget
 {
-    public class DeleteFile
+    public static class DeleteFile
     {
         public static void FileAtMediaPath(string mediaPath)
         {
