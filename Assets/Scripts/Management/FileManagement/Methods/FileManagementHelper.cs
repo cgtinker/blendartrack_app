@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System;
 using System.IO;
 using System.Globalization;
-using System;
+using System.Collections.Generic;
 
 namespace ArRetarget
 {
     public static class FileManagementHelper
     {
-        //TODO: Combine FileManager and FileManagementHelper
+        #region date
         public static string GetDateTime()
         {
             DateTime localDate = DateTime.Now;
@@ -22,7 +22,35 @@ namespace ArRetarget
             string day = localDate.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
             return day;
         }
+        #endregion
 
+        #region share and delete files
+        public static void DeleteFilesInDir(List<string> pathList)
+        {
+            foreach (string path in pathList)
+            {
+                if (ValidatePath(path))
+                    File.Delete(path);
+            }
+        }
+
+        public static void ShareJsonFiles(List<string> pathList, string subject, string text)
+        {
+            var nativeShare = new NativeShare();
+            foreach (string path in pathList)
+            {
+                if (ValidatePath(path))
+                {
+                    nativeShare.AddFile(path);
+                }
+            }
+
+            nativeShare.SetSubject(subject).SetText(text);
+            nativeShare.Share();
+        }
+        #endregion
+
+        #region file info
         public static FileInfo[] JsonsInDir(string dir)
         {
             var dirInfo = new DirectoryInfo(dir);
@@ -42,7 +70,6 @@ namespace ArRetarget
             {
                 if (File.Exists(mediaPath))
                 {
-                    Debug.Log(mediaPath);
                     return true;
                 }
 
@@ -59,5 +86,6 @@ namespace ArRetarget
                 return false;
             }
         }
+        #endregion
     }
 }

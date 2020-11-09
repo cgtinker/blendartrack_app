@@ -8,6 +8,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/UX/UserInterface.unity
     guid: 4ff7fc8d2cc114d1098aa38d26330166
+  - enabled: 0
+    path: Assets/Scenes/Viewer.unity
+    guid: 0006aeb091a3a4b59837f5e0a21136df
   - enabled: 1
     path: Assets/Scenes/Cross/Tutorial.unity
     guid: a041818c850b646518686c60fc9cce69

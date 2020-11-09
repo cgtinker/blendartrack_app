@@ -15,13 +15,7 @@ namespace ArRetarget
             { "ImportFaceMeshData", "meshDataList" },
             { "ImportBlendShapeData", "blend" }
         };
-        /*
-        private void Start()
-        {
-            string fileContent = jsonFile.text;
-            OpenFile(fileContent);
-        }
-        */
+
         private IEnumerator ImportPoseData(string fileContent)
         {
             yield return new WaitForEndOfFrame();

@@ -13,6 +13,8 @@ public class getdata : MonoBehaviour
 
         var vStr = FileManagementHelper.GetDay();
         Debug.Log(vStr);
+
+        Debug.Log(Application.persistentDataPath);
     }
 
 }

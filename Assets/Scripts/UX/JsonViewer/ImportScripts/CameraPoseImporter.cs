@@ -66,7 +66,6 @@ namespace ArRetarget
         public IEnumerator UpdateData(GameObject obj, CameraPoseContainer data)
         {
             var m_ref = data.cameraPoseList[viewHandler.frame];
-            Debug.Log("updating + " + viewHandler.frame);
             var pos = new Vector3(m_ref.pos.x, m_ref.pos.y - 0.5f, m_ref.pos.z);
             var rot = new Vector3(m_ref.rot.x, m_ref.rot.y, m_ref.rot.z);
 

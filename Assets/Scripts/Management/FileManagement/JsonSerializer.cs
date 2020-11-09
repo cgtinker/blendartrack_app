@@ -25,13 +25,13 @@ namespace ArRetarget
             string s = Environment.NewLine;
             string mailText = "Ar Retarget " + localDate.ToString();
 
-            StartCoroutine(NativeShare(filePath: attachmentPath, subject: mailSubject, text: mailText));
+            //StartCoroutine(NativeShare(filePath: attachmentPath, subject: mailSubject, text: mailText));
         }
 
         private IEnumerator NativeShare(string filePath, string subject, string text)
         {
             yield return new WaitForEndOfFrame();
-            new NativeShare().AddFile(filePath).SetSubject(subject).SetText(text).Share();
+            //new NativeShare().AddFile(filePath).SetSubject(subject).SetText(text).Share();
         }
     }
 }

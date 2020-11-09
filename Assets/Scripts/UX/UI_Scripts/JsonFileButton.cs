@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
@@ -9,52 +7,52 @@ namespace ArRetarget
     public class JsonFileButton : MonoBehaviour
     {
         //file name of the json
-        public TextMeshProUGUI filename;
+        public TextMeshProUGUI filenameText;
 
         //visual selection state
-        public Image buttonImage;
-        public Sprite activeBtnImage;
-        public Sprite inactiveBtnImage;
+        public Image selectButtonImage;
+        public Sprite selectActiveSprite;
+        public Sprite selectInactiveSprite;
 
-        //to view the data
-        private JsonDataImporter jsonDataImporter;
-        //to manage safe and delete options
-        private JsonFileButtonManager recFileButtonManager;
+        //reference for the json viewer
+        private bool viewerActive = false;
+        private FileBrowserEventManager jsonFileButtonManager;
 
         //info about the safed json file
-        public JsonFileData jsonFileData
-        {
-            get; private set;
-        }
+        public JsonFileData m_jsonFileData;
 
-        public void InitFileButton(JsonFileData jsonFileData)
+
+        public void InitFileButton(JsonFileData jsonFileData, FileBrowserEventManager fileBtnManager)
         {
-            this.jsonFileData = jsonFileData;
+            jsonFileButtonManager = fileBtnManager;
+            m_jsonFileData = new JsonFileData();
+            m_jsonFileData = jsonFileData;
             //setting title
-            filename.text = jsonFileData.filename;
+            filenameText.text = m_jsonFileData.filename;
             //init btns are inactive
-            buttonImage.sprite = inactiveBtnImage;
+            selectButtonImage.sprite = selectInactiveSprite;
         }
 
         public void OnTouchViewData()
         {
-            string fileContents = FileManagementHelper.FileContents(jsonFileData.path);
-            Debug.Log("Open File");
-            //jsonDataImporter.OpenFile(fileContents);
+            //toggling the viewer, deactivating other btns
+            viewerActive = !viewerActive;
+            string fileContents = FileManagementHelper.FileContents(m_jsonFileData.path);
+            jsonFileButtonManager.OnToggleViewer(this.m_jsonFileData.index, viewerActive, fileContents);
         }
 
         public void OnTouchChangeActive()
         {
             //changed state in btn manager
-            jsonFileData.active = !jsonFileData.active;
-            recFileButtonManager.JsonFileDataList[jsonFileData.index].active = jsonFileData.active;
+            m_jsonFileData.active = !m_jsonFileData.active;
+            jsonFileButtonManager.JsonFileDataList[m_jsonFileData.index].active = m_jsonFileData.active;
 
             //changing btn image
-            if (jsonFileData.active)
-                buttonImage.sprite = activeBtnImage;
+            if (m_jsonFileData.active)
+                selectButtonImage.sprite = selectActiveSprite;
 
             else
-                buttonImage.sprite = inactiveBtnImage;
+                selectButtonImage.sprite = selectInactiveSprite;
         }
     }
 }

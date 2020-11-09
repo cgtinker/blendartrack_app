@@ -13,6 +13,7 @@ public class TrackingDataManager : MonoBehaviour
     private IJson json;
     private IInit init;
     private IStop stop;
+    private IPrefix prefix;
 
     #region initialize tracking session
     void Start()
@@ -32,6 +33,7 @@ public class TrackingDataManager : MonoBehaviour
         {
             init = obj.GetComponent<IInit>();
             json = obj.GetComponent<IJson>();
+            prefix = obj.GetComponent<IPrefix>();
         }
 
         //iget -> pulling data
@@ -92,6 +94,7 @@ public class TrackingDataManager : MonoBehaviour
     public void SerializeJson()
     {
         string tmp = json.GetJsonString();
-        jsonSerializer.SerializeData(data: tmp, persistentPath: persistentPath, prefix: "prefix");
+        string tlt = prefix.GetJsonPrefix();
+        jsonSerializer.SerializeData(data: tmp, persistentPath: persistentPath, prefix: tlt);
     }
 }

@@ -31,7 +31,7 @@ namespace ArRetarget
         //generating buttons for scene handling
         private void Start()
         {
-            //assigning the scene title
+            //assigning the running scene title to the player prefs
             int sceneIndex = UserPreferences.Instance.GetIntPref("scene");
             string sceneName = sceneManager.GetScene(sceneIndex);
             SceneTitle.text = sceneName;
@@ -65,6 +65,7 @@ namespace ArRetarget
         }
         #endregion
 
+        #region scene management
         //resetting the ar session, reloading can lead to bugs
         public void ReloadScene()
         {
@@ -91,5 +92,6 @@ namespace ArRetarget
                 arSession.enabled = false;
             }
         }
+        #endregion
     }
 }
