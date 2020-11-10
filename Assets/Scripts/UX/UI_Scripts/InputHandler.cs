@@ -11,7 +11,6 @@ namespace ArRetarget
         [Header("Runtime Button")]
         public GameObject SceneButtonPrefab;
         public Transform SceneButtonParent;
-        public Transform Canvas;
         public GameObject MainMenu;
         public GameObject SceneMenu;
 
@@ -43,13 +42,12 @@ namespace ArRetarget
                 GameObject btn = Instantiate(SceneButtonPrefab);
                 btn.name = entry.Value;
 
-                //as the canvas depends on targets device screen size and the btn is a child of the canvas
-                Vector3 tmpCanvasScale = Canvas.transform.localScale;
-                btn.transform.localScale = tmpCanvasScale;
-
                 SceneButton rbbtn = btn.GetComponent<SceneButton>();
                 rbbtn.Init(name: entry.Value, key: entry.Key, sceneManager: sceneManager, mainMenu: MainMenu, sceneMenu: SceneMenu, mainMenuSceneTitle: SceneTitle);
                 btn.transform.SetParent(SceneButtonParent);
+
+                //as the canvas depends on targets device screen size and the btn is a child of the canvas
+                btn.transform.localScale = Vector3.one;
             }
         }
         #region tracking

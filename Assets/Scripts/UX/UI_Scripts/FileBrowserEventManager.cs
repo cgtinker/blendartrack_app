@@ -33,6 +33,7 @@ namespace ArRetarget
         }
 
         #region input events
+        //delete selected files
         public void OnDeleteSelectedFiles()
         {
             List<string> selectedFiles = GetSelectedFiles();
@@ -44,6 +45,7 @@ namespace ArRetarget
                 FileManagementHelper.DeleteFilesInDir(selectedFiles);
         }
 
+        //native share event for selected files
         public void OnShareSelectedFiles()
         {
             List<string> selectedFiles = GetSelectedFiles();
@@ -51,6 +53,20 @@ namespace ArRetarget
             if (selectedFiles.Count <= 0)
                 return;
 
+        }
+
+        private bool activeBtn = false;
+        public void OnToggleSelectFiles()
+        {
+            activeBtn = !activeBtn;
+
+            foreach (JsonFileData data in JsonFileDataList)
+            {
+                var btn = data.obj.GetComponent<JsonFileButton>();
+                btn.m_jsonFileData.active = activeBtn;
+                JsonFileDataList[btn.m_jsonFileData.index].active = activeBtn;
+                btn.ChangeSprite(activeBtn);
+            }
         }
 
         public List<string> GetSelectedFiles()
@@ -157,6 +173,8 @@ namespace ArRetarget
                 jsonFileBtnObj.name = JsonFileDataList[i].filename;
                 //setting parent
                 jsonFileBtnObj.transform.SetParent(JsonFileButtonParent);
+                //setting scale
+                jsonFileBtnObj.transform.localScale = Vector3.one;
 
                 //passing data to the button script
                 var fileButton = jsonFileBtnObj.GetComponent<JsonFileButton>();

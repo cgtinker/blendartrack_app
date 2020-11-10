@@ -48,7 +48,12 @@ namespace ArRetarget
             jsonFileButtonManager.JsonFileDataList[m_jsonFileData.index].active = m_jsonFileData.active;
 
             //changing btn image
-            if (m_jsonFileData.active)
+            ChangeSprite(m_jsonFileData.active);
+        }
+
+        public void ChangeSprite(bool status)
+        {
+            if (status)
                 selectButtonImage.sprite = selectActiveSprite;
 
             else
