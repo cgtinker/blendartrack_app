@@ -53,6 +53,25 @@ namespace ArRetarget
             if (selectedFiles.Count <= 0)
                 return;
 
+            else
+            {
+
+                string localDate = FileManagementHelper.GetDateTimeText();
+
+                string filenames = "";
+                var paragraph = FileManagementHelper.GetParagraph();
+
+                foreach (string filename in selectedFiles)
+                {
+                    filenames = filename + paragraph;
+                }
+
+                string subject = "Retarget " + localDate;
+                string text = "Retarget " + localDate + paragraph + paragraph + "Attached Files: " + paragraph + filenames;
+
+                FileManagementHelper.ShareJsonFiles(selectedFiles, subject, text);
+            }
+
         }
 
         private bool activeBtn = false;

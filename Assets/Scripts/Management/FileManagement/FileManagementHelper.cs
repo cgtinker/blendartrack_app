@@ -8,7 +8,7 @@ namespace ArRetarget
 {
     public static class FileManagementHelper
     {
-        #region date
+        #region date and text
         public static string GetDateTime()
         {
             DateTime localDate = DateTime.Now;
@@ -21,6 +21,18 @@ namespace ArRetarget
             DateTime localDate = DateTime.Now;
             string day = localDate.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
             return day;
+        }
+
+        public static string GetDateTimeText()
+        {
+            DateTime dateTime = DateTime.Now;
+            return dateTime.ToString();
+        }
+
+        public static string GetParagraph()
+        {
+            string s = Environment.NewLine;
+            return s;
         }
         #endregion
 

@@ -34,6 +34,7 @@ namespace ArRetarget
         {
             yield return new WaitForEndOfFrame();
             BlendShapeContainter data = JsonUtility.FromJson<BlendShapeContainter>(fileContent);
+            Debug.Log("No import model for Blend Shape data yet");
         }
 
         private IEnumerator ImportFaceMeshData(string fileContent)

@@ -25,9 +25,21 @@ public class TrackingDataManager : MonoBehaviour
         Debug.Log("Session started");
     }
 
+    //resetting as not all tracking models include all tracker interfaces
+    public void ResetTrackerInterfaces()
+    {
+        getter = null;
+        json = null;
+        init = null;
+        stop = null;
+        prefix = null;
+    }
+
     //the tracking references always contain some of the following interfaces
     public void TrackingReference(GameObject obj)
     {
+        ResetTrackerInterfaces();
+
         //iinit -> setup || ijson -> serialze
         if (obj.GetComponent<IInit>() != null && obj.GetComponent<IJson>() != null)
         {

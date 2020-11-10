@@ -12,19 +12,19 @@ namespace ArRetarget
             Debug.Log("Serializing json data");
 
             string time = FileManagementHelper.GetDateTime();
-            var path = $"{persistentPath}/{time}{prefix}.json";
+            var path = $"{persistentPath}/{time}_{prefix}.json";
             JsonSerialization(data, path);
         }
 
         private void JsonSerialization(string json, string attachmentPath)
         {
             File.WriteAllText(path: attachmentPath, contents: json, encoding: System.Text.Encoding.UTF8);
-
+            /*
             DateTime localDate = DateTime.Now;
             string mailSubject = "Ar Retarget " + localDate.ToString();
             string s = Environment.NewLine;
             string mailText = "Ar Retarget " + localDate.ToString();
-
+            */
             //StartCoroutine(NativeShare(filePath: attachmentPath, subject: mailSubject, text: mailText));
         }
 
