@@ -32,9 +32,19 @@ namespace ArRetarget
 
         private IEnumerator ImportBlendShapeData(string fileContent)
         {
-            yield return new WaitForEndOfFrame();
+            Debug.Log(fileContent);
             BlendShapeContainter data = JsonUtility.FromJson<BlendShapeContainter>(fileContent);
-            Debug.Log("No import model for Blend Shape data yet");
+            Debug.Log(data + ", " + data.blendShapeData.Count);
+
+            //generating a parent game object
+            GameObject parent = ParentGameObject();
+
+            yield return new WaitForEndOfFrame();
+
+            var importer = parent.AddComponent<BlendShapeImporter>();
+            importer.viewHandler = this.gameObject.GetComponent<UpdateViewerDataHandler>();
+
+            StartCoroutine(importer.InitViewer(data));
         }
 
         private IEnumerator ImportFaceMeshData(string fileContent)
