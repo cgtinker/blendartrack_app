@@ -30,7 +30,7 @@ public class AdditiveSceneManager : MonoBehaviour
     private void Awake()
     {
 #if UNITY_IPHONE
-            device = Device.iOS;
+        device = Device.iOS;
 #endif
 #if UNITY_ANDROID
         device = Device.Android;
@@ -41,14 +41,14 @@ public class AdditiveSceneManager : MonoBehaviour
     #region Scene Dicts
     public static Dictionary<int, string> AndroidScenes = new Dictionary<int, string>
     {
-        { 0, "Tutorial"},
+        //{ 0, "Tutorial"},
         { 1, "Pose Data Tracker" },
         { 2, "Face Mesh Tracker" }
     };
 
     public static Dictionary<int, string> IOSScenes = new Dictionary<int, string>
     {
-        { 0, "Tutorial"},
+        //{ 0, "Tutorial"},
         { 1, "Pose Data Tracker" },
         { 2, "Shape Key Tracker" }
     };

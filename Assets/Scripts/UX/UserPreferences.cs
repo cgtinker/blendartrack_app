@@ -17,7 +17,7 @@ public class UserPreferences : Singleton<UserPreferences>
     //scene - additiveSceneManager
     private Dictionary<string, int> IntPrefDict = new Dictionary<string, int>()
     {
-        { "scene", 0 },
+        { "scene", 1 },
     };
 
     private Dictionary<string, float> FloatPrefDict = new Dictionary<string, float>()

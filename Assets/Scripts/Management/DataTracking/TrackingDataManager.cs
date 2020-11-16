@@ -103,10 +103,19 @@ public class TrackingDataManager : MonoBehaviour
     }
     #endregion
 
-    public void SerializeJson()
+    public string SerializeJson()
     {
-        string tmp = json.GetJsonString();
-        string tlt = prefix.GetJsonPrefix();
-        jsonSerializer.SerializeData(data: tmp, persistentPath: persistentPath, prefix: tlt);
+        //file contents
+        string contents = json.GetJsonString();
+
+        //file name
+        string prefix = this.prefix.GetJsonPrefix();
+        string time = FileManagementHelper.GetDateTime();
+        string filename = $"{time}_{prefix}.json";
+
+        //write data
+        jsonSerializer.WriteDataToDisk(data: contents, persistentPath: persistentPath, filename: filename);
+
+        return filename;
     }
 }

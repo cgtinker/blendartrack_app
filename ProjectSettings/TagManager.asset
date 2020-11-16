@@ -10,6 +10,7 @@ TagManager:
   - sceneManager
   - arSession
   - viewer
+  - UI_Camera
   layers:
   - Default
   - TransparentFX
