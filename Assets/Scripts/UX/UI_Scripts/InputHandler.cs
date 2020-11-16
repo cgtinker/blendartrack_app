@@ -18,6 +18,7 @@ namespace ArRetarget
         public GameObject PopupPrefab;
         public Transform PopupParent;
         public GameObject FileBrowserButton;
+        private List<GameObject> popupMessageList = new List<GameObject>();
 
         [Header("Scene Management")]
         public TextMeshProUGUI SceneTitle;
@@ -79,18 +80,14 @@ namespace ArRetarget
         {
             //generating popup element
             var m_popup = Instantiate(PopupPrefab) as GameObject;
-
+            popupMessageList.Add(m_popup);
             //script reference to set contents
             var popupDisplay = m_popup.GetComponent<PopUpDisplay>();
 
             if (filename.Length != 0)
             {
                 popupDisplay.type = PopUpDisplay.PopupType.Notification;
-                //travel timings
-                popupDisplay.travelDuration = 10f;
                 popupDisplay.staticDuration = 3f;
-
-                popupDisplay.desitionation = FileBrowserButton;
                 popupDisplay.text = $"tracking successfull {filename}";
             }
 
@@ -103,6 +100,15 @@ namespace ArRetarget
 
             popupDisplay.DisplayPopup(PopupParent);
         }
+
+        public void RemovePopups()
+        {
+            foreach (GameObject obj in popupMessageList)
+            {
+                Destroy(obj);
+            }
+            popupMessageList.Clear();
+        }
         #endregion
 
         #region scene management
@@ -110,7 +116,27 @@ namespace ArRetarget
         public void ReloadScene()
         {
             Debug.Log("attempt to reload the scene");
-            sceneManager.ResetArScene();
+            DisableArSession();
+            ResetArScene();
+        }
+
+        //reloading the ar session multiple times results in various bug, thats why it has to be resetted
+        public void ResetArScene()
+        {
+            var obj = GameObject.FindGameObjectWithTag("arSession");
+
+            if (obj != null)
+            {
+                var arSession = obj.GetComponent<ARSession>();
+                var inputManager = obj.GetComponent<ARInputManager>();
+
+                arSession.Reset();
+                arSession.enabled = true;
+                inputManager.enabled = true;
+            }
+
+            else
+                Debug.LogError("ArSession getting called and cannot be found");
         }
 
         //disabling the ar session during scene changes / settings

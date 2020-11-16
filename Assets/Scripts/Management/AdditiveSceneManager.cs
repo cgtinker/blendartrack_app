@@ -73,25 +73,6 @@ public class AdditiveSceneManager : MonoBehaviour
         SceneManager.LoadSceneAsync(tarScene, LoadSceneMode.Additive);
     }
 
-    //reloading the ar session multiple times results in various bug, thats why it has to be resetted
-    public void ResetArScene()
-    {
-        var obj = GameObject.FindGameObjectWithTag("arSession");
-
-        if (obj != null)
-        {
-            var arSession = obj.GetComponent<ARSession>();
-            var inputManager = obj.GetComponent<ARInputManager>();
-
-            arSession.Reset();
-            arSession.enabled = true;
-            inputManager.enabled = true;
-        }
-
-        else
-            Debug.LogError("ArSession getting called and cannot be found");
-    }
-
     public Dictionary<int, string> GetDeviceScenes()
     {
         switch (device)
