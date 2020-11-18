@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR.ARFoundation;
+using ArRetarget;
+using System;
 
 /// <summary>
 /// containting scene dictionarys
@@ -73,7 +75,20 @@ public class AdditiveSceneManager : MonoBehaviour
         SceneManager.LoadSceneAsync(tarScene, LoadSceneMode.Additive);
     }
 
+    public void ReloadScene()
+    {
+        string preScene = GetScene(UserPreferences.Instance.GetIntPref("scene"));
+        var sceneDict = GetDeviceScenes();
+
+        foreach (KeyValuePair<int, string> pair in sceneDict)
+        {
+            if (pair.Value == preScene)
+                SwitchScene(pair.Key);
+        }
+    }
+
     //reloading the ar session multiple times results in various bug, thats why it has to be resetted
+    /*
     public void ResetArScene()
     {
         var obj = GameObject.FindGameObjectWithTag("arSession");
@@ -90,6 +105,11 @@ public class AdditiveSceneManager : MonoBehaviour
 
         else
             Debug.LogError("ArSession getting called and cannot be found");
+    }
+    */
+    public void ResetArScene()
+    {
+        StartCoroutine(ArFunctionalityHelper.SetAR(enabled: true));
     }
 
     public Dictionary<int, string> GetDeviceScenes()

@@ -122,28 +122,39 @@ namespace ArRetarget
         public void ReloadScene()
         {
             Debug.Log("attempt to reload the scene");
-            sceneManager.ResetArScene();
+            //sceneManager.ResetArScene();
+            StartCoroutine(ArFunctionalityHelper.SetAR(enabled: true));
+            sceneManager.ReloadScene();
         }
 
         //disabling the ar session during scene changes / settings
         public void DisableArSession()
         {
-            StartCoroutine("DisableRoutine");
+            //StartCoroutine("DisableRoutine");
+            StartCoroutine(ArFunctionalityHelper.SetAR(enabled: false));
         }
+        /*
 
         public IEnumerator DisableRoutine()
         {
-            var obj = GameObject.FindGameObjectWithTag("arSession");
+            var m_arSession = GameObject.FindGameObjectWithTag("arSession");
+            var arSessionOrigin = GameObject.FindGameObjectWithTag("arSessionOrigin");
 
-            if (obj != null)
+            if (m_arSession != null)
             {
-                var arSession = obj.GetComponent<ARSession>();
-                var inputManager = obj.GetComponent<ARInputManager>();
+                var arSession = m_arSession.GetComponent<ARSession>();
+                var inputManager = m_arSession.GetComponent<ARInputManager>();
                 inputManager.enabled = false;
                 yield return new WaitForEndOfFrame();
                 arSession.enabled = false;
             }
+
+            if (arSessionOrigin != null)
+            {
+                arSessionOrigin.SetActive(false);
+            }
         }
+        */
         #endregion
     }
 }

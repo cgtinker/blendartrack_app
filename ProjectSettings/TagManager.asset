@@ -11,6 +11,7 @@ TagManager:
   - arSession
   - viewer
   - UI_Camera
+  - arSessionOrigin
   layers:
   - Default
   - TransparentFX

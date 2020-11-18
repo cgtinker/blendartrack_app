@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ArPlaneMaterial
-  m_Shader: {fileID: 4800000, guid: f4c168e7a1aef4c5198229d3c3b638b2, type: 3}
+  m_Name: ArFeatherdPlane
+  m_Shader: {fileID: 4800000, guid: e94cfa0fce8404f108f573598e78411d, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -83,7 +83,9 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _PlaneColor: {r: 1, g: 1, b: 1, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    - _TexTintColor: {r: 1, g: 1, b: 1, a: 1}
     - _WireColor: {r: 0.5188679, g: 0.12482198, b: 0.12482198, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &4191437137542773599
