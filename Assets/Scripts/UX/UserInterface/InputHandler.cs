@@ -18,6 +18,7 @@ namespace ArRetarget
         public GameObject PopupPrefab;
         public Transform PopupParent;
         public GameObject FileBrowserButton;
+        private List<GameObject> popupList = new List<GameObject>();
 
         [Header("Scene Management")]
         public TextMeshProUGUI SceneTitle;
@@ -79,6 +80,7 @@ namespace ArRetarget
         {
             //generating popup element
             var m_popup = Instantiate(PopupPrefab) as GameObject;
+            popupList.Add(m_popup);
 
             //script reference to set contents
             var popupDisplay = m_popup.GetComponent<PopUpDisplay>();
@@ -102,6 +104,16 @@ namespace ArRetarget
             }
 
             popupDisplay.DisplayPopup(PopupParent);
+        }
+
+        public void PurgeOrphanPopups()
+        {
+            foreach (GameObject popup in popupList)
+            {
+                Destroy(popup);
+            }
+
+            popupList.Clear();
         }
         #endregion
 

@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using NatSuite.Recorders;
 using NatSuite.Recorders.Clocks;
-using NatSuite.Recorders.Internal;
 using NatSuite.Recorders.Inputs;
 
 public class CameraRecorder : MonoBehaviour
@@ -18,7 +15,7 @@ public class CameraRecorder : MonoBehaviour
 
     private void InitRecorder(int width, int height, int fps, int bitrate, int keyframeInterval)
     {
-        var br = bitrate * width * height;
+        var br = bitrate * 1000000;
 
         recorder = new MP4Recorder(width: width, height: height, frameRate: fps, sampleRate: 0, channelCount: 0, bitrate: br, keyframeInterval: keyframeInterval);
         var clock = new RealtimeClock();

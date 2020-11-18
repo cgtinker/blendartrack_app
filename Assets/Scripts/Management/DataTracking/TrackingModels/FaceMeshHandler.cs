@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.XR.ARFoundation;
 
 namespace ArRetarget
 {
@@ -16,6 +16,8 @@ namespace ArRetarget
         {
             yield return new WaitForEndOfFrame();
             TrackingDataManager dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
+            var arSession = GameObject.FindGameObjectWithTag("arSession").GetComponent<ARSession>();
+            arSession.matchFrameRate = true;
             dataManager.TrackingReference(this.gameObject);
         }
 

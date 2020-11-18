@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using System.IO;
 
@@ -12,6 +13,7 @@ namespace ArRetarget
         public GameObject JsonFileButtonPrefab;
         public Transform JsonFileButtonParent;
 
+        [Header("Json Data Info List")]
         public List<JsonFileData> JsonFileDataList = new List<JsonFileData>();
 
         [Header("Json Viewer")]
@@ -23,7 +25,9 @@ namespace ArRetarget
         public GameObject ViewerAcitveBackButton;
         public GameObject ViewerInactiveBackButton;
         public GameObject FileBrowserBackground;
+        public GameObject SelectAllFilesBtn;
 
+        [Header("Footer")]
         public GameObject SupportFooter;
         public GameObject MenuFooter;
 
@@ -36,7 +40,7 @@ namespace ArRetarget
         //delete selected files
         public void OnDeleteSelectedFiles()
         {
-            List<string> selectedFiles = GetSelectedFiles();
+            List<string> selectedFiles = GetSelectedFilePaths();
 
             if (selectedFiles.Count <= 0)
                 return;
@@ -48,59 +52,47 @@ namespace ArRetarget
         //native share event for selected files
         public void OnShareSelectedFiles()
         {
-            List<string> selectedFiles = GetSelectedFiles();
+            //ref selected file
+            List<string> selectedFilesNames = GetSelectedFileNames();
+            List<string> selectedFilePaths = GetSelectedFilePaths();
 
-            if (selectedFiles.Count <= 0)
+            if (selectedFilesNames.Count <= 0)
                 return;
 
             else
             {
-
+                //naming
                 string localDate = FileManagementHelper.GetDateTimeText();
 
                 string filenames = "";
                 var paragraph = FileManagementHelper.GetParagraph();
 
-                foreach (string filename in selectedFiles)
+                //listing files to transfer
+                foreach (string filename in selectedFilesNames)
                 {
-                    filenames = filename + paragraph;
+                    var curFilename = filename + paragraph;
+                    filenames += curFilename;
                 }
 
+                //transfer message
                 string subject = "Retarget " + localDate;
                 string text = "Retarget " + localDate + paragraph + paragraph + "Attached Files: " + paragraph + filenames;
 
-                FileManagementHelper.ShareJsonFiles(selectedFiles, subject, text);
+                FileManagementHelper.ShareJsonFiles(selectedFilePaths, subject, text);
             }
 
         }
 
-        private bool activeBtn = false;
+        private bool selectFilesBtnState = false;
         public void OnToggleSelectFiles()
         {
-            activeBtn = !activeBtn;
+            selectFilesBtnState = !selectFilesBtnState;
 
             foreach (JsonFileData data in JsonFileDataList)
             {
                 var btn = data.obj.GetComponent<JsonFileButton>();
-                btn.m_jsonFileData.active = activeBtn;
-                JsonFileDataList[btn.m_jsonFileData.index].active = activeBtn;
-                btn.ChangeSprite(activeBtn);
+                btn.ChangeSelectionToggleStatus(selectFilesBtnState);
             }
-        }
-
-        public List<string> GetSelectedFiles()
-        {
-            List<string> tmp_list = new List<string>();
-
-            foreach (JsonFileData data in JsonFileDataList)
-            {
-                if (data.active)
-                {
-                    tmp_list.Add(data.path);
-                }
-            }
-
-            return tmp_list;
         }
         #endregion
 
@@ -112,6 +104,7 @@ namespace ArRetarget
             {
                 Debug.Log("attempt to preview data");
                 FileBrowserBackground.SetActive(false);
+                SelectAllFilesBtn.SetActive(false);
 
                 //changing the back buttons
                 ViewerAcitveBackButton.SetActive(true);
@@ -149,6 +142,7 @@ namespace ArRetarget
         {
             Debug.Log("stop viewing data");
             FileBrowserBackground.SetActive(true);
+            SelectAllFilesBtn.SetActive(true);
 
             //changing the back buttons
             ViewerAcitveBackButton.SetActive(false);
@@ -227,6 +221,40 @@ namespace ArRetarget
                 }
             }
             return jsonFileDataList;
+        }
+
+        /// <summary>
+        /// get all selected files
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetSelectedFileNames()
+        {
+            List<string> tmp_list = new List<string>();
+
+            foreach (JsonFileData data in JsonFileDataList)
+            {
+                if (data.active)
+                {
+                    tmp_list.Add(data.filename);
+                }
+            }
+
+            return tmp_list;
+        }
+
+        public List<string> GetSelectedFilePaths()
+        {
+            List<string> tmp_list = new List<string>();
+
+            foreach (JsonFileData data in JsonFileDataList)
+            {
+                if (data.active)
+                {
+                    tmp_list.Add(data.path);
+                }
+            }
+
+            return tmp_list;
         }
 
         /// <summary>

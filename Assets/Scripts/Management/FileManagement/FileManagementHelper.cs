@@ -46,6 +46,12 @@ namespace ArRetarget
             }
         }
 
+        public static void DeleteFile(string path)
+        {
+            if (ValidatePath(path))
+                File.Delete(path);
+        }
+
         public static void ShareJsonFiles(List<string> pathList, string subject, string text)
         {
             var nativeShare = new NativeShare();

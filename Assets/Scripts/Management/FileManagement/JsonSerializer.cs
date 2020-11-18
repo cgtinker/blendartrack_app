@@ -11,7 +11,7 @@ namespace ArRetarget
         {
             Debug.Log("Serializing json data");
 
-            var path = $"{persistentPath}/{filename}.json";
+            var path = $"{persistentPath}/{filename}";
             File.WriteAllText(path: path, contents: data, encoding: System.Text.Encoding.UTF8);
         }
     }

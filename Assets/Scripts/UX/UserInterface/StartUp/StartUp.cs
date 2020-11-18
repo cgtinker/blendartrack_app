@@ -1,7 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class StartUp : MonoBehaviour
 {
@@ -12,6 +10,8 @@ public class StartUp : MonoBehaviour
         //loading last loaded scene
         int sceneIndex = UserPreferences.Instance.GetIntPref("scene");
         GameObject.FindGameObjectWithTag("manager").GetComponent<AdditiveSceneManager>().SwitchScene(sceneIndex);
+
+        yield return new WaitForSeconds(0.25f);
 
         Destroy(this.gameObject);
     }
