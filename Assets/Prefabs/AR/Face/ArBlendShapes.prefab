@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7775798157249432421}
   - component: {fileID: 2484716862513192385}
   m_Layer: 0
-  m_Name: ArFaceMesh
+  m_Name: ArBlendShapes
   m_TagString: face
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,7 +87,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 57ec2125c6f38430bb67565ae3de19b8, type: 2}
+  - {fileID: 2100000, guid: 471a3e947bb7e4c78940836288f11d1f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -121,4 +121,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a74c87715f8f4594aea99eacae75700, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CoefficientScale: 100
