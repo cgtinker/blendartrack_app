@@ -12,7 +12,7 @@ public class CameraRecorder : MonoBehaviour
     public void RecordVideo()
     {
         InitRecorder(480, 640, 30, 8, 3);
-        cameraContextInfo.GetCameraContextInfo();
+        //cameraContextInfo.GetCameraContextInfo();
     }
 
     private void InitRecorder(int width, int height, int fps, int bitrate, int keyframeInterval)
