@@ -5,12 +5,14 @@ using NatSuite.Recorders.Inputs;
 
 public class CameraRecorder : MonoBehaviour
 {
-    private CameraInput cameraInput;
+    public CameraInput cameraInput;
     private MP4Recorder recorder;
+    public CameraContextInfo cameraContextInfo;
 
     public void RecordVideo()
     {
-        InitRecorder(720, 1280, 30, 8, 3);
+        InitRecorder(480, 640, 30, 8, 3);
+        cameraContextInfo.GetCameraContextInfo();
     }
 
     private void InitRecorder(int width, int height, int fps, int bitrate, int keyframeInterval)
@@ -18,6 +20,7 @@ public class CameraRecorder : MonoBehaviour
         var br = bitrate * 1000000;
 
         recorder = new MP4Recorder(width: width, height: height, frameRate: fps, sampleRate: 0, channelCount: 0, bitrate: br, keyframeInterval: keyframeInterval);
+
         var clock = new RealtimeClock();
         // And use a `CameraInput` to record the main game camera
         cameraInput = new CameraInput(recorder, clock, Camera.main);
@@ -30,6 +33,6 @@ public class CameraRecorder : MonoBehaviour
         // Finish writing
         var path = await recorder.FinishWriting();
 
-        NativeGallery.SaveVideoToGallery(existingMediaPath: path, album: "Retargeter", filename: "RandomName01");
+        NativeGallery.SaveVideoToGallery(existingMediaPath: path, album: "Retargeter", filename: "NewVideo");
     }
 }

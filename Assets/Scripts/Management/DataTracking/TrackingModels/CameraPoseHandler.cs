@@ -66,7 +66,7 @@ namespace ArRetarget
             {
                 x = obj.transform.eulerAngles.x,
                 y = obj.transform.eulerAngles.y,
-                z = obj.transform.eulerAngles.y,
+                z = obj.transform.eulerAngles.z,
             };
 
             var cameraPose = new CameraPose()
