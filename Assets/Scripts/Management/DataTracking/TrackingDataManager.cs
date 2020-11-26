@@ -1,6 +1,7 @@
 ﻿using ArRetarget;
 using UnityEngine;
 
+[RequireComponent(typeof(JsonSerializer))]
 public class TrackingDataManager : MonoBehaviour
 {
     JsonSerializer jsonSerializer;

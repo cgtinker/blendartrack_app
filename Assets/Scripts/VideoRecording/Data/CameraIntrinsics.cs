@@ -4,9 +4,10 @@ using System.Collections.Generic;
 public class CameraIntrinsicsContainer
 {
     public List<CameraIntrinsics> cameraIntrinsics;
-    public List<CameraConfig> cameraConfigs;
     public List<CameraFrameArgs> cameraFrameArgs;
     public List<int> counter;
+
+    public CameraConfig cameraConfig;
     public Resolution resolution;
 }
 
@@ -23,23 +24,9 @@ public class CameraIntrinsics
 [System.Serializable]
 public class CameraFrameArgs
 {
-    public long? timestampNs
-    {
-        get;
-        set;
-    }
-
-    public Matrix4x4? projectionMatrix
-    {
-        get;
-        set;
-    }
-
-    public Matrix4x4? displayMatrix
-    {
-        get;
-        set;
-    }
+    public long timestampNs;
+    public Matrix4x4 projectionMatrix;
+    public Matrix4x4 displayMatrix;
 }
 
 [System.Serializable]

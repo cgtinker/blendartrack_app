@@ -5,50 +5,55 @@ using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using Unity.Collections;
 
-public class CameraContextInfo : MonoBehaviour
+public class CameraIntrinsicsHandler : MonoBehaviour
 {
     private ARCameraManager arCameraManager;
+    private Camera arCamera;
 
     private List<CameraIntrinsics> cameraIntrinsics = new List<CameraIntrinsics>();
-    private List<CameraConfig> cameraConfigs = new List<CameraConfig>();
     private List<CameraFrameArgs> cameraFrameArgs = new List<CameraFrameArgs>();
-    private List<int> counter = new List<int>();
 
+    private List<int> counter = new List<int>();
     private int frame = 0;
 
     public void CacheCameraRelatedSettings()
     {
         if (arCameraManager == null)
         {
-            arCameraManager = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponent<ARCameraManager>();
-            ReceiveCameraFrameUpdate();
+            arCameraManager = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponentInChildren<ARCameraManager>();
+            arCamera = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponentInChildren<Camera>();
+
+            ClearCache();
+            OnReceivedFrameUpdate();
             return;
         }
 
         frame++;
 
         CameraIntrinsics intrinsics = GetIntrinsics();
-        CameraConfig config = GetCameraConfiguration();
-
+        //ReceiveFrameUpdate();
         counter.Add(frame);
         cameraIntrinsics.Add(intrinsics);
-        cameraConfigs.Add(config);
+    }
+
+    public void ClearCache()
+    {
+        frame = 0;
+        cameraIntrinsics.Clear();
+        cameraFrameArgs.Clear();
+        counter.Clear();
     }
 
     public CameraIntrinsicsContainer GetCameraIntrinsicsContainer()
     {
-        DisponseCameraFrameUpdate();
+        OnDisponseFrameUpdate();
 
         CameraIntrinsicsContainer container = new CameraIntrinsicsContainer();
         container.cameraIntrinsics = this.cameraIntrinsics;
-        container.cameraConfigs = this.cameraConfigs;
+        container.cameraConfig = GetCameraConfiguration();
         container.resolution = GetResolution();
-
-        frame = 0;
-        cameraIntrinsics.Clear();
-        cameraConfigs.Clear();
-        cameraFrameArgs.Clear();
-        counter.Clear();
+        container.counter = counter;
+        container.cameraFrameArgs = cameraFrameArgs;
 
         return container;
     }
@@ -104,23 +109,30 @@ public class CameraContextInfo : MonoBehaviour
     #endregion
 
     #region receive subsystem data
-    private void ReceiveCameraFrameUpdate()
+    private void OnReceivedFrameUpdate()
     {
         arCameraManager.frameReceived += OnCameraFrameReceived;
     }
 
-    private void DisponseCameraFrameUpdate()
+    private void OnDisponseFrameUpdate()
     {
         arCameraManager.frameReceived -= OnCameraFrameReceived;
     }
 
-    void OnCameraFrameReceived(ARCameraFrameEventArgs eventArgs)
+    unsafe void OnCameraFrameReceived(ARCameraFrameEventArgs frame)
     {
         CameraFrameArgs cameraFrameArg = new CameraFrameArgs();
 
-        cameraFrameArg.displayMatrix = eventArgs.displayMatrix;
-        cameraFrameArg.projectionMatrix = eventArgs.projectionMatrix;
-        cameraFrameArg.timestampNs = eventArgs.timestampNs;
+        Matrix4x4 displayMatrix;
+        displayMatrix = (Matrix4x4)frame.displayMatrix;
+        Matrix4x4 projectionMatrix;
+        projectionMatrix = (Matrix4x4)frame.projectionMatrix;
+        long timestamp;
+        timestamp = (long)frame.timestampNs;
+
+        cameraFrameArg.displayMatrix = displayMatrix;
+        cameraFrameArg.projectionMatrix = projectionMatrix;
+        cameraFrameArg.timestampNs = timestamp;
 
         cameraFrameArgs.Add(cameraFrameArg);
     }

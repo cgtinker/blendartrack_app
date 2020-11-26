@@ -3,22 +3,29 @@ using NatSuite.Recorders;
 using NatSuite.Recorders.Clocks;
 using NatSuite.Recorders.Inputs;
 
+[RequireComponent(typeof(IntrinsicsCaptureManager))]
 public class CameraRecorder : MonoBehaviour
 {
-    public CameraInput cameraInput;
+    private CameraInput cameraInput;
     private MP4Recorder recorder;
-    public CameraContextInfo cameraContextInfo;
+    private IntrinsicsCaptureManager intrinsicsCaptureManager;
+
+    private void Start()
+    {
+        intrinsicsCaptureManager = this.gameObject.GetComponent<IntrinsicsCaptureManager>();
+    }
 
     public void RecordVideo()
     {
+        // init the recorder and start capturing intrinsics data
         InitRecorder(480, 640, 30, 8, 3);
-        //cameraContextInfo.GetCameraContextInfo();
+        intrinsicsCaptureManager.OnStartRecording();
     }
 
     private void InitRecorder(int width, int height, int fps, int bitrate, int keyframeInterval)
     {
         var br = bitrate * 1000000;
-
+        //recorder settings
         recorder = new MP4Recorder(width: width, height: height, frameRate: fps, sampleRate: 0, channelCount: 0, bitrate: br, keyframeInterval: keyframeInterval);
 
         var clock = new RealtimeClock();
@@ -28,7 +35,9 @@ public class CameraRecorder : MonoBehaviour
 
     public async void StopRecording()
     {
-        // Stop sending frames to the recorder
+        // stop caputing intrinsic data
+        intrinsicsCaptureManager.OnStopRecording();
+        // Stop commiting frames to the recorder
         cameraInput.Dispose();
         // Finish writing
         var path = await recorder.FinishWriting();
