@@ -19,7 +19,7 @@ namespace ArRetarget
     }
 
     /// <summary>
-    /// moving mesh vertecies container
+    /// moving mesh vertecies container for json serialization
     /// </summary>
     [System.Serializable]
     public class MeshDataContainer

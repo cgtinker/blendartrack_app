@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿using System.Collections.Generic;
 
 namespace ArRetarget
 {
+    /// <summary>
+    /// container for json serialization containing blend shapes
+    /// </summary>
     [System.Serializable]
     public class BlendShapeContainter
     {

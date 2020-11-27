@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR.ARFoundation;
@@ -87,29 +86,9 @@ public class AdditiveSceneManager : MonoBehaviour
         }
     }
 
-    //reloading the ar session multiple times results in various bug, thats why it has to be resetted
-    /*
     public void ResetArScene()
     {
-        var obj = GameObject.FindGameObjectWithTag("arSession");
-
-        if (obj != null)
-        {
-            var arSession = obj.GetComponent<ARSession>();
-            var inputManager = obj.GetComponent<ARInputManager>();
-
-            arSession.Reset();
-            arSession.enabled = true;
-            inputManager.enabled = true;
-        }
-
-        else
-            Debug.LogError("ArSession getting called and cannot be found");
-    }
-    */
-    public void ResetArScene()
-    {
-        StartCoroutine(ArFunctionalityHelper.SetAR(enabled: true));
+        StartCoroutine(ArRetarget.ARSessionState.EnableAR(enabled: true));
     }
 
     public Dictionary<int, string> GetDeviceScenes()

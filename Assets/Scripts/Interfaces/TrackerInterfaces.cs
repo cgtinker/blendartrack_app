@@ -1,10 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace ArRetarget
+﻿namespace ArRetarget
 {
-    //init callback when loaded
+    //init method for handlers
     public interface IInit
     {
         void Init();

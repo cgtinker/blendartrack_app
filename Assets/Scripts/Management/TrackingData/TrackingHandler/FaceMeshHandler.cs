@@ -5,7 +5,6 @@ using UnityEngine.XR.ARFoundation;
 
 namespace ArRetarget
 {
-
     public class FaceMeshHandler : MonoBehaviour, IInit, IGet<int>, IJson, IPrefix
     {
         [HideInInspector]

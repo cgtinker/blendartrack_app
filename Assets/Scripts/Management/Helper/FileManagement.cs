@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace ArRetarget
 {
-    public static class FileManagementHelper
+    public static class FileManagement
     {
         #region date and text
         public static string GetDateTime()
@@ -36,7 +36,15 @@ namespace ArRetarget
         }
         #endregion
 
-        #region share and delete files
+        #region save, share and delete files
+        public static void WriteDataToDisk(string data, string persistentPath, string filename)
+        {
+            Debug.Log("Serializing json data");
+
+            var path = $"{persistentPath}/{filename}";
+            File.WriteAllText(path: path, contents: data, encoding: System.Text.Encoding.UTF8);
+        }
+
         public static void DeleteFilesInDir(List<string> pathList)
         {
             foreach (string path in pathList)

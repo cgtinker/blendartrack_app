@@ -9,12 +9,11 @@ namespace ArRetarget
     {
         private List<PoseData> cameraPoseList = new List<PoseData>();
         private GameObject mainCamera;
-        private TrackingDataManager dataManager;
 
         IEnumerator Start()
         {
             yield return new WaitForEndOfFrame();
-            dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
+            var dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
             var arSession = GameObject.FindGameObjectWithTag("arSession").GetComponent<ARSession>();
             arSession.matchFrameRate = true;
             dataManager.TrackingReference(this.gameObject);

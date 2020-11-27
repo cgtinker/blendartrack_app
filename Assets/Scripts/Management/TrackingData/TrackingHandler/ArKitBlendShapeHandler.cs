@@ -10,7 +10,6 @@ using UnityEngine.XR.ARKit;
 
 namespace ArRetarget
 {
-
     [RequireComponent(typeof(ARFace))]
     public class ArKitBlendShapeHandler : MonoBehaviour, IInit, IJson, IStop, IPrefix
     {

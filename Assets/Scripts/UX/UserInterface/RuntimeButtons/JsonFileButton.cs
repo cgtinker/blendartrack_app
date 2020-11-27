@@ -36,7 +36,7 @@ namespace ArRetarget
             //toggling the viewer, deactivating other btns
             viewerActive = !viewerActive;
             //dropdownViewerBtnImg.SetActive(viewerActive);
-            string fileContents = FileManagementHelper.FileContents(m_jsonFileData.path);
+            string fileContents = FileManagement.FileContents(m_jsonFileData.path);
             jsonFileButtonManager.OnToggleViewer(this.m_jsonFileData.index, viewerActive, fileContents);
         }
 

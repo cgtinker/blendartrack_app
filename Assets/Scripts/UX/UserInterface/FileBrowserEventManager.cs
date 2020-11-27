@@ -46,7 +46,7 @@ namespace ArRetarget
                 return;
 
             else
-                FileManagementHelper.DeleteFilesInDir(selectedFiles);
+                FileManagement.DeleteFilesInDir(selectedFiles);
         }
 
         //native share event for selected files
@@ -62,10 +62,10 @@ namespace ArRetarget
             else
             {
                 //naming
-                string localDate = FileManagementHelper.GetDateTimeText();
+                string localDate = FileManagement.GetDateTimeText();
 
                 string filenames = "";
-                var paragraph = FileManagementHelper.GetParagraph();
+                var paragraph = FileManagement.GetParagraph();
 
                 //listing files to transfer
                 foreach (string filename in selectedFilesNames)
@@ -78,7 +78,7 @@ namespace ArRetarget
                 string subject = "Retarget " + localDate;
                 string text = "Retarget " + localDate + paragraph + paragraph + "Attached Files: " + paragraph + filenames;
 
-                FileManagementHelper.ShareJsonFiles(selectedFilePaths, subject, text);
+                FileManagement.ShareJsonFiles(selectedFilePaths, subject, text);
             }
 
         }
@@ -199,14 +199,14 @@ namespace ArRetarget
         {
             List<JsonFileData> jsonFileDataList = new List<JsonFileData>();
             //receiving all files at the persistent data path
-            FileInfo[] files = FileManagementHelper.JsonsInDir(persistentPath);
+            FileInfo[] files = FileManagement.JsonsInDir(persistentPath);
 
             if (files.Length > 0)
             {
                 foreach (FileInfo file in files)
                 {
                     //validating the path
-                    if (FileManagementHelper.ValidatePath(mediaPath: file.FullName))
+                    if (FileManagement.ValidatePath(mediaPath: file.FullName))
                     {
                         //generating a ref
                         JsonFileData tmp = new JsonFileData()

@@ -1,13 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using ArRetarget;
 
 [RequireComponent(typeof(CameraIntrinsicsHandler))]
 public class IntrinsicsCaptureManager : MonoBehaviour
 {
     private CameraIntrinsicsHandler cameraIntrinsicsHandler;
-    private JsonSerializer jsonSerializer;
 
     public bool recording = false;
 
@@ -15,7 +12,6 @@ public class IntrinsicsCaptureManager : MonoBehaviour
     void Start()
     {
         cameraIntrinsicsHandler = this.gameObject.GetComponent<CameraIntrinsicsHandler>();
-        jsonSerializer = this.gameObject.GetComponent<JsonSerializer>();
     }
 
     public void OnStartRecording()
@@ -41,14 +37,12 @@ public class IntrinsicsCaptureManager : MonoBehaviour
 
         //file name
         string prefix = "CI";
-        string time = FileManagementHelper.GetDateTime();
+        string time = FileManagement.GetDateTime();
         string filename = $"{time}_{prefix}.json";
         var persistentPath = Application.persistentDataPath;
 
-        cameraIntrinsicsHandler.ClearCache();
-
         //write data
-        jsonSerializer.WriteDataToDisk(data: contents, persistentPath: persistentPath, filename: filename);
+        FileManagement.WriteDataToDisk(data: contents, persistentPath: persistentPath, filename: filename);
     }
 
     // Update is called once per frame
@@ -57,6 +51,6 @@ public class IntrinsicsCaptureManager : MonoBehaviour
         if (!recording)
             return;
 
-        cameraIntrinsicsHandler.CacheCameraRelatedSettings();
+        cameraIntrinsicsHandler.GetFrameData(1);
     }
 }

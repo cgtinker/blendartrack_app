@@ -123,7 +123,7 @@ namespace ArRetarget
         {
             Debug.Log("attempt to reload the scene");
             //sceneManager.ResetArScene();
-            StartCoroutine(ArFunctionalityHelper.SetAR(enabled: true));
+            StartCoroutine(ARSessionState.EnableAR(enabled: true));
             sceneManager.ReloadScene();
         }
 
@@ -131,7 +131,7 @@ namespace ArRetarget
         public void DisableArSession()
         {
             //StartCoroutine("DisableRoutine");
-            StartCoroutine(ArFunctionalityHelper.SetAR(enabled: false));
+            StartCoroutine(ARSessionState.EnableAR(enabled: false));
         }
         /*
 

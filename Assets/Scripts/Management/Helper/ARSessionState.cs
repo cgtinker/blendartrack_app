@@ -1,13 +1,12 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
 namespace ArRetarget
 {
-    public static class ArFunctionalityHelper
+    public static class ARSessionState
     {
-        public static IEnumerator SetAR(bool enabled)
+        public static IEnumerator EnableAR(bool enabled)
         {
             var m_arSession = GameObject.FindGameObjectWithTag("arSession");
             var arSessionOrigin = GameObject.FindGameObjectWithTag("arSessionOrigin");

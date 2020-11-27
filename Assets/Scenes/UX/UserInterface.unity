@@ -806,10 +806,6 @@ GameObject:
   m_Component:
   - component: {fileID: 557129386}
   - component: {fileID: 557129385}
-  - component: {fileID: 557129387}
-  - component: {fileID: 557129388}
-  - component: {fileID: 557129389}
-  - component: {fileID: 557129390}
   m_Layer: 0
   m_Name: Recorder
   m_TagString: Untagged
@@ -843,57 +839,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &557129387
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 557129384}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b0e89a974aaa499e87438ff53186d32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &557129388
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 557129384}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d84f40b2222964e909871eece0701c20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  recording: 0
---- !u!114 &557129389
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 557129384}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81cfe7aff2be24428974185cdae0dc9f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &557129390
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 557129384}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ac06a14ab7704adc89d13ccabfa12fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  poseDiver: {fileID: 0}
-  cameraPoseData: []
 --- !u!1001 &1237800533
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1267,6 +1212,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4286494021755067602, guid: 2a2947a62ff5b437f85f56cf556e6022,
+        type: 3}
+      propertyPath: captureIntrinsics
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5699516984753817633, guid: 2a2947a62ff5b437f85f56cf556e6022,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1332,5 +1282,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: UI_Camera
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5699516984753817647, guid: 2a2947a62ff5b437f85f56cf556e6022, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2a2947a62ff5b437f85f56cf556e6022, type: 3}
