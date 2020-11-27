@@ -7,7 +7,7 @@ namespace ArRetarget
 {
     public class CameraPoseHandler : MonoBehaviour, IInit, IGet<int>, IJson, IPrefix
     {
-        private List<CameraPose> cameraPoseList = new List<CameraPose>();
+        private List<PoseData> cameraPoseList = new List<PoseData>();
         private GameObject mainCamera;
         private TrackingDataManager dataManager;
 
@@ -53,7 +53,7 @@ namespace ArRetarget
         }
 
         //receiving pose data from obj at frame
-        public static CameraPose GetPoseData(GameObject obj, int frame)
+        public static PoseData GetPoseData(GameObject obj, int frame)
         {
             var pos = new Vector()
             {
@@ -69,7 +69,7 @@ namespace ArRetarget
                 z = obj.transform.eulerAngles.z,
             };
 
-            var cameraPose = new CameraPose()
+            var cameraPose = new PoseData()
             {
                 pos = pos,
                 rot = rot,
