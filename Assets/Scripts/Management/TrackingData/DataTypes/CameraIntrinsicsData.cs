@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace ArRetarget
 {
@@ -7,11 +8,12 @@ namespace ArRetarget
     /// </summary>
     public class CameraIntrinsicsContainer
     {
-        public List<CameraIntrinsics> cameraIntrinsics;
+        //public List<CameraIntrinsics> cameraIntrinsics;
+        public List<CameraProjectionMatrix> cameraProjection;
         public CameraConfig cameraConfig;
         public ScreenResolution resolution;
     }
-
+    /*
     /// <summary>
     /// camera intrinsics at a given frame
     /// </summary>
@@ -26,7 +28,20 @@ namespace ArRetarget
 
         public int frame;
     }
-
+    */
+    [System.Serializable]
+    public class CameraProjectionMatrix
+    {
+        public Matrix4x4 cameraProjectionMatrix;
+        public int frame;
+    }
+    /*
+    [System.Serializable]
+    public class CameraProjectionContainer
+    {
+        public List<CameraProjectionMatrix> cameraProjectionList;
+    }
+    */
     [System.Serializable]
     public class ScreenResolution
     {

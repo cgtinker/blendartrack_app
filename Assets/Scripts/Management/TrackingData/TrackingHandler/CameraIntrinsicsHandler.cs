@@ -6,27 +6,50 @@ using Unity.Collections;
 
 namespace ArRetarget
 {
-    public class CameraIntrinsicsHandler : MonoBehaviour, IJson, IInit, IGet<int>, IPrefix
+    public class CameraIntrinsicsHandler : MonoBehaviour, IJson, IInit, IPrefix, IStop//, IGet<int>
     {
         private ARCameraManager arCameraManager;
-        private List<CameraIntrinsics> cameraIntrinsics = new List<CameraIntrinsics>();
+        private List<CameraProjectionMatrix> cameraProjection = new List<CameraProjectionMatrix>();
 
+        int frame = 0;
         public void Init()
         {
             //reference to the ar camera
             if (arCameraManager == null)
             {
                 arCameraManager = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponentInChildren<ARCameraManager>();
-                cameraIntrinsics.Clear();
-                return;
+                //restting values
+                EnableFrameUpdate();
+            }
+
+            else
+            {
+                frame = 0;
+                cameraProjection.Clear();
+                EnableFrameUpdate();
             }
         }
 
-        //getting camera intrinsics data
-        public void GetFrameData(int frame)
+        public void EnableFrameUpdate()
         {
-            CameraIntrinsics intrinsics = GetIntrinsics(frame);
-            cameraIntrinsics.Add(intrinsics);
+            arCameraManager.frameReceived += OnFrameReceived;
+        }
+
+        public void StopTracking()
+        {
+            arCameraManager.frameReceived += OnFrameReceived;
+        }
+
+        public void OnFrameReceived(ARCameraFrameEventArgs args)
+        {
+            frame++;
+            Matrix4x4 m_matrix = (Matrix4x4)args.projectionMatrix;
+
+            CameraProjectionMatrix tmp = new CameraProjectionMatrix();
+            tmp.frame = frame;
+            tmp.cameraProjectionMatrix = m_matrix;
+
+            cameraProjection.Add(tmp);
         }
 
         //provide json string
@@ -34,7 +57,7 @@ namespace ArRetarget
         {
             CameraIntrinsicsContainer container = GetCameraIntrinsicsContainer();
             var json = JsonUtility.ToJson(container);
-            cameraIntrinsics.Clear();
+            cameraProjection.Clear();
 
             return json;
         }
@@ -49,7 +72,8 @@ namespace ArRetarget
         public CameraIntrinsicsContainer GetCameraIntrinsicsContainer()
         {
             CameraIntrinsicsContainer container = new CameraIntrinsicsContainer();
-            container.cameraIntrinsics = this.cameraIntrinsics;
+            //container.cameraIntrinsics = this.cameraIntrinsics;
+            container.cameraProjection = cameraProjection;
             container.cameraConfig = GetCameraConfiguration();
             container.resolution = GetResolution();
 
@@ -68,20 +92,6 @@ namespace ArRetarget
             config.width = xrCameraConfig[0].width;
 
             return config;
-        }
-
-        //formatting subsystem camera intrinsics for json conversion
-        private CameraIntrinsics GetIntrinsics(int frame)
-        {
-            CameraIntrinsics intrinsics = new CameraIntrinsics();
-
-            var tmp_intrinsics = GetCameraIntrinsics();
-            intrinsics.flX = tmp_intrinsics.focalLength.x;
-            intrinsics.flY = tmp_intrinsics.focalLength.y;
-            intrinsics.ppX = tmp_intrinsics.principalPoint.x;
-            intrinsics.ppY = tmp_intrinsics.principalPoint.y;
-            intrinsics.frame = frame;
-            return intrinsics;
         }
 
         //formatting screen resolution for json conversion

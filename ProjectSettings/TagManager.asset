@@ -12,6 +12,7 @@ TagManager:
   - viewer
   - UI_Camera
   - arSessionOrigin
+  - pointCloud
   layers:
   - Default
   - TransparentFX

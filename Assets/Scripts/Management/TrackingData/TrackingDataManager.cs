@@ -5,6 +5,9 @@ namespace ArRetarget
     public class TrackingDataManager : MonoBehaviour
     {
         CameraIntrinsicsHandler cameraIntrinsicsHandler;
+        //CameraProjectionHandler cameraProjectionHandler;
+        //AnchorTracker anchorTracker;
+        //PointCloudHandler pointCloudHandler;
 
         private string persistentPath;
         private bool _recording = false;
@@ -26,7 +29,8 @@ namespace ArRetarget
 
             //assign references
             cameraIntrinsicsHandler = this.gameObject.GetComponent<CameraIntrinsicsHandler>();
-
+            //anchorTracker = this.gameObject.GetComponent<AnchorTracker>();
+            //pointCloudHandler = this.gameObject.GetComponent<PointCloudHandler>();
             Debug.Log("Session started");
         }
 
@@ -99,12 +103,16 @@ namespace ArRetarget
             if (captureIntrinsics)
             {
                 cameraIntrinsicsHandler.Init();
+                //anchorTracker.Init();
+                //pointCloudHandler.Init();
             }
         }
 
         //called by toggle button event
         private void OnStopRetargeting()
         {
+            cameraIntrinsicsHandler.StopTracking();
+
             if (stop != null)
             {
                 Debug.Log("Stop Retargeting");
@@ -130,12 +138,14 @@ namespace ArRetarget
             {
                 frame++;
                 getter.GetFrameData(frame);
-
+                /*
                 //capturing intrinics data while capturing video
                 if (captureIntrinsics)
                 {
                     cameraIntrinsicsHandler.GetFrameData(frame);
+                    //anchorTracker.GetFrameData(frame);
                 }
+                */
             }
         }
         #endregion
@@ -154,14 +164,30 @@ namespace ArRetarget
 
             if (captureIntrinsics)
             {
+
                 //file contents
                 string intrinsicsContents = cameraIntrinsicsHandler.GetJsonString();
+                //string projectionContents = cameraProjectionHandler.GetJsonString();
+                /*
+                string anchorContents = anchorTracker.GetJsonString();
+                string anchorFilename = $"{time}_AN.json";
+                
+                pointCloudHandler.Stop();
+                string pointCloudData = pointCloudHandler.GetJsonString();
+                string pointCloudName = $"{time}_PC.json";
+                */
+                //string projectionName = $"{time}_PM.json";
+
+
 
                 //file name
                 string intrinsicsPrefix = cameraIntrinsicsHandler.GetJsonPrefix();
                 string intrinsicsFilename = $"{time}_{intrinsicsPrefix}.json";
 
                 FileManagement.WriteDataToDisk(data: intrinsicsContents, persistentPath: persistentPath, filename: intrinsicsFilename);
+
+                //FileManagement.WriteDataToDisk(data: anchorContents, persistentPath: persistentPath, filename: anchorFilename);
+                //FileManagement.WriteDataToDisk(data: projectionContents, persistentPath: persistentPath, filename: projectionName);
 
                 string message = $"{filename}{FileManagement.GetParagraph()}{intrinsicsFilename}";
 

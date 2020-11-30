@@ -51,6 +51,6 @@ public class IntrinsicsCaptureManager : MonoBehaviour
         if (!recording)
             return;
 
-        cameraIntrinsicsHandler.GetFrameData(1);
+        //cameraIntrinsicsHandler.GetFrameData(1);
     }
 }
