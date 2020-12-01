@@ -13,6 +13,8 @@ using System;
 /// </summary>
 public class AdditiveSceneManager : MonoBehaviour
 {
+    public TrackingDataManager trackingDataManager;
+
     //depending on the device, different scenes will be available
     #region Device Management
     public enum Device
@@ -30,6 +32,7 @@ public class AdditiveSceneManager : MonoBehaviour
     //setting device
     private void Awake()
     {
+        trackingDataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
 #if UNITY_IPHONE
         device = Device.iOS;
 #endif
@@ -66,6 +69,8 @@ public class AdditiveSceneManager : MonoBehaviour
         else
             Debug.Log("User resetted app or uses first time");
 
+
+        trackingDataManager.ResetTrackerInterfaces();
         //saving reference to the loaded scene (can be received in the userPrefs)
         PlayerPrefs.SetInt("scene", sceneIndex);
         string tarScene = GetScene(sceneIndex);

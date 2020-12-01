@@ -29,7 +29,7 @@ namespace ArRetarget
         private void Start()
         {
             TrackingDataManager dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
-            dataManager.TrackingReference(this.gameObject);
+            dataManager.SetRecorderReference(this.gameObject);
         }
 
         //might crash

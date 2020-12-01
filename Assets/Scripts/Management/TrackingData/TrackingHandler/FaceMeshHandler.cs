@@ -15,9 +15,7 @@ namespace ArRetarget
         {
             yield return new WaitForEndOfFrame();
             TrackingDataManager dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
-            var arSession = GameObject.FindGameObjectWithTag("arSession").GetComponent<ARSession>();
-            arSession.matchFrameRate = true;
-            dataManager.TrackingReference(this.gameObject);
+            dataManager.SetRecorderReference(this.gameObject);
         }
 
         //only works with a single face mesh
@@ -59,10 +57,27 @@ namespace ArRetarget
         }
 
 
-        public static MeshData GetMeshData(MeshFilter mf, int f)
+        public MeshData GetMeshData(MeshFilter mf, int f)
         {
             //tmp list for verts in mesh
             var tmpList = new List<Vector>();
+
+            var mvd = new MeshData()
+            {
+                frame = f
+            };
+
+            //if the face is lost
+            if (!mf)
+            {
+                var mesh = GameObject.FindGameObjectWithTag("face");
+                Debug.Log("Searching Face Mesh");
+
+                if (mesh != null)
+                    meshFilter = mesh.GetComponent<MeshFilter>();
+
+                return mvd;
+            }
 
             //getting mesh data
             for (int i = 0; i < mf.mesh.vertexCount; i++)
@@ -79,12 +94,9 @@ namespace ArRetarget
                 tmpList.Add(mVert);
             }
 
-            //assigning frame and mesh data
-            var mvd = new MeshData()
-            {
-                pos = tmpList,
-                frame = f
-            };
+            //mesh data
+            mvd.pos = tmpList;
+
 
             return mvd;
         }

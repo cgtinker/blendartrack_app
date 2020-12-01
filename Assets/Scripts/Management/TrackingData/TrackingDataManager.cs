@@ -1,24 +1,21 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine.XR.ARFoundation;
 
 namespace ArRetarget
 {
     public class TrackingDataManager : MonoBehaviour
     {
-        CameraIntrinsicsHandler cameraIntrinsicsHandler;
-        //CameraProjectionHandler cameraProjectionHandler;
-        //AnchorTracker anchorTracker;
-        //PointCloudHandler pointCloudHandler;
-
         private string persistentPath;
         private bool _recording = false;
         public bool captureIntrinsics = true;
         private int frame = 0;
 
-        private IGet<int> getter;
-        private IJson json;
-        private IInit init;
-        private IStop stop;
-        private IPrefix prefix;
+        private List<IGet<int>> getters = new List<IGet<int>>();
+        private List<IJson> jsons = new List<IJson>();
+        private List<IInit> inits = new List<IInit>();
+        private List<IStop> stops = new List<IStop>();
+        private List<IPrefix> prefixs = new List<IPrefix>();
 
         #region initialize tracking session
         void Start()
@@ -26,50 +23,42 @@ namespace ArRetarget
             //set persistent path
             persistentPath = Application.persistentDataPath;
             _recording = false;
-
-            //assign references
-            cameraIntrinsicsHandler = this.gameObject.GetComponent<CameraIntrinsicsHandler>();
-            //anchorTracker = this.gameObject.GetComponent<AnchorTracker>();
-            //pointCloudHandler = this.gameObject.GetComponent<PointCloudHandler>();
             Debug.Log("Session started");
         }
 
         //resetting as not all tracking models include all tracker interfaces
         public void ResetTrackerInterfaces()
         {
-            getter = null;
-            json = null;
-            init = null;
-            stop = null;
-            prefix = null;
+            getters.Clear();
+            jsons.Clear();
+            inits.Clear();
+            stops.Clear();
+            prefixs.Clear();
         }
 
         //the tracking references always contains some of the following interfaces
-        public void TrackingReference(GameObject obj)
+        public void SetRecorderReference(GameObject obj)
         {
-            ResetTrackerInterfaces();
+            var arSession = GameObject.FindGameObjectWithTag("arSession").GetComponent<ARSession>();
+            if (!arSession.matchFrameRate)
+                arSession.matchFrameRate = true;
 
-            //iinit -> setup || ijson -> serialze
-            if (obj.GetComponent<IInit>() != null && obj.GetComponent<IJson>() != null)
+            if (obj.GetComponent<IInit>() != null)
+                inits.Add(obj.GetComponent<IInit>());
+
+            if (obj.GetComponent<IJson>() != null)
             {
-                init = obj.GetComponent<IInit>();
-                json = obj.GetComponent<IJson>();
-                prefix = obj.GetComponent<IPrefix>();
+                jsons.Add(obj.GetComponent<IJson>());
+                prefixs.Add(obj.GetComponent<IPrefix>());
             }
 
-            //iget -> pulling data
             if (obj.GetComponent<IGet<int>>() != null)
-            {
-                getter = obj.GetComponent<IGet<int>>();
-            }
+                getters.Add(obj.GetComponent<IGet<int>>());
 
-            //istop -> stop pushing data
             if (obj.GetComponent<IStop>() != null)
-            {
-                stop = obj.GetComponent<IStop>();
-            }
+                stops.Add(obj.GetComponent<IStop>());
 
-            Debug.Log("Receiving Tracker Type Reference");
+            Debug.Log("Receiving Tracker Type Reference: " + obj.name);
         }
         #endregion
 
@@ -80,6 +69,7 @@ namespace ArRetarget
             if (!_recording)
             {
                 OnInitRetargeting();
+                frame = 0;
                 OnEnableTracking();
             }
 
@@ -97,105 +87,81 @@ namespace ArRetarget
         //called by toggle button event
         private void OnInitRetargeting()
         {
-            Debug.Log("Init Retargeting");
-            init.Init();
-
-            if (captureIntrinsics)
+            foreach (var init in inits)
             {
-                cameraIntrinsicsHandler.Init();
-                //anchorTracker.Init();
-                //pointCloudHandler.Init();
+                init.Init();
             }
         }
 
         //called by toggle button event
         private void OnStopRetargeting()
         {
-            cameraIntrinsicsHandler.StopTracking();
-
-            if (stop != null)
+            if (stops.Count > 0)
             {
-                Debug.Log("Stop Retargeting");
-                //stopping interface for ios face tracking as it is pushing and not pulling data
-                stop.StopTracking();
+                Debug.Log("stops: " + stops.Count);
+                foreach (var stop in stops)
+                {
+                    stop.StopTracking();
+                }
             }
         }
 
         protected virtual void OnEnableTracking()
         {
+            Debug.Log("Enabled Tracking");
             Application.onBeforeRender += OnBeforeRenderPreformUpdate;
         }
 
         protected virtual void OnDisableTracking()
         {
+            Debug.Log("Disabled Tracking");
             Application.onBeforeRender -= OnBeforeRenderPreformUpdate;
         }
 
         //update tracking data before the render event
         protected virtual void OnBeforeRenderPreformUpdate()
         {
-            if (_recording && getter != null)
+
+            if (_recording && getters.Count > 0)
             {
                 frame++;
-                getter.GetFrameData(frame);
-                /*
-                //capturing intrinics data while capturing video
-                if (captureIntrinsics)
+
+                foreach (var getter in getters)
                 {
-                    cameraIntrinsicsHandler.GetFrameData(frame);
-                    //anchorTracker.GetFrameData(frame);
+                    getter.GetFrameData(frame);
                 }
-                */
             }
         }
         #endregion
 
         public string SerializeJson()
         {
-            //file contents
-            string contents = json.GetJsonString();
 
-            //file name
-            string prefix = this.prefix.GetJsonPrefix();
-            string time = FileManagement.GetDateTime();
-            string filename = $"{time}_{prefix}.json";
+            string msg = "";
 
-            FileManagement.WriteDataToDisk(data: contents, persistentPath: persistentPath, filename: filename);
-
-            if (captureIntrinsics)
+            for (int i = 0; i < jsons.Count; i++)
             {
+                string contents = jsons[i].GetJsonString();
+                string prefix = prefixs[i].GetJsonPrefix();
+                string time = FileManagement.GetDateTime();
+                string filename = $"{time}_{prefix}.json";
 
-                //file contents
-                string intrinsicsContents = cameraIntrinsicsHandler.GetJsonString();
-                //string projectionContents = cameraProjectionHandler.GetJsonString();
-                /*
-                string anchorContents = anchorTracker.GetJsonString();
-                string anchorFilename = $"{time}_AN.json";
-                
-                pointCloudHandler.Stop();
-                string pointCloudData = pointCloudHandler.GetJsonString();
-                string pointCloudName = $"{time}_PC.json";
-                */
-                //string projectionName = $"{time}_PM.json";
+                if (i < jsons.Count - 1)
+                {
+                    var tmp = $"{filename}{FileManagement.GetParagraph()}";
+                    msg += tmp;
+                }
 
+                else
+                {
+                    var tmp = $"{filename}";
+                    msg += tmp;
+                }
 
-
-                //file name
-                string intrinsicsPrefix = cameraIntrinsicsHandler.GetJsonPrefix();
-                string intrinsicsFilename = $"{time}_{intrinsicsPrefix}.json";
-
-                FileManagement.WriteDataToDisk(data: intrinsicsContents, persistentPath: persistentPath, filename: intrinsicsFilename);
-
-                //FileManagement.WriteDataToDisk(data: anchorContents, persistentPath: persistentPath, filename: anchorFilename);
-                //FileManagement.WriteDataToDisk(data: projectionContents, persistentPath: persistentPath, filename: projectionName);
-
-                string message = $"{filename}{FileManagement.GetParagraph()}{intrinsicsFilename}";
-
-                return message;
+                FileManagement.WriteDataToDisk(data: contents, persistentPath: persistentPath, filename: filename);
             }
 
-            else
-                return filename;
+            return msg;
         }
     }
 }

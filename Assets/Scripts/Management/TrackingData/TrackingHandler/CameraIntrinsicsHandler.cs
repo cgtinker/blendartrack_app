@@ -3,33 +3,49 @@ using System.Collections.Generic;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using Unity.Collections;
+using System.Collections;
 
 namespace ArRetarget
 {
-    public class CameraIntrinsicsHandler : MonoBehaviour, IJson, IInit, IPrefix, IStop//, IGet<int>
+    public class CameraIntrinsicsHandler : MonoBehaviour, IJson, IInit, IPrefix, IGet<int>
     {
+        private Camera arCamera;
         private ARCameraManager arCameraManager;
         private List<CameraProjectionMatrix> cameraProjection = new List<CameraProjectionMatrix>();
 
-        int frame = 0;
+        IEnumerator Start()
+        {
+            yield return new WaitForEndOfFrame();
+            var dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
+            dataManager.SetRecorderReference(this.gameObject);
+        }
+
+        //int frame = 0;
         public void Init()
         {
             //reference to the ar camera
-            if (arCameraManager == null)
+            if (arCameraManager == null || arCamera == null)
             {
-                arCameraManager = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponentInChildren<ARCameraManager>();
+                var obj = GameObject.FindGameObjectWithTag("arSessionOrigin");
+                arCameraManager = obj.GetComponentInChildren<ARCameraManager>();
+                arCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+
                 //restting values
-                EnableFrameUpdate();
+                //EnableFrameUpdate();
             }
 
             else
             {
-                frame = 0;
+                //frame = 0;
                 cameraProjection.Clear();
-                EnableFrameUpdate();
+                //EnableFrameUpdate();
             }
         }
-
+        public void GetFrameData(int frame)
+        {
+            OnFrameReceived(frame);
+        }
+        /*
         public void EnableFrameUpdate()
         {
             arCameraManager.frameReceived += OnFrameReceived;
@@ -39,12 +55,17 @@ namespace ArRetarget
         {
             arCameraManager.frameReceived += OnFrameReceived;
         }
-
-        public void OnFrameReceived(ARCameraFrameEventArgs args)
+        */
+        public void OnFrameReceived(int frame)  //(ARCameraFrameEventArgs args)
         {
-            frame++;
-            Matrix4x4 m_matrix = (Matrix4x4)args.projectionMatrix;
+            if (arCamera == null)
+            {
+                arCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+                return;
+            }
 
+            Matrix4x4 m_matrix = arCamera.projectionMatrix;
+            //Matrix4x4 m_matrix = (Matrix4x4)args.projectionMatrix;
             CameraProjectionMatrix tmp = new CameraProjectionMatrix();
             tmp.frame = frame;
             tmp.cameraProjectionMatrix = m_matrix;
@@ -72,6 +93,10 @@ namespace ArRetarget
         public CameraIntrinsicsContainer GetCameraIntrinsicsContainer()
         {
             CameraIntrinsicsContainer container = new CameraIntrinsicsContainer();
+
+            if (arCamera == null)
+                return container;
+
             //container.cameraIntrinsics = this.cameraIntrinsics;
             container.cameraProjection = cameraProjection;
             container.cameraConfig = GetCameraConfiguration();

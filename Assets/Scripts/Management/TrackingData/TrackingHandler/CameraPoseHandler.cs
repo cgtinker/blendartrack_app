@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
-using UnityEngine.XR.ARFoundation;
 
 namespace ArRetarget
 {
@@ -14,9 +13,7 @@ namespace ArRetarget
         {
             yield return new WaitForEndOfFrame();
             var dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
-            var arSession = GameObject.FindGameObjectWithTag("arSession").GetComponent<ARSession>();
-            arSession.matchFrameRate = true;
-            dataManager.TrackingReference(this.gameObject);
+            dataManager.SetRecorderReference(this.gameObject);
         }
 
         //obj to track
@@ -28,6 +25,7 @@ namespace ArRetarget
         //get data at a specific frame
         public void GetFrameData(int frame)
         {
+            //Debug.Log("Get Camera Data");
             var cameraPose = GetPoseData(mainCamera, frame);
             cameraPoseList.Add(cameraPose);
         }
