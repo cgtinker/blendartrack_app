@@ -38,7 +38,7 @@ public class AnchorCreator : MonoBehaviour
 
     ARAnchor CreateAnchor(in ARRaycastHit hit)
     {
-        if (m_Anchors.Count < 3)
+        if (m_Anchors.Count < 1)
         {
             ARAnchor anchor = null;
 

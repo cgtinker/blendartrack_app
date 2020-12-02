@@ -11,7 +11,7 @@ namespace ArRetarget
         public List<CameraPoseContainer> objectToTrack;
     }
 
-    public class ObjectTrackerHandler : MonoBehaviour, IInit, IGet<int>, IJson, IPrefix
+    public class ObjectTrackerHandler : MonoBehaviour, IInit, IGet<int>, IJson, IPrefix, IStop
     {
         public List<GameObject> objToTrack = new List<GameObject>();
         private List<List<PoseData>> masterList = new List<List<PoseData>>();
@@ -21,6 +21,24 @@ namespace ArRetarget
             yield return new WaitForEndOfFrame();
             var dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
             dataManager.SetRecorderReference(this.gameObject);
+        }
+
+        public void StopTracking()
+        {
+            var obj = GameObject.FindGameObjectWithTag("arSessionOrigin");
+            var m_ref = obj.GetComponent<AnchorCreator>();
+            var objs = m_ref.AnchorObjects;
+
+            foreach (var m_obj in objs)
+            {
+                objToTrack.Add(m_obj);
+            }
+
+            for (int i = 0; i < objToTrack.Count; i++)
+            {
+                List<PoseData> tmp = new List<PoseData>();
+                masterList.Add(tmp);
+            }
         }
 
         //obj to track

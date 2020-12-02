@@ -13,6 +13,7 @@ TagManager:
   - UI_Camera
   - arSessionOrigin
   - pointCloud
+  - anchor
   layers:
   - Default
   - TransparentFX
