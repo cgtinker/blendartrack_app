@@ -46,7 +46,7 @@ namespace ArRetarget
 
         public string GetJsonPrefix()
         {
-            return "WP";
+            return "MA";
         }
 
         public string GetJsonString()

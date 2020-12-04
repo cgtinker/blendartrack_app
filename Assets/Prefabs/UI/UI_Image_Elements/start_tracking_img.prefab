@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2271948072725137839}
   - component: {fileID: 421994930909123752}
   - component: {fileID: 3724994390176192108}
+  - component: {fileID: 2340808148105496917}
   m_Layer: 5
   m_Name: start_tracking_img
   m_TagString: Untagged
@@ -65,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c03710e4d40404c7ebfa2103e9e52bb8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 87941608a383d498e9967b423db25356, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -75,3 +76,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!111 &2340808148105496917
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5228613608692051439}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
