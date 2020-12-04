@@ -38,7 +38,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 225, y: 225}
+  m_SizeDelta: {x: 225, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3065323847285713827
 CanvasRenderer:
@@ -148,7 +148,7 @@ MonoBehaviour:
   recordImg: {fileID: 21300000, guid: 3e95f8acef7f449fc812458674a8dd9d, type: 3}
   breakImg: {fileID: 21300000, guid: b6ee82b24748344a884477f43e2527fc, type: 3}
   m_image: {fileID: 7063319405783758542}
-  animator: {fileID: 7063319405783758529}
+  animator: {fileID: 0}
   inputHandler: {fileID: 0}
 --- !u!1 &7063319405783758528
 GameObject:
@@ -161,7 +161,7 @@ GameObject:
   - component: {fileID: 3822891361882575488}
   - component: {fileID: 3409521696281677703}
   - component: {fileID: 7063319405783758542}
-  - component: {fileID: 7063319405783758529}
+  - component: {fileID: 3305798671810645524}
   m_Layer: 5
   m_Name: visual
   m_TagString: Untagged
@@ -226,7 +226,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!95 &7063319405783758529
+--- !u!95 &3305798671810645524
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0

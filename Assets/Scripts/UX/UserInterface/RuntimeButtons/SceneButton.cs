@@ -5,14 +5,72 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
+using ArRetarget;
+
 public class SceneButton : MonoBehaviour, IPointerDownHandler
 {
-    TextMeshProUGUI title;
-    TextMeshProUGUI mainMenuSceneTitle;
+    //ref
+    public TextMeshProUGUI mainMenuSceneTitle;
+    public Image buttonImage;
     AdditiveSceneManager sceneManager;
-    GameObject mainMenu;
-    GameObject sceneMenu;
 
+    //buttons
+    public SceneButtonData CameraTracking;
+    public SceneButtonData FaceTracking;
+
+    private List<SceneButtonData> sceneReferences = new List<SceneButtonData>();
+
+    private void Awake()
+    {
+        sceneReferences.Add(FaceTracking);
+        sceneReferences.Add(CameraTracking);
+    }
+
+    private void Start()
+    {
+        //ref + load previous scene
+        sceneManager = GameObject.FindGameObjectWithTag("manager").GetComponent<AdditiveSceneManager>();
+        int sceneIndex = UserPreferences.Instance.GetIntPref("scene");
+
+        //adjust ui
+        foreach (SceneButtonData data in sceneReferences)
+        {
+            if (data.index == sceneIndex)
+            {
+                mainMenuSceneTitle.text = data.titel;
+                //buttonImage.sprite = data.sprite;
+            }
+        }
+    }
+
+    //only works for face + camera tracking
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        int sceneIndex = UserPreferences.Instance.GetIntPref("scene");
+        foreach (SceneButtonData data in sceneReferences)
+        {
+            if (data.index != sceneIndex)
+            {
+                //switch scene
+                StartCoroutine(LoadTargetScene(data.index));
+                //adjust ui
+                mainMenuSceneTitle.text = data.titel;
+                //buttonImage.sprite = data.sprite;
+            }
+        }
+    }
+
+    private IEnumerator LoadTargetScene(int index)
+    {
+        sceneManager.SwitchScene(index);
+        yield return new WaitForEndOfFrame();
+        sceneManager.ResetArScene();
+        //StartCoroutine(ARSessionState.EnableAR(enabled: true));
+    }
+
+    /*
+     * Depreciated method - instanting scene buttons based on addive scene manger dicts
+     * 
     public string sceneName
     {
         get; private set;
@@ -21,6 +79,11 @@ public class SceneButton : MonoBehaviour, IPointerDownHandler
     {
         get; private set;
     }
+
+    TextMeshProUGUI title;
+    public GameObject mainMenu;
+    GameObject sceneMenu;
+
 
     //button gets instantiated by the inputHandler and is based on the dicts in the addaptive scene manager
     public void Init(string name, int key, AdditiveSceneManager sceneManager, GameObject mainMenu, GameObject sceneMenu, TextMeshProUGUI mainMenuSceneTitle)
@@ -37,14 +100,22 @@ public class SceneButton : MonoBehaviour, IPointerDownHandler
         title = this.gameObject.GetComponentInChildren<TextMeshProUGUI>();
         title.text = sceneName;
     }
+    */
+}
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        sceneManager.SwitchScene(sceneKey);
-        sceneManager.ResetArScene();
-        mainMenuSceneTitle.text = sceneName;
-
-        sceneMenu.SetActive(false);
-        mainMenu.SetActive(true);
-    }
+[System.Serializable]
+public class SceneButtonData
+{
+    /// <summary>
+    /// titel in the main menu
+    /// </summary>
+    public string titel;
+    /// <summary>
+    /// sprite display
+    /// </summary>
+    public Sprite sprite;
+    /// <summary>
+    /// compare index to addive scene manager
+    /// </summary>
+    public int index;
 }

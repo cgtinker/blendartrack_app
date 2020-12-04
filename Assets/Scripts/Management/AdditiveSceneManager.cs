@@ -39,6 +39,9 @@ public class AdditiveSceneManager : MonoBehaviour
 #if UNITY_ANDROID
         device = Device.Android;
 #endif
+#if UNITY_EDITOR
+        device = Device.Android;
+#endif
     }
     #endregion
 

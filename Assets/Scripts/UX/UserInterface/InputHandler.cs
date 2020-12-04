@@ -36,7 +36,7 @@ namespace ArRetarget
         //generating buttons for scene handling
         private void Start()
         {
-            GenerateSceneButtons();
+            //GenerateSceneButtons();
         }
         #region tracking
         public void StartTracking()
@@ -53,6 +53,7 @@ namespace ArRetarget
         #endregion
 
         #region UI Events
+        /*
         private void GenerateSceneButtons()
         {
             //assigning the running scene title to the player prefs
@@ -75,7 +76,7 @@ namespace ArRetarget
                 btn.transform.localScale = Vector3.one;
             }
         }
-
+        */
         private void GeneratedFilePopup(string filename)
         {
             //generating popup element

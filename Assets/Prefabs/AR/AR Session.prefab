@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4853511892256271392}
   - component: {fileID: 4853511892256271407}
-  - component: {fileID: 4853511892256271406}
   m_Layer: 0
   m_Name: AR Session
   m_TagString: arSession
@@ -46,15 +45,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AttemptUpdate: 1
   m_MatchFrameRate: 1
---- !u!114 &4853511892256271406
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4853511892256271405}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa850fbd5b8aded44846f96e35f1a9f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

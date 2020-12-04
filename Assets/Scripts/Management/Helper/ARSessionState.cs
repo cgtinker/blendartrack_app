@@ -14,7 +14,7 @@ namespace ArRetarget
             if (m_arSession != null)
             {
                 var arSession = m_arSession.GetComponent<ARSession>();
-                var inputManager = m_arSession.GetComponent<ARInputManager>();
+                //var inputManager = m_arSession.GetComponent<ARInputManager>();
 
                 if (enabled)
                 {
@@ -28,8 +28,10 @@ namespace ArRetarget
                     arSessionOrigin.SetActive(enabled);
                 }
 
+
+
                 arSession.enabled = enabled;
-                inputManager.enabled = enabled;
+                //inputManager.enabled = enabled;
 
             }
 
