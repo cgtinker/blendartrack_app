@@ -113,5 +113,99 @@ namespace ArRetarget
             }
         }
         #endregion
+
+        #region directories
+        public static void CreateDirectory(string path)
+        {
+            try
+            {
+                if (ValidateDirectory(path) == true)
+                {
+                    return;
+                }
+
+                DirectoryInfo di = Directory.CreateDirectory(path);
+            }
+
+            catch (Exception e)
+            {
+                Debug.LogError("Directory does already exist: " + e.ToString());
+            }
+        }
+
+        public static void DeleteDirectory(string path)
+        {
+            try
+            {
+                if (ValidateDirectory(path) == false)
+                {
+                    return;
+                }
+
+                FileInfo[] info = JsonsInDir(path);
+
+                foreach (FileInfo m_path in info)
+                {
+                    if (ValidatePath(m_path.FullName))
+                        File.Delete(m_path.FullName);
+                }
+
+                Directory.Delete(path);
+            }
+
+            catch (Exception e)
+            {
+                Debug.LogError("Directory doesn't exist: " + e.ToString());
+            }
+        }
+
+        public static string[] GetDirectories(string path)
+        {
+            try
+            {
+                string[] directories = Directory.GetDirectories(path);
+
+                return directories;
+            }
+
+            catch (Exception e)
+            {
+                Debug.LogError("Directory doesn't exist: " + e.ToString());
+                return new string[0];
+            }
+        }
+
+        public static bool ValidateDirectory(string path)
+        {
+            if (Directory.Exists(path))
+                return true;
+
+            else
+                return false;
+        }
+        #endregion
+
+        #region String methods
+        public static bool StringEndsWith(string path, string suffix)
+        {
+            if (path.EndsWith(suffix))
+                return true;
+
+            else
+                return false;
+        }
+
+        public static string RemoveFromEnd(this string s, string suffix)
+        {
+            if (s.EndsWith(suffix))
+            {
+                return s.Substring(0, s.Length - suffix.Length);
+            }
+            else
+            {
+                return s;
+            }
+        }
+        #endregion
     }
 }

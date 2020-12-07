@@ -17,9 +17,21 @@ namespace ArRetarget
         private FileBrowserEventManager jsonFileButtonManager;
 
         //info about the safed json file
-        public JsonFileData m_jsonFileData;
+        //public JsonFileData m_jsonDirData;
+        public JsonDirectory m_jsonDirData;
         //public GameObject dropdownViewerBtnImg;
 
+        public void InitFileButton(JsonDirectory jsonFileData, FileBrowserEventManager fileBtnManager)
+        {
+            jsonFileButtonManager = fileBtnManager;
+            m_jsonDirData = new JsonDirectory();
+            m_jsonDirData = jsonFileData;
+            //setting title
+            filenameText.text = m_jsonDirData.dirName;
+            //init btns are inactive
+            selectToggleBtn.isOn = false;
+        }
+        /*
         public void InitFileButton(JsonFileData jsonFileData, FileBrowserEventManager fileBtnManager)
         {
             jsonFileButtonManager = fileBtnManager;
@@ -30,31 +42,31 @@ namespace ArRetarget
             //init btns are inactive
             selectToggleBtn.isOn = false;
         }
-
+        */
         public void OnTouchViewData()
         {
             //toggling the viewer, deactivating other btns
             viewerActive = !viewerActive;
             //dropdownViewerBtnImg.SetActive(viewerActive);
-            string fileContents = FileManagement.FileContents(m_jsonFileData.path);
-            jsonFileButtonManager.OnToggleViewer(this.m_jsonFileData.index, viewerActive, fileContents);
+            string fileContents = FileManagement.FileContents(m_jsonDirData.jsonFilePath);
+            jsonFileButtonManager.OnToggleViewer(this.m_jsonDirData.index, viewerActive, fileContents);
         }
 
         public void ChangeSelectionToggleStatus(bool status)
         {
-            if (m_jsonFileData.active == status)
+            if (m_jsonDirData.active == status)
             {
                 return;
             }
 
             //changed state and update the json file data status in btn manager
-            m_jsonFileData.active = status;
-            jsonFileButtonManager.JsonFileDataList[m_jsonFileData.index].active = status;
+            m_jsonDirData.active = status;
+            jsonFileButtonManager.JsonFileDataList[m_jsonDirData.index].active = status;
 
             //changing btn image
             this.selectToggleBtn.isOn = status;
 
-            Debug.Log($"activated {m_jsonFileData.filename}: {m_jsonFileData.active}");
+            Debug.Log($"activated {m_jsonDirData.dirName}: {m_jsonDirData.active}");
         }
     }
 }

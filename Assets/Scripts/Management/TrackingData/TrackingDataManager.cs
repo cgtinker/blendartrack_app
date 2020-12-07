@@ -137,12 +137,13 @@ namespace ArRetarget
         public string SerializeJson()
         {
             string msg = "";
+            string time = FileManagement.GetDateTime();
+            FileManagement.CreateDirectory($"{persistentPath}/{time}_{prefixs[0].GetJsonPrefix()}");
 
             for (int i = 0; i < jsons.Count; i++)
             {
                 string contents = jsons[i].GetJsonString();
                 string prefix = prefixs[i].GetJsonPrefix();
-                string time = FileManagement.GetDateTime();
                 string filename = $"{time}_{prefix}.json";
 
                 if (i < jsons.Count - 1)
@@ -157,7 +158,7 @@ namespace ArRetarget
                     msg += tmp;
                 }
 
-                FileManagement.WriteDataToDisk(data: contents, persistentPath: persistentPath, filename: filename);
+                FileManagement.WriteDataToDisk(data: contents, persistentPath: $"{persistentPath}/{time}", filename: filename);
             }
 
             return msg;

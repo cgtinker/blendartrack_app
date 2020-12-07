@@ -8,14 +8,13 @@ namespace ArRetarget
     {
         private List<PoseData> cameraPoseList = new List<PoseData>();
         private GameObject mainCamera;
-        /*
-        IEnumerator Start()
+
+        private void Start()
         {
-            yield return new WaitForEndOfFrame();
             var dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
             dataManager.SetRecorderReference(this.gameObject);
         }
-        */
+
         //obj to track
         public void Init()
         {

@@ -15,6 +15,7 @@ namespace ArRetarget
 
         [Header("Json Data Info List")]
         public List<JsonFileData> JsonFileDataList = new List<JsonFileData>();
+        public List<JsonDirectory> JsonDirectories = new List<JsonDirectory>();
 
         [Header("Json Viewer")]
         public GameObject JsonViewerPrefab;
@@ -173,8 +174,27 @@ namespace ArRetarget
         public void GenerateButtons()
         {
             Debug.Log("Generating preview buttons");
-            JsonFileDataList = GenerateList();
+            //JsonFileDataList = GenerateList();
+            JsonDirectories = GetDirectories();
 
+            for (int i = 0; i < JsonDirectories.Count; i++)
+            {
+                //set file data index
+                JsonDirectories[i].index = i;
+                //set json file data obj
+                var jsonFileBtnObj = Instantiate(JsonFileButtonPrefab, Vector3.zero, Quaternion.identity);
+                JsonDirectories[i].obj = jsonFileBtnObj;
+                jsonFileBtnObj.name = JsonDirectories[i].dirName;
+                //setting parent
+                jsonFileBtnObj.transform.SetParent(JsonFileButtonParent);
+                //setting scale
+                jsonFileBtnObj.transform.localScale = Vector3.one;
+
+                //passing data to the button script
+                var fileButton = jsonFileBtnObj.GetComponent<JsonFileButton>();
+                fileButton.InitFileButton(JsonDirectories[i], gameObject.GetComponent<FileBrowserEventManager>());
+            }
+            /*
             //generating buttons based on the files at the persistent data path
             for (int i = 0; i < JsonFileDataList.Count; i++)
             {
@@ -193,13 +213,16 @@ namespace ArRetarget
                 var fileButton = jsonFileBtnObj.GetComponent<JsonFileButton>();
                 fileButton.InitFileButton(JsonFileDataList[i], gameObject.GetComponent<FileBrowserEventManager>());
             }
+            */
         }
 
-        private List<JsonFileData> GenerateList()
+        /*
+        //json files in dir
+        private List<JsonFileData> GenerateList(string path)
         {
             List<JsonFileData> jsonFileDataList = new List<JsonFileData>();
             //receiving all files at the persistent data path
-            FileInfo[] files = FileManagement.JsonsInDir(persistentPath);
+            FileInfo[] files = FileManagement.JsonsInDir(path);
 
             if (files.Length > 0)
             {
@@ -222,6 +245,75 @@ namespace ArRetarget
             }
             return jsonFileDataList;
         }
+        */
+
+        #region Directories
+        //dir
+        private List<JsonDirectory> GetDirectories()
+        {
+            //checking for sub dirs
+            string[] dirs = FileManagement.GetDirectories(persistentPath);
+            List<JsonDirectory> jsonDirectories = new List<JsonDirectory>();
+
+            if (dirs.Length > 0)
+            {
+                //referencing each dir
+                foreach (string dir in dirs)
+                {
+                    JsonDirectory m_dir = new JsonDirectory();
+
+                    string[] suffixes = { "CP", "FM", "BS" };
+
+                    //checking suffix point to relative json data
+                    foreach (string suffix in suffixes)
+                    {
+                        if (FileManagement.StringEndsWith(dir, suffix))
+                        {
+                            m_dir = SetupDirectoryPointerToJson(dir, suffix);
+                        }
+                    }
+
+                    jsonDirectories.Add(m_dir);
+                }
+            }
+
+            return jsonDirectories;
+        }
+
+        private JsonDirectory SetupDirectoryPointerToJson(string path, string suffix)
+        {
+            JsonDirectory m_dir = new JsonDirectory();
+
+            //looping through sub dir
+            if (FileManagement.ValidateDirectory(path))
+            {
+                //jsons in sub dir
+                FileInfo[] jsonFiles = FileManagement.JsonsInDir(path);
+                foreach (FileInfo json in jsonFiles)
+                {
+                    string jsonFilename = json.Name;
+
+                    //setup JsonDirectoryData
+                    if (FileManagement.StringEndsWith(jsonFilename, suffix + ".json"))
+                    {
+                        //setting up the serializeable JsonDir obj
+                        m_dir.dirPath = path;
+                        m_dir.dirName = FileManagement.RemoveFromEnd(json.Name, ".json");
+                        m_dir.active = false;
+                        m_dir.jsonFilePath = json.FullName;
+                    }
+                }
+
+                return m_dir;
+            }
+
+            else
+            {
+                Debug.LogError("Directory doesn't contain valid json");
+                return m_dir;
+            }
+        }
+        #endregion
 
         /// <summary>
         /// get all selected files
@@ -286,4 +378,14 @@ namespace ArRetarget
         public int index;
     }
 
+    [System.Serializable]
+    public class JsonDirectory
+    {
+        public string dirPath;
+        public string dirName;
+        public string jsonFilePath;
+        public GameObject obj;
+        public bool active;
+        public int index;
+    }
 }

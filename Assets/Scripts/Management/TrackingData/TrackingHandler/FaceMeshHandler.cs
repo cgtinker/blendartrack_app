@@ -10,14 +10,13 @@ namespace ArRetarget
         [HideInInspector]
         private List<MeshData> meshDataList = new List<MeshData>();
         private MeshFilter meshFilter;
-        /*
-        IEnumerator Start()
+
+        private void Start()
         {
-            yield return new WaitForEndOfFrame();
             TrackingDataManager dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
             dataManager.SetRecorderReference(this.gameObject);
         }
-        */
+
         //only works with a single face mesh
         public void Init()
         {
