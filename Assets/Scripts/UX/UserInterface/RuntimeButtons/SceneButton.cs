@@ -13,6 +13,8 @@ public class SceneButton : MonoBehaviour, IPointerDownHandler
     public TextMeshProUGUI mainMenuSceneTitle;
     public Image buttonImage;
     AdditiveSceneManager sceneManager;
+    TrackingDataManager trackingDataManager;
+    public InputHandler inputHandler;
 
     //buttons
     public SceneButtonData CameraTracking;
@@ -22,6 +24,7 @@ public class SceneButton : MonoBehaviour, IPointerDownHandler
 
     private void Awake()
     {
+        trackingDataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
         sceneReferences.Add(FaceTracking);
         sceneReferences.Add(CameraTracking);
     }
@@ -46,6 +49,14 @@ public class SceneButton : MonoBehaviour, IPointerDownHandler
     //only works for face + camera tracking
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (trackingDataManager._recording)
+        {
+            string tmp = FileManagement.GetParagraph();
+
+            inputHandler.GeneratedFilePopup("failed to switch camera" + tmp, "please finish recording");
+            return;
+        }
+
         int sceneIndex = UserPreferences.Instance.GetIntPref("scene");
         foreach (SceneButtonData data in sceneReferences)
         {
@@ -62,6 +73,7 @@ public class SceneButton : MonoBehaviour, IPointerDownHandler
 
     private IEnumerator LoadTargetScene(int index)
     {
+        inputHandler.PurgeOrphanPopups();
         sceneManager.SwitchScene(index);
         yield return new WaitForEndOfFrame();
         sceneManager.ResetArScene();

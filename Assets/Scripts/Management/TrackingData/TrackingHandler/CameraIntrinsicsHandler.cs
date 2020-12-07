@@ -13,13 +13,15 @@ namespace ArRetarget
         private ARCameraManager arCameraManager;
         private List<CameraProjectionMatrix> cameraProjection = new List<CameraProjectionMatrix>();
 
+        /*
+         * Handled by TrackerReferences
         IEnumerator Start()
         {
             yield return new WaitForEndOfFrame();
             var dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
             dataManager.SetRecorderReference(this.gameObject);
         }
-
+        */
         //int frame = 0;
         public void Init()
         {

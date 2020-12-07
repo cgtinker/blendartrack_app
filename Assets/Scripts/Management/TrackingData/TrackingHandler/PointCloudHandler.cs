@@ -10,12 +10,14 @@ public class PointCloudHandler : MonoBehaviour, IInit, IStop, IJson, IPrefix
     ARPointCloud arPointCloud;
     public List<Vector> points;
 
+    /*
     IEnumerator Start()
     {
         yield return new WaitForEndOfFrame();
         var dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
         dataManager.SetRecorderReference(this.gameObject);
     }
+    */
 
     public void Init()
     {

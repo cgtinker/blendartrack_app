@@ -13,12 +13,15 @@ namespace ArRetarget
         public Image m_image;
         public Animator animator;
         public InputHandler inputHandler;
+        public GameObject Timer;
+        TimeCounter counter;
 
         private bool recording;
 
         // Start is called before the first frame update
         void Start()
         {
+            counter = Timer.GetComponent<TimeCounter>();
             recording = false;
         }
 
@@ -27,20 +30,26 @@ namespace ArRetarget
         {
             recording = !recording;
 
-            if (!recording)
+            if (recording)
             {
-                //break button pressed
-                animator.Play("stop");
-                m_image.sprite = recordImg;
+                //rec button pressed
+                animator.Play("rec");
+                m_image.sprite = breakImg;
+
+                Timer.SetActive(true);
+                counter.StartTimer();
 
                 //inputHandler.StartTracking();
             }
 
             else
             {
-                //rec button pressed
-                animator.Play("rec");
-                m_image.sprite = breakImg;
+                //break button pressed
+                animator.Play("stop");
+                m_image.sprite = recordImg;
+
+                Timer.SetActive(false);
+                counter.StopTimer();
 
                 //inputHandler.StopTrackingAndSerializeData();
             }

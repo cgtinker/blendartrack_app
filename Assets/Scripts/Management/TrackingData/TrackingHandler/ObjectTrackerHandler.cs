@@ -16,12 +16,14 @@ namespace ArRetarget
         public List<GameObject> objToTrack = new List<GameObject>();
         private List<List<PoseData>> masterList = new List<List<PoseData>>();
 
+        /*
         IEnumerator Start()
         {
             yield return new WaitForEndOfFrame();
             var dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
             dataManager.SetRecorderReference(this.gameObject);
         }
+        */
 
         public void StopTracking()
         {

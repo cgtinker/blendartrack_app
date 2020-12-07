@@ -7,7 +7,7 @@ namespace ArRetarget
     public class TrackingDataManager : MonoBehaviour
     {
         private string persistentPath;
-        private bool _recording = false;
+        public bool _recording = false;
         public bool captureIntrinsics = true;
         private int frame = 0;
 
@@ -136,7 +136,6 @@ namespace ArRetarget
 
         public string SerializeJson()
         {
-
             string msg = "";
 
             for (int i = 0; i < jsons.Count; i++)

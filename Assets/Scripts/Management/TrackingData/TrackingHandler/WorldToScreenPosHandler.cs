@@ -12,14 +12,17 @@ namespace ArRetarget
         private float camera_width;
         private float camera_height;
 
+        [HideInInspector]
         public List<ScreenPosData> screenPosList = new List<ScreenPosData>();
 
+        /*
         IEnumerator Start()
         {
             yield return new WaitForEndOfFrame();
             var dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
             dataManager.SetRecorderReference(this.gameObject);
         }
+        */
 
         #region interfaces
         public void Init()
@@ -27,9 +30,11 @@ namespace ArRetarget
             //screen space camera
             arCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
             var anchor = GameObject.FindGameObjectWithTag("anchor");
+
             //camera resolution to normalize screen pos data
             camera_width = arCamera.pixelWidth;
             camera_height = arCamera.pixelHeight;
+
             //tracking an anchor
             if (anchor != null)
                 anchorPos = anchor.transform.position;

@@ -14,10 +14,15 @@ public class UserPreferences : Singleton<UserPreferences>
         { "port", "9000" }
     };
 
-    //scene - additiveSceneManager
     private Dictionary<string, int> IntPrefDict = new Dictionary<string, int>()
     {
-        { "scene", 1 },
+        { "scene", 1 },     //sets startup scene and saves last loaded scene
+        //tracker references
+        { "record", 0 },    //must be 1 to be used (recording video)
+        { "intrinsics", 0 },//must be 1 to be used (recording intrinsic data)
+        { "cloud", 0 },     //must be 1 to be used (recording point cloud data)
+        { "face", 1 },      //always used if available
+        { "camera", 1 },    //always used if available
     };
 
     private Dictionary<string, float> FloatPrefDict = new Dictionary<string, float>()

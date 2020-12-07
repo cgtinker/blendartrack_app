@@ -9,15 +9,14 @@ namespace ArRetarget
     public class InputHandler : MonoBehaviour
     {
         [Header("Runtime Button")]
-        public GameObject SceneButtonPrefab;
-        public Transform SceneButtonParent;
+        //public GameObject SceneButtonPrefab;
         public GameObject MainMenu;
-        public GameObject SceneMenu;
 
         [Header("Pop Up Display")]
         public GameObject PopupPrefab;
         public Transform PopupParent;
         public GameObject FileBrowserButton;
+
         private List<GameObject> popupList = new List<GameObject>();
 
         [Header("Scene Management")]
@@ -33,11 +32,6 @@ namespace ArRetarget
             sceneManager = obj.GetComponent<AdditiveSceneManager>();
         }
 
-        //generating buttons for scene handling
-        private void Start()
-        {
-            //GenerateSceneButtons();
-        }
         #region tracking
         public void StartTracking()
         {
@@ -48,7 +42,8 @@ namespace ArRetarget
         {
             dataManager.ToggleRecording();
             string filename = dataManager.SerializeJson();
-            GeneratedFilePopup(filename);
+            string message = "tracking successfull";
+            GeneratedFilePopup(message, filename);
         }
         #endregion
 
@@ -77,7 +72,7 @@ namespace ArRetarget
             }
         }
         */
-        private void GeneratedFilePopup(string filename)
+        public void GeneratedFilePopup(string message, string filename)
         {
             //generating popup element
             var m_popup = Instantiate(PopupPrefab) as GameObject;
@@ -91,10 +86,10 @@ namespace ArRetarget
                 popupDisplay.type = PopUpDisplay.PopupType.Notification;
                 //travel timings
                 popupDisplay.travelDuration = 10f;
-                popupDisplay.staticDuration = 3f;
+                popupDisplay.staticDuration = 4f;
 
                 popupDisplay.desitionation = FileBrowserButton;
-                popupDisplay.text = $"tracking successfull {filename}";
+                popupDisplay.text = $"{message}{filename}";
             }
 
             else
