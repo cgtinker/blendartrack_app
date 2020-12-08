@@ -3234,13 +3234,12 @@ MonoBehaviour:
   JsonFileButtonPrefab: {fileID: 9171717128494805562, guid: 1d86e2b62fc8d457a9306a9ce96b48c7,
     type: 3}
   JsonFileButtonParent: {fileID: 2919950796571180696}
-  JsonFileDataList: []
+  JsonDirectories: []
   JsonViewerPrefab: {fileID: 7078544931354696159, guid: 51312c17f39e74e3b8f2c3ac56ae21c0,
     type: 3}
   ViewerAcitveBackButton: {fileID: 1252650396}
   ViewerInactiveBackButton: {fileID: 6543725973985648639}
   FileBrowserBackground: {fileID: 3331183383915258285}
-  SelectAllFilesBtn: {fileID: 1725153661}
   SupportFooter: {fileID: 3083828380344445967}
   MenuFooter: {fileID: 957676341}
 --- !u!1 &1507979270675435925
@@ -4647,7 +4646,7 @@ MonoBehaviour:
     m_Top: 75
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 25
+  m_Spacing: 5
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1

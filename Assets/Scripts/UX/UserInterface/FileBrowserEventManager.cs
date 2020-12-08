@@ -7,6 +7,7 @@ namespace ArRetarget
 {
     public class FileBrowserEventManager : MonoBehaviour
     {
+        #region references
         private string persistentPath;
 
         [Header("Json File Button")]
@@ -14,7 +15,7 @@ namespace ArRetarget
         public Transform JsonFileButtonParent;
 
         [Header("Json Data Info List")]
-        public List<JsonFileData> JsonFileDataList = new List<JsonFileData>();
+        //public List<JsonFileData> JsonFileDataList = new List<JsonFileData>();
         public List<JsonDirectory> JsonDirectories = new List<JsonDirectory>();
 
         [Header("Json Viewer")]
@@ -26,11 +27,12 @@ namespace ArRetarget
         public GameObject ViewerAcitveBackButton;
         public GameObject ViewerInactiveBackButton;
         public GameObject FileBrowserBackground;
-        public GameObject SelectAllFilesBtn;
+        //public GameObject SelectAllFilesBtn;
 
         [Header("Footer")]
         public GameObject SupportFooter;
         public GameObject MenuFooter;
+        #endregion
 
         private void Start()
         {
@@ -41,47 +43,50 @@ namespace ArRetarget
         //delete selected files
         public void OnDeleteSelectedFiles()
         {
-            List<string> selectedFiles = GetSelectedFilePaths();
+            List<string> selectedFiles = GetSelectedDirectories();
 
             if (selectedFiles.Count <= 0)
                 return;
 
             else
-                FileManagement.DeleteFilesInDir(selectedFiles);
+                FileManagement.DeleteDirectories(selectedFiles);
         }
 
         //native share event for selected files
         public void OnShareSelectedFiles()
         {
             //ref selected file
-            List<string> selectedFilesNames = GetSelectedFileNames();
-            List<string> selectedFilePaths = GetSelectedFilePaths();
+            List<string> selectedDirNames = GetSelectedDirectoryNames();
+            List<string> selectedDirPaths = GetSelectedDirectories();
 
-            if (selectedFilesNames.Count <= 0)
+            if (selectedDirNames.Count <= 0)
                 return;
 
             else
             {
-                //naming
+                //date time reference
                 string localDate = FileManagement.GetDateTimeText();
 
+                //path to generated zip
+                string zip = FileManagement.CompressDirectories(selectedDirPaths);
+
+                //listing files to transfer for subject message
                 string filenames = "";
                 var paragraph = FileManagement.GetParagraph();
-
-                //listing files to transfer
-                foreach (string filename in selectedFilesNames)
+                foreach (string filename in selectedDirPaths)
                 {
                     var curFilename = filename + paragraph;
                     filenames += curFilename;
                 }
 
-                //transfer message
+                //setting up share message / text
                 string subject = "Retarget " + localDate;
                 string text = "Retarget " + localDate + paragraph + paragraph + "Attached Files: " + paragraph + filenames;
 
-                FileManagement.ShareJsonFiles(selectedFilePaths, subject, text);
+                //share data
+                FileManagement.ShareZip(zip, subject, text);
+                StartCoroutine(DeleteZip(zip));
             }
-
         }
 
         private bool selectFilesBtnState = false;
@@ -89,7 +94,7 @@ namespace ArRetarget
         {
             selectFilesBtnState = !selectFilesBtnState;
 
-            foreach (JsonFileData data in JsonFileDataList)
+            foreach (JsonDirectory data in JsonDirectories)
             {
                 var btn = data.obj.GetComponent<JsonFileButton>();
                 btn.ChangeSelectionToggleStatus(selectFilesBtnState);
@@ -105,7 +110,7 @@ namespace ArRetarget
             {
                 Debug.Log("attempt to preview data");
                 FileBrowserBackground.SetActive(false);
-                SelectAllFilesBtn.SetActive(false);
+                //SelectAllFilesBtn.SetActive(false);
 
                 //changing the back buttons
                 ViewerAcitveBackButton.SetActive(true);
@@ -123,7 +128,7 @@ namespace ArRetarget
                 jsonDataImporter.OpenFile(fileContents);
 
                 //deactivating the other buttons
-                foreach (JsonFileData data in JsonFileDataList)
+                foreach (JsonDirectory data in JsonDirectories)
                 {
                     if (data.index != btnIndex)
                     {
@@ -143,7 +148,7 @@ namespace ArRetarget
         {
             Debug.Log("stop viewing data");
             FileBrowserBackground.SetActive(true);
-            SelectAllFilesBtn.SetActive(true);
+            //SelectAllFilesBtn.SetActive(true);
 
             //changing the back buttons
             ViewerAcitveBackButton.SetActive(false);
@@ -157,7 +162,7 @@ namespace ArRetarget
             Destroy(jsonViewerReference);
 
             //reactivating the buttons
-            foreach (JsonFileData data in JsonFileDataList)
+            foreach (JsonDirectory data in JsonDirectories)
             {
                 if (!data.obj.activeSelf)
                 {
@@ -174,7 +179,6 @@ namespace ArRetarget
         public void GenerateButtons()
         {
             Debug.Log("Generating preview buttons");
-            //JsonFileDataList = GenerateList();
             JsonDirectories = GetDirectories();
 
             for (int i = 0; i < JsonDirectories.Count; i++)
@@ -191,63 +195,13 @@ namespace ArRetarget
                 jsonFileBtnObj.transform.localScale = Vector3.one;
 
                 //passing data to the button script
-                var fileButton = jsonFileBtnObj.GetComponent<JsonFileButton>();
-                fileButton.InitFileButton(JsonDirectories[i], gameObject.GetComponent<FileBrowserEventManager>());
+                var fileButtonScript = jsonFileBtnObj.GetComponent<JsonFileButton>();
+                fileButtonScript.InitFileButton(JsonDirectories[i], gameObject.GetComponent<FileBrowserEventManager>());
             }
-            /*
-            //generating buttons based on the files at the persistent data path
-            for (int i = 0; i < JsonFileDataList.Count; i++)
-            {
-                //set file data index
-                JsonFileDataList[i].index = i;
-                //set json file data obj
-                var jsonFileBtnObj = Instantiate(JsonFileButtonPrefab, Vector3.zero, Quaternion.identity);
-                JsonFileDataList[i].obj = jsonFileBtnObj;
-                jsonFileBtnObj.name = JsonFileDataList[i].filename;
-                //setting parent
-                jsonFileBtnObj.transform.SetParent(JsonFileButtonParent);
-                //setting scale
-                jsonFileBtnObj.transform.localScale = Vector3.one;
-
-                //passing data to the button script
-                var fileButton = jsonFileBtnObj.GetComponent<JsonFileButton>();
-                fileButton.InitFileButton(JsonFileDataList[i], gameObject.GetComponent<FileBrowserEventManager>());
-            }
-            */
         }
 
-        /*
-        //json files in dir
-        private List<JsonFileData> GenerateList(string path)
-        {
-            List<JsonFileData> jsonFileDataList = new List<JsonFileData>();
-            //receiving all files at the persistent data path
-            FileInfo[] files = FileManagement.JsonsInDir(path);
 
-            if (files.Length > 0)
-            {
-                foreach (FileInfo file in files)
-                {
-                    //validating the path
-                    if (FileManagement.ValidatePath(mediaPath: file.FullName))
-                    {
-                        //generating a ref
-                        JsonFileData tmp = new JsonFileData()
-                        {
-                            filename = file.Name,
-                            path = file.FullName,
-                            active = false
-                        };
-
-                        jsonFileDataList.Add(tmp);
-                    }
-                }
-            }
-            return jsonFileDataList;
-        }
-        */
-
-        #region Directories
+        #region Get Directories
         //dir
         private List<JsonDirectory> GetDirectories()
         {
@@ -257,29 +211,35 @@ namespace ArRetarget
 
             if (dirs.Length > 0)
             {
-                //referencing each dir
-                foreach (string dir in dirs)
+                for (int i = 0; i < dirs.Length; i++)
                 {
+                    //adding all dirs to list for visibilty
                     JsonDirectory m_dir = new JsonDirectory();
-
-                    string[] suffixes = { "CP", "FM", "BS" };
-
-                    //checking suffix point to relative json data
-                    foreach (string suffix in suffixes)
-                    {
-                        if (FileManagement.StringEndsWith(dir, suffix))
-                        {
-                            m_dir = SetupDirectoryPointerToJson(dir, suffix);
-                        }
-                    }
+                    m_dir.dirName = "empty or corrupted";
+                    m_dir.dirPath = dirs[i];
 
                     jsonDirectories.Add(m_dir);
+
+                    //only create pointers to folders including following suffixes
+                    string[] suffixes = { "CP", "FM", "BS" };
+
+                    foreach (string suffix in suffixes)
+                    {
+                        if (FileManagement.StringEndsWith(dirs[i], suffix))
+                        {
+                            //create new dir obj pointing to json
+                            m_dir = SetupDirectoryPointerToJson(dirs[i], suffix);
+                            //overwritting
+                            jsonDirectories[i] = m_dir;
+                        }
+                    }
                 }
             }
 
             return jsonDirectories;
         }
 
+        //subdir
         private JsonDirectory SetupDirectoryPointerToJson(string path, string suffix)
         {
             JsonDirectory m_dir = new JsonDirectory();
@@ -287,8 +247,12 @@ namespace ArRetarget
             //looping through sub dir
             if (FileManagement.ValidateDirectory(path))
             {
+                //assign for empty folders
+                m_dir.dirName = "empty folder";
+                m_dir.dirPath = path;
+
                 //jsons in sub dir
-                FileInfo[] jsonFiles = FileManagement.JsonsInDir(path);
+                FileInfo[] jsonFiles = FileManagement.GetJsonsAtPath(path);
                 foreach (FileInfo json in jsonFiles)
                 {
                     string jsonFilename = json.Name;
@@ -297,7 +261,6 @@ namespace ArRetarget
                     if (FileManagement.StringEndsWith(jsonFilename, suffix + ".json"))
                     {
                         //setting up the serializeable JsonDir obj
-                        m_dir.dirPath = path;
                         m_dir.dirName = FileManagement.RemoveFromEnd(json.Name, ".json");
                         m_dir.active = false;
                         m_dir.jsonFilePath = json.FullName;
@@ -309,45 +272,52 @@ namespace ArRetarget
 
             else
             {
-                Debug.LogError("Directory doesn't contain valid json");
+                Debug.LogError("Directory doesn't contain a valid json");
                 return m_dir;
             }
         }
         #endregion
 
+        #endregion
+
+        #region get selection file info
         /// <summary>
-        /// get all selected files
+        /// get all selected dir names
         /// </summary>
         /// <returns></returns>
-        public List<string> GetSelectedFileNames()
+        public List<string> GetSelectedDirectoryNames()
         {
             List<string> tmp_list = new List<string>();
 
-            foreach (JsonFileData data in JsonFileDataList)
+            foreach (JsonDirectory data in JsonDirectories)
             {
                 if (data.active)
                 {
-                    tmp_list.Add(data.filename);
+                    tmp_list.Add(data.dirName);
                 }
             }
 
             return tmp_list;
         }
-
-        public List<string> GetSelectedFilePaths()
+        /// <summary>
+        /// get all selected directory paths
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetSelectedDirectories()
         {
             List<string> tmp_list = new List<string>();
 
-            foreach (JsonFileData data in JsonFileDataList)
+            foreach (JsonDirectory data in JsonDirectories)
             {
                 if (data.active)
                 {
-                    tmp_list.Add(data.path);
+                    tmp_list.Add(data.dirPath);
                 }
             }
 
             return tmp_list;
         }
+        #endregion
 
         /// <summary>
         /// clearing the generated buttons when closing the filebrowser
@@ -355,14 +325,19 @@ namespace ArRetarget
         public void ClearButtonList()
         {
             Debug.Log("Clearing preview buttons");
-            foreach (JsonFileData obj in JsonFileDataList)
+            foreach (JsonDirectory obj in JsonDirectories)
             {
                 Destroy(obj.obj);
             }
 
-            JsonFileDataList.Clear();
+            JsonDirectories.Clear();
         }
-        #endregion
+
+        public IEnumerator DeleteZip(string zipPath)
+        {
+            yield return new WaitForSeconds(5.0f);
+            FileManagement.DeleteFile(zipPath);
+        }
     }
 
     /// <summary>

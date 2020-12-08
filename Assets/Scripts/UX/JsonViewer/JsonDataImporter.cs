@@ -32,7 +32,7 @@ namespace ArRetarget
 
         private IEnumerator ImportBlendShapeData(string fileContent)
         {
-            Debug.Log(fileContent);
+            //Debug.Log(fileContent);
             BlendShapeContainter data = JsonUtility.FromJson<BlendShapeContainter>(fileContent);
             Debug.Log(data + ", " + data.blendShapeData.Count);
 

@@ -24,6 +24,8 @@ namespace ArRetarget
             persistentPath = Application.persistentDataPath;
             _recording = false;
             Debug.Log("Session started");
+            Debug.Log(persistentPath);
+
         }
 
         //resetting as not all tracking models include all tracker interfaces
@@ -138,7 +140,8 @@ namespace ArRetarget
         {
             string msg = "";
             string time = FileManagement.GetDateTime();
-            FileManagement.CreateDirectory($"{persistentPath}/{time}_{prefixs[0].GetJsonPrefix()}");
+            string dir_path = $"{persistentPath}/{time}_{prefixs[0].GetJsonPrefix()}";
+            FileManagement.CreateDirectory(dir_path);
 
             for (int i = 0; i < jsons.Count; i++)
             {
@@ -158,7 +161,7 @@ namespace ArRetarget
                     msg += tmp;
                 }
 
-                FileManagement.WriteDataToDisk(data: contents, persistentPath: $"{persistentPath}/{time}", filename: filename);
+                FileManagement.WriteDataToDisk(data: contents, persistentPath: dir_path, filename: filename);
             }
 
             return msg;

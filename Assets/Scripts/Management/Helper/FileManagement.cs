@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System;
 using System.IO;
+using System.Collections;
 using System.Globalization;
 using System.Collections.Generic;
+using System.IO.Compression;
 
 namespace ArRetarget
 {
@@ -36,7 +38,7 @@ namespace ArRetarget
         }
         #endregion
 
-        #region save, share and delete files
+        #region share / save files
         public static void WriteDataToDisk(string data, string persistentPath, string filename)
         {
             Debug.Log("Serializing json data");
@@ -45,19 +47,17 @@ namespace ArRetarget
             File.WriteAllText(path: path, contents: data, encoding: System.Text.Encoding.UTF8);
         }
 
-        public static void DeleteFilesInDir(List<string> pathList)
+        public static void ShareZip(string path, string subject, string text)
         {
-            foreach (string path in pathList)
-            {
-                if (ValidatePath(path))
-                    File.Delete(path);
-            }
-        }
-
-        public static void DeleteFile(string path)
-        {
+            var nativeShare = new NativeShare();
             if (ValidatePath(path))
-                File.Delete(path);
+                nativeShare.AddFile(path);
+
+            else
+                Debug.LogError("path to zip not valid");
+
+            nativeShare.SetSubject(subject).SetText(text);
+            nativeShare.Share();
         }
 
         public static void ShareJsonFiles(List<string> pathList, string subject, string text)
@@ -76,8 +76,25 @@ namespace ArRetarget
         }
         #endregion
 
-        #region file info
-        public static FileInfo[] JsonsInDir(string dir)
+        #region delete files
+        public static void DeleteFilesAtPath(List<string> pathList)
+        {
+            foreach (string path in pathList)
+            {
+                if (ValidatePath(path))
+                    File.Delete(path);
+            }
+        }
+
+        public static void DeleteFile(string path)
+        {
+            if (ValidatePath(path))
+                File.Delete(path);
+        }
+        #endregion
+
+        #region json file info
+        public static FileInfo[] GetJsonsAtPath(string dir)
         {
             var dirInfo = new DirectoryInfo(dir);
             FileInfo[] info = dirInfo.GetFiles("*.json");
@@ -115,6 +132,7 @@ namespace ArRetarget
         #endregion
 
         #region directories
+        #region create
         public static void CreateDirectory(string path)
         {
             try
@@ -132,33 +150,38 @@ namespace ArRetarget
                 Debug.LogError("Directory does already exist: " + e.ToString());
             }
         }
+        #endregion
 
-        public static void DeleteDirectory(string path)
+        #region delete
+        public static void DeleteDirectories(List<string> tar_dirs)
         {
-            try
+            foreach (string dir in tar_dirs)
             {
-                if (ValidateDirectory(path) == false)
-                {
-                    return;
-                }
-
-                FileInfo[] info = JsonsInDir(path);
-
-                foreach (FileInfo m_path in info)
-                {
-                    if (ValidatePath(m_path.FullName))
-                        File.Delete(m_path.FullName);
-                }
-
-                Directory.Delete(path);
-            }
-
-            catch (Exception e)
-            {
-                Debug.LogError("Directory doesn't exist: " + e.ToString());
+                DeleteDirectory(dir);
             }
         }
 
+        public static void DeleteDirectory(string tar_dir)
+        {
+            string[] files = Directory.GetFiles(tar_dir);
+            string[] dirs = GetDirectories(tar_dir);
+
+            foreach (string file in files)
+            {
+                File.SetAttributes(file, FileAttributes.Normal);
+                File.Delete(file);
+            }
+
+            foreach (string dir in dirs)
+            {
+                DeleteDirectory(dir);
+            }
+
+            Directory.Delete(tar_dir, false);
+        }
+        #endregion
+
+        #region get
         public static string[] GetDirectories(string path)
         {
             try
@@ -175,6 +198,14 @@ namespace ArRetarget
             }
         }
 
+        public static string GetDirectoryName(string path)
+        {
+            DirectoryInfo di = new DirectoryInfo(path);
+            return di.Name;
+        }
+        #endregion
+
+        #region validate
         public static bool ValidateDirectory(string path)
         {
             if (Directory.Exists(path))
@@ -182,6 +213,48 @@ namespace ArRetarget
 
             else
                 return false;
+        }
+        #endregion
+        #endregion
+
+        #region compress data
+        public static string CompressDirectories(List<string> selectedDirPaths)
+        {
+            if (selectedDirPaths.Count == 1)
+            {
+                CompressDir(selectedDirPaths[0], $"{selectedDirPaths[0]}.zip");
+                return $"{selectedDirPaths[0]}.zip";
+            }
+
+            else
+            {
+                //creating a tmp folder for ref
+                string tmp = RemoveFromEnd(selectedDirPaths[0], GetDirectoryName(selectedDirPaths[0]));
+                string curTime = GetDateTime();
+                string m_dir = $"{tmp}{curTime}";
+                CreateDirectory(m_dir);
+                Debug.Log(m_dir);
+
+                //compressing all dirs in the tmp folder
+                foreach (string dir in selectedDirPaths)
+                {
+                    string dirname = GetDirectoryName(dir);
+                    string tar = RemoveFromEnd(dir, dirname);
+                    CompressDir(dir, $"{tar}/{curTime}/{dirname}.zip");
+                }
+
+                //compress the tmp folder
+                CompressDir(m_dir, m_dir + ".zip");
+                DeleteDirectory(m_dir);
+
+                return m_dir + ".zip";
+                //delete the tmp folder
+            }
+        }
+
+        public static void CompressDir(string dirPath, string tarPath)
+        {
+            ZipFile.CreateFromDirectory(dirPath, tarPath);
         }
         #endregion
 
