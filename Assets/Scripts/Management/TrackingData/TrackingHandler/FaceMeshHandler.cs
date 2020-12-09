@@ -52,7 +52,7 @@ namespace ArRetarget
         //json file prefix
         public string GetJsonPrefix()
         {
-            return "FM";
+            return "face";
         }
 
 

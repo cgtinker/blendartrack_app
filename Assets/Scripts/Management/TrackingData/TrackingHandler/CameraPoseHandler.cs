@@ -45,7 +45,7 @@ namespace ArRetarget
         //json file prefix
         public string GetJsonPrefix()
         {
-            return "CP";
+            return "camera";
         }
 
         //receiving pose data from obj at frame

@@ -2,7 +2,8 @@
 using System.Collections;
 using UnityEngine;
 using System.IO;
-
+using System;
+using TMPro;
 namespace ArRetarget
 {
     public class FileBrowserEventManager : MonoBehaviour
@@ -27,7 +28,19 @@ namespace ArRetarget
         public GameObject ViewerAcitveBackButton;
         public GameObject ViewerInactiveBackButton;
         public GameObject FileBrowserBackground;
-        //public GameObject SelectAllFilesBtn;
+
+        //select buttons
+        [Header("Select Buttons")]
+        public TextMeshProUGUI noneBtnTxt;  // 2
+        public TextMeshProUGUI allBtnTxt;   // 1
+        public TextMeshProUGUI todayBtnTxt; // 0
+
+        [Header("Popup")]
+        public GameObject popupPrefab;
+        private GameObject popupReference;
+
+        [HideInInspector]
+        public List<TextMeshProUGUI> selectBtnTextList = new List<TextMeshProUGUI>();
 
         [Header("Footer")]
         public GameObject SupportFooter;
@@ -37,9 +50,15 @@ namespace ArRetarget
         private void Start()
         {
             persistentPath = Application.persistentDataPath;
+
+            selectBtnTextList.Add(todayBtnTxt); // 0
+            selectBtnTextList.Add(allBtnTxt);   // 1
+            selectBtnTextList.Add(noneBtnTxt);  // 2
         }
 
         #region input events
+
+        #region delete & share
         //delete selected files
         public void OnDeleteSelectedFiles()
         {
@@ -88,18 +107,93 @@ namespace ArRetarget
                 StartCoroutine(DeleteZip(zip));
             }
         }
+        #endregion
 
-        private bool selectFilesBtnState = false;
-        public void OnToggleSelectFiles()
+        #region select files
+        public void SelectTodaysFiles()
         {
-            selectFilesBtnState = !selectFilesBtnState;
+            if (JsonDirectories.Count == 0)
+            {
+                return;
+            }
+
+            string daytime = FileManagement.GetDateTime();
+            var curTime = FileManagement.StringToInt(daytime);    //conversion to get rid of signs
+            string today = FileManagement.RemoveLengthFromEnd(curTime.ToString(), 6);
+
+            foreach (JsonDirectory data in JsonDirectories)
+            {
+                //get only year / month / day
+                string day = FileManagement.RemoveLengthFromEnd(data.value.ToString(), 6);
+
+                if (today == day)
+                {
+                    var btn = data.obj.GetComponent<JsonFileButton>();
+                    btn.ChangeSelectionToggleStatus(true);
+                }
+
+                else
+                {
+                    var btn = data.obj.GetComponent<JsonFileButton>();
+                    btn.ChangeSelectionToggleStatus(false);
+                }
+            }
+
+            HighlightSelectBtnText(0);
+        }
+
+        public void DeselectAllFiles()
+        {
+            if (JsonDirectories.Count == 0)
+            {
+                return;
+            }
 
             foreach (JsonDirectory data in JsonDirectories)
             {
                 var btn = data.obj.GetComponent<JsonFileButton>();
-                btn.ChangeSelectionToggleStatus(selectFilesBtnState);
+                btn.ChangeSelectionToggleStatus(false);
+            }
+
+            HighlightSelectBtnText(2);
+        }
+
+        public void SelectAllFiles()
+        {
+            if (JsonDirectories.Count == 0)
+            {
+                return;
+            }
+
+            foreach (JsonDirectory data in JsonDirectories)
+            {
+                var btn = data.obj.GetComponent<JsonFileButton>();
+                btn.ChangeSelectionToggleStatus(true);
+            }
+
+            HighlightSelectBtnText(1);
+        }
+
+        public void HighlightSelectBtnText(int index)
+        {
+            for (int i = 0; i < selectBtnTextList.Count; i++)
+            {
+                if (i == index)
+                {
+                    if (selectBtnTextList[i].fontStyle != FontStyles.Bold)
+                    {
+                        selectBtnTextList[i].fontStyle = FontStyles.Bold;
+                    }
+                }
+
+                else
+                {
+                    if (selectBtnTextList[i].fontStyle != FontStyles.Normal)
+                        selectBtnTextList[i].fontStyle = FontStyles.Normal;
+                }
             }
         }
+        #endregion
         #endregion
 
         #region json viewer
@@ -180,23 +274,48 @@ namespace ArRetarget
         {
             Debug.Log("Generating preview buttons");
             JsonDirectories = GetDirectories();
+            JsonDirectories.Sort((JsonDirectory x, JsonDirectory y) => y.value.CompareTo(x.value));
+            HighlightSelectBtnText(2); //none selected
 
-            for (int i = 0; i < JsonDirectories.Count; i++)
+            if (JsonDirectories.Count != 0)
             {
-                //set file data index
-                JsonDirectories[i].index = i;
-                //set json file data obj
-                var jsonFileBtnObj = Instantiate(JsonFileButtonPrefab, Vector3.zero, Quaternion.identity);
-                JsonDirectories[i].obj = jsonFileBtnObj;
-                jsonFileBtnObj.name = JsonDirectories[i].dirName;
-                //setting parent
-                jsonFileBtnObj.transform.SetParent(JsonFileButtonParent);
-                //setting scale
-                jsonFileBtnObj.transform.localScale = Vector3.one;
+                //create buttons
+                for (int i = 0; i < JsonDirectories.Count; i++)
+                {
+                    //set file data index
+                    JsonDirectories[i].index = i;
+                    //set json file data obj
+                    var jsonFileBtnObj = Instantiate(JsonFileButtonPrefab, Vector3.zero, Quaternion.identity);
+                    JsonDirectories[i].obj = jsonFileBtnObj;
+                    jsonFileBtnObj.name = JsonDirectories[i].dirName;
+                    //setting parent
+                    jsonFileBtnObj.transform.SetParent(JsonFileButtonParent);
+                    //setting scale
+                    jsonFileBtnObj.transform.localScale = Vector3.one;
 
-                //passing data to the button script
-                var fileButtonScript = jsonFileBtnObj.GetComponent<JsonFileButton>();
-                fileButtonScript.InitFileButton(JsonDirectories[i], gameObject.GetComponent<FileBrowserEventManager>());
+                    //passing data to the button script
+                    var fileButtonScript = jsonFileBtnObj.GetComponent<JsonFileButton>();
+                    fileButtonScript.InitFileButton(JsonDirectories[i], gameObject.GetComponent<FileBrowserEventManager>());
+                }
+            }
+
+            else
+            {
+                //new popup
+                var popup = Instantiate(popupPrefab, Vector3.zero, Quaternion.identity);
+                var m_pop = popup.GetComponent<PopUpDisplay>();
+
+                //message
+                var para = FileManagement.GetParagraph();
+                m_pop.text = $"Wow, such empty!{para}Please record something to preview and share files";
+                m_pop.type = PopUpDisplay.PopupType.Static;
+
+                //transforms
+                popup.transform.localScale = Vector3.one;
+                m_pop.DisplayPopup(JsonFileButtonParent);
+
+                //reference for cleanup
+                popupReference = popup;
             }
         }
 
@@ -205,7 +324,7 @@ namespace ArRetarget
         //dir
         private List<JsonDirectory> GetDirectories()
         {
-            //checking for sub dirs
+            //checking for dirs
             string[] dirs = FileManagement.GetDirectories(persistentPath);
             List<JsonDirectory> jsonDirectories = new List<JsonDirectory>();
 
@@ -215,13 +334,13 @@ namespace ArRetarget
                 {
                     //adding all dirs to list for visibilty
                     JsonDirectory m_dir = new JsonDirectory();
-                    m_dir.dirName = "empty or corrupted";
+                    m_dir.dirName = FileManagement.GetDirectoryName(dirs[i]);
                     m_dir.dirPath = dirs[i];
 
                     jsonDirectories.Add(m_dir);
 
                     //only create pointers to folders including following suffixes
-                    string[] suffixes = { "CP", "FM", "BS" };
+                    string[] suffixes = { "camera", "face" };
 
                     foreach (string suffix in suffixes)
                     {
@@ -248,8 +367,7 @@ namespace ArRetarget
             if (FileManagement.ValidateDirectory(path))
             {
                 //assign for empty folders
-                m_dir.dirName = "empty folder";
-                m_dir.dirPath = path;
+                m_dir.value = 0;
 
                 //jsons in sub dir
                 FileInfo[] jsonFiles = FileManagement.GetJsonsAtPath(path);
@@ -261,7 +379,8 @@ namespace ArRetarget
                     if (FileManagement.StringEndsWith(jsonFilename, suffix + ".json"))
                     {
                         //setting up the serializeable JsonDir obj
-                        m_dir.dirName = FileManagement.RemoveFromEnd(json.Name, ".json");
+                        m_dir.dirName = FileManagement.RemoveSuffixFromEnd(json.Name, ".json");
+                        m_dir.value = FileManagement.StringToInt(m_dir.dirName);
                         m_dir.active = false;
                         m_dir.jsonFilePath = json.FullName;
                     }
@@ -272,7 +391,7 @@ namespace ArRetarget
 
             else
             {
-                Debug.LogError("Directory doesn't contain a valid json");
+                Debug.LogWarning("Directory doesn't contain a valid json");
                 return m_dir;
             }
         }
@@ -319,6 +438,7 @@ namespace ArRetarget
         }
         #endregion
 
+        #region cleanup
         /// <summary>
         /// clearing the generated buttons when closing the filebrowser
         /// </summary>
@@ -330,6 +450,10 @@ namespace ArRetarget
                 Destroy(obj.obj);
             }
 
+            if (popupReference != null)
+            {
+                Destroy(popupReference);
+            }
             JsonDirectories.Clear();
         }
 
@@ -338,8 +462,9 @@ namespace ArRetarget
             yield return new WaitForSeconds(5.0f);
             FileManagement.DeleteFile(zipPath);
         }
+        #endregion
     }
-
+    /*
     /// <summary>
     /// data type for displayed .json files in the user interface
     /// </summary>
@@ -352,15 +477,37 @@ namespace ArRetarget
         public GameObject obj;
         public int index;
     }
-
+    */
     [System.Serializable]
     public class JsonDirectory
     {
+        /// <summary>
+        /// path to the directory
+        /// </summary>
         public string dirPath;
+        /// <summary>
+        /// name of the directory
+        /// </summary>
         public string dirName;
+        /// <summary>
+        /// path to the json file
+        /// </summary>
         public string jsonFilePath;
+        /// <summary>
+        /// instantiated button object
+        /// </summary>
         public GameObject obj;
+        /// <summary>
+        /// bool to determine if toggle has been selected
+        /// </summary>
         public bool active;
+        /// <summary>
+        /// index for reference
+        /// </summary>
         public int index;
+        /// <summary>
+        /// value for sorting
+        /// </summary>
+        public Int64 value;
     }
 }

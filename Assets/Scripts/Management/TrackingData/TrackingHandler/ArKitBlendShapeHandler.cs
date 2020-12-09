@@ -63,7 +63,7 @@ namespace ArRetarget
         //json file prefix
         public string GetJsonPrefix()
         {
-            return "BS";
+            return "face";
         }
 
         //if face is lost

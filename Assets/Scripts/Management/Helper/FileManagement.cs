@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.IO;
-using System.Collections;
+using System.Linq;
 using System.Globalization;
 using System.Collections.Generic;
 using System.IO.Compression;
@@ -14,7 +14,7 @@ namespace ArRetarget
         public static string GetDateTime()
         {
             DateTime localDate = DateTime.Now;
-            string time = localDate.ToString("yyyyMMdd_HHmmss", CultureInfo.InvariantCulture);
+            string time = localDate.ToString($"yyyy-MM-dd_HH-mm-ss", CultureInfo.InvariantCulture);
             return time;
         }
 
@@ -229,7 +229,7 @@ namespace ArRetarget
             else
             {
                 //creating a tmp folder for ref
-                string tmp = RemoveFromEnd(selectedDirPaths[0], GetDirectoryName(selectedDirPaths[0]));
+                string tmp = RemoveSuffixFromEnd(selectedDirPaths[0], GetDirectoryName(selectedDirPaths[0]));
                 string curTime = GetDateTime();
                 string m_dir = $"{tmp}{curTime}";
                 CreateDirectory(m_dir);
@@ -239,7 +239,7 @@ namespace ArRetarget
                 foreach (string dir in selectedDirPaths)
                 {
                     string dirname = GetDirectoryName(dir);
-                    string tar = RemoveFromEnd(dir, dirname);
+                    string tar = RemoveSuffixFromEnd(dir, dirname);
                     CompressDir(dir, $"{tar}/{curTime}/{dirname}.zip");
                 }
 
@@ -259,6 +259,21 @@ namespace ArRetarget
         #endregion
 
         #region String methods
+        public static Int64 StringToInt(string input)
+        {
+            string b = string.Empty;
+            Int64 val = 0;
+
+            b = String.Join("", input.Where(char.IsDigit));
+
+            if (b.Length > 0)
+            {
+                bool t = Int64.TryParse(b, out val);
+            }
+
+            return val;
+        }
+
         public static bool StringEndsWith(string path, string suffix)
         {
             if (path.EndsWith(suffix))
@@ -268,13 +283,25 @@ namespace ArRetarget
                 return false;
         }
 
-        public static string RemoveFromEnd(this string s, string suffix)
+        public static string RemoveSuffixFromEnd(this string s, string suffix)
         {
             if (s.EndsWith(suffix))
             {
                 return s.Substring(0, s.Length - suffix.Length);
             }
             else
+            {
+                return s;
+            }
+        }
+
+        public static string RemoveLengthFromEnd(string s, int length)
+        {
+            try
+            {
+                return s.Substring(0, s.Length - length);
+            }
+            catch
             {
                 return s;
             }

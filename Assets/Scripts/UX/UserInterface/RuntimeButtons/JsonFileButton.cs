@@ -72,6 +72,7 @@ namespace ArRetarget
             //changed state and update the json file data status in btn manager
             m_jsonDirData.active = status;
             jsonFileButtonManager.JsonDirectories[m_jsonDirData.index].active = status;
+            jsonFileButtonManager.HighlightSelectBtnText(10);
 
             //changing btn image
             //this.selectToggleBtn.isOn = status;
