@@ -7,7 +7,7 @@ namespace ArRetarget
     public class TrackerReferencer : MonoBehaviour
     {
         public List<TrackerReference> Trackers = new List<TrackerReference>();
-
+        /*
         private void Awake()
         {
             //checking in player prefs (set in user prefers)
@@ -33,15 +33,13 @@ namespace ArRetarget
 
             dataManager.SetRecorderReference(this.gameObject);
         }
+        */
     }
 
     [System.Serializable]
     public class TrackerReference
     {
         public GameObject obj;
-        /// <summary>
-        /// stored name in the player preferences for getting and setting the value
-        /// </summary>
         public string nameInPlayerPrefs;
         /// <summary>
         /// int used as bool -> -1 = false, +1 = true

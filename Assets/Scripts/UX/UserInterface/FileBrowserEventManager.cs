@@ -180,9 +180,9 @@ namespace ArRetarget
             {
                 if (i == index)
                 {
-                    if (selectBtnTextList[i].fontStyle != FontStyles.Bold)
+                    if (selectBtnTextList[i].fontStyle != FontStyles.Underline)
                     {
-                        selectBtnTextList[i].fontStyle = FontStyles.Bold;
+                        selectBtnTextList[i].fontStyle = FontStyles.Underline;
                     }
                 }
 
