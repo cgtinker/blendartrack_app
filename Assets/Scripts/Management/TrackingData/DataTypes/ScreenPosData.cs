@@ -4,14 +4,13 @@ namespace ArRetarget
 {
     /// <summary>
     /// contains a list of screen pos data (vector + frame)
-    /// and an Vector storing the anchor pos
     /// </summary>
     [System.Serializable]
     public class ScreenPosContainer
     {
         //world to screen position data
         public List<ScreenPosData> screenPosData;
-        public Vector anchor;
+        //public Vector anchor;
     }
 
     /// <summary>
@@ -21,6 +20,7 @@ namespace ArRetarget
     public class ScreenPosData
     {
         public Vector screenPos;
+        public Vector objPos;
         public int frame;
     }
 }

@@ -14,6 +14,7 @@ TagManager:
   - arSessionOrigin
   - pointCloud
   - anchor
+  - referencer
   layers:
   - Default
   - TransparentFX

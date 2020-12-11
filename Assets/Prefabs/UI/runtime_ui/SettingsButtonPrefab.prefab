@@ -270,6 +270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settingsName: name
   displayText: {fileID: 2062775178319672481}
+  btnIsOn: 0
   selected: {fileID: 1539746649952495242}
   deselected: {fileID: 1539746649909264499}
 --- !u!1 &2062775176593679580
@@ -367,7 +368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -426,7 +427,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2062775177004604544}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8999661985749079455}
+        m_TargetAssemblyTypeName: ArRetarget.UserSettingsButton, Assembly-CSharp
+        m_MethodName: OnToggleButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2062775177214886440
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,7 +506,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}

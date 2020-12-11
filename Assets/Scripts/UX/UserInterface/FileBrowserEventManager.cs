@@ -16,7 +16,6 @@ namespace ArRetarget
         public Transform JsonFileButtonParent;
 
         [Header("Json Data Info List")]
-        //public List<JsonFileData> JsonFileDataList = new List<JsonFileData>();
         public List<JsonDirectory> JsonDirectories = new List<JsonDirectory>();
 
         [Header("Json Viewer")]
@@ -332,24 +331,22 @@ namespace ArRetarget
             {
                 for (int i = 0; i < dirs.Length; i++)
                 {
-                    //adding all dirs to list for visibilty
+                    //adding all dirs to list for visibilty (if not contain suffix)
                     JsonDirectory m_dir = new JsonDirectory();
                     m_dir.dirName = FileManagement.GetDirectoryName(dirs[i]);
                     m_dir.dirPath = dirs[i];
 
                     jsonDirectories.Add(m_dir);
-
                     //only create pointers to folders including following suffixes
-                    string[] suffixes = { "camera", "face" };
+                    string[] suffixes = { "cam", "face" };
 
                     foreach (string suffix in suffixes)
                     {
                         if (FileManagement.StringEndsWith(dirs[i], suffix))
                         {
-                            //create new dir obj pointing to json
-                            m_dir = SetupDirectoryPointerToJson(dirs[i], suffix);
-                            //overwritting
-                            jsonDirectories[i] = m_dir;
+                            //create new dir obj pointing to json and overwrite previous jsonDir
+                            var updatedDir = SetupDirectoryPointerToJson(dirs[i], suffix, m_dir);
+                            jsonDirectories[i] = updatedDir;
                         }
                     }
                 }
@@ -359,9 +356,9 @@ namespace ArRetarget
         }
 
         //subdir
-        private JsonDirectory SetupDirectoryPointerToJson(string path, string suffix)
+        private JsonDirectory SetupDirectoryPointerToJson(string path, string suffix, JsonDirectory m_dir)
         {
-            JsonDirectory m_dir = new JsonDirectory();
+            //JsonDirectory m_dir = new JsonDirectory();
 
             //looping through sub dir
             if (FileManagement.ValidateDirectory(path))
@@ -399,7 +396,7 @@ namespace ArRetarget
 
         #endregion
 
-        #region get selection file info
+        #region get selected files
         /// <summary>
         /// get all selected dir names
         /// </summary>
@@ -464,20 +461,7 @@ namespace ArRetarget
         }
         #endregion
     }
-    /*
-    /// <summary>
-    /// data type for displayed .json files in the user interface
-    /// </summary>
-    [System.Serializable]
-    public class JsonFileData
-    {
-        public string path;
-        public string filename;
-        public bool active;
-        public GameObject obj;
-        public int index;
-    }
-    */
+
     [System.Serializable]
     public class JsonDirectory
     {

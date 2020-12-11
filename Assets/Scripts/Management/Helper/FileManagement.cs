@@ -155,6 +155,7 @@ namespace ArRetarget
         #region delete
         public static void DeleteDirectories(List<string> tar_dirs)
         {
+            Debug.Log("Deleting selected directories");
             foreach (string dir in tar_dirs)
             {
                 DeleteDirectory(dir);

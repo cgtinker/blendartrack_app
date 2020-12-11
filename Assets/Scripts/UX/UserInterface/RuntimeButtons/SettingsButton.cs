@@ -6,6 +6,7 @@ public class SettingsButton : MonoBehaviour
     public GameObject interfaceObj;
     InputHandler inputHandler;
     TrackingDataManager dataManager;
+    SettingsButtonManager settingsManager;
 
     public GameObject settingsMenu;
     public GameObject mainScreen;
@@ -15,6 +16,7 @@ public class SettingsButton : MonoBehaviour
         GameObject obj = GameObject.FindGameObjectWithTag("manager");
         dataManager = obj.GetComponent<TrackingDataManager>();
         inputHandler = interfaceObj.GetComponent<InputHandler>();
+        settingsManager = interfaceObj.GetComponent<SettingsButtonManager>();
     }
 
     public void OnOpenSettings()
@@ -29,6 +31,7 @@ public class SettingsButton : MonoBehaviour
 
         else
         {
+            settingsManager.GenerateRecordingSettingsButtons();
             settingsMenu.SetActive(true);
             inputHandler.PurgeOrphanPopups();
             inputHandler.DisableArSession();

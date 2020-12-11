@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.XR.ARFoundation;
-
+using System.Dynamic;
+using System;
 namespace ArRetarget
 {
     public class TrackingDataManager : MonoBehaviour
@@ -24,13 +25,18 @@ namespace ArRetarget
             persistentPath = Application.persistentDataPath;
             _recording = false;
             Debug.Log("Session started");
-            Debug.Log(persistentPath);
-
         }
 
         //resetting as not all tracking models include all tracker interfaces
         public void ResetTrackerInterfaces()
         {
+            var referencer = GameObject.FindGameObjectWithTag("referencer");
+            if (referencer != null)
+            {
+                var script = referencer.GetComponent<TrackerReferencer>();
+                script.assigned = false;
+            }
+
             getters.Clear();
             jsons.Clear();
             inits.Clear();
@@ -46,7 +52,9 @@ namespace ArRetarget
                 arSession.matchFrameRate = true;
 
             if (obj.GetComponent<IInit>() != null)
+            {
                 inits.Add(obj.GetComponent<IInit>());
+            }
 
             if (obj.GetComponent<IJson>() != null)
             {
@@ -60,7 +68,7 @@ namespace ArRetarget
             if (obj.GetComponent<IStop>() != null)
                 stops.Add(obj.GetComponent<IStop>());
 
-            Debug.Log("Receiving Tracker Type Reference: " + obj.name);
+            Debug.Log("Received: " + obj.name);
         }
         #endregion
 
@@ -138,9 +146,9 @@ namespace ArRetarget
 
         public string SerializeJson()
         {
-            string msg = "";
             string time = FileManagement.GetDateTime();
             string dir_path = $"{persistentPath}/{time}_{prefixs[0].GetJsonPrefix()}";
+            string msg = $"{FileManagement.GetParagraph()}{time}_{prefixs[0].GetJsonPrefix()}";
             FileManagement.CreateDirectory(dir_path);
 
             for (int i = 0; i < jsons.Count; i++)
@@ -148,18 +156,6 @@ namespace ArRetarget
                 string contents = jsons[i].GetJsonString();
                 string prefix = prefixs[i].GetJsonPrefix();
                 string filename = $"{time}_{prefix}.json";
-
-                if (i < jsons.Count - 1)
-                {
-                    var tmp = $"{filename}{FileManagement.GetParagraph()}";
-                    msg += tmp;
-                }
-
-                else
-                {
-                    var tmp = $"{filename}";
-                    msg += tmp;
-                }
 
                 FileManagement.WriteDataToDisk(data: contents, persistentPath: dir_path, filename: filename);
             }

@@ -59,6 +59,7 @@ namespace ArRetarget
             btnIsOn = !btnIsOn;
             SetUserPreference(settingsName, btnIsOn);
             ChangeSelectionToggleStatus(btnIsOn);
+            Debug.Log(settingsName + btnIsOn);
         }
 
         //changing visual for selected/ deselected

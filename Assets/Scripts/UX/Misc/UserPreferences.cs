@@ -31,12 +31,17 @@ public class UserPreferences : Singleton<UserPreferences>
     //referencing available camera settings
     public void ReferenceAvailableXRCameraConfigs(List<string> availableConfigs)
     {
-        Debug.Log("Setting up config reference dict");
-        for (int i = 0; i < availableConfigs.Count; i++)
+        //settings can diver depending on front / back camera
+        if (availableConfigs.Count != CameraConfigList.Count)
         {
-            if (!CameraConfigList.Contains(availableConfigs[i]))
+            CameraConfigList.Clear();
+
+            for (int i = 0; i < availableConfigs.Count; i++)
             {
-                CameraConfigList.Add(availableConfigs[i]);
+                if (!CameraConfigList.Contains(availableConfigs[i]))
+                {
+                    CameraConfigList.Add(availableConfigs[i]);
+                }
             }
         }
     }

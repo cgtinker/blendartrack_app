@@ -42,7 +42,7 @@ namespace ArRetarget
         {
             dataManager.ToggleRecording();
             string filename = dataManager.SerializeJson();
-            string message = "tracking successfull";
+            string message = "tracking successfull!";
             GeneratedFilePopup(message, filename);
         }
         #endregion
@@ -86,7 +86,7 @@ namespace ArRetarget
                 popupDisplay.type = PopUpDisplay.PopupType.Notification;
                 //travel timings
                 popupDisplay.travelDuration = 10f;
-                popupDisplay.staticDuration = 4f;
+                popupDisplay.staticDuration = 5f;
 
                 popupDisplay.desitionation = FileBrowserButton;
                 popupDisplay.text = $"{message}{filename}";

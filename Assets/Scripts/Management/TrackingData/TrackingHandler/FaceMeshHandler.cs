@@ -15,6 +15,8 @@ namespace ArRetarget
         {
             TrackingDataManager dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
             dataManager.SetRecorderReference(this.gameObject);
+            var referencer = GameObject.FindGameObjectWithTag("referencer").GetComponent<TrackerReferencer>();
+            referencer.Init();
         }
 
         //only works with a single face mesh

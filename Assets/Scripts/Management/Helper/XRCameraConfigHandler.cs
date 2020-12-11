@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine.Assertions;
@@ -14,7 +13,9 @@ namespace ArRetarget
     {
         [SerializeField] ARCameraManager cameraManager = null;
         bool managerReceivedFrame;
+        public XRCameraConfiguration activeXRCameraConfig;
 
+        //checks and may changes camera config on frame received
         void OnEnable()
         {
             if (!cameraManager)
@@ -47,25 +48,6 @@ namespace ArRetarget
             return availableConfigs;
         }
 
-        //getting the available xrcameraconfigurations
-        public List<XRCameraConfiguration> GetXRCameraConfigurations()
-        {
-            List<XRCameraConfiguration> availableConfigs = new List<XRCameraConfiguration>();
-
-            if (cameraManager.descriptor.supportsCameraConfigurations)
-            {
-                using (var configs = cameraManager.GetConfigurations(Allocator.Temp))
-                {
-                    for (int i = 0; i < configs.Length; i++)
-                    {
-                        availableConfigs.Add(configs[i]);
-                    }
-                }
-            }
-
-            return availableConfigs;
-        }
-
         //changing config based on player prefs
         public void ChangeConfig()
         {
@@ -80,6 +62,7 @@ namespace ArRetarget
                             try
                             {
                                 cameraManager.currentConfiguration = configs[i];
+                                activeXRCameraConfig = configs[i];
                                 break;
                             }
                             catch (Exception e)
@@ -110,7 +93,7 @@ namespace ArRetarget
             return m_bool;
         }
 
-        //returns config on the first frame received
+        //checks config and changes it if necessary
         private void FrameReceived(ARCameraFrameEventArgs args)
         {
             if (!managerReceivedFrame)
@@ -123,6 +106,8 @@ namespace ArRetarget
                     var cameraConfiguration = cameraManager.currentConfiguration;
                     Assert.IsTrue(cameraConfiguration.HasValue);
                     Debug.Log($"Current Config: {cameraConfiguration}");
+                    //assigning the current config
+                    activeXRCameraConfig = (XRCameraConfiguration)cameraConfiguration;
 
                     //referencing available configs when frame received in user prefs dict
                     var availableConfigs = GetAvailableConfiguartionStrings();

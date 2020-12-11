@@ -11,8 +11,19 @@ namespace ArRetarget
 
         private void Start()
         {
-            var dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
-            dataManager.SetRecorderReference(this.gameObject);
+            //execute onle if it's not in the tracker manager
+            if (transform.parent != null)
+            {
+                return;
+            }
+
+            else
+            {
+                var dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
+                dataManager.SetRecorderReference(this.gameObject);
+                var referencer = GameObject.FindGameObjectWithTag("referencer").GetComponent<TrackerReferencer>();
+                referencer.Init();
+            }
         }
 
         //obj to track
@@ -45,7 +56,7 @@ namespace ArRetarget
         //json file prefix
         public string GetJsonPrefix()
         {
-            return "camera";
+            return "cam";
         }
 
         //receiving pose data from obj at frame

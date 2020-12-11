@@ -25,6 +25,41 @@ namespace ArRetarget
             GenerateSettingsButtons();
         }
 
+        //can be different for face / cam
+        public void GenerateRecordingSettingsButtons()
+        {
+            //same settings available
+            if (UserPreferences.Instance.CameraConfigList.Count == recordingSettings.Count)
+            {
+                return;
+            }
+
+            else
+            {
+                //removing current
+                foreach (SettingButtonData data in recordingSettings)
+                {
+                    Destroy(data.obj);
+                }
+                recordingSettings.Clear();
+
+                //referencing the available configs
+                for (int i = 0; i < UserPreferences.Instance.CameraConfigList.Count; i++)
+                {
+                    SettingButtonData tmp = new SettingButtonData()
+                    {
+                        displayName = UserPreferences.Instance.CameraConfigList[i],
+                        userPrefsName = UserPreferences.Instance.CameraConfigList[i]
+                    };
+
+                    recordingSettings.Add(tmp);
+                }
+
+                //generating the buttons
+                GenerateButtons(recordingSettings, true);
+            }
+        }
+
         public void GenerateSettingsButtons()
         {
             //camera settings
@@ -39,20 +74,7 @@ namespace ArRetarget
 
             //video
             GenerateSettingsTitel("Video Settings");
-
-            //getting available configs from user prefs
-            for (int i = 0; i < UserPreferences.Instance.CameraConfigList.Count; i++)
-            {
-                SettingButtonData tmp = new SettingButtonData()
-                {
-                    displayName = UserPreferences.Instance.CameraConfigList[i],
-                    userPrefsName = UserPreferences.Instance.CameraConfigList[i]
-                };
-
-                recordingSettings.Add(tmp);
-            }
-
-            GenerateButtons(recordingSettings, true);
+            GenerateRecordingSettingsButtons();
         }
 
         public void OnToggleXRCameraSetting(string name)
@@ -83,6 +105,13 @@ namespace ArRetarget
         {
             foreach (SettingButtonData button in buttons)
             {
+                //if button is already instantiate
+                if (button.obj)
+                {
+                    return;
+                }
+
+                //generate button
                 var tmp = Instantiate(SettingsButtonPrefab, Vector3.zero, Quaternion.identity);
                 button.obj = tmp;
                 var script = tmp.GetComponent<UserSettingsButton>();

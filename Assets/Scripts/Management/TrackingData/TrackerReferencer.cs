@@ -6,34 +6,55 @@ namespace ArRetarget
 {
     public class TrackerReferencer : MonoBehaviour
     {
+        [Header("Trackers enabled based on User Preferences")]
         public List<TrackerReference> Trackers = new List<TrackerReference>();
-        /*
+        [Header("World to screen pos requieres anchor")]
+        public string motionAnchorTag;
+        public float offset;
+        public bool assigned = false;
+
+        public void Init()
+        {
+            if (assigned == false)
+            {
+                StartCoroutine(SetReferences());
+            }
+
+            assigned = true;
+        }
+
         private void Awake()
         {
             //checking in player prefs (set in user prefers)
             foreach (TrackerReference tracker in Trackers)
             {
-                tracker.value = UserPreferences.Instance.GetIntPref(tracker.nameInPlayerPrefs);
+                //tracker.value = UserPreferences.Instance.GetIntPref(tracker.nameInPlayerPrefs);
+                tracker.value = PlayerPrefs.GetInt(tracker.nameInPlayerPrefs, -1);
             }
         }
 
-        IEnumerator Start()
+        private IEnumerator SetReferences()
         {
+            Debug.Log("Started Referencing");
             yield return new WaitForEndOfFrame();
             var dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
 
-            foreach (TrackerReference tracker in Trackers)
+            for (int i = 0; i < Trackers.Count; i++)
             {
-                //-1 if tracker isn't used || 1 if it's used
-                if (tracker.value == 1)
+                if (Trackers[i].value == 1)
                 {
-                    dataManager.SetRecorderReference(tracker.obj);
+                    dataManager.SetRecorderReference(Trackers[i].obj);
+
+                    var screenPosTracker = Trackers[i].obj.GetComponent<WorldToScreenPosHandler>();
+                    if (screenPosTracker != null)
+                    {
+                        screenPosTracker.motionAnchor = GameObject.FindGameObjectWithTag(motionAnchorTag);
+                        screenPosTracker.motionAnchorTag = motionAnchorTag;
+                        screenPosTracker.offset = offset;
+                    }
                 }
             }
-
-            dataManager.SetRecorderReference(this.gameObject);
         }
-        */
     }
 
     [System.Serializable]

@@ -7,22 +7,19 @@ namespace ArRetarget
     public class WorldToScreenPosHandler : MonoBehaviour, IInit, IGet<int>, IJson, IPrefix
     {
         private Camera arCamera;
-        private Vector3 anchorPos;
+        //private Vector3 anchorPos;
+        [HideInInspector]
+        public GameObject motionAnchor;
+        [HideInInspector]
+        public float offset = 0f;
+        [HideInInspector]
+        public string motionAnchorTag;
 
         private float camera_width;
         private float camera_height;
 
         [HideInInspector]
         public List<ScreenPosData> screenPosList = new List<ScreenPosData>();
-
-        /*
-        IEnumerator Start()
-        {
-            yield return new WaitForEndOfFrame();
-            var dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
-            dataManager.SetRecorderReference(this.gameObject);
-        }
-        */
 
         #region interfaces
         public void Init()
@@ -34,18 +31,21 @@ namespace ArRetarget
             //camera resolution to normalize screen pos data
             camera_width = arCamera.pixelWidth;
             camera_height = arCamera.pixelHeight;
-
-            //tracking an anchor
-            if (anchor != null)
-                anchorPos = anchor.transform.position;
-
-            else
-                anchorPos = new Vector3(0, 0, 0);
         }
 
         public void GetFrameData(int frame)
         {
-            ScreenPosData data = VPToScreenPoint(cam: arCamera, cam_w: camera_width, cam_h: camera_height, pos: anchorPos, f: frame);
+            if (motionAnchor == null)
+            {
+                motionAnchor = GameObject.FindGameObjectWithTag(motionAnchorTag);
+                if (motionAnchor == null)
+                {
+                    screenPosList.Add(new ScreenPosData());
+                    return;
+                }
+            }
+
+            ScreenPosData data = VPToScreenPoint(cam: arCamera, cam_w: camera_width, cam_h: camera_height, pos: motionAnchor.transform.position, offset: offset, f: frame);
             screenPosList.Add(data);
         }
 
@@ -58,12 +58,6 @@ namespace ArRetarget
         {
             ScreenPosContainer container = new ScreenPosContainer()
             {
-                anchor = new Vector()
-                {
-                    x = anchorPos.x,
-                    y = anchorPos.y,
-                    z = anchorPos.z
-                },
                 screenPosData = screenPosList
             };
 
@@ -84,12 +78,13 @@ namespace ArRetarget
         /// <param name="pos"></param> vector for screen pos calc
         /// <param name="f"></param> frame
         /// <returns></returns>
-        public static ScreenPosData VPToScreenPoint(Camera cam, float cam_w, float cam_h, Vector3 pos, int f)
+        public static ScreenPosData VPToScreenPoint(Camera cam, float cam_w, float cam_h, Vector3 pos, float offset, int f)
         {
             ScreenPosData data = new ScreenPosData();
-            var point = cam.WorldToScreenPoint(pos);
+            Vector3 tar = new Vector3(pos.x, pos.y, pos.z + offset);
+            var point = cam.WorldToScreenPoint(tar);
 
-            Vector tmp = new Vector
+            Vector tmpScreenPos = new Vector
             {
                 //normalizing values
                 x = point.x / cam_w,
@@ -97,8 +92,16 @@ namespace ArRetarget
                 z = point.z
             };
 
+            Vector tmpObjPos = new Vector
+            {
+                x = tar.x,
+                y = tar.y,
+                z = tar.z
+            };
+
             data.frame = f;
-            data.screenPos = tmp;
+            data.screenPos = tmpScreenPos;
+            data.objPos = tmpObjPos;
 
             return data;
         }
