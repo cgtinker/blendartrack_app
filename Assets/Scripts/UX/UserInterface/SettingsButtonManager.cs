@@ -25,41 +25,6 @@ namespace ArRetarget
             GenerateSettingsButtons();
         }
 
-        //can be different for face / cam
-        public void GenerateRecordingSettingsButtons()
-        {
-            //same settings available
-            if (UserPreferences.Instance.CameraConfigList.Count == recordingSettings.Count)
-            {
-                return;
-            }
-
-            else
-            {
-                //removing current
-                foreach (SettingButtonData data in recordingSettings)
-                {
-                    Destroy(data.obj);
-                }
-                recordingSettings.Clear();
-
-                //referencing the available configs
-                for (int i = 0; i < UserPreferences.Instance.CameraConfigList.Count; i++)
-                {
-                    SettingButtonData tmp = new SettingButtonData()
-                    {
-                        displayName = UserPreferences.Instance.CameraConfigList[i],
-                        userPrefsName = UserPreferences.Instance.CameraConfigList[i]
-                    };
-
-                    recordingSettings.Add(tmp);
-                }
-
-                //generating the buttons
-                GenerateButtons(recordingSettings, true);
-            }
-        }
-
         public void GenerateSettingsButtons()
         {
             //camera settings
@@ -77,19 +42,6 @@ namespace ArRetarget
             GenerateRecordingSettingsButtons();
         }
 
-        public void OnToggleXRCameraSetting(string name)
-        {
-            foreach (SettingButtonData button in recordingSettings)
-            {
-                if (button.userPrefsName != name)
-                {
-                    var script = button.obj.GetComponent<UserSettingsButton>();
-                    script.ChangeSelectionToggleStatus(false);
-                    script.SetUserPreference(button.userPrefsName, false);
-                    script.btnIsOn = false;
-                }
-            }
-        }
 
         #region ui generation
         private void GenerateSettingsTitel(string displayName)
@@ -127,7 +79,57 @@ namespace ArRetarget
             tmp.transform.SetParent(SettingsObjParent);
             tmp.transform.localScale = Vector3.one;
         }
+
+        //can be different for face / cam (face recording currently not possible)
+        public void GenerateRecordingSettingsButtons()
+        {
+            //same settings available
+            if (UserPreferences.Instance.CameraConfigList.Count == recordingSettings.Count)
+            {
+                return;
+            }
+
+            else
+            {
+                //removing current
+                foreach (SettingButtonData data in recordingSettings)
+                {
+                    Destroy(data.obj);
+                }
+                recordingSettings.Clear();
+
+                //referencing the available configs
+                for (int i = 0; i < UserPreferences.Instance.CameraConfigList.Count; i++)
+                {
+                    SettingButtonData tmp = new SettingButtonData()
+                    {
+                        displayName = UserPreferences.Instance.CameraConfigList[i],
+                        userPrefsName = UserPreferences.Instance.CameraConfigList[i]
+                    };
+
+                    recordingSettings.Add(tmp);
+                }
+
+                //generating the buttons
+                GenerateButtons(recordingSettings, true);
+            }
+        }
         #endregion
+
+        //custom toggle group
+        public void OnToggleXRCameraSetting(string name)
+        {
+            foreach (SettingButtonData button in recordingSettings)
+            {
+                if (button.userPrefsName != name)
+                {
+                    var script = button.obj.GetComponent<UserSettingsButton>();
+                    script.ChangeSelectionToggleStatus(false);
+                    script.SetUserPreference(button.userPrefsName, false);
+                    script.btnIsOn = false;
+                }
+            }
+        }
     }
 
     [System.Serializable]

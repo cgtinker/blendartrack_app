@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.XR.ARFoundation;
-using System.Dynamic;
-using System;
+
 namespace ArRetarget
 {
     public class TrackingDataManager : MonoBehaviour
@@ -11,6 +10,7 @@ namespace ArRetarget
         public bool _recording = false;
         public bool captureIntrinsics = true;
         private int frame = 0;
+        private ARSession arSession;
 
         private List<IGet<int>> getters = new List<IGet<int>>();
         private List<IJson> jsons = new List<IJson>();
@@ -24,6 +24,16 @@ namespace ArRetarget
             //set persistent path
             persistentPath = Application.persistentDataPath;
             _recording = false;
+
+            //match the frame rate of ar and unity updates
+            if (arSession == null)
+            {
+                arSession = GameObject.FindGameObjectWithTag("arSession").GetComponent<ARSession>();
+            }
+
+            if (!arSession.matchFrameRate)
+                arSession.matchFrameRate = true;
+
             Debug.Log("Session started");
         }
 
@@ -47,10 +57,6 @@ namespace ArRetarget
         //the tracking references always contains some of the following interfaces
         public void SetRecorderReference(GameObject obj)
         {
-            var arSession = GameObject.FindGameObjectWithTag("arSession").GetComponent<ARSession>();
-            if (!arSession.matchFrameRate)
-                arSession.matchFrameRate = true;
-
             if (obj.GetComponent<IInit>() != null)
             {
                 inits.Add(obj.GetComponent<IInit>());
@@ -63,10 +69,14 @@ namespace ArRetarget
             }
 
             if (obj.GetComponent<IGet<int>>() != null)
+            {
                 getters.Add(obj.GetComponent<IGet<int>>());
+            }
 
             if (obj.GetComponent<IStop>() != null)
+            {
                 stops.Add(obj.GetComponent<IStop>());
+            }
 
             Debug.Log("Received: " + obj.name);
         }

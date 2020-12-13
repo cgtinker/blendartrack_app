@@ -138,6 +138,12 @@ namespace ArRetarget
                     //storing the default setting
                     if (storedValue == false)
                     {
+                        if (availableConfigs.Count <= 1)
+                        {
+                            Debug.Log("there is just one config, not resetting");
+                            return;
+                        }
+
                         Debug.Log("No previous config has been stored");
                         UserPreferences.Instance.SetDefaultXRCameraConfig(cameraConfiguration.ToString());
                     }

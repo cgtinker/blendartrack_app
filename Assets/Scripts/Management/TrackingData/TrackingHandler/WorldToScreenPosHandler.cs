@@ -26,7 +26,6 @@ namespace ArRetarget
         {
             //screen space camera
             arCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-            var anchor = GameObject.FindGameObjectWithTag("anchor");
 
             //camera resolution to normalize screen pos data
             camera_width = arCamera.pixelWidth;

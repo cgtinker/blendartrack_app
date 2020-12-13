@@ -11,7 +11,7 @@ namespace ArRetarget
 
         private void Start()
         {
-            //execute onle if it's not in the tracker manager
+            //execute onle if it's not in the tracker referencer (not necessary atm)
             if (transform.parent != null)
             {
                 return;

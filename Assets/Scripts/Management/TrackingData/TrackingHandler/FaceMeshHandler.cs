@@ -15,8 +15,12 @@ namespace ArRetarget
         {
             TrackingDataManager dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
             dataManager.SetRecorderReference(this.gameObject);
+            /*
+             * face tracking cannot be combined with other tracking functionalities
+             * tests with recording failed due (to low preformance, face tracking req. are to high)
             var referencer = GameObject.FindGameObjectWithTag("referencer").GetComponent<TrackerReferencer>();
             referencer.Init();
+            */
         }
 
         //only works with a single face mesh

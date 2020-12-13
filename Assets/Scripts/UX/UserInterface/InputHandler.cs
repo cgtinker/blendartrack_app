@@ -48,30 +48,6 @@ namespace ArRetarget
         #endregion
 
         #region UI Events
-        /*
-        private void GenerateSceneButtons()
-        {
-            //assigning the running scene title to the player prefs
-            int sceneIndex = UserPreferences.Instance.GetIntPref("scene");
-            string sceneName = sceneManager.GetScene(sceneIndex);
-            SceneTitle.text = sceneName;
-
-            //generating scene btns depending on the target device
-            Dictionary<int, string> sceneButtonDict = sceneManager.GetDeviceScenes();
-            foreach (KeyValuePair<int, string> entry in sceneButtonDict)
-            {
-                GameObject btn = Instantiate(SceneButtonPrefab);
-                btn.name = entry.Value;
-
-                SceneButton rbbtn = btn.GetComponent<SceneButton>();
-                rbbtn.Init(name: entry.Value, key: entry.Key, sceneManager: sceneManager, mainMenu: MainMenu, sceneMenu: SceneMenu, mainMenuSceneTitle: SceneTitle);
-                btn.transform.SetParent(SceneButtonParent);
-
-                //as the canvas depends on targets device screen size and the btn is a child of the canvas
-                btn.transform.localScale = Vector3.one;
-            }
-        }
-        */
         public void GeneratedFilePopup(string message, string filename)
         {
             //generating popup element
@@ -113,7 +89,7 @@ namespace ArRetarget
         }
         #endregion
 
-        #region scene management
+        #region ar management helper
         //resetting the ar session, reloading can lead to bugs
         public void ReloadScene()
         {
@@ -126,31 +102,8 @@ namespace ArRetarget
         //disabling the ar session during scene changes / settings
         public void DisableArSession()
         {
-            //StartCoroutine("DisableRoutine");
             StartCoroutine(ARSessionState.EnableAR(enabled: false));
         }
-        /*
-
-        public IEnumerator DisableRoutine()
-        {
-            var m_arSession = GameObject.FindGameObjectWithTag("arSession");
-            var arSessionOrigin = GameObject.FindGameObjectWithTag("arSessionOrigin");
-
-            if (m_arSession != null)
-            {
-                var arSession = m_arSession.GetComponent<ARSession>();
-                var inputManager = m_arSession.GetComponent<ARInputManager>();
-                inputManager.enabled = false;
-                yield return new WaitForEndOfFrame();
-                arSession.enabled = false;
-            }
-
-            if (arSessionOrigin != null)
-            {
-                arSessionOrigin.SetActive(false);
-            }
-        }
-        */
         #endregion
     }
 }

@@ -15,15 +15,7 @@ public class CameraRecorder : MonoBehaviour, IInit, IStop
     //private ARCameraManager arCameraManager;
 
     private bool recording;
-    /*
-    //initialize same as a recorder
-    IEnumerator Start()
-    {
-        yield return new WaitForEndOfFrame();
-        var dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
-        dataManager.SetRecorderReference(this.gameObject);
-    }
-    */
+
     public void Init()
     {
         //referencing the ar camera
