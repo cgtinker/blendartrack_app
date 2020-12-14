@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.XR.ARFoundation;
+using System;
 
 namespace ArRetarget
 {
@@ -133,11 +134,14 @@ namespace ArRetarget
         #endregion
 
         #region create & delete
+        public event Action CreatedMarker;
+
         private void CreateMarker(Vector3 position)
         {
             var marker = Instantiate(MarkerPrefab, position, Quaternion.identity);
             marker.transform.localScale = MarkerScale;
             Markers.Add(marker);
+            CreatedMarker();
         }
 
         private void DeleteMarker(GameObject marker)
