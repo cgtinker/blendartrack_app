@@ -576,6 +576,40 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4546501233091423069}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4546501233091423072 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4546501231935811559, guid: 41af6cebb1cf542e583d2ea2018144f3,
+    type: 3}
+  m_PrefabInstance: {fileID: 4546501233091423069}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4546501233091423073 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4546501231935811554, guid: 41af6cebb1cf542e583d2ea2018144f3,
+    type: 3}
+  m_PrefabInstance: {fileID: 4546501233091423069}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4546501233091423072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa17d122634046b4a8e23048891fafc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4546501233091423074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4546501233091423072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dac56e9da8e294fcdb803f265bc54ea5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arRaycastManager: {fileID: 4546501233091423073}
+  MarkerPrefab: {fileID: 2781838045348517257, guid: 2222e3856ec4b46ebbf0b838cf30a06f,
+    type: 3}
+  Markers: []
 --- !u!1001 &7518672501049298571
 PrefabInstance:
   m_ObjectHideFlags: 0

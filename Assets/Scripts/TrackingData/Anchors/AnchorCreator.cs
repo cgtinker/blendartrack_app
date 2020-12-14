@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.XR.ARFoundation;
 
-[RequireComponent(typeof(ARAnchorManager))]
+//[RequireComponent(typeof(ARAnchorManager))]
 [RequireComponent(typeof(ARRaycastManager))]
 public class AnchorCreator : MonoBehaviour
 {
@@ -12,6 +12,15 @@ public class AnchorCreator : MonoBehaviour
     int TapCount;
     public float MaxDubbleTapTime = 0.35f;
     float NewTime;
+
+    static List<ARRaycastHit> s_Hits = new List<ARRaycastHit>();
+
+    public List<ARAnchor> m_Anchors = new List<ARAnchor>();
+    public List<GameObject> AnchorObjects = new List<GameObject>();
+
+    ARRaycastManager m_RaycastManager;
+
+    ARAnchorManager m_AnchorManager;
 
     public GameObject prefab
     {
@@ -116,6 +125,11 @@ public class AnchorCreator : MonoBehaviour
         }
     }
 
+    void CreateMarker(Vector3 position)
+    {
+
+    }
+
     void Update()
     {
         if (Input.touchCount == 1)
@@ -131,7 +145,7 @@ public class AnchorCreator : MonoBehaviour
             {
                 NewTime = Time.time + MaxDubbleTapTime;
             }
-
+            //double tap to place anchor
             else if (TapCount == 2 && Time.time <= NewTime)
             {
                 // Raycast against planes and feature points
@@ -166,15 +180,4 @@ public class AnchorCreator : MonoBehaviour
             TapCount = 0;
         }
     }
-
-
-
-    static List<ARRaycastHit> s_Hits = new List<ARRaycastHit>();
-
-    public List<ARAnchor> m_Anchors = new List<ARAnchor>();
-    public List<GameObject> AnchorObjects = new List<GameObject>();
-
-    ARRaycastManager m_RaycastManager;
-
-    ARAnchorManager m_AnchorManager;
 }
