@@ -3486,7 +3486,7 @@ GameObject:
   - component: {fileID: 8688566835546255243}
   m_Layer: 0
   m_Name: Interface
-  m_TagString: Untagged
+  m_TagString: interfaceManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3577,13 +3577,22 @@ MonoBehaviour:
     userPrefsName: recordCam
     obj: {fileID: 0}
     status: 0
+  - displayName: reference objects
+    userPrefsName: reference
+    obj: {fileID: 0}
+    status: 0
   - displayName: track point cloud
     userPrefsName: cloud
     obj: {fileID: 0}
     status: 0
-  faceSettings:
-  - displayName: record video
-    userPrefsName: recordFace
+  faceSettings: []
+  generalSettings:
+  - displayName: show session hints
+    userPrefsName: hints
+    obj: {fileID: 0}
+    status: 0
+  - displayName: tutorial at app start
+    userPrefsName: tutorial
     obj: {fileID: 0}
     status: 0
 --- !u!1 &1507979270675435925
@@ -5898,8 +5907,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 90
-    m_Right: 90
+    m_Left: 125
+    m_Right: 125
     m_Top: 125
     m_Bottom: 75
   m_ChildAlignment: 0

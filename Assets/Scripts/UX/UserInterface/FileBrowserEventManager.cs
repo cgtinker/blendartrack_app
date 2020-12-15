@@ -331,22 +331,26 @@ namespace ArRetarget
             {
                 for (int i = 0; i < dirs.Length; i++)
                 {
+                    //plugin "NatSuite" generates an empty "gallery-folder" on recording
                     //adding all dirs to list for visibilty (if not contain suffix)
-                    JsonDirectory m_dir = new JsonDirectory();
-                    m_dir.dirName = FileManagement.GetDirectoryName(dirs[i]);
-                    m_dir.dirPath = dirs[i];
-
-                    jsonDirectories.Add(m_dir);
-                    //only create pointers to folders including following suffixes
-                    string[] suffixes = { "cam", "face" };
-
-                    foreach (string suffix in suffixes)
+                    if (!FileManagement.StringEndsWith(dirs[i], "Gallery"))
                     {
-                        if (FileManagement.StringEndsWith(dirs[i], suffix))
+                        JsonDirectory m_dir = new JsonDirectory();
+                        m_dir.dirName = FileManagement.GetDirectoryName(dirs[i]);
+                        m_dir.dirPath = dirs[i];
+
+                        jsonDirectories.Add(m_dir);
+                        //only create pointers to folders including following suffixes
+                        string[] suffixes = { "cam", "face" };
+
+                        foreach (string suffix in suffixes)
                         {
-                            //create new dir obj pointing to json and overwrite previous jsonDir
-                            var updatedDir = SetupDirectoryPointerToJson(dirs[i], suffix, m_dir);
-                            jsonDirectories[i] = updatedDir;
+                            if (FileManagement.StringEndsWith(dirs[i], suffix))
+                            {
+                                //create new dir obj pointing to json and overwrite previous jsonDir
+                                var updatedDir = SetupDirectoryPointerToJson(dirs[i], suffix, m_dir);
+                                jsonDirectories[i] = updatedDir;
+                            }
                         }
                     }
                 }

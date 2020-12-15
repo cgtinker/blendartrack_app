@@ -61,25 +61,51 @@ public class AdditiveSceneManager : MonoBehaviour
     };
     #endregion
 
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log("OnSceneLoaded: " + scene.name);
+        Debug.Log(mode);
+        string tarScene = GetScene(UserPreferences.Instance.GetIntPref("scene"));
+
+        if (tarScene == scene.name)
+            switchingScene = false;
+    }
+
+    private bool switchingScene = false;
     //the scenne switch uses an int to receive the scene input, to allow crossplatform handling
     public void SwitchScene(int sceneIndex)
     {
-        //unload the previous scene (stored in the user preferences)
-        string preScene = GetScene(UserPreferences.Instance.GetIntPref("scene"));
-        if (SceneManager.GetSceneByName(preScene).isLoaded)
-            SceneManager.UnloadSceneAsync(preScene);
+        if (!switchingScene)
+        {
+            switchingScene = true;
 
-        else
-            Debug.Log("User resetted app or uses first time");
+            //unload the previous scene (stored in the user preferences)
+            string preScene = GetScene(UserPreferences.Instance.GetIntPref("scene"));
+            if (SceneManager.GetSceneByName(preScene).isLoaded)
+                SceneManager.UnloadSceneAsync(preScene);
+
+            else
+                Debug.Log("User resetted app or uses first time");
 
 
-        trackingDataManager.ResetTrackerInterfaces();
-        //saving reference to the loaded scene (can be received in the userPrefs)
-        PlayerPrefs.SetInt("scene", sceneIndex);
-        string tarScene = GetScene(sceneIndex);
+            trackingDataManager.ResetTrackerInterfaces();
+            //saving reference to the loaded scene (can be received in the userPrefs)
+            PlayerPrefs.SetInt("scene", sceneIndex);
+            string tarScene = GetScene(sceneIndex);
 
-        //loading the target scene
-        SceneManager.LoadSceneAsync(tarScene, LoadSceneMode.Additive);
+            //loading the target scene
+            SceneManager.LoadSceneAsync(tarScene, LoadSceneMode.Additive);
+        }
     }
 
     public void ReloadScene()

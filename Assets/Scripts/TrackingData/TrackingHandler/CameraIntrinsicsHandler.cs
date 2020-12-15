@@ -13,15 +13,6 @@ namespace ArRetarget
         private ARCameraManager arCameraManager;
         private List<CameraProjectionMatrix> cameraProjection = new List<CameraProjectionMatrix>();
 
-        /*
-         * Handled by TrackerReferences
-        IEnumerator Start()
-        {
-            yield return new WaitForEndOfFrame();
-            var dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
-            dataManager.SetRecorderReference(this.gameObject);
-        }
-        */
         //int frame = 0;
         public void Init()
         {
@@ -31,33 +22,18 @@ namespace ArRetarget
                 var obj = GameObject.FindGameObjectWithTag("arSessionOrigin");
                 arCameraManager = obj.GetComponentInChildren<ARCameraManager>();
                 arCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-
-                //restting values
-                //EnableFrameUpdate();
             }
 
             else
             {
-                //frame = 0;
                 cameraProjection.Clear();
-                //EnableFrameUpdate();
             }
         }
         public void GetFrameData(int frame)
         {
             OnFrameReceived(frame);
         }
-        /*
-        public void EnableFrameUpdate()
-        {
-            arCameraManager.frameReceived += OnFrameReceived;
-        }
 
-        public void StopTracking()
-        {
-            arCameraManager.frameReceived += OnFrameReceived;
-        }
-        */
         public void OnFrameReceived(int frame)  //(ARCameraFrameEventArgs args)
         {
             if (arCamera == null)

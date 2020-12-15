@@ -156,9 +156,12 @@ namespace ArRetarget
 
         public string SerializeJson()
         {
+
+
             string time = FileManagement.GetDateTime();
             string dir_path = $"{persistentPath}/{time}_{prefixs[0].GetJsonPrefix()}";
             string msg = $"{FileManagement.GetParagraph()}{time}_{prefixs[0].GetJsonPrefix()}";
+
             FileManagement.CreateDirectory(dir_path);
 
             for (int i = 0; i < jsons.Count; i++)
@@ -170,7 +173,15 @@ namespace ArRetarget
                 FileManagement.WriteDataToDisk(data: contents, persistentPath: dir_path, filename: filename);
             }
 
-            return msg;
+            if (PlayerPrefs.GetInt("recordCam", -1) == 1)
+            {
+                return msg;
+            }
+            else
+            {
+                string tmp = $"{msg}{FileManagement.GetParagraph()}recording saved to gallery";
+                return tmp;
+            }
         }
     }
 }

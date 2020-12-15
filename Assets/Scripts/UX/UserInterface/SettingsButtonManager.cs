@@ -15,6 +15,7 @@ namespace ArRetarget
 
         public List<SettingButtonData> cameraSettings = new List<SettingButtonData>();
         public List<SettingButtonData> faceSettings = new List<SettingButtonData>();
+        public List<SettingButtonData> generalSettings = new List<SettingButtonData>();
         private List<SettingButtonData> recordingSettings = new List<SettingButtonData>();
         #endregion
 
@@ -27,19 +28,36 @@ namespace ArRetarget
 
         public void GenerateSettingsButtons()
         {
+            //general
+            if (generalSettings.Count > 0)
+            {
+                GenerateSettingsTitel("General");
+                GenerateButtons(generalSettings, false);
+                GenerateEmptySpace();
+            }
+
             //camera settings
-            GenerateSettingsTitel("Camera Tracking");
-            GenerateButtons(cameraSettings, false);
-            GenerateEmptySpace();
+            if (cameraSettings.Count > 0)
+            {
+                GenerateSettingsTitel("Camera Tracking");
+                GenerateButtons(cameraSettings, false);
+                GenerateEmptySpace();
+            }
 
             //face settings
-            GenerateSettingsTitel("Face Tracking");
-            GenerateButtons(faceSettings, false);
-            GenerateEmptySpace();
+            if (faceSettings.Count > 0)
+            {
+                GenerateSettingsTitel("Face Tracking");
+                GenerateButtons(faceSettings, false);
+                GenerateEmptySpace();
+            }
 
-            //video
-            GenerateSettingsTitel("Video Settings");
-            GenerateRecordingSettingsButtons();
+            //video settings generated at runtime (device dependant)
+            if (UserPreferences.Instance.CameraConfigList.Count > 0)
+            {
+                GenerateSettingsTitel("Video Settings");
+                GenerateRecordingSettingsButtons();
+            }
         }
 
 

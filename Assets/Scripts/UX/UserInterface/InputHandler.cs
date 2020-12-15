@@ -71,8 +71,8 @@ namespace ArRetarget
             else
             {
                 popupDisplay.type = PopUpDisplay.PopupType.Notification;
-                popupDisplay.staticDuration = 3f;
-                popupDisplay.text = "Something went wrong...";
+                popupDisplay.staticDuration = 5f;
+                popupDisplay.text = message;
             }
 
             popupDisplay.DisplayPopup(PopupParent);

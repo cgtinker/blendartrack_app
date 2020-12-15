@@ -29,15 +29,15 @@ namespace ArRetarget
         //obj to track
         public void Init()
         {
+            cameraPoseList.Clear();
             mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         }
 
         //get data at a specific frame
         public void GetFrameData(int frame)
         {
-            //Debug.Log("Get Camera Data");
-            var cameraPose = GetPoseData(mainCamera, frame);
-            cameraPoseList.Add(cameraPose);
+            var pose = DataHelper.GetPoseData(mainCamera, frame);
+            cameraPoseList.Add(pose);
         }
 
         //tracked data to json
@@ -57,34 +57,6 @@ namespace ArRetarget
         public string GetJsonPrefix()
         {
             return "cam";
-        }
-
-        //receiving pose data from obj at frame
-        public static PoseData GetPoseData(GameObject obj, int frame)
-        {
-            var pos = new Vector()
-            {
-                x = obj.transform.position.x,
-                y = obj.transform.position.y,
-                z = obj.transform.position.z
-            };
-
-            var rot = new Vector()
-            {
-                x = obj.transform.eulerAngles.x,
-                y = obj.transform.eulerAngles.y,
-                z = obj.transform.eulerAngles.z
-            };
-
-            var cameraPose = new PoseData()
-            {
-                pos = pos,
-                rot = rot,
-
-                frame = frame
-            };
-
-            return cameraPose;
         }
     }
 }

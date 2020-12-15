@@ -10,10 +10,10 @@ namespace ArRetarget
     public class ReferenceCreator : MonoBehaviour
     {
         public ARRaycastManager arRaycastManager;
-
+        bool active;
         [Header("Placed Prefab")]
-        public GameObject MarkerPrefab;
-        public Vector3 MarkerScale = new Vector3(0.1f, 0.1f, 0.1f);
+        public GameObject anchorPrefab;
+        public Vector3 anchorScale = new Vector3(0.1f, 0.1f, 0.1f);
 
         [Header("Double Tapping")]
         int TapCount;
@@ -22,8 +22,17 @@ namespace ArRetarget
         float NewTime;
 
         [HideInInspector]
-        public List<GameObject> Markers = new List<GameObject>();
+        public List<GameObject> anchors = new List<GameObject>();
         private List<ARRaycastHit> arRaycastHits = new List<ARRaycastHit>();
+
+        private void Start()
+        {
+            if (PlayerPrefs.GetInt("reference", -1) == 1)
+                active = true;
+
+            else
+                active = false;
+        }
 
         #region raycast methods
         private void DeleteDetectedMarker(Touch touch)
@@ -34,7 +43,7 @@ namespace ArRetarget
             {
                 if (hit.collider.tag == "anchor")
                 {
-                    DeleteMarker(hit.collider.gameObject);
+                    DeleteAnchor(hit.collider.gameObject);
                 }
             }
         }
@@ -44,7 +53,7 @@ namespace ArRetarget
             if (arRaycastManager.Raycast(touch.position, arRaycastHits))
             {
                 var pose = arRaycastHits[0].pose;
-                CreateMarker(pose.position);
+                CreateAnchor(pose.position);
             }
         }
         #endregion
@@ -52,10 +61,13 @@ namespace ArRetarget
         #region detect input
         public void Update()
         {
-            if (Input.touchCount == 1)
+            if (active)
             {
-                DetectLongTab();
-                DetectDoubleTab();
+                if (Input.touchCount == 1)
+                {
+                    DetectLongTab();
+                    DetectDoubleTab();
+                }
             }
         }
 
@@ -136,18 +148,28 @@ namespace ArRetarget
         #region create & delete
         public event Action CreatedMarker;
 
-        private void CreateMarker(Vector3 position)
+        private void OnDisable()
         {
-            var marker = Instantiate(MarkerPrefab, position, Quaternion.identity);
-            marker.transform.localScale = MarkerScale;
-            Markers.Add(marker);
+            foreach (GameObject anchor in anchors)
+            {
+                Destroy(anchor);
+            }
+
+            anchors.Clear();
+        }
+
+        private void CreateAnchor(Vector3 position)
+        {
+            var marker = Instantiate(anchorPrefab, position, Quaternion.identity);
+            marker.transform.localScale = anchorScale;
+            anchors.Add(marker);
             CreatedMarker();
         }
 
-        private void DeleteMarker(GameObject marker)
+        private void DeleteAnchor(GameObject anchor)
         {
-            Markers.Remove(marker);
-            Destroy(marker);
+            anchors.Remove(anchor);
+            Destroy(anchor);
         }
         #endregion
     }

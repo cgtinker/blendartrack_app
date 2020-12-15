@@ -10,30 +10,40 @@ namespace ArRetarget
         [HideInInspector]
         private List<MeshData> meshDataList = new List<MeshData>();
         private MeshFilter meshFilter;
+        private ARFaceManager m_faceManager;
 
         private void Start()
         {
             TrackingDataManager dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
             dataManager.SetRecorderReference(this.gameObject);
-            /*
-             * face tracking cannot be combined with other tracking functionalities
-             * tests with recording failed due (to low preformance, face tracking req. are to high)
-            var referencer = GameObject.FindGameObjectWithTag("referencer").GetComponent<TrackerReferencer>();
-            referencer.Init();
-            */
+            m_faceManager = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponent<ARFaceManager>();
+            m_faceManager.facesChanged += OnFaceUpdate;
+        }
+
+        private void OnDisable()
+        {
+            meshDataList.Clear();
+            m_faceManager.facesChanged -= OnFaceUpdate;
+        }
+
+        private void OnFaceUpdate(ARFacesChangedEventArgs args)
+        {
+            if (args.added.Count > 0)
+            {
+                var faceObj = args.added[0].gameObject;
+                meshFilter = faceObj.GetComponent<MeshFilter>();
+            }
+
+            if (args.removed.Count > 0)
+            {
+                meshFilter = null;
+            }
         }
 
         //only works with a single face mesh
         public void Init()
         {
-            var mesh = GameObject.FindGameObjectWithTag("face");
-            Debug.Log("Searching Face Mesh");
-
-            if (mesh != null)
-                meshFilter = mesh.GetComponent<MeshFilter>();
-
-            else
-                Debug.LogWarning("Couldn't find a Facemesh");
+            meshDataList.Clear();
         }
 
         //getting verts at a frame
@@ -67,6 +77,7 @@ namespace ArRetarget
             //tmp list for verts in mesh
             var tmpList = new List<Vector>();
 
+            //empty mesh data container
             var mvd = new MeshData()
             {
                 frame = f
@@ -75,33 +86,20 @@ namespace ArRetarget
             //if the face is lost
             if (!mf)
             {
-                var mesh = GameObject.FindGameObjectWithTag("face");
-                Debug.Log("Searching Face Mesh");
-
-                if (mesh != null)
-                    meshFilter = mesh.GetComponent<MeshFilter>();
-
                 return mvd;
             }
 
-            //getting mesh data
+            //getting mesh data from mesh filter
             for (int i = 0; i < mf.mesh.vertexCount; i++)
             {
                 Vector3 tmp = mf.mesh.vertices[i];
-
-                var mVert = new Vector()
-                {
-                    x = tmp.x,
-                    y = tmp.y,
-                    z = tmp.z
-                };
+                var mVert = DataHelper.GetVector(tmp);
 
                 tmpList.Add(mVert);
             }
 
             //mesh data
             mvd.pos = tmpList;
-
 
             return mvd;
         }

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace ArRetarget
@@ -24,8 +23,11 @@ namespace ArRetarget
         #region interfaces
         public void Init()
         {
+            screenPosList.Clear();
+
             //screen space camera
-            arCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+            if (arCamera == null)
+                arCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 
             //camera resolution to normalize screen pos data
             camera_width = arCamera.pixelWidth;
@@ -83,20 +85,10 @@ namespace ArRetarget
             Vector3 tar = new Vector3(pos.x, pos.y, pos.z + offset);
             var point = cam.WorldToScreenPoint(tar);
 
-            Vector tmpScreenPos = new Vector
-            {
-                //normalizing values
-                x = point.x / cam_w,
-                y = point.y / cam_h,
-                z = point.z
-            };
-
-            Vector tmpObjPos = new Vector
-            {
-                x = tar.x,
-                y = tar.y,
-                z = tar.z
-            };
+            //normalized vector
+            var tmpScreenPos = DataHelper.GetVector(new Vector3(point.x / cam_w, point.y / cam_h, point.z));
+            //obj pos
+            Vector tmpObjPos = DataHelper.GetVector(tar);
 
             data.frame = f;
             data.screenPos = tmpScreenPos;

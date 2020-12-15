@@ -13,35 +13,14 @@ namespace ArRetarget
         public CameraConfig cameraConfig;
         public ScreenResolution resolution;
     }
-    /*
-    /// <summary>
-    /// camera intrinsics at a given frame
-    /// </summary>
-    [System.Serializable]
-    public class CameraIntrinsics
-    {
-        public float flX;
-        public float flY;
 
-        public float ppX;
-        public float ppY;
-
-        public int frame;
-    }
-    */
     [System.Serializable]
     public class CameraProjectionMatrix
     {
         public Matrix4x4 cameraProjectionMatrix;
         public int frame;
     }
-    /*
-    [System.Serializable]
-    public class CameraProjectionContainer
-    {
-        public List<CameraProjectionMatrix> cameraProjectionList;
-    }
-    */
+
     [System.Serializable]
     public class ScreenResolution
     {

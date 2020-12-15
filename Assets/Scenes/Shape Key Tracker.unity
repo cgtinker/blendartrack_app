@@ -124,56 +124,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &2083740214 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1174374355524812782, guid: fe0f4b384e3dd4e668f5f0c989cad608,
-    type: 3}
-  m_PrefabInstance: {fileID: 1174374356437457520}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2083740215
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2083740214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41a24fc5582004942961ad723acb5b82, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraManager: {fileID: 1174374356437457521}
---- !u!114 &2083740220
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2083740214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_RenderShadows: 1
-  m_RequiresDepthTextureOption: 2
-  m_RequiresOpaqueTextureOption: 2
-  m_CameraType: 0
-  m_Cameras: []
-  m_RendererIndex: -1
-  m_VolumeLayerMask:
-    serializedVersion: 2
-    m_Bits: 1
-  m_VolumeTrigger: {fileID: 0}
-  m_RenderPostProcessing: 0
-  m_Antialiasing: 0
-  m_AntialiasingQuality: 2
-  m_StopNaN: 0
-  m_Dithering: 0
-  m_ClearDepth: 1
-  m_RequiresDepthTexture: 0
-  m_RequiresColorTexture: 0
-  m_Version: 2
 --- !u!1 &2097440274
 GameObject:
   m_ObjectHideFlags: 0
@@ -273,31 +223,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1174374355524812782, guid: fe0f4b384e3dd4e668f5f0c989cad608,
-        type: 3}
-      propertyPath: m_TagString
-      value: MainCamera
-      objectReference: {fileID: 0}
-    - target: {fileID: 1174374355524812783, guid: fe0f4b384e3dd4e668f5f0c989cad608,
-        type: 3}
-      propertyPath: m_Depth
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1174374355524812783, guid: fe0f4b384e3dd4e668f5f0c989cad608,
-        type: 3}
-      propertyPath: m_BackGroundColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1174374355524812783, guid: fe0f4b384e3dd4e668f5f0c989cad608,
-        type: 3}
-      propertyPath: m_BackGroundColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1174374355524812783, guid: fe0f4b384e3dd4e668f5f0c989cad608,
-        type: 3}
-      propertyPath: m_BackGroundColor.r
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1174374356063063644, guid: fe0f4b384e3dd4e668f5f0c989cad608,
         type: 3}
       propertyPath: m_Name
@@ -360,15 +285,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe0f4b384e3dd4e668f5f0c989cad608, type: 3}
---- !u!114 &1174374356437457521 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1174374355524812753, guid: fe0f4b384e3dd4e668f5f0c989cad608,
-    type: 3}
-  m_PrefabInstance: {fileID: 1174374356437457520}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2083740214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4966719baa26e4b0e8231a24d9bd491a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

@@ -15,6 +15,7 @@ TagManager:
   - pointCloud
   - anchor
   - referencer
+  - interfaceManager
   layers:
   - Default
   - TransparentFX

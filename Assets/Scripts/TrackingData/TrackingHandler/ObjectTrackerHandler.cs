@@ -16,20 +16,11 @@ namespace ArRetarget
         public List<GameObject> objToTrack = new List<GameObject>();
         private List<List<PoseData>> masterList = new List<List<PoseData>>();
 
-        /*
-        IEnumerator Start()
-        {
-            yield return new WaitForEndOfFrame();
-            var dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
-            dataManager.SetRecorderReference(this.gameObject);
-        }
-        */
-
         public void StopTracking()
         {
             var obj = GameObject.FindGameObjectWithTag("arSessionOrigin");
-            var m_ref = obj.GetComponent<AnchorCreator>();
-            var objs = m_ref.AnchorObjects;
+            var m_ref = obj.GetComponent<ReferenceCreator>();
+            var objs = m_ref.anchors;
 
             foreach (var m_obj in objs)
             {
@@ -48,8 +39,8 @@ namespace ArRetarget
         {
             var obj = GameObject.FindGameObjectWithTag("arSessionOrigin");
             var planes = GameObject.FindGameObjectsWithTag("retarget");
-            var m_ref = obj.GetComponent<AnchorCreator>();
-            var objs = m_ref.AnchorObjects;
+            var m_ref = obj.GetComponent<ReferenceCreator>();
+            var objs = m_ref.anchors;
 
             foreach (var m_obj in objs)
             {
