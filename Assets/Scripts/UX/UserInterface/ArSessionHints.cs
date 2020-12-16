@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
@@ -55,7 +56,7 @@ namespace ArRetarget
 
         private float cur_time;
 
-        float minimumBrightness = 0.33f;
+        float minimumBrightness = 0.38f;
         #endregion
 
         private string m_msg;
@@ -393,19 +394,40 @@ namespace ArRetarget
         //on received frame from ar camera
         int cam_ticker = 0;
         bool insufficientLightning = false;
+        List<float> lightningData = new List<float>();
+        float currentLightning = 0;
+
+        //check lightning conditions
         private void FrameChanged(ARCameraFrameEventArgs args)
         {
-            //check lightning conditions every half second
             cam_ticker++;
             {
-                if (cam_ticker == 15)
+                if (cam_ticker == 5)
                 {
                     if (args.lightEstimation.averageBrightness.HasValue)
                     {
-                        if (args.lightEstimation.averageBrightness.Value < minimumBrightness)
+                        if (lightningData.Count < 10)
                         {
-                            insufficientLightning = true;
+                            lightningData.Add(args.lightEstimation.averageBrightness.Value);
                         }
+
+                        else
+                        {
+                            foreach (float data in lightningData)
+                                currentLightning += data;
+
+                            Debug.Log(currentLightning / lightningData.Count);
+
+                            if (currentLightning / lightningData.Count < minimumBrightness)
+                                insufficientLightning = true;
+
+                            else
+                                insufficientLightning = false;
+
+                            currentLightning = 0;
+                            lightningData.Clear();
+                        }
+
                     }
                     cam_ticker = 0;
                 }

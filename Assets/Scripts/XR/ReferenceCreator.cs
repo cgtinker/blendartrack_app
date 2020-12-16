@@ -13,7 +13,7 @@ namespace ArRetarget
         bool active;
         [Header("Placed Prefab")]
         public GameObject anchorPrefab;
-        public Vector3 anchorScale = new Vector3(0.1f, 0.1f, 0.1f);
+        Vector3 anchorScale = new Vector3(0.25f, 0.25f, 0.25f);
 
         [Header("Double Tapping")]
         int TapCount;
@@ -148,14 +148,24 @@ namespace ArRetarget
         #region create & delete
         public event Action CreatedMarker;
 
+        private void OnEnable()
+        {
+            CreatedMarker += OnCreatedMarker;
+        }
+
         private void OnDisable()
         {
             foreach (GameObject anchor in anchors)
             {
                 Destroy(anchor);
             }
-
+            CreatedMarker -= OnCreatedMarker;
             anchors.Clear();
+        }
+
+        private void OnCreatedMarker()
+        {
+            Debug.Log("Created Marker");
         }
 
         private void CreateAnchor(Vector3 position)

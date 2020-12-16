@@ -402,7 +402,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arRaycastManager: {fileID: 4546501231935811554}
-  anchorPrefab: {fileID: 2781838045348517257, guid: 2222e3856ec4b46ebbf0b838cf30a06f,
+  anchorPrefab: {fileID: 4300932609159530064, guid: 246930352c0a444888561032210968bf,
     type: 3}
   anchorScale: {x: 0.1, y: 0.1, z: 0.1}
   MaxDubbleTapTime: 0.3

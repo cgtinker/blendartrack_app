@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.XR.ARFoundation;
+using System.Collections;
 
 namespace ArRetarget
 {
-    public class HeadPositionHandler : MonoBehaviour, IInit, IGet<int>, IJson, IPrefix
+    public class FacePosHandler : MonoBehaviour, IInit, IGet<int>, IJson, IPrefix
     {
         ARFaceManager m_FaceManager;
         GameObject faceObj;
-        List<PoseData> headPosData = new List<PoseData>();
+        List<PoseData> facePoseData = new List<PoseData>();
 
-        private void Start()
+        private void Awake()
         {
             m_FaceManager = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponent<ARFaceManager>();
 
@@ -18,9 +19,16 @@ namespace ArRetarget
                 m_FaceManager.facesChanged += OnFaceUpdate;
         }
 
+        private IEnumerator Start()
+        {
+            yield return new WaitForEndOfFrame();
+            TrackingDataManager dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
+            dataManager.SetRecorderReference(this.gameObject);
+        }
+
         public void Init()
         {
-            headPosData.Clear();
+            facePoseData.Clear();
         }
 
         public void GetFrameData(int frame)
@@ -28,15 +36,15 @@ namespace ArRetarget
             if (faceObj != null)
             {
                 var poseData = DataHelper.GetPoseData(faceObj, frame);
-                headPosData.Add(poseData);
+                facePoseData.Add(poseData);
             }
         }
 
         public string GetJsonString()
         {
-            CameraPoseContainer container = new CameraPoseContainer()
+            FacePoseContainer container = new FacePoseContainer()
             {
-                cameraPoseList = headPosData
+                facePoseList = facePoseData
             };
 
             //create json string
@@ -54,7 +62,7 @@ namespace ArRetarget
             if (m_FaceManager != null)
                 m_FaceManager.facesChanged -= OnFaceUpdate;
 
-            headPosData.Clear();
+            facePoseData.Clear();
         }
 
         private void OnFaceUpdate(ARFacesChangedEventArgs args)

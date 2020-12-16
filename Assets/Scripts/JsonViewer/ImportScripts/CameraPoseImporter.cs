@@ -20,14 +20,19 @@ namespace ArRetarget
 
             yield return new WaitForEndOfFrame();
             StartCoroutine(UpdateData(obj, data));
+            obj.SetActive(true);
         }
 
         private GameObject GenerateGismos()
         {
+            var obj = Instantiate(Resources.Load("TrailGizmos", typeof(GameObject)) as GameObject);
+            obj.SetActive(false);
+            /*
+            //runtime generation doesnt work on ios
             //holds the axis
-            GameObject parent = new GameObject("parent");
-            parent.transform.position = Vector3.zero;
-            parent.transform.rotation = Quaternion.Euler(Vector3.zero);
+            GameObject obj = new GameObject("parent");
+            obj.transform.position = Vector3.zero;
+            obj.transform.rotation = Quaternion.Euler(Vector3.zero);
 
             GameObject axisX = GameObject.CreatePrimitive(PrimitiveType.Cube);
             axisX.name = "axisX";
@@ -56,15 +61,23 @@ namespace ArRetarget
             {
                 axis.GetComponent<MeshRenderer>().material = Resources.Load("SimpleEmission", typeof(Material)) as Material;
                 axis.transform.localScale = new Vector3(0.025f, 0.025f, 1);
-                axis.transform.parent = parent.transform;
+                axis.transform.parent = obj.transform;
             }
-
-            return parent;
+            */
+            return obj;
         }
 
         //updating the pose data based on the jsonViewerHandler
         public IEnumerator UpdateData(GameObject obj, CameraPoseContainer data)
         {
+            //if last frame restart particle emission
+            if (data.cameraPoseList.Count - 1 == viewHandler.frame)
+            {
+                var emitter = obj.GetComponent<ParticleSystem>();
+                emitter.Clear();
+            }
+
+            //data at current frame
             var m_ref = data.cameraPoseList[viewHandler.frame];
             var pos = new Vector3(m_ref.pos.x, m_ref.pos.y - 0.5f, m_ref.pos.z);
             var rot = new Vector3(m_ref.rot.x, m_ref.rot.y, m_ref.rot.z);

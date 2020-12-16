@@ -81,8 +81,7 @@ namespace ArRetarget
         {
             foreach (string path in pathList)
             {
-                if (ValidatePath(path))
-                    File.Delete(path);
+                DeleteFile(path);
             }
         }
 
@@ -98,6 +97,13 @@ namespace ArRetarget
         {
             var dirInfo = new DirectoryInfo(dir);
             FileInfo[] info = dirInfo.GetFiles("*.json");
+            return info;
+        }
+
+        public static FileInfo[] GetZipsAtPath(string dir)
+        {
+            var dirInfo = new DirectoryInfo(dir);
+            FileInfo[] info = dirInfo.GetFiles("*.zip");
             return info;
         }
 

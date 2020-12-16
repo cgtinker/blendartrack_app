@@ -61,6 +61,7 @@ namespace ArRetarget
         //delete selected files
         public void OnDeleteSelectedFiles()
         {
+            PurgeOrphanZips();
             List<string> selectedFiles = GetSelectedDirectories();
 
             if (selectedFiles.Count <= 0)
@@ -73,6 +74,7 @@ namespace ArRetarget
         //native share event for selected files
         public void OnShareSelectedFiles()
         {
+            PurgeOrphanZips();
             //ref selected file
             List<string> selectedDirNames = GetSelectedDirectoryNames();
             List<string> selectedDirPaths = GetSelectedDirectories();
@@ -91,7 +93,7 @@ namespace ArRetarget
                 //listing files to transfer for subject message
                 string filenames = "";
                 var paragraph = FileManagement.GetParagraph();
-                foreach (string filename in selectedDirPaths)
+                foreach (string filename in selectedDirNames)
                 {
                     var curFilename = filename + paragraph;
                     filenames += curFilename;
@@ -108,7 +110,7 @@ namespace ArRetarget
         }
         #endregion
 
-        #region select files
+        #region select file buttons
         public void SelectTodaysFiles()
         {
             if (JsonDirectories.Count == 0)
@@ -137,7 +139,6 @@ namespace ArRetarget
                     btn.ChangeSelectionToggleStatus(false);
                 }
             }
-
             HighlightSelectBtnText(0);
         }
 
@@ -153,7 +154,6 @@ namespace ArRetarget
                 var btn = data.obj.GetComponent<JsonFileButton>();
                 btn.ChangeSelectionToggleStatus(false);
             }
-
             HighlightSelectBtnText(2);
         }
 
@@ -169,8 +169,8 @@ namespace ArRetarget
                 var btn = data.obj.GetComponent<JsonFileButton>();
                 btn.ChangeSelectionToggleStatus(true);
             }
-
             HighlightSelectBtnText(1);
+            PurgeOrphanZips();
         }
 
         public void HighlightSelectBtnText(int index)
@@ -199,6 +199,8 @@ namespace ArRetarget
         //setting all other buttons inactive
         public void OnToggleViewer(int btnIndex, bool activateViewer, string fileContents)
         {
+            PurgeOrphanZips();
+
             if (activateViewer)
             {
                 Debug.Log("attempt to preview data");
@@ -271,6 +273,7 @@ namespace ArRetarget
         /// </summary>
         public void GenerateButtons()
         {
+            PurgeOrphanZips();
             Debug.Log("Generating preview buttons");
             JsonDirectories = GetDirectories();
             JsonDirectories.Sort((JsonDirectory x, JsonDirectory y) => y.value.CompareTo(x.value));
@@ -440,6 +443,20 @@ namespace ArRetarget
         #endregion
 
         #region cleanup
+        public void PurgeOrphanZips()
+        {
+            FileInfo[] zipFiles = FileManagement.GetZipsAtPath(persistentPath);
+
+            if (zipFiles.Length > 0)
+            {
+                Debug.Log("Purging " + zipFiles.Length + " orphan zips");
+                foreach (FileInfo zip in zipFiles)
+                {
+                    FileManagement.DeleteFile(zip.FullName);
+                }
+            }
+        }
+
         /// <summary>
         /// clearing the generated buttons when closing the filebrowser
         /// </summary>

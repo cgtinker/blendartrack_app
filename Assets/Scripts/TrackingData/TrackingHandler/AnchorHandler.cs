@@ -17,7 +17,7 @@ namespace ArRetarget
         public string GetJsonString()
         {
             RefereceData container = new RefereceData();
-            container.poseDatas = anchorPosList;
+            container.referenceDatas = anchorPosList;
             var json = JsonUtility.ToJson(container);
 
             return json;
