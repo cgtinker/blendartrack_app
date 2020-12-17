@@ -54,7 +54,7 @@ namespace ArRetarget
 
         public string GetJsonPrefix()
         {
-            return "HP";
+            return "facepos";
         }
 
         private void OnDisable()

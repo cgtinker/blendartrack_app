@@ -25,7 +25,7 @@ namespace ArRetarget
         public int frame;
     }
 
-    #region mesh data
+    #region vector data
     /// <summary>
     /// descripes a list of vertecies from a mesh at a given frame
     /// </summary>
@@ -44,6 +44,13 @@ namespace ArRetarget
     {
         public List<MeshData> meshDataList;
     }
+
+
+    [System.Serializable]
+    public class RefereceData
+    {
+        public List<Vector> anchorData;
+    }
     #endregion
 
     #region pose data containers
@@ -53,11 +60,6 @@ namespace ArRetarget
         public List<PoseData> facePoseList;
     }
 
-    [System.Serializable]
-    public class RefereceData
-    {
-        public List<PoseData> referenceDatas;
-    }
 
     [System.Serializable]
     public class CameraPoseContainer

@@ -6,7 +6,7 @@ namespace ArRetarget
     public class AnchorHandler : MonoBehaviour, IJson, IInit, IPrefix, IStop
     {
         ReferenceCreator referenceCreator;
-        List<PoseData> anchorPosList = new List<PoseData>();
+        List<Vector> anchorPosList = new List<Vector>();
 
         public void Init()
         {
@@ -17,7 +17,7 @@ namespace ArRetarget
         public string GetJsonString()
         {
             RefereceData container = new RefereceData();
-            container.referenceDatas = anchorPosList;
+            container.anchorData = anchorPosList;
             var json = JsonUtility.ToJson(container);
 
             return json;
@@ -25,15 +25,15 @@ namespace ArRetarget
 
         public string GetJsonPrefix()
         {
-            return "AH";
+            return "anchor";
         }
 
         public void StopTracking()
         {
             foreach (GameObject anchor in referenceCreator.anchors)
             {
-                var pose = DataHelper.GetPoseData(anchor, 0);
-                anchorPosList.Add(pose);
+                var vector = DataHelper.GetVector(anchor.transform.position);
+                anchorPosList.Add(vector);
             }
 
         }

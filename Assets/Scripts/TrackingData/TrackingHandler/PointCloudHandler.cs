@@ -47,7 +47,7 @@ namespace ArRetarget
 
         public string GetJsonPrefix()
         {
-            return "PC";
+            return "cloud";
         }
 
         public string GetJsonString()

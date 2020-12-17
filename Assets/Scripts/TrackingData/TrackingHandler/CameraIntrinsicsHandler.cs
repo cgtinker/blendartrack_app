@@ -64,7 +64,7 @@ namespace ArRetarget
         //json file prefix
         public string GetJsonPrefix()
         {
-            return "CI";
+            return "intrinsics";
         }
 
         //generate container storing intrinsics data, camera config and screen resolution
