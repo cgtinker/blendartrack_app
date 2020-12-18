@@ -48,8 +48,9 @@ public class CameraRecorder : MonoBehaviour, IInit, IStop
 
         //OnReceivedFrameUpdate();
         recording = true;
+        Camera cam = GameObject.FindGameObjectWithTag("recorder").GetComponent<Camera>();
         // recording main camera with nat corder
-        cameraInput = new CameraInput(recorder, clock, Camera.main);
+        cameraInput = new CameraInput(recorder, clock, cam);
     }
     /*
      * as its after receiving a frame, its probaly better to stick to the usual update method

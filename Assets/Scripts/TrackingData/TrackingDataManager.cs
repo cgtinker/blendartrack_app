@@ -173,13 +173,14 @@ namespace ArRetarget
                 FileManagement.WriteDataToDisk(data: contents, persistentPath: dir_path, filename: filename);
             }
 
-            if (PlayerPrefs.GetInt("recordCam", -1) == 1)
+            if (PlayerPrefs.GetInt("recordCam", -1) == -1)
             {
                 return msg;
             }
+
             else
             {
-                string tmp = $"{msg}{FileManagement.GetParagraph()}recording saved to gallery";
+                string tmp = $"{msg}{FileManagement.GetParagraph()}{FileManagement.GetParagraph()}recording saved to gallery";
                 return tmp;
             }
         }

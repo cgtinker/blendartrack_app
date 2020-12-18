@@ -16,6 +16,7 @@ TagManager:
   - anchor
   - referencer
   - interfaceManager
+  - recorder
   layers:
   - Default
   - TransparentFX

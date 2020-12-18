@@ -7,8 +7,7 @@ namespace ArRetarget
 {
     public class FaceMeshHandler : MonoBehaviour, IInit, IGet<int>, IJson, IPrefix
     {
-        [HideInInspector]
-        private List<MeshData> meshDataList = new List<MeshData>();
+        public List<MeshData> m_meshDataList = new List<MeshData>();
         private MeshFilter meshFilter;
         private ARFaceManager m_faceManager;
 
@@ -22,7 +21,7 @@ namespace ArRetarget
 
         private void OnDisable()
         {
-            meshDataList.Clear();
+            m_meshDataList.Clear();
             m_faceManager.facesChanged -= OnFaceUpdate;
         }
 
@@ -43,22 +42,23 @@ namespace ArRetarget
         //only works with a single face mesh
         public void Init()
         {
-            meshDataList.Clear();
+            m_meshDataList.Clear();
         }
 
         //getting verts at a frame
         public void GetFrameData(int f)
         {
-            var meshData = GetMeshData(meshFilter, f);
-            meshDataList.Add(meshData);
+            MeshData meshData = GetMeshData(meshFilter, f);
+            m_meshDataList.Add(meshData);
         }
 
+        //MeshDataContainer meshDataContainer = new MeshDataContainer();
         //tracked data to json
         public string GetJsonString()
         {
             MeshDataContainer meshDataContainer = new MeshDataContainer()
             {
-                meshDataList = meshDataList
+                meshDataList = m_meshDataList
             };
 
             var json = JsonUtility.ToJson(meshDataContainer);
@@ -71,7 +71,9 @@ namespace ArRetarget
             return "face";
         }
 
-
+        public List<Vector> tmpList = new List<Vector>();
+        public Vector3 tmp = new Vector3();
+        public Vector mVert = new Vector();
         public MeshData GetMeshData(MeshFilter mf, int f)
         {
             //tmp list for verts in mesh
@@ -83,6 +85,7 @@ namespace ArRetarget
                 frame = f
             };
 
+
             //if the face is lost
             if (!mf)
             {
@@ -92,9 +95,8 @@ namespace ArRetarget
             //getting mesh data from mesh filter
             for (int i = 0; i < mf.mesh.vertexCount; i++)
             {
-                Vector3 tmp = mf.mesh.vertices[i];
-                var mVert = DataHelper.GetVector(tmp);
-
+                tmp = mf.mesh.vertices[i];
+                mVert = DataHelper.GetVector(tmp);
                 tmpList.Add(mVert);
             }
 

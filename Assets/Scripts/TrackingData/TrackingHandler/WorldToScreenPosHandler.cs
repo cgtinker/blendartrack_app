@@ -65,10 +65,12 @@ namespace ArRetarget
 
         float minDeviation = 0.70f;
         float maxDeviation = 1.70f;
-        float iterations = 7;
+        float iterations = 5;
+        bool rayHit;
+        Vector3 tar;
         public Vector3 DeviationRay()
         {
-            Vector3 tar = Vector3.zero;
+            rayHit = false;
 
             for (int i = 0; i < iterations; i++)
             {
@@ -77,14 +79,18 @@ namespace ArRetarget
                 float v = (camera_height / 2) * Random.Range(minDeviation, maxDeviation);
                 Vector2 pos = new Vector2(u, v);
 
-
                 if (arRaycastManager.Raycast(pos, arRaycastHits))
                 {
-                    Debug.Log(i);
                     var pose = arRaycastHits[0].pose;
                     tar = pose.position;
+                    rayHit = true;
                     break;
                 }
+            }
+
+            if (!rayHit)
+            {
+                tar = new Vector3(arCamera.transform.position.x + 1.5f, arCamera.transform.position.y + 1.5f, arCamera.transform.position.z + 3f);
             }
 
             return tar;

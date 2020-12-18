@@ -416,8 +416,6 @@ namespace ArRetarget
                             foreach (float data in lightningData)
                                 currentLightning += data;
 
-                            Debug.Log(currentLightning / lightningData.Count);
-
                             if (currentLightning / lightningData.Count < minimumBrightness)
                                 insufficientLightning = true;
 
