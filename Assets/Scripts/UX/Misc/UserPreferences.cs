@@ -8,22 +8,58 @@ using UnityEngine;
 public class UserPreferences : Singleton<UserPreferences>
 {
     #region Reference dictionarys for default values
-    private Dictionary<string, string> StringPrefDict = new Dictionary<string, string>()
+    private Dictionary<string, string> StringPrefDict = new Dictionary<string, string>();
+
+    public Dictionary<string, int> IntPrefDict = new Dictionary<string, int>()
     {
-        { "ip", "192.0.1.0"},
-        { "port", "9000" }
+        //scene ref
+        { "scene", 1 },     //sets startup scene and saves last loaded scene
+
+        //tracker references
+        { "recordCam", -1 },     // record video during cam capture
+        { "recordFace", -1 },    // record video during face caputre
+        { "cloud", -1 },         // recording point cloud data
     };
 
-    //scene - additiveSceneManager
-    private Dictionary<string, int> IntPrefDict = new Dictionary<string, int>()
-    {
-        { "scene", 1 },
-    };
+    private Dictionary<string, float> FloatPrefDict = new Dictionary<string, float>();
 
-    private Dictionary<string, float> FloatPrefDict = new Dictionary<string, float>()
+    public Dictionary<string, int> CameraConfigDict = new Dictionary<string, int>();
+    public List<string> CameraConfigList = new List<string>();
+    #endregion
+
+    #region XRCamera Prefs
+    //referencing available camera settings
+    public void ReferenceAvailableXRCameraConfigs(List<string> availableConfigs)
     {
-        {"volume", 1.0f },
-    };
+        //settings can diver depending on front / back camera
+        if (availableConfigs.Count != CameraConfigList.Count)
+        {
+            CameraConfigList.Clear();
+
+            for (int i = 0; i < availableConfigs.Count; i++)
+            {
+                if (!CameraConfigList.Contains(availableConfigs[i]))
+                {
+                    CameraConfigList.Add(availableConfigs[i]);
+                }
+            }
+        }
+    }
+
+    public void SetDefaultXRCameraConfig(string config)
+    {
+        for (int i = 0; i < CameraConfigList.Count; i++)
+        {
+            if (CameraConfigList[i] != config)
+            {
+                PlayerPrefs.SetInt(CameraConfigList[i], -1);
+            }
+            else
+            {
+                PlayerPrefs.SetInt(CameraConfigList[i], 1);
+            }
+        }
+    }
     #endregion
 
     #region Get Values

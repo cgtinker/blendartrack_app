@@ -12,6 +12,11 @@ TagManager:
   - viewer
   - UI_Camera
   - arSessionOrigin
+  - pointCloud
+  - anchor
+  - referencer
+  - interfaceManager
+  - recorder
   layers:
   - Default
   - TransparentFX
@@ -21,7 +26,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - XRComponent
   - 
   - 
   - 

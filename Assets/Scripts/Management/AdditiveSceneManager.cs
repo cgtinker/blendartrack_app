@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR.ARFoundation;
@@ -14,6 +13,8 @@ using System;
 /// </summary>
 public class AdditiveSceneManager : MonoBehaviour
 {
+    public TrackingDataManager trackingDataManager;
+
     //depending on the device, different scenes will be available
     #region Device Management
     public enum Device
@@ -31,10 +32,14 @@ public class AdditiveSceneManager : MonoBehaviour
     //setting device
     private void Awake()
     {
+        trackingDataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
 #if UNITY_IPHONE
         device = Device.iOS;
 #endif
 #if UNITY_ANDROID
+        device = Device.Android;
+#endif
+#if UNITY_EDITOR
         device = Device.Android;
 #endif
     }
@@ -56,23 +61,51 @@ public class AdditiveSceneManager : MonoBehaviour
     };
     #endregion
 
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log("OnSceneLoaded: " + scene.name);
+        Debug.Log(mode);
+        string tarScene = GetScene(UserPreferences.Instance.GetIntPref("scene"));
+
+        if (tarScene == scene.name)
+            switchingScene = false;
+    }
+
+    private bool switchingScene = false;
     //the scenne switch uses an int to receive the scene input, to allow crossplatform handling
     public void SwitchScene(int sceneIndex)
     {
-        //unload the previous scene (stored in the user preferences)
-        string preScene = GetScene(UserPreferences.Instance.GetIntPref("scene"));
-        if (SceneManager.GetSceneByName(preScene).isLoaded)
-            SceneManager.UnloadSceneAsync(preScene);
+        if (!switchingScene)
+        {
+            switchingScene = true;
 
-        else
-            Debug.Log("User resetted app or uses first time");
+            //unload the previous scene (stored in the user preferences)
+            string preScene = GetScene(UserPreferences.Instance.GetIntPref("scene"));
+            if (SceneManager.GetSceneByName(preScene).isLoaded)
+                SceneManager.UnloadSceneAsync(preScene);
 
-        //saving reference to the loaded scene (can be received in the userPrefs)
-        PlayerPrefs.SetInt("scene", sceneIndex);
-        string tarScene = GetScene(sceneIndex);
+            else
+                Debug.Log("User resetted app or uses first time");
 
-        //loading the target scene
-        SceneManager.LoadSceneAsync(tarScene, LoadSceneMode.Additive);
+
+            trackingDataManager.ResetTrackerInterfaces();
+            //saving reference to the loaded scene (can be received in the userPrefs)
+            PlayerPrefs.SetInt("scene", sceneIndex);
+            string tarScene = GetScene(sceneIndex);
+
+            //loading the target scene
+            SceneManager.LoadSceneAsync(tarScene, LoadSceneMode.Additive);
+        }
     }
 
     public void ReloadScene()
@@ -87,29 +120,9 @@ public class AdditiveSceneManager : MonoBehaviour
         }
     }
 
-    //reloading the ar session multiple times results in various bug, thats why it has to be resetted
-    /*
     public void ResetArScene()
     {
-        var obj = GameObject.FindGameObjectWithTag("arSession");
-
-        if (obj != null)
-        {
-            var arSession = obj.GetComponent<ARSession>();
-            var inputManager = obj.GetComponent<ARInputManager>();
-
-            arSession.Reset();
-            arSession.enabled = true;
-            inputManager.enabled = true;
-        }
-
-        else
-            Debug.LogError("ArSession getting called and cannot be found");
-    }
-    */
-    public void ResetArScene()
-    {
-        StartCoroutine(ArFunctionalityHelper.SetAR(enabled: true));
+        StartCoroutine(ArRetarget.ARSessionState.EnableAR(enabled: true));
     }
 
     public Dictionary<int, string> GetDeviceScenes()
