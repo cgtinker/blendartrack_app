@@ -276,7 +276,9 @@ namespace ArRetarget
             PurgeOrphanZips();
             Debug.Log("Generating preview buttons");
             JsonDirectories = GetDirectories();
-            JsonDirectories.Sort((JsonDirectory x, JsonDirectory y) => y.value.CompareTo(x.value));
+
+            if (JsonDirectories.Count > 1)
+                JsonDirectories.Sort((JsonDirectory x, JsonDirectory y) => y.value.CompareTo(x.value));
             HighlightSelectBtnText(2); //none selected
 
             if (JsonDirectories.Count != 0)
@@ -324,42 +326,49 @@ namespace ArRetarget
 
         #region Get Directories
         //dir
+        static string[] suffixes = { "cam", "face" };
         private List<JsonDirectory> GetDirectories()
         {
             //checking for dirs
             string[] dirs = FileManagement.GetDirectories(persistentPath);
-            List<JsonDirectory> jsonDirectories = new List<JsonDirectory>();
+            List<JsonDirectory> tmp_jsonDirectories = new List<JsonDirectory>();
 
-            if (dirs.Length > 0)
+            for (int t = 0; t < dirs.Length; t++)
             {
-                for (int i = 0; i < dirs.Length; i++)
+                //plugin "NatSuite" generates an empty "gallery-folder" on recording
+                if (!FileManagement.StringEndsWith(dirs[t], "Gallery"))
                 {
-                    //plugin "NatSuite" generates an empty "gallery-folder" on recording
-                    //adding all dirs to list for visibilty (if not contain suffix)
-                    if (!FileManagement.StringEndsWith(dirs[i], "Gallery"))
+                    JsonDirectory m_dir = new JsonDirectory();
+                    m_dir.dirName = FileManagement.GetDirectoryName(dirs[t]);
+                    m_dir.dirPath = dirs[t];
+                    Debug.Log(m_dir.dirPath);
+                    tmp_jsonDirectories.Add(m_dir);
+                }
+            }
+
+            if (tmp_jsonDirectories.Count == 0)
+            {
+                return tmp_jsonDirectories;
+            }
+
+            else
+            {
+                for (int i = 0; i < tmp_jsonDirectories.Count; i++)
+                {
+                    //point to cam / face json only
+                    foreach (string suffix in suffixes)
                     {
-                        JsonDirectory m_dir = new JsonDirectory();
-                        m_dir.dirName = FileManagement.GetDirectoryName(dirs[i]);
-                        m_dir.dirPath = dirs[i];
-
-                        jsonDirectories.Add(m_dir);
-                        //only create pointers to folders including following suffixes
-                        string[] suffixes = { "cam", "face" };
-
-                        foreach (string suffix in suffixes)
+                        if (FileManagement.StringEndsWith(tmp_jsonDirectories[i].dirName, suffix))
                         {
-                            if (FileManagement.StringEndsWith(dirs[i], suffix))
-                            {
-                                //create new dir obj pointing to json and overwrite previous jsonDir
-                                var updatedDir = SetupDirectoryPointerToJson(dirs[i], suffix, m_dir);
-                                jsonDirectories[i] = updatedDir;
-                            }
+                            //create new dir obj pointing to json and overwrite previous jsonDir
+                            var updatedDir = SetupDirectoryPointerToJson(tmp_jsonDirectories[i].dirPath, suffix, tmp_jsonDirectories[i]);
+                            tmp_jsonDirectories[i] = updatedDir;
                         }
                     }
                 }
             }
 
-            return jsonDirectories;
+            return tmp_jsonDirectories;
         }
 
         //subdir

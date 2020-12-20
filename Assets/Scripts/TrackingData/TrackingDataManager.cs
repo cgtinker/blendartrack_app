@@ -156,8 +156,6 @@ namespace ArRetarget
 
         public string SerializeJson()
         {
-
-
             string time = FileManagement.GetDateTime();
             string dir_path = $"{persistentPath}/{time}_{prefixs[0].GetJsonPrefix()}";
             string msg = $"{FileManagement.GetParagraph()}{time}_{prefixs[0].GetJsonPrefix()}";
@@ -173,7 +171,8 @@ namespace ArRetarget
                 FileManagement.WriteDataToDisk(data: contents, persistentPath: dir_path, filename: filename);
             }
 
-            if (PlayerPrefs.GetInt("recordCam", -1) == -1)
+            //only if scene loaded
+            if (PlayerPrefs.GetInt("recordCam", -1) == -1 && PlayerPrefs.GetInt("scene", -1) == 1)
             {
                 return msg;
             }

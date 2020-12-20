@@ -3,7 +3,6 @@ using Unity.Collections;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
-using ArRetarget;
 #if UNITY_IOS && !UNITY_EDITOR
 using UnityEngine.XR.ARKit;
 #endif
@@ -21,6 +20,11 @@ namespace ArRetarget
         private bool recording = false;
         ARFace m_Face;
 
+        void Awake()
+        {
+            m_Face = this.gameObject.GetComponent<ARFace>();
+        }
+
         private void Start()
         {
             TrackingDataManager dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
@@ -30,8 +34,6 @@ namespace ArRetarget
         //might crash
         public void Init()
         {
-            m_Face = this.gameObject.GetComponent<ARFace>();
-
 #if UNITY_IOS && !UNITY_EDITOR
             if(m_ARKitFaceSubsystem == null)
             {

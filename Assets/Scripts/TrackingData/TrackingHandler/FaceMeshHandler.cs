@@ -52,6 +52,14 @@ namespace ArRetarget
             m_meshDataList.Add(meshData);
         }
 
+
+        public void Test(int f)
+        {
+            MeshData meshData = GetMeshData(meshFilter, f);
+            string json = JsonUtility.ToJson(meshData);
+            JsonFileWriter.WriteDataToFile(path: "", text: "", title: "", lastFrame: false);
+        }
+
         //MeshDataContainer meshDataContainer = new MeshDataContainer();
         //tracked data to json
         public string GetJsonString()
