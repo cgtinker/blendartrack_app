@@ -79,8 +79,8 @@ namespace ArRetarget
 
             //data at current frame
             var m_ref = data.cameraPoseList[viewHandler.frame];
-            var pos = new Vector3(m_ref.pos.x, m_ref.pos.y - 0.5f, m_ref.pos.z);
-            var rot = new Vector3(m_ref.rot.x, m_ref.rot.y, m_ref.rot.z);
+            var pos = new Vector3((float)m_ref.pos.x, (float)m_ref.pos.y - 0.5f, (float)m_ref.pos.z);
+            var rot = new Vector3((float)m_ref.rot.x, (float)m_ref.rot.y, (float)m_ref.rot.z);
 
             obj.transform.position = pos;
             obj.transform.rotation = Quaternion.Euler(rot);

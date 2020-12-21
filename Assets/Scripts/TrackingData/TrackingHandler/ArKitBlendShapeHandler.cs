@@ -10,7 +10,7 @@ using UnityEngine.XR.ARKit;
 namespace ArRetarget
 {
     [RequireComponent(typeof(ARFace))]
-    public class ArKitBlendShapeHandler : MonoBehaviour, IInit, IJson, IStop, IPrefix
+    public class ArKitBlendShapeHandler : MonoBehaviour, IInit<string>, IStop, IPrefix
     {
 #if UNITY_IOS && !UNITY_EDITOR
         //accessing sub system & init blend shape dict for mapping
@@ -19,6 +19,7 @@ namespace ArRetarget
         private List<BlendShapeData> blendShapeDataList = new List<BlendShapeData>();
         private bool recording = false;
         ARFace m_Face;
+        private bool lastFrame;
 
         void Awake()
         {
@@ -31,9 +32,12 @@ namespace ArRetarget
             dataManager.SetRecorderReference(this.gameObject);
         }
 
-        //might crash
-        public void Init()
+        private string filePath;
+        public void Init(string path)
         {
+            filePath = $"{path}_{j_Prefix()}.json";
+            JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "blendShapeData", lastFrame: false);
+
 #if UNITY_IOS && !UNITY_EDITOR
             if(m_ARKitFaceSubsystem == null)
             {
@@ -46,22 +50,11 @@ namespace ArRetarget
 #endif
             m_Face.updated += OnUpdated;
             recording = true;
-        }
-
-        //generating json string
-        public string GetJsonString()
-        {
-            BlendShapeContainter tmp = new BlendShapeContainter()
-            {
-                blendShapeData = blendShapeDataList
-            };
-
-            var json = JsonUtility.ToJson(tmp);
-            return json;
+            lastFrame = false;
         }
 
         //json file prefix
-        public string GetJsonPrefix()
+        public string j_Prefix()
         {
             return "face";
         }
@@ -69,13 +62,14 @@ namespace ArRetarget
         //if face is lost
         void OnDisable()
         {
+
             Debug.Log("Disabled Manager, stop referencing");
             m_Face.updated -= OnUpdated;
         }
 
         public void StopTracking()
         {
-            recording = false;
+            lastFrame = true;
         }
 
         //receiving update
@@ -116,6 +110,17 @@ namespace ArRetarget
             };
 
             blendShapeDataList.Add(blendShapeData);
+
+            string json = JsonUtility.ToJson(blendShapeData);
+
+                if (lastFrame)
+                {
+                    string par = "]}";
+                    json += par;
+                    recording = false;
+                }
+             JsonFileWriter.WriteDataToFile(path: filePath, text: json, title: "", lastFrame: lastFrame);
+            
 #endif
             }
         }

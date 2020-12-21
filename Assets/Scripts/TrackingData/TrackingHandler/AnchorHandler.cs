@@ -3,18 +3,18 @@ using System.Collections.Generic;
 
 namespace ArRetarget
 {
-    public class AnchorHandler : MonoBehaviour, IJson, IInit, IPrefix, IStop
+    public class AnchorHandler : MonoBehaviour, IJson, IInit<string>, IPrefix, IStop
     {
         ReferenceCreator referenceCreator;
         List<Vector> anchorPosList = new List<Vector>();
 
-        public void Init()
+        public void Init(string path)
         {
             referenceCreator = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponent<ReferenceCreator>();
             anchorPosList.Clear();
         }
 
-        public string GetJsonString()
+        public string j_String()
         {
             RefereceData container = new RefereceData();
             container.anchorData = anchorPosList;
@@ -23,7 +23,7 @@ namespace ArRetarget
             return json;
         }
 
-        public string GetJsonPrefix()
+        public string j_Prefix()
         {
             return "anchor";
         }

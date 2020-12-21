@@ -5,11 +5,10 @@ using System.Collections;
 
 namespace ArRetarget
 {
-    public class FacePosHandler : MonoBehaviour, IInit, IGet<int>, IJson, IPrefix
+    public class FacePosHandler : MonoBehaviour, IInit<string>, IGet<int, bool>, IPrefix
     {
         ARFaceManager m_FaceManager;
         GameObject faceObj;
-        List<PoseData> facePoseData = new List<PoseData>();
 
         private void Awake()
         {
@@ -26,48 +25,45 @@ namespace ArRetarget
             dataManager.SetRecorderReference(this.gameObject);
         }
 
-        public void Init()
+        private string filePath;
+        public void Init(string path)
         {
-            facePoseData.Clear();
+            filePath = $"{path}_{j_Prefix()}.json";
+            JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "facePoseList", lastFrame: false);
+            Debug.Log("init face pos");
         }
 
-        public void GetFrameData(int frame)
+        public void GetFrameData(int frame, bool lastFrame)
         {
             if (faceObj != null)
             {
                 var poseData = DataHelper.GetPoseData(faceObj, frame);
-                facePoseData.Add(poseData);
+                string json = JsonUtility.ToJson(poseData);
+
+                if (lastFrame)
+                {
+                    string par = "]}";
+                    json += par;
+                }
+
+                JsonFileWriter.WriteDataToFile(path: filePath, text: json, title: "", lastFrame: lastFrame);
             }
         }
 
-        public string GetJsonString()
+        public string j_Prefix()
         {
-            FacePoseContainer container = new FacePoseContainer()
-            {
-                facePoseList = facePoseData
-            };
-
-            //create json string
-            var json = JsonUtility.ToJson(container);
-            return json;
-        }
-
-        public string GetJsonPrefix()
-        {
-            return "facepos";
+            return "f-pos";
         }
 
         private void OnDisable()
         {
             if (m_FaceManager != null)
                 m_FaceManager.facesChanged -= OnFaceUpdate;
-
-            facePoseData.Clear();
         }
 
         private void OnFaceUpdate(ARFacesChangedEventArgs args)
         {
-            if (args.added.Count > 0)
+            if (args.added.Count > 0 && !faceObj)
             {
                 faceObj = args.added[0].gameObject;
             }

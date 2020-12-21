@@ -6,7 +6,7 @@ using NatSuite.Recorders.Inputs;
 using UnityEngine.XR.ARFoundation;
 using System.Collections;
 
-public class CameraRecorder : MonoBehaviour, IInit, IStop
+public class CameraRecorder : MonoBehaviour, IInit<string>, IStop
 {
     private CameraInput cameraInput;
     private MP4Recorder recorder;
@@ -16,7 +16,7 @@ public class CameraRecorder : MonoBehaviour, IInit, IStop
 
     private bool recording;
 
-    public void Init()
+    public void Init(string path)
     {
         //referencing the ar camera
         var sessionOrigin = GameObject.FindGameObjectWithTag("arSessionOrigin");
@@ -52,24 +52,7 @@ public class CameraRecorder : MonoBehaviour, IInit, IStop
         // recording main camera with nat corder
         cameraInput = new CameraInput(recorder, clock, cam);
     }
-    /*
-     * as its after receiving a frame, its probaly better to stick to the usual update method
-    private void OnReceivedFrameUpdate()
-    {
-        arCameraManager.frameReceived += CommitVideoFrame;
-    }
 
-    private void OnDisponseFrameUpdate()
-    {
-        arCameraManager.frameReceived -= CommitVideoFrame;
-    }
-    
-    //commiting a frame when a new ar frame is received
-    public void CommitVideoFrame()//(ARCameraFrameEventArgs frame)
-    {
-        clock.Tick();
-    }
-    */
     public async void StopTracking()
     {
         //OnDisponseFrameUpdate();

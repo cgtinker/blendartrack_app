@@ -20,8 +20,8 @@ namespace ArRetarget
     [System.Serializable]
     public class PoseData
     {
-        public Vector pos;
-        public Vector rot;
+        public Vector3 pos;
+        public Vector3 rot;
         public int frame;
     }
 
@@ -32,7 +32,7 @@ namespace ArRetarget
     [System.Serializable]
     public class MeshData
     {
-        public List<Vector> pos;
+        public List<Vector3> pos;
         public int frame;
     }
 
@@ -43,6 +43,12 @@ namespace ArRetarget
     public class MeshDataContainer
     {
         public List<MeshData> meshDataList;
+    }
+
+    [System.Serializable]
+    public class PointCloud
+    {
+        public List<Vector> points;
     }
 
 

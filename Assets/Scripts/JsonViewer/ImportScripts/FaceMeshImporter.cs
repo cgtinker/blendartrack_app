@@ -41,9 +41,11 @@ namespace ArRetarget
         public IEnumerator UpdateData(List<GameObject> obj, MeshDataContainer data)
         {
             for (int i = 0; i < data.meshDataList[viewHandler.frame].pos.Count; i++)
+            //for (int i = 0; i < data.meshDataList[viewHandler.frame].pos.Length; i++)
+
             {
                 var pos = data.meshDataList[viewHandler.frame].pos[i];
-                obj[i].transform.position = new Vector3(pos.x * 10, pos.y * 10, pos.z * 10);
+                obj[i].transform.position = new Vector3((float)pos.x * 10, (float)pos.y * 10, (float)pos.z * 10);
             }
 
             yield return new WaitForEndOfFrame();
@@ -56,7 +58,9 @@ namespace ArRetarget
         private int GetPointAmount(MeshDataContainer data)
         {
             if (data.meshDataList[meshDataListIndex].pos.Count > 0)
+            //if (data.meshDataList[meshDataListIndex].pos.Length > 0)
             {
+                //return data.meshDataList[meshDataListIndex].pos.Length;
                 return data.meshDataList[meshDataListIndex].pos.Count;
             }
 

@@ -1,18 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
+using Unity.Collections;
 
 namespace ArRetarget
 {
-    public class FaceMeshHandler : MonoBehaviour, IInit, IGet<int>, IJson, IPrefix
+    public class FaceMeshHandler : MonoBehaviour, IInit<string>, IPrefix, IStop //IGet<int, bool>,
     {
-        public List<MeshData> m_meshDataList = new List<MeshData>();
-        private MeshFilter meshFilter;
+        private bool lastFrame = false;
+        private ARFace m_face;
         private ARFaceManager m_faceManager;
+        private string filepath;
+
+        private void Awake()
+        {
+            //list to store native vertices
+            s_Vertices = new List<Vector3>();
+        }
 
         private void Start()
         {
+            //reference ar face component
             TrackingDataManager dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
             dataManager.SetRecorderReference(this.gameObject);
             m_faceManager = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponent<ARFaceManager>();
@@ -21,97 +29,139 @@ namespace ArRetarget
 
         private void OnDisable()
         {
-            m_meshDataList.Clear();
+            //unsub from the ar face changes event
             m_faceManager.facesChanged -= OnFaceUpdate;
+            recording = false;
         }
 
+        public void StopTracking()
+        {
+            lastFrame = true;
+        }
+
+        private bool updatedVerticesThisFrame;
+        private int frame;
+        private bool recording = false;
+        static string writerMsg;
+        int tick;
         private void OnFaceUpdate(ARFacesChangedEventArgs args)
         {
+            //assign newly added ar face
             if (args.added.Count > 0)
             {
+                Debug.Log("face added");
                 var faceObj = args.added[0].gameObject;
-                meshFilter = faceObj.GetComponent<MeshFilter>();
+                m_face = faceObj.GetComponent<ARFace>();
             }
 
+            //unassign ar face when it's lost
             if (args.removed.Count > 0)
             {
-                meshFilter = null;
+                Debug.Log("face lost");
+                m_face = null;
             }
+
+            //accessing vertex data
+            if (!updatedVerticesThisFrame && recording)
+            {
+                //getting vertex data
+                frame++;
+                MeshData meshData = GetMeshData(frame);
+                string json = JsonUtility.ToJson(meshData);
+
+
+                if (!lastFrame)
+                {
+                    //storing json message before writing to disk to prevent async overflow
+                    tick++;
+                    if (tick > 15)
+                        writerMsg += $"{json},";
+
+                    //writing data to disk
+                    else
+                    {
+                        writerMsg += json;
+                        tick = 0;
+                        JsonFileWriter.WriteDataToFile(path: filepath, text: writerMsg, title: "", lastFrame: lastFrame);
+                        writerMsg = "";
+                    }
+                }
+
+                else
+                {
+                    //closing json file
+                    string par = "]}";
+                    json += par;
+
+                    writerMsg += json;
+                    JsonFileWriter.WriteDataToFile(path: filepath, text: writerMsg, title: "", lastFrame: lastFrame);
+                    writerMsg = "";
+                    //disable frame update
+                    OnDisable();
+                }
+            }
+            updatedVerticesThisFrame = false;
+
         }
 
         //only works with a single face mesh
-        public void Init()
+        public void Init(string path)
         {
-            m_meshDataList.Clear();
-        }
+            //assign variables
+            lastFrame = false;
+            recording = true;
+            writerMsg = "";
 
-        //getting verts at a frame
-        public void GetFrameData(int f)
-        {
-            MeshData meshData = GetMeshData(meshFilter, f);
-            m_meshDataList.Add(meshData);
-        }
-
-
-        public void Test(int f)
-        {
-            MeshData meshData = GetMeshData(meshFilter, f);
-            string json = JsonUtility.ToJson(meshData);
-            JsonFileWriter.WriteDataToFile(path: "", text: "", title: "", lastFrame: false);
-        }
-
-        //MeshDataContainer meshDataContainer = new MeshDataContainer();
-        //tracked data to json
-        public string GetJsonString()
-        {
-            MeshDataContainer meshDataContainer = new MeshDataContainer()
-            {
-                meshDataList = m_meshDataList
-            };
-
-            var json = JsonUtility.ToJson(meshDataContainer);
-            return json;
+            //init json file on disk
+            filepath = $"{path}_{j_Prefix()}.json";
+            JsonFileWriter.WriteDataToFile(path: filepath, text: "", title: "meshDataList", lastFrame: false);
+            Debug.Log("Initialized face mesh");
         }
 
         //json file prefix
-        public string GetJsonPrefix()
+        public string j_Prefix()
         {
             return "face";
         }
 
         public List<Vector> tmpList = new List<Vector>();
-        public Vector3 tmp = new Vector3();
-        public Vector mVert = new Vector();
-        public MeshData GetMeshData(MeshFilter mf, int f)
+        static List<Vector3> s_Vertices;
+        private MeshData GetMeshData(int f)
         {
-            //tmp list for verts in mesh
-            var tmpList = new List<Vector>();
-
             //empty mesh data container
             var mvd = new MeshData()
             {
+                pos = new List<Vector3>(),
                 frame = f
             };
 
-
-            //if the face is lost
-            if (!mf)
+            //return an empty container if no face is found
+            if (!m_face)
             {
                 return mvd;
             }
 
-            //getting mesh data from mesh filter
-            for (int i = 0; i < mf.mesh.vertexCount; i++)
+            //copy vertex data from native buffer buffer
+            if (TryCopyToList(m_face.vertices, s_Vertices))
             {
-                tmp = mf.mesh.vertices[i];
-                mVert = DataHelper.GetVector(tmp);
-                tmpList.Add(mVert);
+                mvd.pos = s_Vertices;
             }
 
-            //mesh data
-            mvd.pos = tmpList;
-
+            updatedVerticesThisFrame = true;
             return mvd;
+        }
+
+        //copying native vector array from buffer
+        static bool TryCopyToList<T>(NativeArray<T> array, List<T> list) where T : struct
+        {
+            list.Clear();
+            if (!array.IsCreated || array.Length == 0)
+                return false;
+
+            foreach (var item in array)
+                list.Add(item);
+
+            return true;
         }
     }
 }

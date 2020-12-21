@@ -7,15 +7,18 @@ using System.Collections;
 
 namespace ArRetarget
 {
-    public class CameraIntrinsicsHandler : MonoBehaviour, IJson, IInit, IPrefix, IGet<int>
+    public class CameraIntrinsicsHandler : MonoBehaviour, IJson, IInit<string>, IPrefix, IGet<int, bool>
     {
         private Camera arCamera;
         private ARCameraManager arCameraManager;
-        private List<CameraProjectionMatrix> cameraProjection = new List<CameraProjectionMatrix>();
 
+        private string filePath;
         //int frame = 0;
-        public void Init()
+        public void Init(string path)
         {
+            filePath = $"{path}_{j_Prefix()}.json";
+            JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "cameraProjection", lastFrame: false);
+
             //reference to the ar camera
             if (arCameraManager == null || arCamera == null)
             {
@@ -23,18 +26,8 @@ namespace ArRetarget
                 arCameraManager = obj.GetComponentInChildren<ARCameraManager>();
                 arCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
             }
-
-            else
-            {
-                cameraProjection.Clear();
-            }
         }
-        public void GetFrameData(int frame)
-        {
-            OnFrameReceived(frame);
-        }
-
-        public void OnFrameReceived(int frame)  //(ARCameraFrameEventArgs args)
+        public void GetFrameData(int frame, bool lastFrame)
         {
             if (arCamera == null)
             {
@@ -42,31 +35,57 @@ namespace ArRetarget
                 return;
             }
 
-            Matrix4x4 m_matrix = arCamera.projectionMatrix;
-            //Matrix4x4 m_matrix = (Matrix4x4)args.projectionMatrix;
-            CameraProjectionMatrix tmp = new CameraProjectionMatrix();
-            tmp.frame = frame;
-            tmp.cameraProjectionMatrix = m_matrix;
+            if (!lastFrame)
+            {
 
-            cameraProjection.Add(tmp);
+                Matrix4x4 m_matrix = arCamera.projectionMatrix;
+                //Matrix4x4 m_matrix = (Matrix4x4)args.projectionMatrix;
+                CameraProjectionMatrix tmp = new CameraProjectionMatrix();
+                tmp.frame = frame;
+                tmp.cameraProjectionMatrix = m_matrix;
+
+                string json = JsonUtility.ToJson(tmp);
+                JsonFileWriter.WriteDataToFile(path: filePath, text: json, "", lastFrame: lastFrame);
+            }
+
+            else if (lastFrame)
+            {
+                Matrix4x4 m_matrix = arCamera.projectionMatrix;
+                CameraProjectionMatrix tmp = new CameraProjectionMatrix();
+                tmp.frame = frame;
+                tmp.cameraProjectionMatrix = m_matrix;
+
+                CameraConfig m_config = GetCameraConfiguration();
+                ScreenResolution m_res = GetResolution();
+
+                string matrix = JsonUtility.ToJson(tmp);
+                string config = JsonUtility.ToJson(m_config);
+                string res = JsonUtility.ToJson(m_res);
+
+                string par = "}";
+                string quote = "\"";
+                string json = $"{matrix}],{quote}cameraConfig{quote}:{config},{quote}resolution{quote}:{res}{par}";
+
+                JsonFileWriter.WriteDataToFile(path: filePath, text: json, "", lastFrame: lastFrame);
+            }
         }
 
         //provide json string
-        public string GetJsonString()
+        public string j_String()
         {
             CameraIntrinsicsContainer container = GetCameraIntrinsicsContainer();
             var json = JsonUtility.ToJson(container);
-            cameraProjection.Clear();
 
             return json;
         }
 
         //json file prefix
-        public string GetJsonPrefix()
+        public string j_Prefix()
         {
             return "intrinsics";
         }
 
+        //TODO: serialize camera projection & config
         //generate container storing intrinsics data, camera config and screen resolution
         public CameraIntrinsicsContainer GetCameraIntrinsicsContainer()
         {
@@ -76,7 +95,6 @@ namespace ArRetarget
                 return container;
 
             //container.cameraIntrinsics = this.cameraIntrinsics;
-            container.cameraProjection = cameraProjection;
             container.cameraConfig = GetCameraConfiguration();
             container.resolution = GetResolution();
 

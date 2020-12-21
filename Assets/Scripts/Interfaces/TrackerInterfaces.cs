@@ -1,27 +1,27 @@
 ﻿namespace ArRetarget
 {
     //init method for handlers
-    public interface IInit
+    public interface IInit<T>
     {
-        void Init();
+        void Init(T path);
     }
 
     //used if data can be received
-    public interface IGet<T>
+    public interface IGet<T, C>
     {
-        void GetFrameData(T frame);
+        void GetFrameData(T frame, C lastFrame);
     }
 
     //interface for json string
     public interface IJson
     {
-        string GetJsonString();
+        string j_String();
     }
 
     //interface for json prefix
     public interface IPrefix
     {
-        string GetJsonPrefix();
+        string j_Prefix();
     }
 
     //used if data gets pushed

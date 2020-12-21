@@ -12,6 +12,7 @@ public class ImportFaceMeshGraph : MonoBehaviour
 
         int totalFrames = data.meshDataList.Count;
         int totalInputs = data.meshDataList[25].pos.Count;
+        //int totalInputs = data.meshDataList[25].pos.Length;
         int maxValue = 1;
 
         for (int graph = 0; graph < totalInputs; graph++)
@@ -19,7 +20,7 @@ public class ImportFaceMeshGraph : MonoBehaviour
             List<Vector2> GraphData = new List<Vector2>();
             for (int frame = 0; frame < data.meshDataList.Count; frame++)
             {
-                Vector3 tmp = new Vector3(data.meshDataList[frame].pos[graph].x, data.meshDataList[frame].pos[graph].y, data.meshDataList[frame].pos[graph].z);
+                Vector3 tmp = new Vector3((float)data.meshDataList[frame].pos[graph].x, (float)data.meshDataList[frame].pos[graph].y, (float)data.meshDataList[frame].pos[graph].z);
                 float mag = tmp.sqrMagnitude * 100;
 
                 var offsetFrame = (int)(frame - (totalFrames / 2));

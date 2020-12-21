@@ -1,19 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System;
 namespace ArRetarget
 {
     public static class DataHelper
     {
         public static PoseData GetPoseData(GameObject obj, int frame)
         {
-            var pos = GetVector(obj.transform.position);
-            var rot = GetVector(obj.transform.eulerAngles);
+            //var pos = GetVector(obj.transform.position);
+            //var rot = GetVector(obj.transform.eulerAngles);
 
             var m_pose = new PoseData()
             {
-                pos = pos,
-                rot = rot,
+                pos = obj.transform.position,
+                rot = obj.transform.eulerAngles,
+                //pos = pos,
+                //rot = rot,
                 frame = frame
             };
 

@@ -1,13 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
-using System;
-using System.IO;
+﻿using System.IO;
 
 
 public static class JsonFileWriter
 {
     const string quote = "\"";
-    const string f = "]}";      //closing json
+    const string f = "]}";      //closing json list
     const string w = ",";       //listing values
 
     public static string GetContainerPrefix(string containerName)
@@ -24,7 +21,7 @@ public static class JsonFileWriter
             using (StreamWriter sw = File.CreateText(path))
             {
                 string m_prefix = GetContainerPrefix(title);
-                sw.WriteLine($"{m_prefix}{text}{w}");
+                sw.WriteLine($"{m_prefix}");
             }
         }
 
@@ -36,7 +33,7 @@ public static class JsonFileWriter
                 if (!lastFrame)
                     sw.WriteLine($"{text}{w}");
                 else
-                    sw.WriteLine($"{text}{f}");
+                    sw.WriteLine($"{text}");
             }
         }
     }

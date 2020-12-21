@@ -4,57 +4,43 @@ using System.Collections;
 
 namespace ArRetarget
 {
-    public class CameraPoseHandler : MonoBehaviour, IInit, IGet<int>, IJson, IPrefix
+    public class CameraPoseHandler : MonoBehaviour, IInit<string>, IGet<int, bool>, IPrefix
     {
-        private List<PoseData> cameraPoseList = new List<PoseData>();
         private GameObject mainCamera;
 
         private void Start()
         {
-            //execute onle if it's not in the tracker referencer (not necessary atm)
-            if (transform.parent != null)
-            {
-                return;
-            }
-
-            else
-            {
-                var dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
-                dataManager.SetRecorderReference(this.gameObject);
-                var referencer = GameObject.FindGameObjectWithTag("referencer").GetComponent<TrackerReferencer>();
-                referencer.Init();
-            }
+            var dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
+            dataManager.SetRecorderReference(this.gameObject);
+            var referencer = GameObject.FindGameObjectWithTag("referencer").GetComponent<TrackerReferencer>();
+            referencer.Init();
         }
 
-        //obj to track
-        public void Init()
+        private string filePath;
+        public void Init(string path)
         {
-            cameraPoseList.Clear();
+            filePath = $"{path}_{j_Prefix()}.json";
+            JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "cameraPoseList", lastFrame: false);
             mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         }
 
         //get data at a specific frame
-        public void GetFrameData(int frame)
+        public void GetFrameData(int frame, bool lastFrame)
         {
             var pose = DataHelper.GetPoseData(mainCamera, frame);
-            cameraPoseList.Add(pose);
-        }
+            string json = JsonUtility.ToJson(pose);
 
-        //tracked data to json
-        public string GetJsonString()
-        {
-            CameraPoseContainer cameraPoseContainer = new CameraPoseContainer()
+            if (lastFrame)
             {
-                cameraPoseList = cameraPoseList
-            };
+                string par = "]}";
+                json += par;
+            }
 
-            //create json string
-            var json = JsonUtility.ToJson(cameraPoseContainer);
-            return json;
+            JsonFileWriter.WriteDataToFile(path: filePath, text: json, title: "", lastFrame: lastFrame);
         }
 
         //json file prefix
-        public string GetJsonPrefix()
+        public string j_Prefix()
         {
             return "cam";
         }

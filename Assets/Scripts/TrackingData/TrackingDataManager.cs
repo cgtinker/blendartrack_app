@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.XR.ARFoundation;
 
@@ -6,17 +8,19 @@ namespace ArRetarget
 {
     public class TrackingDataManager : MonoBehaviour
     {
+        #region refs
         private string persistentPath;
         public bool _recording = false;
         public bool captureIntrinsics = true;
         private int frame = 0;
         private ARSession arSession;
 
-        private List<IGet<int>> getters = new List<IGet<int>>();
+        private List<IGet<int, bool>> getters = new List<IGet<int, bool>>();
         private List<IJson> jsons = new List<IJson>();
-        private List<IInit> inits = new List<IInit>();
+        private List<IInit<string>> inits = new List<IInit<string>>();
         private List<IStop> stops = new List<IStop>();
         private List<IPrefix> prefixs = new List<IPrefix>();
+        #endregion
 
         #region initialize tracking session
         void Start()
@@ -57,20 +61,25 @@ namespace ArRetarget
         //the tracking references always contains some of the following interfaces
         public void SetRecorderReference(GameObject obj)
         {
-            if (obj.GetComponent<IInit>() != null)
+            if (obj.GetComponent<IInit<string>>() != null)
             {
-                inits.Add(obj.GetComponent<IInit>());
+                inits.Add(obj.GetComponent<IInit<string>>());
+            }
+
+            if (obj.GetComponent<IPrefix>() != null)
+            {
+                prefixs.Add(obj.GetComponent<IPrefix>());
             }
 
             if (obj.GetComponent<IJson>() != null)
             {
+
                 jsons.Add(obj.GetComponent<IJson>());
-                prefixs.Add(obj.GetComponent<IPrefix>());
             }
 
-            if (obj.GetComponent<IGet<int>>() != null)
+            if (obj.GetComponent<IGet<int, bool>>() != null)
             {
-                getters.Add(obj.GetComponent<IGet<int>>());
+                getters.Add(obj.GetComponent<IGet<int, bool>>());
             }
 
             if (obj.GetComponent<IStop>() != null)
@@ -88,14 +97,12 @@ namespace ArRetarget
         {
             if (!_recording)
             {
-                OnInitRetargeting();
-                frame = 0;
-                OnEnableTracking();
+                lastFrame = false;
+                StartCoroutine(OnInitRetargeting());
             }
 
             else
             {
-                OnDisableTracking();
                 OnStopRetargeting();
             }
 
@@ -104,12 +111,38 @@ namespace ArRetarget
             Debug.Log($"Recording: {_recording}");
         }
 
-        //called by toggle button event
-        private void OnInitRetargeting()
+        WaitForEndOfFrame waitForFrame = new WaitForEndOfFrame();
+        public IEnumerator OnInitRetargeting()
         {
+            Debug.Log("new folder");
+            //folder to store files
+            string curTime = FileManagement.GetDateTime();
+
+            string folderPath = $"{persistentPath}/{curTime}_{prefixs[0].j_Prefix()}";
+            FileManagement.CreateDirectory(folderPath);
+            Debug.Log("created dir");
+
+            //time to create dir
+            yield return waitForFrame;
+            //initialize trackers
+            Debug.Log("init subpath");
+            string subPath = $"{folderPath}/{curTime}";
+            InitTrackers(subPath);
+
+            Debug.Log("Enabled retargeting");
+            //time to init
+            yield return waitForFrame;
+            frame = 0;
+            OnEnableTracking();
+        }
+
+        //each tracker creates a file to write json data while tracking
+        private void InitTrackers(string path)
+        {
+            Debug.Log("Attempt to init");
             foreach (var init in inits)
             {
-                init.Init();
+                init.Init(path);
             }
         }
 
@@ -138,34 +171,47 @@ namespace ArRetarget
             Application.onBeforeRender -= OnBeforeRenderPreformUpdate;
         }
 
+        private bool lastFrame;
         //update tracking data before the render event
         protected virtual void OnBeforeRenderPreformUpdate()
         {
-
-            if (_recording && getters.Count > 0)
+            if (_recording && getters.Count > 0 && !lastFrame)
             {
-                frame++;
+                GetFrameData();
+            }
 
-                foreach (var getter in getters)
-                {
-                    getter.GetFrameData(frame);
-                }
+            else if (!_recording && getters.Count > 0 && !lastFrame)
+            {
+                lastFrame = true;
+                GetFrameData();
+                OnDisableTracking();
+            }
+        }
+
+        private void GetFrameData()
+        {
+            frame++;
+            foreach (var getter in getters)
+            {
+                getter.GetFrameData(frame, lastFrame);
             }
         }
         #endregion
 
+        //Todo: fix pathing and determine which files actually needs to use old serialization method
         public string SerializeJson()
         {
+            /*
             string time = FileManagement.GetDateTime();
-            string dir_path = $"{persistentPath}/{time}_{prefixs[0].GetJsonPrefix()}";
-            string msg = $"{FileManagement.GetParagraph()}{time}_{prefixs[0].GetJsonPrefix()}";
+            string dir_path = $"{persistentPath}/{time}_{prefixs[0].j_Prefix()}";
+            string msg = $"{FileManagement.GetParagraph()}{time}_{prefixs[0].j_Prefix()}";
 
             FileManagement.CreateDirectory(dir_path);
 
             for (int i = 0; i < jsons.Count; i++)
             {
-                string contents = jsons[i].GetJsonString();
-                string prefix = prefixs[i].GetJsonPrefix();
+                string contents = jsons[i].j_String();
+                string prefix = prefixs[i].j_Prefix();
                 string filename = $"{time}_{prefix}.json";
 
                 FileManagement.WriteDataToDisk(data: contents, persistentPath: dir_path, filename: filename);
@@ -182,6 +228,8 @@ namespace ArRetarget
                 string tmp = $"{msg}{FileManagement.GetParagraph()}{FileManagement.GetParagraph()}recording saved to gallery";
                 return tmp;
             }
+            */
+            return "";
         }
     }
 }

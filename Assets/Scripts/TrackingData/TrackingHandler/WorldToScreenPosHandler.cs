@@ -4,7 +4,7 @@ using UnityEngine.XR.ARFoundation;
 
 namespace ArRetarget
 {
-    public class WorldToScreenPosHandler : MonoBehaviour, IInit, IGet<int>, IJson, IPrefix
+    public class WorldToScreenPosHandler : MonoBehaviour, IInit<string>, IGet<int, bool>, IJson, IPrefix
     {
         //ReferenceCreator referenceCreator;
         ARRaycastManager arRaycastManager;
@@ -26,11 +26,14 @@ namespace ArRetarget
 
         [HideInInspector]
         public List<ScreenPosData> screenPosList = new List<ScreenPosData>();
+        private string filePath;
 
         #region interfaces
-        public void Init()
+        public void Init(string path)
         {
-            screenPosList.Clear();
+            filePath = $"{path}_{j_Prefix()}.json";
+            JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "screenPosData", lastFrame: false);
+
 
             //screen space camera
             if (arCamera == null)
@@ -40,10 +43,6 @@ namespace ArRetarget
                 cameraTransform = cam.transform;
             }
 
-            /*
-            if (referenceCreator == null)
-                referenceCreator = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponent<ReferenceCreator>();
-            */
             if (arRaycastManager == null)
                 arRaycastManager = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponent<ARRaycastManager>();
 
@@ -53,14 +52,20 @@ namespace ArRetarget
             camera_height = arCamera.pixelHeight;
         }
 
-        public void GetFrameData(int frame)
+        public void GetFrameData(int frame, bool lastFrame)
         {
-            //Vector3 position = GetReferencePoint();
             Vector3 position = DeviationRay();
 
             ScreenPosData data = VPToScreenPoint(cam: arCamera, cam_w: camera_width, cam_h: camera_height, pos: position, offset: 0, f: frame);
+            string json = JsonUtility.ToJson(data);
 
-            screenPosList.Add(data);
+            if (lastFrame)
+            {
+                string par = "]}";
+                json += par;
+            }
+
+            JsonFileWriter.WriteDataToFile(path: filePath, text: json, title: "", lastFrame: lastFrame);
         }
 
         float minDeviation = 0.70f;
@@ -96,41 +101,12 @@ namespace ArRetarget
             return tar;
         }
 
-        //depricated anchor method
-        /*
-        public Vector3 GetReferencePoint()
-        {
-            Vector3 m_vector = Vector3.zero;
-
-            var anchors = referenceCreator.anchors;
-
-            if (anchors.Count > 0)
-            {
-                foreach (GameObject anchor in anchors)
-                {
-                    if (anchor.gameObject.GetComponentInChildren<MeshRenderer>().isVisible)
-                    {
-                        float dist = (Vector3.Distance(cameraTransform.position, anchor.transform.position));
-
-                        if (dist > 0f && dist < 10f)
-                        {
-                            m_vector = anchor.transform.position;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            return m_vector;
-        }
-        */
-
-        public string GetJsonPrefix()
+        public string j_Prefix()
         {
             return "screen";
         }
 
-        public string GetJsonString()
+        public string j_String()
         {
             ScreenPosContainer container = new ScreenPosContainer()
             {
@@ -141,6 +117,7 @@ namespace ArRetarget
 
             return json;
         }
+
         #endregion
         /// <summary>
         /// returns a vector with normalized x, y values at a given frame:
