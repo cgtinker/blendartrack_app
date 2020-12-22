@@ -50,6 +50,10 @@ namespace ArRetarget
             //camera resolution to normalize screen pos data
             camera_width = arCamera.pixelWidth;
             camera_height = arCamera.pixelHeight;
+
+            curTick = 0;
+            write = false;
+            jsonContents = "";
         }
 
         public void GetFrameData(int frame, bool lastFrame)
@@ -64,8 +68,23 @@ namespace ArRetarget
                 string par = "]}";
                 json += par;
             }
+            WriteData(json, lastFrame);
 
-            JsonFileWriter.WriteDataToFile(path: filePath, text: json, title: "", lastFrame: lastFrame);
+            //JsonFileWriter.WriteDataToFile(path: filePath, text: json, title: "", lastFrame: lastFrame);
+        }
+
+        int curTick;
+        bool write;
+        static string jsonContents;
+        private void WriteData(string json, bool lastFrame)
+        {
+            (jsonContents, curTick, write) = DataHelper.JsonContentTicker(lastFrame: lastFrame, curTick: curTick, reqTick: 49, contents: jsonContents, json: json);
+
+            if (write)
+            {
+                JsonFileWriter.WriteDataToFile(path: filePath, text: jsonContents, title: "", lastFrame: lastFrame);
+                jsonContents = "";
+            }
         }
 
         float minDeviation = 0.70f;
@@ -95,6 +114,7 @@ namespace ArRetarget
 
             if (!rayHit)
             {
+                Debug.LogWarning("No plane object found");
                 tar = new Vector3(arCamera.transform.position.x + 1.5f, arCamera.transform.position.y + 1.5f, arCamera.transform.position.z + 3f);
             }
 
@@ -138,13 +158,11 @@ namespace ArRetarget
             var point = cam.WorldToScreenPoint(tar);
 
             //normalized vector
-            var tmpScreenPos = DataHelper.GetVector(new Vector3(point.x / cam_w, point.y / cam_h, point.z));
-            //obj pos
-            Vector tmpObjPos = DataHelper.GetVector(tar);
+            var tmpScreenPos = new Vector3(point.x / cam_w, point.y / cam_h, point.z);
 
             data.frame = f;
             data.screenPos = tmpScreenPos;
-            data.objPos = tmpObjPos;
+            data.objPos = tar;
 
             return data;
         }

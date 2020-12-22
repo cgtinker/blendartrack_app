@@ -6,7 +6,7 @@ namespace ArRetarget
     public class AnchorHandler : MonoBehaviour, IJson, IInit<string>, IPrefix, IStop
     {
         ReferenceCreator referenceCreator;
-        List<Vector> anchorPosList = new List<Vector>();
+        List<Vector3> anchorPosList = new List<Vector3>();
 
         public void Init(string path)
         {
@@ -32,7 +32,7 @@ namespace ArRetarget
         {
             foreach (GameObject anchor in referenceCreator.anchors)
             {
-                var vector = DataHelper.GetVector(anchor.transform.position);
+                var vector = anchor.transform.position;
                 anchorPosList.Add(vector);
             }
 

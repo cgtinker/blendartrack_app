@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using Unity.Collections;
-using System.Collections;
 
 namespace ArRetarget
 {
@@ -26,7 +24,12 @@ namespace ArRetarget
                 arCameraManager = obj.GetComponentInChildren<ARCameraManager>();
                 arCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
             }
+
+            curTick = 0;
+            contents = "";
+            write = false;
         }
+
         public void GetFrameData(int frame, bool lastFrame)
         {
             if (arCamera == null)
@@ -45,7 +48,8 @@ namespace ArRetarget
                 tmp.cameraProjectionMatrix = m_matrix;
 
                 string json = JsonUtility.ToJson(tmp);
-                JsonFileWriter.WriteDataToFile(path: filePath, text: json, "", lastFrame: lastFrame);
+                //JsonFileWriter.WriteDataToFile(path: filePath, text: json, "", lastFrame: lastFrame);
+                GetAndWriteData(lastFrame, json);
             }
 
             else if (lastFrame)
@@ -65,8 +69,22 @@ namespace ArRetarget
                 string par = "}";
                 string quote = "\"";
                 string json = $"{matrix}],{quote}cameraConfig{quote}:{config},{quote}resolution{quote}:{res}{par}";
+                GetAndWriteData(lastFrame, json);
+                //JsonFileWriter.WriteDataToFile(path: filePath, text: json, "", lastFrame: lastFrame);
+            }
+        }
 
-                JsonFileWriter.WriteDataToFile(path: filePath, text: json, "", lastFrame: lastFrame);
+        int curTick;
+        static string contents;
+        bool write;
+        private void GetAndWriteData(bool lastFrame, string json)
+        {
+            (contents, curTick, write) = DataHelper.JsonContentTicker(lastFrame: lastFrame, curTick: curTick, reqTick: 23, contents: contents, json: json);
+
+            if (write)
+            {
+                JsonFileWriter.WriteDataToFile(path: filePath, text: contents, "", lastFrame: lastFrame);
+                contents = "";
             }
         }
 

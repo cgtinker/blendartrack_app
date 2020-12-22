@@ -9,7 +9,7 @@ namespace ArRetarget
     public class PointCloudHandler : MonoBehaviour, IInit<string>, IStop, IPrefix
     {
         ARPointCloud arPointCloud;
-        public List<Vector> points;
+        public List<Vector3> points;
         private string filePath;
         private bool lastFrame;
 
@@ -54,7 +54,7 @@ namespace ArRetarget
                 //getting point cloud data
                 foreach (Vector3 vec in pos)
                 {
-                    var point = DataHelper.GetVector(vec);
+                    var point = vec;
 
                     string json = JsonUtility.ToJson(point);
                     JsonFileWriter.WriteDataToFile(path: filePath, text: json, title: "", lastFrame: lastFrame);
@@ -67,7 +67,7 @@ namespace ArRetarget
 
                 foreach (Vector3 vec in pos)
                 {
-                    var point = DataHelper.GetVector(vec);
+                    var point = vec;
                     m_j = JsonUtility.ToJson(point);
                     break;
                 }

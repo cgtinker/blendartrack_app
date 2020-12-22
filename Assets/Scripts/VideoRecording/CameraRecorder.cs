@@ -3,8 +3,6 @@ using ArRetarget;
 using NatSuite.Recorders;
 using NatSuite.Recorders.Clocks;
 using NatSuite.Recorders.Inputs;
-using UnityEngine.XR.ARFoundation;
-using System.Collections;
 
 public class CameraRecorder : MonoBehaviour, IInit<string>, IStop
 {

@@ -5,7 +5,7 @@ using Unity.Collections;
 
 namespace ArRetarget
 {
-    public class FaceMeshHandler : MonoBehaviour, IInit<string>, IPrefix, IStop //IGet<int, bool>,
+    public class FaceMeshHandler : MonoBehaviour, IInit<string>, IPrefix, IStop
     {
         private bool lastFrame = false;
         private ARFace m_face;
@@ -39,11 +39,6 @@ namespace ArRetarget
             lastFrame = true;
         }
 
-        private bool updatedVerticesThisFrame;
-        private int frame;
-        private bool recording = false;
-        static string writerMsg;
-        int tick;
         private void OnFaceUpdate(ARFacesChangedEventArgs args)
         {
             //assign newly added ar face
@@ -61,6 +56,17 @@ namespace ArRetarget
                 m_face = null;
             }
 
+            GetMeshDataAndWriteJson();
+        }
+
+        private int frame;
+        private int curTick = 0;
+        static string jsonContents;
+        private bool updatedVerticesThisFrame;
+        private bool recording = false;
+        bool write = false;
+        private void GetMeshDataAndWriteJson()
+        {
             //accessing vertex data
             if (!updatedVerticesThisFrame && recording)
             {
@@ -69,39 +75,22 @@ namespace ArRetarget
                 MeshData meshData = GetMeshData(frame);
                 string json = JsonUtility.ToJson(meshData);
 
+                (jsonContents, curTick, write) = DataHelper.JsonContentTicker(lastFrame: lastFrame, curTick: curTick, reqTick: 15, contents: jsonContents, json);
 
-                if (!lastFrame)
+                if (write && !lastFrame)
                 {
-                    //storing json message before writing to disk to prevent async overflow
-                    tick++;
-                    if (tick > 15)
-                        writerMsg += $"{json},";
-
-                    //writing data to disk
-                    else
-                    {
-                        writerMsg += json;
-                        tick = 0;
-                        JsonFileWriter.WriteDataToFile(path: filepath, text: writerMsg, title: "", lastFrame: lastFrame);
-                        writerMsg = "";
-                    }
+                    JsonFileWriter.WriteDataToFile(path: filepath, text: jsonContents, title: "", lastFrame: lastFrame);
+                    jsonContents = "";
                 }
 
-                else
+                else if (write && lastFrame)
                 {
-                    //closing json file
-                    string par = "]}";
-                    json += par;
-
-                    writerMsg += json;
-                    JsonFileWriter.WriteDataToFile(path: filepath, text: writerMsg, title: "", lastFrame: lastFrame);
-                    writerMsg = "";
-                    //disable frame update
+                    JsonFileWriter.WriteDataToFile(path: filepath, text: jsonContents, title: "", lastFrame: lastFrame);
+                    jsonContents = "";
                     OnDisable();
                 }
             }
             updatedVerticesThisFrame = false;
-
         }
 
         //only works with a single face mesh
@@ -109,8 +98,11 @@ namespace ArRetarget
         {
             //assign variables
             lastFrame = false;
+            write = false;
             recording = true;
-            writerMsg = "";
+            jsonContents = "";
+            frame = 0;
+            curTick = 0;
 
             //init json file on disk
             filepath = $"{path}_{j_Prefix()}.json";
@@ -124,7 +116,6 @@ namespace ArRetarget
             return "face";
         }
 
-        public List<Vector> tmpList = new List<Vector>();
         static List<Vector3> s_Vertices;
         private MeshData GetMeshData(int f)
         {
