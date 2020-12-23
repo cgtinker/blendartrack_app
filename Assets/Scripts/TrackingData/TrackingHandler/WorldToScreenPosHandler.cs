@@ -63,11 +63,6 @@ namespace ArRetarget
             ScreenPosData data = VPToScreenPoint(cam: arCamera, cam_w: camera_width, cam_h: camera_height, pos: position, offset: 0, f: frame);
             string json = JsonUtility.ToJson(data);
 
-            if (lastFrame)
-            {
-                string par = "]}";
-                json += par;
-            }
             WriteData(json, lastFrame);
 
             //JsonFileWriter.WriteDataToFile(path: filePath, text: json, title: "", lastFrame: lastFrame);
