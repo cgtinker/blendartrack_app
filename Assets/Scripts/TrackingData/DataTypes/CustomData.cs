@@ -4,17 +4,6 @@ using System.Collections.Generic;
 namespace ArRetarget
 {
     /// <summary>
-    /// descripes a vector
-    /// </summary>
-    [System.Serializable]
-    public class Vector
-    {
-        public float x;
-        public float y;
-        public float z;
-    }
-
-    /// <summary>
     /// descripes position and rotation at a given frame
     /// </summary>
     [System.Serializable]
@@ -48,14 +37,14 @@ namespace ArRetarget
     [System.Serializable]
     public class PointCloud
     {
-        public List<Vector> points;
+        public List<Vector3> points;
     }
 
 
     [System.Serializable]
     public class RefereceData
     {
-        public List<Vector> anchorData;
+        public List<Vector3> anchorData;
     }
     #endregion
 
@@ -81,8 +70,8 @@ namespace ArRetarget
     [System.Serializable]
     public class ScreenPosData
     {
-        public Vector screenPos;
-        public Vector objPos;
+        public Vector3 screenPos;
+        public Vector3 objPos;
         public int frame;
     }
 

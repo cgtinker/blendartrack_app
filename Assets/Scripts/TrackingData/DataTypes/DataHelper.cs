@@ -7,32 +7,54 @@ namespace ArRetarget
     {
         public static PoseData GetPoseData(GameObject obj, int frame)
         {
-            //var pos = GetVector(obj.transform.position);
-            //var rot = GetVector(obj.transform.eulerAngles);
-
             var m_pose = new PoseData()
             {
                 pos = obj.transform.position,
                 rot = obj.transform.eulerAngles,
-                //pos = pos,
-                //rot = rot,
                 frame = frame
             };
 
             return m_pose;
         }
 
-        public static Vector GetVector(Vector3 vec)
+        /// <summary>
+        /// Helps to time the async writing process of the .json
+        /// </summary>
+        /// <param name="lastFrame"></param> bool if it's the last frame to record
+        /// <param name="curTick"></param> current tick
+        /// <param name="reqTick"></param> ticks required till writing
+        /// <param name="contents"></param> string with stored json contents
+        /// <param name="json"></param> added json data
+        /// <returns></returns>
+        /// returns updated contents, current tick and a bool to determine if to write to disk
+        public static (string, int, bool) JsonContentTicker(bool lastFrame, int curTick, int reqTick, string contents, string json)
         {
-            var m_vector = new Vector()
+            if (!lastFrame)
             {
-                x = vec.x,
-                y = vec.y,
-                z = vec.z
-            };
+                //storing json contents before writing to disk to prevent async overflow
+                curTick++;
+                if (curTick > reqTick)
+                {
+                    contents += $"{json},";
+                    return (contents, curTick, false);
+                }
 
-            return m_vector;
+                //writing data to disk
+                else
+                {
+                    contents += json;
+                    return (contents, 0, true);
+                }
+            }
+
+            else
+            {
+                //closing json file
+                string par = "]}";
+                json += par;
+                contents += json;
+                return (contents, 0, true);
+            }
         }
     }
 }
-

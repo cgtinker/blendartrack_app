@@ -27,16 +27,25 @@ namespace ArRetarget
         //get data at a specific frame
         public void GetFrameData(int frame, bool lastFrame)
         {
-            var pose = DataHelper.GetPoseData(mainCamera, frame);
-            string json = JsonUtility.ToJson(pose);
+            if (mainCamera)
+                AccessingPoseData(frame, lastFrame);
+        }
 
-            if (lastFrame)
+        private int curTick;
+        static string jsonContents;
+        private bool write;
+        private void AccessingPoseData(int frame, bool lastFrame)
+        {
+            //getting vertex data
+            var poseData = DataHelper.GetPoseData(mainCamera, frame);
+            string json = JsonUtility.ToJson(poseData);
+            (jsonContents, curTick, write) = DataHelper.JsonContentTicker(lastFrame: lastFrame, curTick: curTick, reqTick: 61, contents: jsonContents, json: json);
+
+            if (write)
             {
-                string par = "]}";
-                json += par;
+                JsonFileWriter.WriteDataToFile(path: filePath, text: jsonContents, title: "", lastFrame: lastFrame);
+                jsonContents = "";
             }
-
-            JsonFileWriter.WriteDataToFile(path: filePath, text: json, title: "", lastFrame: lastFrame);
         }
 
         //json file prefix

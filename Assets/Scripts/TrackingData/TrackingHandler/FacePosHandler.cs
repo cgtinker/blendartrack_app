@@ -28,6 +28,8 @@ namespace ArRetarget
         private string filePath;
         public void Init(string path)
         {
+            write = false;
+            curTick = 0;
             filePath = $"{path}_{j_Prefix()}.json";
             JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "facePoseList", lastFrame: false);
             Debug.Log("init face pos");
@@ -37,22 +39,30 @@ namespace ArRetarget
         {
             if (faceObj != null)
             {
-                var poseData = DataHelper.GetPoseData(faceObj, frame);
-                string json = JsonUtility.ToJson(poseData);
+                AccessingPoseData(frame, lastFrame);
+            }
+        }
 
-                if (lastFrame)
-                {
-                    string par = "]}";
-                    json += par;
-                }
+        private int curTick;
+        static string jsonContents;
+        private bool write;
+        private void AccessingPoseData(int frame, bool lastFrame)
+        {
+            //getting vertex data
+            var poseData = DataHelper.GetPoseData(faceObj, frame);
+            string json = JsonUtility.ToJson(poseData);
+            (jsonContents, curTick, write) = DataHelper.JsonContentTicker(lastFrame: lastFrame, curTick: curTick, reqTick: 53, contents: jsonContents, json: json);
 
-                JsonFileWriter.WriteDataToFile(path: filePath, text: json, title: "", lastFrame: lastFrame);
+            if (write)
+            {
+                JsonFileWriter.WriteDataToFile(path: filePath, text: jsonContents, title: "", lastFrame: lastFrame);
+                jsonContents = "";
             }
         }
 
         public string j_Prefix()
         {
-            return "f-pos";
+            return "f-pose";
         }
 
         private void OnDisable()

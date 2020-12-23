@@ -46,7 +46,9 @@ namespace ArRetarget
             if (arRaycastManager == null)
                 arRaycastManager = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponent<ARRaycastManager>();
 
-
+            curTick = 0;
+            write = false;
+            jsonContents = "";
             //camera resolution to normalize screen pos data
             camera_width = arCamera.pixelWidth;
             camera_height = arCamera.pixelHeight;
@@ -59,13 +61,21 @@ namespace ArRetarget
             ScreenPosData data = VPToScreenPoint(cam: arCamera, cam_w: camera_width, cam_h: camera_height, pos: position, offset: 0, f: frame);
             string json = JsonUtility.ToJson(data);
 
-            if (lastFrame)
-            {
-                string par = "]}";
-                json += par;
-            }
+            WriteData(json, lastFrame);
+        }
 
-            JsonFileWriter.WriteDataToFile(path: filePath, text: json, title: "", lastFrame: lastFrame);
+        int curTick;
+        bool write;
+        static string jsonContents;
+        private void WriteData(string json, bool lastFrame)
+        {
+            (jsonContents, curTick, write) = DataHelper.JsonContentTicker(lastFrame: lastFrame, curTick: curTick, reqTick: 49, contents: jsonContents, json: json);
+
+            if (write)
+            {
+                JsonFileWriter.WriteDataToFile(path: filePath, text: jsonContents, title: "", lastFrame: lastFrame);
+                jsonContents = "";
+            }
         }
 
         float minDeviation = 0.70f;
@@ -90,6 +100,11 @@ namespace ArRetarget
                     tar = pose.position;
                     rayHit = true;
                     break;
+                }
+
+                else
+                {
+                    Debug.LogWarning("No plane object found");
                 }
             }
 
@@ -134,17 +149,15 @@ namespace ArRetarget
         public static ScreenPosData VPToScreenPoint(Camera cam, float cam_w, float cam_h, Vector3 pos, float offset, int f)
         {
             ScreenPosData data = new ScreenPosData();
-            Vector3 tar = new Vector3(pos.x, pos.y, pos.z + offset);
-            var point = cam.WorldToScreenPoint(tar);
+            Vector3 target = new Vector3(pos.x, pos.y, pos.z + offset);
+            var point = cam.WorldToScreenPoint(target);
 
             //normalized vector
-            var tmpScreenPos = DataHelper.GetVector(new Vector3(point.x / cam_w, point.y / cam_h, point.z));
-            //obj pos
-            Vector tmpObjPos = DataHelper.GetVector(tar);
+            var tmpScreenPos = new Vector3(point.x / cam_w, point.y / cam_h, point.z);
 
             data.frame = f;
             data.screenPos = tmpScreenPos;
-            data.objPos = tmpObjPos;
+            data.objPos = target;
 
             return data;
         }
