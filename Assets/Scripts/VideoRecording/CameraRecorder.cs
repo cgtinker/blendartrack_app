@@ -16,6 +16,7 @@ public class CameraRecorder : MonoBehaviour, IInit<string>, IStop
 
     private bool recording;
 
+    //TODO: Check if landscape mode
     public void Init(string path)
     {
         //referencing the ar camera
@@ -48,7 +49,7 @@ public class CameraRecorder : MonoBehaviour, IInit<string>, IStop
 
         //OnReceivedFrameUpdate();
         recording = true;
-        Camera cam = GameObject.FindGameObjectWithTag("recorder").GetComponent<Camera>();
+        Camera cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         // recording main camera with nat corder
         cameraInput = new CameraInput(recorder, clock, cam);
     }
