@@ -88,7 +88,6 @@ public class AdditiveSceneManager : MonoBehaviour
         if (!switchingScene)
         {
             switchingScene = true;
-
             //unload the previous scene (stored in the user preferences)
             string preScene = GetScene(UserPreferences.Instance.GetIntPref("scene"));
             if (SceneManager.GetSceneByName(preScene).isLoaded)

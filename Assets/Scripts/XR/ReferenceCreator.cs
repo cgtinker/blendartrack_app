@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.XR.ARFoundation;
 using System;
+using UnityEngine.EventSystems;
 
 namespace ArRetarget
 {
@@ -56,6 +57,19 @@ namespace ArRetarget
                 CreateAnchor(pose.position);
             }
         }
+        /*
+        private bool IsHitOverUI()
+        {
+            PointerEventData data = new PointerEventData(EventSystem.current)
+            {
+                position = Input.mousePosition
+            };
+
+            List<RaycastResult> results = new List<RaycastResult>();
+            raycaster.Raycast(data, results);
+            return results.Count > 0;
+        }
+        */
         #endregion
 
         #region detect input
