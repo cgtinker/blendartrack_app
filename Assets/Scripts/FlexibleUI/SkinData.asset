@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e599e622d08a4a2f9302087efbf12b8, type: 3}
+  m_Name: SkinData
+  m_EditorClassIdentifier: 
+  buttonBackground: {fileID: 21300000, guid: a6a79f06504614223a13b1ad8add83ce, type: 3}
+  buttonBackgroundColor: {r: 0.7075472, g: 0.1702118, b: 0.1702118, a: 1}
+  backIcon: {fileID: 21300000, guid: 58ae3bca7d0924ddc94c7bf9d63ccf14, type: 3}
+  iconColor: {r: 1, g: 1, b: 1, a: 1}
+  backButtonSize: 6.5
+  swapIcon: {fileID: 21300000, guid: d22a2e3d7796e4d4bbbe7457bfee934d, type: 3}
+  swapIconSize: 21.8
+  filebrowserIcon: {fileID: 21300000, guid: ceaa6d99bb011481e98de33000d0ff08, type: 3}
+  filebrowserIconSize: 12.1
+  menuIcon: {fileID: 21300000, guid: 4fc555e26c6b54f9fabf99e5a3904144, type: 3}
+  menuIconSize: 15
+  recordIcon: {fileID: 21300000, guid: 3e95f8acef7f449fc812458674a8dd9d, type: 3}
+  recordIconSize: 15
+  settingsIcon: {fileID: 21300000, guid: 4fc555e26c6b54f9fabf99e5a3904144, type: 3}
+  settingsIconSize: 15
