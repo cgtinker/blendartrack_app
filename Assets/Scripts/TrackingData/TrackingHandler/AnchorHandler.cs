@@ -1,26 +1,17 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 
 namespace ArRetarget
 {
-    public class AnchorHandler : MonoBehaviour, IJson, IInit<string>, IPrefix, IStop
+    public class AnchorHandler : MonoBehaviour, IInit<string, string>, IPrefix, IStop
     {
         ReferenceCreator referenceCreator;
-        List<Vector3> anchorPosList = new List<Vector3>();
 
-        public void Init(string path)
+        string filePath;
+        public void Init(string path, string title)
         {
+            filePath = $"{path}{title}_{j_Prefix()}.json";
+            JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "anchorData", lastFrame: false);
             referenceCreator = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponent<ReferenceCreator>();
-            anchorPosList.Clear();
-        }
-
-        public string j_String()
-        {
-            RefereceData container = new RefereceData();
-            container.anchorData = anchorPosList;
-            var json = JsonUtility.ToJson(container);
-
-            return json;
         }
 
         public string j_Prefix()
@@ -28,14 +19,23 @@ namespace ArRetarget
             return "anchor";
         }
 
+        static string jsonContents;
         public void StopTracking()
         {
-            foreach (GameObject anchor in referenceCreator.anchors)
+            for (int i = 0; i < referenceCreator.anchors.Count; i++)
             {
-                var vector = anchor.transform.position;
-                anchorPosList.Add(vector);
+                var vector = referenceCreator.anchors[i].transform.position;
+                string json = JsonUtility.ToJson(vector);
+
+                if (i < referenceCreator.anchors.Count - 1)
+                    jsonContents += $"{json},";
+                else
+                    jsonContents += json;
             }
 
+            jsonContents += "]}";
+            JsonFileWriter.WriteDataToFile(path: filePath, text: jsonContents, title: "", lastFrame: true);
+            jsonContents = "";
         }
     }
 }

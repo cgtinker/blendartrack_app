@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace ArRetarget
 {
-    public class CameraPoseHandler : MonoBehaviour, IInit<string>, IGet<int, bool>, IPrefix
+    public class CameraPoseHandler : MonoBehaviour, IInit<string, string>, IGet<int, bool>, IPrefix
     {
         private GameObject mainCamera;
 
@@ -17,9 +17,9 @@ namespace ArRetarget
         }
 
         private string filePath;
-        public void Init(string path)
+        public void Init(string path, string title)
         {
-            filePath = $"{path}_{j_Prefix()}.json";
+            filePath = $"{path}{title}_{j_Prefix()}.json";
             JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "cameraPoseList", lastFrame: false);
             mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         }

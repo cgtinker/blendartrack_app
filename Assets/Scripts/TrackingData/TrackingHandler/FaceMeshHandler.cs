@@ -5,7 +5,7 @@ using Unity.Collections;
 
 namespace ArRetarget
 {
-    public class FaceMeshHandler : MonoBehaviour, IInit<string>, IPrefix, IStop //IGet<int, bool>,
+    public class FaceMeshHandler : MonoBehaviour, IInit<string, string>, IPrefix, IStop //IGet<int, bool>,
     {
         private bool lastFrame = false;
         private ARFace m_face;
@@ -94,7 +94,7 @@ namespace ArRetarget
         }
 
         //only works with a single face mesh
-        public void Init(string path)
+        public void Init(string path, string title)
         {
             //assign variables
             lastFrame = false;
@@ -102,7 +102,7 @@ namespace ArRetarget
             jsonContents = "";
 
             //init json file on disk
-            filepath = $"{path}_{j_Prefix()}.json";
+            filepath = $"{path}{title}_{j_Prefix()}.json";
             JsonFileWriter.WriteDataToFile(path: filepath, text: "", title: "meshDataList", lastFrame: false);
             Debug.Log("Initialized face mesh");
         }

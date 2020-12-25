@@ -64,8 +64,8 @@ MonoBehaviour:
   - obj: {fileID: 37634667371841323}
     nameInPlayerPrefs: reference
     value: -1
-  motionAnchorTag: MainCamera
-  offset: 3
+  motionAnchorTag: anchor
+  offset: 0
   assigned: 0
 --- !u!1001 &532759090577527539
 PrefabInstance:

@@ -38,6 +38,7 @@ namespace ArRetarget
         }
         #endregion
 
+        #region files
         #region share / save files
         public static void WriteDataToDisk(string data, string persistentPath, string filename)
         {
@@ -73,6 +74,14 @@ namespace ArRetarget
 
             nativeShare.SetSubject(subject).SetText(text);
             nativeShare.Share();
+        }
+        #endregion
+
+        #region copy files
+        public static void CopyFile(string sourceFile, string destFile)
+        {
+            if (ValidatePath(sourceFile))
+                File.Copy(sourceFile, destFile, true);
         }
         #endregion
 
@@ -135,6 +144,7 @@ namespace ArRetarget
                 return false;
             }
         }
+        #endregion
         #endregion
 
         #region directories

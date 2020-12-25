@@ -16,6 +16,7 @@ public class ScrenOrientationHandling : MonoBehaviour
 
     public void SetPortraitMode(bool portrait)
     {
+        Debug.Log("Set Portrait Mode: " + portrait);
         if (portrait)
         {
             Screen.autorotateToLandscapeLeft = false;

@@ -184,10 +184,18 @@ namespace ArRetarget
 
         private void CreateAnchor(Vector3 position)
         {
-            var marker = Instantiate(anchorPrefab, position, Quaternion.identity);
-            marker.transform.localScale = anchorScale;
-            anchors.Add(marker);
-            CreatedMarker();
+            if (anchors.Count > 6)
+            {
+                var marker = Instantiate(anchorPrefab, position, Quaternion.identity);
+                marker.transform.localScale = anchorScale;
+                anchors.Add(marker);
+                CreatedMarker();
+            }
+
+            else
+            {
+                anchors[0].transform.position = position;
+            }
         }
 
         private void DeleteAnchor(GameObject anchor)

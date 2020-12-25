@@ -5,16 +5,16 @@ using Unity.Collections;
 
 namespace ArRetarget
 {
-    public class CameraIntrinsicsHandler : MonoBehaviour, IJson, IInit<string>, IPrefix, IGet<int, bool>
+    public class CameraIntrinsicsHandler : MonoBehaviour, IInit<string, string>, IPrefix, IGet<int, bool> //,IJson
     {
         private Camera arCamera;
         private ARCameraManager arCameraManager;
 
         private string filePath;
         //int frame = 0;
-        public void Init(string path)
+        public void Init(string path, string title)
         {
-            filePath = $"{path}_{j_Prefix()}.json";
+            filePath = $"{path}{title}_{j_Prefix()}.json";
             JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "cameraProjection", lastFrame: false);
 
             //reference to the ar camera
@@ -99,7 +99,7 @@ namespace ArRetarget
                 contents = "";
             }
         }
-
+        /*
         //provide json string
         public string j_String()
         {
@@ -108,7 +108,7 @@ namespace ArRetarget
 
             return json;
         }
-
+        */
         //json file prefix
         public string j_Prefix()
         {

@@ -17,7 +17,7 @@ namespace ArRetarget
 
         private List<IGet<int, bool>> getters = new List<IGet<int, bool>>();
         private List<IJson> jsons = new List<IJson>();
-        private List<IInit<string>> inits = new List<IInit<string>>();
+        private List<IInit<string, string>> inits = new List<IInit<string, string>>();
         private List<IStop> stops = new List<IStop>();
         private List<IPrefix> prefixs = new List<IPrefix>();
         #endregion
@@ -61,9 +61,9 @@ namespace ArRetarget
         //the tracking references always contains some of the following interfaces
         public void SetRecorderReference(GameObject obj)
         {
-            if (obj.GetComponent<IInit<string>>() != null)
+            if (obj.GetComponent<IInit<string, string>>() != null)
             {
-                inits.Add(obj.GetComponent<IInit<string>>());
+                inits.Add(obj.GetComponent<IInit<string, string>>());
             }
 
             if (obj.GetComponent<IPrefix>() != null)
@@ -112,13 +112,14 @@ namespace ArRetarget
         }
 
         WaitForEndOfFrame waitForFrame = new WaitForEndOfFrame();
+        string folderPath = "";
         public IEnumerator OnInitRetargeting()
         {
             Debug.Log("new folder");
             //folder to store files
             string curTime = FileManagement.GetDateTime();
 
-            string folderPath = $"{persistentPath}/{curTime}_{prefixs[0].j_Prefix()}";
+            folderPath = $"{persistentPath}/{curTime}_{prefixs[0].j_Prefix()}";
             FileManagement.CreateDirectory(folderPath);
             Debug.Log("created dir");
 
@@ -126,23 +127,22 @@ namespace ArRetarget
             yield return waitForFrame;
             //initialize trackers
             Debug.Log("init subpath");
-            string subPath = $"{folderPath}/{curTime}";
-            InitTrackers(subPath);
+            InitTrackers(folderPath, "/" + curTime);
 
             Debug.Log("Enabled retargeting");
-            //time to init
+            //time to init - starting at frame 1 because of the delay
             yield return waitForFrame;
-            frame = 0;
+            frame = 1;
             OnEnableTracking();
         }
 
         //each tracker creates a file to write json data while tracking
-        private void InitTrackers(string path)
+        private void InitTrackers(string path, string title)
         {
             Debug.Log("Attempt to init");
             foreach (var init in inits)
             {
-                init.Init(path);
+                init.Init(path, title);
             }
         }
 
@@ -197,39 +197,40 @@ namespace ArRetarget
             }
         }
         #endregion
-
         //Todo: fix pathing and determine which files actually needs to use old serialization method
         public string SerializeJson()
         {
             /*
-            string time = FileManagement.GetDateTime();
-            string dir_path = $"{persistentPath}/{time}_{prefixs[0].j_Prefix()}";
-            string msg = $"{FileManagement.GetParagraph()}{time}_{prefixs[0].j_Prefix()}";
 
-            FileManagement.CreateDirectory(dir_path);
+    //string time = FileManagement.GetDateTime();
+    //string dir_path = $"{persistentPath}/{time}_{prefixs[0].j_Prefix()}";
+    string msg = $"{FileManagement.GetParagraph()}";
 
-            for (int i = 0; i < jsons.Count; i++)
-            {
-                string contents = jsons[i].j_String();
-                string prefix = prefixs[i].j_Prefix();
-                string filename = $"{time}_{prefix}.json";
+    //FileManagement.CreateDirectory(dir_path);
 
-                FileManagement.WriteDataToDisk(data: contents, persistentPath: dir_path, filename: filename);
-            }
+    for (int i = 0; i < jsons.Count; i++)
+    {
+        string contents = jsons[i].j_String();
+        string prefix = prefixs[i].j_Prefix();
+        string filename = $"tmpdata_{prefix}.json";
 
-            //only if scene loaded
-            if (PlayerPrefs.GetInt("recordCam", -1) == -1 && PlayerPrefs.GetInt("scene", -1) == 1)
-            {
-                return msg;
-            }
+        FileManagement.WriteDataToDisk(data: contents, persistentPath: folderPath, filename: filename);
+    }
 
-            else
-            {
-                string tmp = $"{msg}{FileManagement.GetParagraph()}{FileManagement.GetParagraph()}recording saved to gallery";
-                return tmp;
-            }
+    //only if scene loaded
+    if (PlayerPrefs.GetInt("recordCam", -1) == -1 && PlayerPrefs.GetInt("scene", -1) == 1)
+    {
+        return msg;
+    }
+
+    else
+    {
+        string tmp = $"{msg}{FileManagement.GetParagraph()}{FileManagement.GetParagraph()}recording saved to gallery";
+        return tmp;
+    }
             */
             return "";
+
         }
     }
 }

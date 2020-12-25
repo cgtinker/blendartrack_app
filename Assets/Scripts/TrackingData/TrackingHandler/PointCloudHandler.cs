@@ -6,16 +6,16 @@ using Unity.Collections;
 namespace ArRetarget
 {
 
-    public class PointCloudHandler : MonoBehaviour, IInit<string>, IStop, IPrefix
+    public class PointCloudHandler : MonoBehaviour, IInit<string, string>, IStop, IPrefix
     {
         ARPointCloud arPointCloud;
         public List<Vector3> points;
         private string filePath;
         private bool lastFrame;
 
-        public void Init(string path)
+        public void Init(string path, string title)
         {
-            filePath = $"{path}_{j_Prefix()}.json";
+            filePath = $"{path}{title}_{j_Prefix()}.json";
             lastFrame = false;
             JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "points", lastFrame: false);
             arPointCloud = GameObject.FindGameObjectWithTag("pointCloud").GetComponent<ARPointCloud>();

@@ -5,7 +5,7 @@ using System.Collections;
 
 namespace ArRetarget
 {
-    public class FacePosHandler : MonoBehaviour, IInit<string>, IGet<int, bool>, IPrefix
+    public class FacePosHandler : MonoBehaviour, IInit<string, string>, IGet<int, bool>, IPrefix
     {
         ARFaceManager m_FaceManager;
         GameObject faceObj;
@@ -26,11 +26,11 @@ namespace ArRetarget
         }
 
         private string filePath;
-        public void Init(string path)
+        public void Init(string path, string title)
         {
             write = false;
             curTick = 0;
-            filePath = $"{path}_{j_Prefix()}.json";
+            filePath = $"{path}{title}_{j_Prefix()}.json";
             JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "facePoseList", lastFrame: false);
             Debug.Log("init face pos");
         }

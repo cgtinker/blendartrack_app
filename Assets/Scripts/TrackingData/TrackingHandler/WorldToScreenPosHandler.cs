@@ -4,16 +4,16 @@ using UnityEngine.XR.ARFoundation;
 
 namespace ArRetarget
 {
-    public class WorldToScreenPosHandler : MonoBehaviour, IInit<string>, IGet<int, bool>, IJson, IPrefix
+    public class WorldToScreenPosHandler : MonoBehaviour, IInit<string, string>, IGet<int, bool>, IPrefix //IJson
     {
         //ReferenceCreator referenceCreator;
         ARRaycastManager arRaycastManager;
         private List<ARRaycastHit> arRaycastHits = new List<ARRaycastHit>();
+        ARPlaneManager arPlaneManager;
+        ReferenceCreator referenceCreator;
 
         private Camera arCamera;
-        private Transform cameraTransform;
 
-        //private Vector3 anchorPos;
         [HideInInspector]
         public GameObject motionAnchor;
         [HideInInspector]
@@ -29,9 +29,9 @@ namespace ArRetarget
         private string filePath;
 
         #region interfaces
-        public void Init(string path)
+        public void Init(string path, string title)
         {
-            filePath = $"{path}_{j_Prefix()}.json";
+            filePath = $"{path}{title}_{j_Prefix()}.json";
             JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "screenPosData", lastFrame: false);
 
 
@@ -40,11 +40,15 @@ namespace ArRetarget
             {
                 var cam = GameObject.FindGameObjectWithTag("MainCamera");
                 arCamera = cam.GetComponent<Camera>();
-                cameraTransform = cam.transform;
             }
 
-            if (arRaycastManager == null)
-                arRaycastManager = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponent<ARRaycastManager>();
+            if (arRaycastManager == null || arPlaneManager == null)
+            {
+                var sessionOrigin = GameObject.FindGameObjectWithTag("arSessionOrigin");
+                arRaycastManager = sessionOrigin.GetComponent<ARRaycastManager>();
+                arPlaneManager = sessionOrigin.GetComponent<ARPlaneManager>();
+                referenceCreator = sessionOrigin.GetComponent<ReferenceCreator>();
+            }
 
             curTick = 0;
             write = false;
@@ -56,9 +60,12 @@ namespace ArRetarget
 
         public void GetFrameData(int frame, bool lastFrame)
         {
-            Vector3 position = DeviationRay();
 
-            ScreenPosData data = VPToScreenPoint(cam: arCamera, cam_w: camera_width, cam_h: camera_height, pos: position, offset: 0, f: frame);
+            //Vector3 position = DeviationRay();
+            //Vector3 position = motionAnchor.transform.position;
+            Vector3 position = PosByMarker();
+
+            ScreenPosData data = VPToScreenPoint(cam: arCamera, cam_w: camera_width, cam_h: camera_height, target: position, f: frame);
             string json = JsonUtility.ToJson(data);
 
             WriteData(json, lastFrame);
@@ -78,8 +85,71 @@ namespace ArRetarget
             }
         }
 
-        float minDeviation = 0.70f;
-        float maxDeviation = 1.70f;
+        public Vector3 PosByMarker()
+        {
+            rayHit = false;
+
+            var markers = referenceCreator.anchors;
+            for (int i = 0; i < markers.Count; i++)
+            {
+                var tmp_pos = markers[i].transform.position;
+                var tmp_point = arCamera.WorldToScreenPoint(tmp_pos);
+                var vec = new Vector3(tmp_point.x / camera_width, tmp_point.y / camera_height, tmp_point.z);
+
+                if (vec.x > 0.1f && vec.x < 0.4f && vec.z > 0 || vec.x > 0.6f && vec.x < 0.9f && vec.z > 0)
+                {
+                    if (vec.y > 0.1f && vec.y < 0.4f || vec.y > 0.6f && vec.y < 0.9f)
+                    {
+                        tar = tmp_pos;
+                        rayHit = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!rayHit)
+                tar = RayByPlanePosition();
+
+            return tar;
+        }
+
+        int iter = 0;
+        public Vector3 RayByPlanePosition()
+        {
+            iter = 0;
+            rayHit = false;
+            var trackables = arPlaneManager.trackables;
+
+            foreach (ARPlane plane in trackables)
+            {
+                iter++;
+                if (iter > iterations)
+                {
+                    rayHit = false;
+                    break;
+                }
+
+                var tmp_pos = plane.transform.position;
+                var tmp_point = arCamera.WorldToScreenPoint(tmp_pos);
+                var tmp_vec = new Vector3(tmp_point.x / camera_width, tmp_point.y / camera_height, tmp_point.z);
+
+                if (tmp_vec.z > 0 && tmp_vec.x > 0.1f && tmp_vec.y > 0.1f && tmp_vec.x < 0.9f && tmp_vec.y < 0.9f)
+                {
+                    tar = tmp_pos;
+                    rayHit = true;
+                    break;
+                }
+            }
+
+            if (!rayHit)
+            {
+                Debug.LogWarning("no planes?");
+                tar = DeviationRay();
+            }
+
+            return tar;
+        }
+
         float iterations = 5;
         bool rayHit;
         Vector3 tar;
@@ -90,8 +160,8 @@ namespace ArRetarget
             for (int i = 0; i < iterations; i++)
             {
                 //screen center * deviation
-                float u = (camera_width / 2) * Random.Range(minDeviation, maxDeviation);
-                float v = (camera_height / 2) * Random.Range(minDeviation, maxDeviation);
+                float u = (camera_width / 2) * Random.Range(0.2f, 1.8f);
+                float v = (camera_height / 2) * Random.Range(0.1f, 1.2f);
                 Vector2 pos = new Vector2(u, v);
 
                 if (arRaycastManager.Raycast(pos, arRaycastHits))
@@ -121,18 +191,6 @@ namespace ArRetarget
             return "screen";
         }
 
-        public string j_String()
-        {
-            ScreenPosContainer container = new ScreenPosContainer()
-            {
-                screenPosData = screenPosList
-            };
-
-            var json = JsonUtility.ToJson(container);
-
-            return json;
-        }
-
         #endregion
         /// <summary>
         /// returns a vector with normalized x, y values at a given frame:
@@ -146,10 +204,9 @@ namespace ArRetarget
         /// <param name="pos"></param> vector for screen pos calc
         /// <param name="f"></param> frame
         /// <returns></returns>
-        public static ScreenPosData VPToScreenPoint(Camera cam, float cam_w, float cam_h, Vector3 pos, float offset, int f)
+        public static ScreenPosData VPToScreenPoint(Camera cam, float cam_w, float cam_h, Vector3 target, int f)
         {
             ScreenPosData data = new ScreenPosData();
-            Vector3 target = new Vector3(pos.x, pos.y, pos.z + offset);
             var point = cam.WorldToScreenPoint(target);
 
             //normalized vector

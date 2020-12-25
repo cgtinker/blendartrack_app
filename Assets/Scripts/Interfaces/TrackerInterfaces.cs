@@ -1,9 +1,9 @@
 ﻿namespace ArRetarget
 {
     //init method for handlers
-    public interface IInit<T>
+    public interface IInit<T, C>
     {
-        void Init(T path);
+        void Init(T path, C title);
     }
 
     //used if data can be received

@@ -10,7 +10,7 @@ using UnityEngine.XR.ARKit;
 namespace ArRetarget
 {
     [RequireComponent(typeof(ARFace))]
-    public class ArKitBlendShapeHandler : MonoBehaviour, IInit<string>, IStop, IPrefix
+    public class ArKitBlendShapeHandler : MonoBehaviour, IInit<string, string>, IStop, IPrefix
     {
 #if UNITY_IOS && !UNITY_EDITOR
         //accessing sub system & init blend shape dict for mapping
@@ -33,9 +33,9 @@ namespace ArRetarget
         }
 
         private string filePath;
-        public void Init(string path)
+        public void Init(string path, string title)
         {
-            filePath = $"{path}_{j_Prefix()}.json";
+            filePath = $"{path}{title}_{j_Prefix()}.json";
             JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "blendShapeData", lastFrame: false);
 
 #if UNITY_IOS && !UNITY_EDITOR
