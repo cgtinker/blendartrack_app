@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e91523669b86b40369cc98d59c9658bc, type: 3}
+  m_Name: LayoutSkinData
+  m_EditorClassIdentifier: 
+  structPadding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 2
+  stuctAlignment: 4
+  structPreferedFistChildSize: 15
+  structPreferedSecondChildSize: 70
+  structPreferedThirdChildSize: 15
+  headerPadding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  headerAlignment: 0
+  headerPreferedFistChildSize: 66
+  headerPreferedSecondChildSize: 0
+  headerPreferedThirdChildSize: 33
+  footerPadding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  footerAlignment: 0
+  footerPreferedFistChildSize: 33
+  footerPreferedSecondChildSize: 33
+  footerPreferedThirdChildSize: 33
+  buttonPadding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  buttonAlignment: 0
+  buttonPreferedFistChildSize: 25
+  buttonPreferedSecondChildSize: 80
+  buttonPreferedThirdChildSize: 0

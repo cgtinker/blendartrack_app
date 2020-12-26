@@ -4,9 +4,9 @@ using UnityEngine;
 
 //doesnt aquire to load the scene
 [ExecuteInEditMode()]
-public class FlexibleUI : MonoBehaviour
+public class FlexibleUIButtonOverride : MonoBehaviour
 {
-    public FlexibleUIData skinData;
+    public FlexibleUIButtonData buttonSkinData;
 
     protected virtual void OnSkinUI()
     {

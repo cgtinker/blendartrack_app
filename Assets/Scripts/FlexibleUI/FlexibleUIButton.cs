@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
 [RequireComponent(typeof(Image))]
-public class FlexibleUIButton : FlexibleUI
+public class FlexibleUIButton : FlexibleUIButtonOverride
 {
     public enum ButtonType
     {
@@ -13,7 +13,15 @@ public class FlexibleUIButton : FlexibleUI
         Filebrowser,
         Settings,
         Swap,
+        Assign,
+        Decline,
+        Share,
+        Delete,
+        Dropdown,
+        Selected,
+        Deselected,
         Record,
+        Break
     }
 
     public Image image;
@@ -42,8 +50,8 @@ public class FlexibleUIButton : FlexibleUI
         //button style
         image.type = Image.Type.Simple;
         image.preserveAspect = true;
-        image.sprite = skinData.buttonBackground;
-        image.color = skinData.buttonBackgroundColor;
+        image.sprite = buttonSkinData.buttonBackground;
+        image.color = buttonSkinData.buttonBackgroundColor;
 
         //screen size for relative button size
         var height = Screen.height;
@@ -51,58 +59,119 @@ public class FlexibleUIButton : FlexibleUI
         float factor;
 
         if (height > width)
-        {
             factor = height / 100;
-        }
 
         else
-        {
             factor = width / 100;
-        }
 
         Vector2 size;
         //icon display and style
         switch (buttonType)
         {
             case ButtonType.Back:
-                icon.sprite = skinData.backIcon;
-                icon.color = skinData.iconColor;
+                icon.sprite = buttonSkinData.backIcon;
+                icon.color = buttonSkinData.iconColor;
 
-                size = new Vector2(skinData.backButtonSize * factor, skinData.backButtonSize * factor);
-                rectTransform.sizeDelta = size;
+                size = new Vector2(buttonSkinData.backButtonSize * factor, buttonSkinData.backButtonSize * factor);
+                rectTransform.sizeDelta = size * 1.25f;
+                //rectTransform.anchoredPosition = buttonSkinData.backRectAnchor;
                 iconTransform.sizeDelta = size;
                 break;
 
             case ButtonType.Filebrowser:
-                icon.sprite = skinData.filebrowserIcon;
-                icon.color = skinData.iconColor;
+                icon.sprite = buttonSkinData.filebrowserIcon;
+                icon.color = buttonSkinData.iconColor;
 
-                size = new Vector2(skinData.filebrowserIconSize * factor, skinData.filebrowserIconSize * factor);
-                rectTransform.sizeDelta = size;
+                size = new Vector2(buttonSkinData.filebrowserIconSize * factor, buttonSkinData.filebrowserIconSize * factor);
+                rectTransform.sizeDelta = size * buttonSkinData.buttonScaleFactor;
                 iconTransform.sizeDelta = size;
                 break;
             case ButtonType.Settings:
-                icon.sprite = skinData.settingsIcon;
-                icon.color = skinData.iconColor;
+                icon.sprite = buttonSkinData.settingsIcon;
+                icon.color = buttonSkinData.iconColor;
 
-                size = new Vector2(skinData.settingsIconSize * factor, skinData.settingsIconSize * factor);
-                rectTransform.sizeDelta = size;
+                size = new Vector2(buttonSkinData.settingsIconSize * factor, buttonSkinData.settingsIconSize * factor);
+                rectTransform.sizeDelta = size * buttonSkinData.buttonScaleFactor;
                 iconTransform.sizeDelta = size;
                 break;
             case ButtonType.Swap:
-                icon.sprite = skinData.swapIcon;
-                icon.color = skinData.iconColor;
+                icon.sprite = buttonSkinData.swapIcon;
+                icon.color = buttonSkinData.iconColor;
 
-                size = new Vector2(skinData.swapIconSize * factor, skinData.swapIconSize * factor);
-                rectTransform.sizeDelta = size;
+                size = new Vector2(buttonSkinData.swapIconSize * factor, buttonSkinData.swapIconSize * factor);
+                rectTransform.sizeDelta = size * buttonSkinData.buttonScaleFactor;
+                iconTransform.sizeDelta = size;
+                break;
+            case ButtonType.Assign:
+                icon.sprite = buttonSkinData.assignIcon;
+                icon.color = buttonSkinData.iconColor;
+
+                size = new Vector2(buttonSkinData.assignIconSize * factor, buttonSkinData.assignIconSize * factor);
+                rectTransform.sizeDelta = size * buttonSkinData.buttonScaleFactor;
+                iconTransform.sizeDelta = size;
+                break;
+            case ButtonType.Decline:
+                icon.sprite = buttonSkinData.declineIcon;
+                icon.color = buttonSkinData.iconColor;
+
+                size = new Vector2(buttonSkinData.declineIconSize * factor, buttonSkinData.declineIconSize * factor);
+                rectTransform.sizeDelta = size * buttonSkinData.buttonScaleFactor;
+                iconTransform.sizeDelta = size;
+                break;
+            case ButtonType.Share:
+                icon.sprite = buttonSkinData.shareIcon;
+                icon.color = buttonSkinData.iconColor;
+
+                size = new Vector2(buttonSkinData.shareButtonSize * factor, buttonSkinData.shareButtonSize * factor);
+                rectTransform.sizeDelta = size * buttonSkinData.buttonScaleFactor;
+                iconTransform.sizeDelta = size;
+                break;
+            case ButtonType.Delete:
+                icon.sprite = buttonSkinData.deleteIcon;
+                icon.color = buttonSkinData.iconColor;
+
+                size = new Vector2(buttonSkinData.deleteButtonSize * factor, buttonSkinData.deleteButtonSize * factor);
+                rectTransform.sizeDelta = size * buttonSkinData.buttonScaleFactor;
+                iconTransform.sizeDelta = size;
+                break;
+            case ButtonType.Dropdown:
+                icon.sprite = buttonSkinData.dropdownIcon;
+                icon.color = buttonSkinData.iconColor;
+
+                size = new Vector2(buttonSkinData.dropdownButtonSize * factor, buttonSkinData.dropdownButtonSize * factor);
+                rectTransform.sizeDelta = size * buttonSkinData.buttonScaleFactor;
+                iconTransform.sizeDelta = size;
+                break;
+            case ButtonType.Selected:
+                icon.sprite = buttonSkinData.selectedIcon;
+                icon.color = buttonSkinData.iconColor;
+
+                size = new Vector2(buttonSkinData.selectedButtonSize * factor, buttonSkinData.selectedButtonSize * factor);
+                rectTransform.sizeDelta = size * buttonSkinData.buttonScaleFactor;
+                iconTransform.sizeDelta = size;
+                break;
+            case ButtonType.Deselected:
+                icon.sprite = buttonSkinData.deselectedIcon;
+                icon.color = buttonSkinData.iconColor;
+
+                size = new Vector2(buttonSkinData.deselectedButtonSize * factor, buttonSkinData.deselectedButtonSize * factor);
+                rectTransform.sizeDelta = size * buttonSkinData.buttonScaleFactor;
                 iconTransform.sizeDelta = size;
                 break;
             case ButtonType.Record:
-                icon.sprite = skinData.recordIcon;
-                icon.color = skinData.iconColor;
+                icon.sprite = buttonSkinData.recordIcon;
+                icon.color = buttonSkinData.iconColor;
 
-                size = new Vector2(skinData.recordIconSize * factor, skinData.recordIconSize * factor);
-                rectTransform.sizeDelta = size;
+                size = new Vector2(buttonSkinData.recordButtonSize * factor, buttonSkinData.recordButtonSize * factor);
+                rectTransform.sizeDelta = size * buttonSkinData.buttonScaleFactor;
+                iconTransform.sizeDelta = size;
+                break;
+            case ButtonType.Break:
+                icon.sprite = buttonSkinData.breakIcon;
+                icon.color = buttonSkinData.iconColor;
+
+                size = new Vector2(buttonSkinData.recordButtonSize * factor, buttonSkinData.recordButtonSize * factor);
+                rectTransform.sizeDelta = size * buttonSkinData.buttonScaleFactor;
                 iconTransform.sizeDelta = size;
                 break;
         }

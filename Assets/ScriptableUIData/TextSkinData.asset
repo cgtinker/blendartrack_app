@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40148db56a50d4e08bcf86d5cb6af99d, type: 3}
+  m_Name: TextSkinData
+  m_EditorClassIdentifier: 
+  fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
+  headerTextSize: 42
+  headerFontStyles: 1
+  headerAlignment: 513
+  headerOverflow: 0
+  headerRectSize: {x: 25, y: 5}
+  headerPivot: {x: 0.5, y: 0.5}
+  defaultTextSize: 105
+  defaultFontStyles: 0
+  defaultAlignment: 513
+  defaultOverflow: 0
+  defaultRectSize: {x: 25, y: 5}
+  defaultPivot: {x: 0.5, y: 0.5}
+  hintTextSize: 36
+  hintFontStyles: 0
+  hintAlignment: 513
+  hintOverflow: 0
+  hintRectSize: {x: 25, y: 5}
+  hintPivot: {x: 0.5, y: 0.5}
+  customTextSize: 24

@@ -12,6 +12,24 @@ public class FlexibleUIInstance : Editor
         var obj = Create("Button");
     }
 
+    [MenuItem("GameObject/FlexibleUI/Text", priority = 0)]
+    public static void AddText()
+    {
+        var obj = Create("Text");
+    }
+
+    [MenuItem("GameObject/FlexibleUI/Vertical Layout", priority = 0)]
+    public static void AddVerticalLayout()
+    {
+        var obj = Create("VerticalLayout");
+    }
+
+    [MenuItem("GameObject/FlexibleUI/Horizontal Layout", priority = 0)]
+    public static void AddHorizontalLayout()
+    {
+        var obj = Create("HorizontalLayout");
+    }
+
     public static GameObject Create(string objectName)
     {
         GameObject instance = Instantiate(Resources.Load<GameObject>(objectName));
