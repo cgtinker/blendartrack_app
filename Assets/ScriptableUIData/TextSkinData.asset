@@ -19,7 +19,7 @@ MonoBehaviour:
   headerOverflow: 0
   headerRectSize: {x: 1, y: 1}
   headerRectAnchor: 16
-  headerRectPivot: 5
+  headerRectPivot: 3
   defaultTextSize: 23
   defaultFontStyles: 8
   defaultAlignment: 513
@@ -27,11 +27,11 @@ MonoBehaviour:
   defaultRectSize: {x: 1, y: 1}
   defaultRectAnchor: 16
   defaultRectPivot: 3
-  hintTextSize: 36
+  hintTextSize: 23
   hintFontStyles: 8
   hintAlignment: 513
   hintOverflow: 0
-  hintRectSize: {x: 25, y: 5}
+  hintRectSize: {x: 1, y: 1}
   hintRectAnchor: 0
   hintRectPivot: 0
-  customTextSize: 24
+  customTextSize: 23

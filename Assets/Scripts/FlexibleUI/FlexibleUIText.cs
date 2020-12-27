@@ -69,7 +69,7 @@ public class FlexibleUIText : FlexibleUITextOverride
                 break;
 
             case TextType.Custom:
-                text.fontSize = (int)(textSkinData.customTextSize * factor);
+                text.fontSize = (int)GetTextSize(textSkinData.customTextSize, factor);
                 break;
         }
     }

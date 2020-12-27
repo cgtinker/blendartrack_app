@@ -30,4 +30,11 @@ public class FlexibleUILayoutData : ScriptableObject
     public float buttonPreferedFistChildSize;
     public float buttonPreferedSecondChildSize;
     public float buttonPreferedThirdChildSize;
+
+    [Header("HeaderButton")]
+    public RectOffset headerButtonPadding;
+    public TextAnchor headerButtonAlignment;
+    public float headerButtonPreferedFistChildSize;
+    public float headerButtonPreferedSecondChildSize;
+    public float headerButtonPreferedThirdChildSize;
 }

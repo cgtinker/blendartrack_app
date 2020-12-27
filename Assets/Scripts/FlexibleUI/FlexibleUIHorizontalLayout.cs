@@ -10,7 +10,8 @@ public class FlexibleUIHorizontalLayout : FlexibleUILayoutOverride
         Struct,
         Header,
         Footer,
-        Button
+        Button,
+        HeaderButton
     }
 
     public LayoutGroup layoutGroup;
@@ -100,18 +101,8 @@ public class FlexibleUIHorizontalLayout : FlexibleUILayoutOverride
 
             case LayoutType.Button:
                 //layout element size
-                if (!portrait)
-                {
-                    firstChild.preferredWidth = (layoutSkinData.buttonPreferedFistChildSize - 4f) * factor;
-                    secondChild.preferredWidth = (layoutSkinData.buttonPreferedSecondChildSize + 4f) * factor;
-                }
-
-                else
-                {
-                    firstChild.preferredWidth = (layoutSkinData.buttonPreferedFistChildSize) * factor;
-                    secondChild.preferredWidth = (layoutSkinData.buttonPreferedSecondChildSize) * factor;
-                }
-
+                firstChild.preferredWidth = (layoutSkinData.buttonPreferedFistChildSize) * factor;
+                secondChild.preferredWidth = (layoutSkinData.buttonPreferedSecondChildSize) * factor;
                 thirdChild.preferredWidth = layoutSkinData.buttonPreferedThirdChildSize * factor;
 
                 //relative offset
@@ -123,6 +114,22 @@ public class FlexibleUIHorizontalLayout : FlexibleUILayoutOverride
                 //layout group
                 layoutGroup.padding = rectOffset;
                 layoutGroup.childAlignment = layoutSkinData.buttonAlignment;
+                break;
+            case LayoutType.HeaderButton:
+                //layout element size
+                firstChild.preferredWidth = (layoutSkinData.headerButtonPreferedFistChildSize) * factor;
+                secondChild.preferredWidth = (layoutSkinData.headerButtonPreferedSecondChildSize) * factor;
+                thirdChild.preferredWidth = layoutSkinData.headerButtonPreferedThirdChildSize * factor;
+
+                //relative offset
+                rectOffset.top = (int)(layoutSkinData.headerButtonPadding.top * factor);
+                rectOffset.bottom = (int)(layoutSkinData.headerButtonPadding.bottom * factor);
+                rectOffset.left = (int)(layoutSkinData.headerButtonPadding.left * factor);
+                rectOffset.right = (int)(layoutSkinData.headerButtonPadding.right * factor);
+
+                //layout group
+                layoutGroup.padding = rectOffset;
+                layoutGroup.childAlignment = layoutSkinData.headerButtonAlignment;
                 break;
         }
 

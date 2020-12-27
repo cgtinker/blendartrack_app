@@ -10,7 +10,8 @@ public class FlexibleUIVerticalLayout : FlexibleUILayoutOverride
         Struct,
         Header,
         Footer,
-        Button
+        Button,
+        HeaderButton
     };
 
     public LayoutType layoutType;
@@ -117,7 +118,6 @@ public class FlexibleUIVerticalLayout : FlexibleUILayoutOverride
 
             case LayoutType.Button:
                 //layout element size
-
                 firstChildPreferredHeight = (layoutSkinData.buttonPreferedFistChildSize * factor);
                 secondChildPreferredHeight = (layoutSkinData.buttonPreferedSecondChildSize * factor);
                 thirdChildPreferredHeight = (layoutSkinData.buttonPreferedThirdChildSize * factor);
@@ -132,6 +132,25 @@ public class FlexibleUIVerticalLayout : FlexibleUILayoutOverride
 
                 //layout group
                 childAlignment = layoutSkinData.buttonAlignment;
+                SetLayoutProperties(rectOffset, childAlignment);
+                break;
+
+            case LayoutType.HeaderButton:
+                //layout element size
+                firstChildPreferredHeight = (layoutSkinData.headerButtonPreferedFistChildSize * factor);
+                secondChildPreferredHeight = (layoutSkinData.headerButtonPreferedSecondChildSize * factor);
+                thirdChildPreferredHeight = (layoutSkinData.headerButtonPreferedThirdChildSize * factor);
+                SetChildSize(firstChildPreferredHeight, secondChildPreferredHeight, thirdChildPreferredHeight);
+
+                //relative offset
+                rectOffsetTop = (int)(layoutSkinData.headerButtonPadding.top * factor);
+                rectOffsetBottom = (int)(layoutSkinData.headerButtonPadding.bottom * factor);
+                rectOffsetLeft = (int)(layoutSkinData.headerButtonPadding.left * factor);
+                rectOffsetRight = (int)(layoutSkinData.headerButtonPadding.right * factor);
+                rectOffset = GetRectOffset(rectOffset, rectOffsetTop, rectOffsetBottom, rectOffsetLeft, rectOffsetRight);
+
+                //layout group
+                childAlignment = layoutSkinData.headerButtonAlignment;
                 SetLayoutProperties(rectOffset, childAlignment);
                 break;
         }

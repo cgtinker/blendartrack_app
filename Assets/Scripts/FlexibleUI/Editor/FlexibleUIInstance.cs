@@ -30,6 +30,12 @@ public class FlexibleUIInstance : Editor
         var obj = Create("HorizontalLayout");
     }
 
+    [MenuItem("GameObject/FlexibleUI/Header Button Parent", priority = 0)]
+    public static void AddHeaderButtonParent()
+    {
+        var obj = Create("HeaderButtonParent");
+    }
+
     public static GameObject Create(string objectName)
     {
         GameObject instance = Instantiate(Resources.Load<GameObject>(objectName));

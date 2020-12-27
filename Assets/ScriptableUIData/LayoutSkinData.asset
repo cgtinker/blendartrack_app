@@ -48,3 +48,12 @@ MonoBehaviour:
   buttonPreferedFistChildSize: 10
   buttonPreferedSecondChildSize: 90
   buttonPreferedThirdChildSize: 0
+  headerButtonPadding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  headerButtonAlignment: 0
+  headerButtonPreferedFistChildSize: 15
+  headerButtonPreferedSecondChildSize: 75
+  headerButtonPreferedThirdChildSize: 0
