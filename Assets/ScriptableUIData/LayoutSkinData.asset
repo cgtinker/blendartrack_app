@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: LayoutSkinData
   m_EditorClassIdentifier: 
   structPadding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
+    m_Left: 5
+    m_Right: 5
+    m_Top: 4
     m_Bottom: 2
   stuctAlignment: 4
   structPreferedFistChildSize: 15
@@ -45,6 +45,6 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   buttonAlignment: 0
-  buttonPreferedFistChildSize: 25
-  buttonPreferedSecondChildSize: 80
+  buttonPreferedFistChildSize: 10
+  buttonPreferedSecondChildSize: 90
   buttonPreferedThirdChildSize: 0

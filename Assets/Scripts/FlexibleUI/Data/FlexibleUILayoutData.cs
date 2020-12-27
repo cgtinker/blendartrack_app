@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(menuName = "Flexible Horizontal Layout Data")]
+[CreateAssetMenu(menuName = "FlexibleUI/Flexible Horizontal Layout Data")]
 public class FlexibleUILayoutData : ScriptableObject
 {
     [Header("Struct")]

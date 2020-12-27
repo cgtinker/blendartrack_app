@@ -37,10 +37,10 @@ public class FlexibleUIHorizontalLayout : FlexibleUILayoutOverride
         RectOffset rectOffset = new RectOffset();
 
         if (height > width)
-            factor = height / 100;
+            factor = (float)height / 100f;
 
         else
-            factor = width / 100;
+            factor = (float)width / 100f;
 
         switch (layoutType)
         {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-[CreateAssetMenu(menuName = "Flexible Text Data")]
+[CreateAssetMenu(menuName = "FlexibleUI/Flexible Text Data")]
 public class FlexibleUITextData : ScriptableObject
 {
     [Header("Text")]
@@ -14,16 +14,20 @@ public class FlexibleUITextData : ScriptableObject
     public FontStyles headerFontStyles;
     public TextAlignmentOptions headerAlignment;
     public TextOverflowModes headerOverflow;
+
     public Vector2 headerRectSize;
-    public Vector2 headerPivot;
+    public AnchorPresets headerRectAnchor;
+    public PivotPresets headerRectPivot;
 
     [Header("Default Text")]
     public int defaultTextSize;
     public FontStyles defaultFontStyles;
     public TextAlignmentOptions defaultAlignment;
     public TextOverflowModes defaultOverflow;
+
     public Vector2 defaultRectSize;
-    public Vector2 defaultPivot;
+    public AnchorPresets defaultRectAnchor;
+    public PivotPresets defaultRectPivot;
 
     [Header("Hint Text")]
     public int hintTextSize;
@@ -31,7 +35,8 @@ public class FlexibleUITextData : ScriptableObject
     public TextAlignmentOptions hintAlignment;
     public TextOverflowModes hintOverflow;
     public Vector2 hintRectSize;
-    public Vector2 hintPivot;
+    public AnchorPresets hintRectAnchor;
+    public PivotPresets hintRectPivot;
 
     [Header("Custom Text")]
     public int customTextSize;

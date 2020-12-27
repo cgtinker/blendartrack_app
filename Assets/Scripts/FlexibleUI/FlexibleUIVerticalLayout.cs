@@ -34,82 +34,132 @@ public class FlexibleUIVerticalLayout : FlexibleUILayoutOverride
         var height = Screen.height;
         var width = Screen.width;
         float factor;
+        bool portrait = false;
         RectOffset rectOffset = new RectOffset();
 
+        float firstChildPreferredHeight;
+        float secondChildPreferredHeight;
+        float thirdChildPreferredHeight;
+
+        int rectOffsetTop;
+        int rectOffsetBottom;
+        int rectOffsetLeft;
+        int rectOffsetRight;
+
+        TextAnchor childAlignment;
+
         if (height > width)
-            factor = height / 100;
+        {
+            factor = (float)height / 100f;
+            portrait = true;
+        }
 
         else
-            factor = width / 100;
+            factor = (float)width / 100f;
 
         switch (layoutType)
         {
             case LayoutType.Struct:
                 //layout elements
-                firstChild.preferredHeight = layoutSkinData.structPreferedFistChildSize * factor;
-                secondChild.preferredHeight = layoutSkinData.structPreferedSecondChildSize * factor;
-                thirdChild.preferredHeight = layoutSkinData.structPreferedThirdChildSize * factor;
+                firstChildPreferredHeight = layoutSkinData.structPreferedFistChildSize * factor;
+                secondChildPreferredHeight = layoutSkinData.structPreferedSecondChildSize * factor;
+                thirdChildPreferredHeight = layoutSkinData.structPreferedThirdChildSize * factor;
+                SetChildSize(firstChildPreferredHeight, secondChildPreferredHeight, thirdChildPreferredHeight);
 
                 //relative offset
-                rectOffset.top = (int)(layoutSkinData.structPadding.top * factor);
-                rectOffset.bottom = (int)(layoutSkinData.structPadding.bottom * factor);
-                rectOffset.left = (int)(layoutSkinData.structPadding.left * factor);
-                rectOffset.right = (int)(layoutSkinData.structPadding.right * factor);
+                rectOffsetTop = (int)(layoutSkinData.structPadding.top * factor);
+                rectOffsetBottom = (int)(layoutSkinData.structPadding.bottom * factor);
+                rectOffsetLeft = (int)(layoutSkinData.structPadding.left * factor);
+                rectOffsetRight = (int)(layoutSkinData.structPadding.right * factor);
+                rectOffset = GetRectOffset(rectOffset, rectOffsetTop, rectOffsetBottom, rectOffsetLeft, rectOffsetRight);
 
-                layoutGroup.padding = rectOffset;
-                layoutGroup.childAlignment = layoutSkinData.stuctAlignment;
+                childAlignment = layoutSkinData.stuctAlignment;
+                SetLayoutProperties(rectOffset, childAlignment);
                 break;
 
             case LayoutType.Header:
                 //layout element size
-                firstChild.preferredHeight = layoutSkinData.headerPreferedFistChildSize * factor;
-                secondChild.preferredHeight = layoutSkinData.headerPreferedSecondChildSize * factor;
-                thirdChild.preferredHeight = layoutSkinData.headerPreferedThirdChildSize * factor;
+                firstChildPreferredHeight = layoutSkinData.headerPreferedFistChildSize * factor;
+                secondChildPreferredHeight = layoutSkinData.headerPreferedSecondChildSize * factor;
+                thirdChildPreferredHeight = layoutSkinData.headerPreferedThirdChildSize * factor;
+                SetChildSize(firstChildPreferredHeight, secondChildPreferredHeight, thirdChildPreferredHeight);
 
                 //relative offset
-                rectOffset.top = (int)(layoutSkinData.headerPadding.top * factor);
-                rectOffset.bottom = (int)(layoutSkinData.headerPadding.bottom * factor);
-                rectOffset.left = (int)(layoutSkinData.headerPadding.left * factor);
-                rectOffset.right = (int)(layoutSkinData.headerPadding.right * factor);
+                rectOffsetTop = (int)(layoutSkinData.headerPadding.top * factor);
+                rectOffsetBottom = (int)(layoutSkinData.headerPadding.bottom * factor);
+                rectOffsetLeft = (int)(layoutSkinData.headerPadding.left * factor);
+                rectOffsetRight = (int)(layoutSkinData.headerPadding.right * factor);
+                rectOffset = GetRectOffset(rectOffset, rectOffsetTop, rectOffsetBottom, rectOffsetLeft, rectOffsetRight);
 
                 //layout group
-                layoutGroup.padding = rectOffset;
-                layoutGroup.childAlignment = layoutSkinData.footerAlignment;
+                childAlignment = layoutSkinData.footerAlignment;
+                SetLayoutProperties(rectOffset, childAlignment);
                 break;
 
             case LayoutType.Footer:
                 //layout element size
-                firstChild.preferredHeight = layoutSkinData.footerPreferedFistChildSize * factor;
-                secondChild.preferredHeight = layoutSkinData.footerPreferedSecondChildSize * factor;
-                thirdChild.preferredHeight = layoutSkinData.footerPreferedThirdChildSize * factor;
+                firstChildPreferredHeight = layoutSkinData.footerPreferedFistChildSize * factor;
+                secondChildPreferredHeight = layoutSkinData.footerPreferedSecondChildSize * factor;
+                thirdChildPreferredHeight = layoutSkinData.footerPreferedThirdChildSize * factor;
+                SetChildSize(firstChildPreferredHeight, secondChildPreferredHeight, thirdChildPreferredHeight);
 
                 //relative offset
-                rectOffset.top = (int)(layoutSkinData.footerPadding.top * factor);
-                rectOffset.bottom = (int)(layoutSkinData.footerPadding.bottom * factor);
-                rectOffset.left = (int)(layoutSkinData.footerPadding.left * factor);
-                rectOffset.right = (int)(layoutSkinData.footerPadding.right * factor);
+                rectOffsetTop = (int)(layoutSkinData.footerPadding.top * factor);
+                rectOffsetBottom = (int)(layoutSkinData.footerPadding.bottom * factor);
+                rectOffsetLeft = (int)(layoutSkinData.footerPadding.left * factor);
+                rectOffsetRight = (int)(layoutSkinData.footerPadding.right * factor);
+                rectOffset = GetRectOffset(rectOffset, rectOffsetTop, rectOffsetBottom, rectOffsetLeft, rectOffsetRight);
 
                 //layout group
-                layoutGroup.padding = rectOffset;
-                layoutGroup.childAlignment = layoutSkinData.footerAlignment;
+                childAlignment = layoutSkinData.footerAlignment;
+                SetLayoutProperties(rectOffset, childAlignment);
                 break;
 
             case LayoutType.Button:
                 //layout element size
-                firstChild.preferredHeight = layoutSkinData.buttonPreferedFistChildSize * factor;
-                secondChild.preferredHeight = layoutSkinData.buttonPreferedSecondChildSize * factor;
-                thirdChild.preferredHeight = layoutSkinData.buttonPreferedThirdChildSize * factor;
+
+                firstChildPreferredHeight = (layoutSkinData.buttonPreferedFistChildSize * factor);
+                secondChildPreferredHeight = (layoutSkinData.buttonPreferedSecondChildSize * factor);
+                thirdChildPreferredHeight = (layoutSkinData.buttonPreferedThirdChildSize * factor);
+                SetChildSize(firstChildPreferredHeight, secondChildPreferredHeight, thirdChildPreferredHeight);
 
                 //relative offset
-                rectOffset.top = (int)(layoutSkinData.buttonPadding.top * factor);
-                rectOffset.bottom = (int)(layoutSkinData.buttonPadding.bottom * factor);
-                rectOffset.left = (int)(layoutSkinData.buttonPadding.left * factor);
-                rectOffset.right = (int)(layoutSkinData.buttonPadding.right * factor);
+                rectOffsetTop = (int)(layoutSkinData.buttonPadding.top * factor);
+                rectOffsetBottom = (int)(layoutSkinData.buttonPadding.bottom * factor);
+                rectOffsetLeft = (int)(layoutSkinData.buttonPadding.left * factor);
+                rectOffsetRight = (int)(layoutSkinData.buttonPadding.right * factor);
+                rectOffset = GetRectOffset(rectOffset, rectOffsetTop, rectOffsetBottom, rectOffsetLeft, rectOffsetRight);
 
                 //layout group
-                layoutGroup.padding = rectOffset;
-                layoutGroup.childAlignment = layoutSkinData.buttonAlignment;
+                childAlignment = layoutSkinData.buttonAlignment;
+                SetLayoutProperties(rectOffset, childAlignment);
                 break;
         }
+    }
+
+    void SetChildSize(float firstChildSize, float secondChildSize, float thirdChildSize)
+    {
+        //layout element size
+        firstChild.preferredHeight = (int)firstChildSize;
+        secondChild.preferredHeight = (int)secondChildSize;
+        thirdChild.preferredHeight = (int)thirdChildSize;
+    }
+
+    RectOffset GetRectOffset(RectOffset rectOffset, int paddingTop, int paddingBot, int paddingLeft, int paddingRight)
+    {
+        //relative offset
+        rectOffset.top = paddingTop;
+        rectOffset.bottom = paddingBot;
+        rectOffset.left = paddingLeft;
+        rectOffset.right = paddingRight;
+
+        return rectOffset;
+    }
+
+    void SetLayoutProperties(RectOffset rectOffset, TextAnchor alignment)
+    {
+        //layout group
+        layoutGroup.padding = rectOffset;
+        layoutGroup.childAlignment = alignment;
     }
 }
