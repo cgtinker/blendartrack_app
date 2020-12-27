@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: TextSkinData
   m_EditorClassIdentifier: 
   fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
-  headerTextSize: 23
+  headerTextSize: 25
   headerFontStyles: 9
   headerAlignment: 513
   headerOverflow: 0
   headerRectSize: {x: 1, y: 1}
   headerRectAnchor: 16
-  headerRectPivot: 3
-  defaultTextSize: 19
-  defaultFontStyles: 9
+  headerRectPivot: 5
+  defaultTextSize: 23
+  defaultFontStyles: 8
   defaultAlignment: 513
   defaultOverflow: 0
   defaultRectSize: {x: 1, y: 1}

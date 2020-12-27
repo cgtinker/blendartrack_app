@@ -34,10 +34,14 @@ public class FlexibleUIHorizontalLayout : FlexibleUILayoutOverride
         var height = Screen.height;
         var width = Screen.width;
         float factor;
+        bool portrait = false;
         RectOffset rectOffset = new RectOffset();
 
         if (height > width)
+        {
             factor = (float)height / 100f;
+            portrait = true;
+        }
 
         else
             factor = (float)width / 100f;
@@ -96,8 +100,18 @@ public class FlexibleUIHorizontalLayout : FlexibleUILayoutOverride
 
             case LayoutType.Button:
                 //layout element size
-                firstChild.preferredWidth = layoutSkinData.buttonPreferedFistChildSize * factor;
-                secondChild.preferredWidth = layoutSkinData.buttonPreferedSecondChildSize * factor;
+                if (!portrait)
+                {
+                    firstChild.preferredWidth = (layoutSkinData.buttonPreferedFistChildSize - 4f) * factor;
+                    secondChild.preferredWidth = (layoutSkinData.buttonPreferedSecondChildSize + 4f) * factor;
+                }
+
+                else
+                {
+                    firstChild.preferredWidth = (layoutSkinData.buttonPreferedFistChildSize) * factor;
+                    secondChild.preferredWidth = (layoutSkinData.buttonPreferedSecondChildSize) * factor;
+                }
+
                 thirdChild.preferredWidth = layoutSkinData.buttonPreferedThirdChildSize * factor;
 
                 //relative offset
