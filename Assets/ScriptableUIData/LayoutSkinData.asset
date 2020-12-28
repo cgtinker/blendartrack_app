@@ -57,3 +57,12 @@ MonoBehaviour:
   headerButtonPreferedFistChildSize: 15
   headerButtonPreferedSecondChildSize: 75
   headerButtonPreferedThirdChildSize: 0
+  fpsButtonPadding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  fpsButtonAlignment: 6
+  fpsButtonPreferedFistChildSize: 33
+  fpsButtonPreferedSecondChildSize: 33
+  fpsButtonPreferedThirdChildSize: 33

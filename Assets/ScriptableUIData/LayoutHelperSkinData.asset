@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7bf82c9188914a8bb57a25442591e8b, type: 3}
-  m_Name: ButtonTextSkinData
+  m_Name: LayoutHelperSkinData
   m_EditorClassIdentifier: 
   headerRectAnchor: 13
   headerRectPivot: 0
@@ -18,3 +18,7 @@ MonoBehaviour:
   inlineRectAnchor: 13
   inlineRectPivot: 0
   inlineRectHeight: 5
+  supportRectAnchor: 14
+  supportRectPivot: 4
+  supportRectHeight: 5
+  customRectHeight: 5

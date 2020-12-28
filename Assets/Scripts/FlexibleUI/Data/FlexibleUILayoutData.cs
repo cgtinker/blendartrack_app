@@ -37,4 +37,11 @@ public class FlexibleUILayoutData : ScriptableObject
     public float headerButtonPreferedFistChildSize;
     public float headerButtonPreferedSecondChildSize;
     public float headerButtonPreferedThirdChildSize;
+
+    [Header("FPSPlacement")]
+    public RectOffset fpsButtonPadding;
+    public TextAnchor fpsButtonAlignment;
+    public float fpsButtonPreferedFistChildSize;
+    public float fpsButtonPreferedSecondChildSize;
+    public float fpsButtonPreferedThirdChildSize;
 }

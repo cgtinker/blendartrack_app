@@ -39,7 +39,7 @@ namespace ArRetarget
                 Timer.SetActive(true);
                 counter.StartTimer();
 
-                inputHandler.StartTracking();
+                //inputHandler.StartTracking();
             }
 
             else
@@ -51,7 +51,7 @@ namespace ArRetarget
                 Timer.SetActive(false);
                 counter.StopTimer();
 
-                inputHandler.StopTrackingAndSerializeData();
+                //inputHandler.StopTrackingAndSerializeData();
             }
         }
     }

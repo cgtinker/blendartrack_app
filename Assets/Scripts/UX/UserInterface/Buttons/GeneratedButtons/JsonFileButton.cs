@@ -11,7 +11,7 @@ namespace ArRetarget
 
         //visual selection state
         //public Toggle selectToggleBtn;
-        public Button selectToggleBtn;
+        //public Button selectToggleBtn;
         private bool btnIsOn = false;
 
         public GameObject selected;

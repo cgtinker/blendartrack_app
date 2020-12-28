@@ -9,6 +9,7 @@ public class FlexibleUIText : FlexibleUITextOverride
         Headline,
         Default,
         Hint,
+        ButtonText,
         Custom
     }
 
@@ -70,6 +71,16 @@ public class FlexibleUIText : FlexibleUITextOverride
 
             case TextType.Custom:
                 text.fontSize = (int)GetTextSize(textSkinData.customTextSize, factor);
+                break;
+
+            case TextType.ButtonText:
+                textSize = (int)GetTextSize(textSkinData.buttonTextSize, factor);
+
+                AssignTextStyle(textSize, textSkinData.buttonFontStyles, textSkinData.buttonAlignment, textSkinData.buttonOverflow);
+
+                rectSize = new Vector2(textSkinData.buttonRectSize.x * factor, textSkinData.buttonRectSize.y * factor);
+                rectTransform.sizeDelta = rectSize;
+                AssignRectTransform(rectSize, textSkinData.buttonRectAnchor, textSkinData.buttonRectPivot);
                 break;
         }
     }

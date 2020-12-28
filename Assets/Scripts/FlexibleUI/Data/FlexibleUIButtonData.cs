@@ -73,6 +73,8 @@ public class FlexibleUIButtonData : ScriptableObject
     public int settingsMaxPxSize;
     public AnchorPresets settingsButtonAnchor;
     public PivotPresets settingsButtonPivot;
+    public AnchorPresets settingsIconAnchor;
+    public PivotPresets settingsIconPivot;
 
     [Header("Assign Button")]
     public Sprite assignIcon;

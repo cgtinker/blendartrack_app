@@ -11,7 +11,7 @@ public class SceneButton : MonoBehaviour, IPointerDownHandler
 {
     //ref
     public TextMeshProUGUI mainMenuSceneTitle;
-    public Image buttonImage;
+    //public Image buttonImage;
     AdditiveSceneManager sceneManager;
     TrackingDataManager trackingDataManager;
     public InputHandler inputHandler;

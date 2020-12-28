@@ -8,7 +8,10 @@ public class FlexibleUITextButton : FlexibleUITextButtonOverride
     public enum TextButtonType
     {
         Header,
-        Inline
+        Inline,
+        Support,
+        Custom,
+        Empty
     }
 
     public RectTransform rectTransform;
@@ -46,6 +49,16 @@ public class FlexibleUITextButton : FlexibleUITextButtonOverride
             case TextButtonType.Inline:
                 SetRectTransform(textButtonSkinData.inlineRectAnchor, textButtonSkinData.inlineRectPivot);
                 SetRectHeight(textButtonSkinData.inlineRectHeight, factor, portrait);
+                break;
+            case TextButtonType.Support:
+                SetRectTransform(textButtonSkinData.supportRectAnchor, textButtonSkinData.supportRectPivot);
+                SetRectHeight(textButtonSkinData.supportRectHeight, factor, portrait);
+                break;
+            case TextButtonType.Custom:
+                SetRectHeight(textButtonSkinData.customRectHeight, factor, portrait);
+                break;
+            case TextButtonType.Empty:
+                SetRectHeight(textButtonSkinData.emptyRectHeight, factor, portrait);
                 break;
         }
     }

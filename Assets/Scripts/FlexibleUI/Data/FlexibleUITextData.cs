@@ -29,6 +29,16 @@ public class FlexibleUITextData : ScriptableObject
     public AnchorPresets defaultRectAnchor;
     public PivotPresets defaultRectPivot;
 
+    [Header("Button Text")]
+    public int buttonTextSize;
+    public FontStyles buttonFontStyles;
+    public TextAlignmentOptions buttonAlignment;
+    public TextOverflowModes buttonOverflow;
+
+    public Vector2 buttonRectSize;
+    public AnchorPresets buttonRectAnchor;
+    public PivotPresets buttonRectPivot;
+
     [Header("Hint Text")]
     public int hintTextSize;
     public FontStyles hintFontStyles;

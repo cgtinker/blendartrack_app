@@ -11,7 +11,8 @@ public class FlexibleUIVerticalLayout : FlexibleUILayoutOverride
         Header,
         Footer,
         Button,
-        HeaderButton
+        HeaderButton,
+        FPS
     };
 
     public LayoutType layoutType;
@@ -151,6 +152,25 @@ public class FlexibleUIVerticalLayout : FlexibleUILayoutOverride
 
                 //layout group
                 childAlignment = layoutSkinData.headerButtonAlignment;
+                SetLayoutProperties(rectOffset, childAlignment);
+                break;
+            case LayoutType.FPS:
+                //layout element size
+                firstChildPreferredHeight = (layoutSkinData.fpsButtonPreferedFistChildSize) * factor;
+                secondChildPreferredHeight = (layoutSkinData.fpsButtonPreferedSecondChildSize) * factor;
+                thirdChildPreferredHeight = layoutSkinData.fpsButtonPreferedThirdChildSize * factor;
+                SetChildSize(firstChildPreferredHeight, secondChildPreferredHeight, thirdChildPreferredHeight);
+
+                //relative offset
+                rectOffsetTop = (int)(layoutSkinData.fpsButtonPadding.top * factor);
+                rectOffsetBottom = (int)(layoutSkinData.fpsButtonPadding.bottom * factor);
+                rectOffsetLeft = (int)(layoutSkinData.fpsButtonPadding.left * factor);
+                rectOffsetRight = (int)(layoutSkinData.fpsButtonPadding.right * factor);
+                rectOffset = GetRectOffset(rectOffset, rectOffsetTop, rectOffsetBottom, rectOffsetLeft, rectOffsetRight);
+
+                //layout group
+                layoutGroup.padding = rectOffset;
+                childAlignment = layoutSkinData.fpsButtonAlignment;
                 SetLayoutProperties(rectOffset, childAlignment);
                 break;
         }

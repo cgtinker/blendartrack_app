@@ -4,6 +4,8 @@ using UnityEngine;
 using System.IO;
 using System;
 using TMPro;
+using UnityEngine.UI;
+
 namespace ArRetarget
 {
     public class FileBrowserEventManager : MonoBehaviour
@@ -26,7 +28,7 @@ namespace ArRetarget
         [Header("Back Button in Viewer and Filebrowser")]
         public GameObject ViewerAcitveBackButton;
         public GameObject ViewerInactiveBackButton;
-        public GameObject FileBrowserBackground;
+        public Image FileBrowserBackground;
 
         //select buttons
         [Header("Select Buttons")]
@@ -204,7 +206,8 @@ namespace ArRetarget
             if (activateViewer)
             {
                 Debug.Log("attempt to preview data");
-                FileBrowserBackground.SetActive(false);
+                FileBrowserBackground.enabled = false;
+                //FileBrowserBackground.SetActive(false);
                 //SelectAllFilesBtn.SetActive(false);
 
                 //changing the back buttons
@@ -242,7 +245,8 @@ namespace ArRetarget
         public void DeactivateViewer()
         {
             Debug.Log("stop viewing data");
-            FileBrowserBackground.SetActive(true);
+            FileBrowserBackground.enabled = true;
+            //FileBrowserBackground.SetActive(true);
             //SelectAllFilesBtn.SetActive(true);
 
             //changing the back buttons
@@ -289,6 +293,7 @@ namespace ArRetarget
                     //set file data index
                     JsonDirectories[i].index = i;
                     //set json file data obj
+                    Debug.Log("Instantitaing button");
                     var jsonFileBtnObj = Instantiate(JsonFileButtonPrefab, Vector3.zero, Quaternion.identity);
                     JsonDirectories[i].obj = jsonFileBtnObj;
                     jsonFileBtnObj.name = JsonDirectories[i].dirName;
@@ -341,7 +346,7 @@ namespace ArRetarget
                     JsonDirectory m_dir = new JsonDirectory();
                     m_dir.dirName = FileManagement.GetDirectoryName(dirs[t]);
                     m_dir.dirPath = dirs[t];
-                    Debug.Log(m_dir.dirPath);
+                    //Debug.Log(m_dir.dirPath);
                     tmp_jsonDirectories.Add(m_dir);
                 }
             }

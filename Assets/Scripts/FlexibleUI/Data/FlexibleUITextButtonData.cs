@@ -14,4 +14,15 @@ public class FlexibleUITextButtonData : ScriptableObject
     public AnchorPresets inlineRectAnchor;
     public PivotPresets inlineRectPivot;
     public int inlineRectHeight;
+
+    [Header("SupportFooter")]
+    public AnchorPresets supportRectAnchor;
+    public PivotPresets supportRectPivot;
+    public int supportRectHeight;
+
+    [Header("CustomHeight")]
+    public int customRectHeight;
+
+    [Header("EmptyHeight")]
+    public int emptyRectHeight;
 }

@@ -61,6 +61,8 @@ MonoBehaviour:
   settingsMaxPxSize: 250
   settingsButtonAnchor: 2
   settingsButtonPivot: 2
+  settingsIconAnchor: 5
+  settingsIconPivot: 5
   assignIcon: {fileID: 21300000, guid: b0893211eb9cc42e4a63fc99eaf5ef1b, type: 3}
   assignIconSize: 5
   assignMinPxSize: 125
