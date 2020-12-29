@@ -27,15 +27,9 @@ public class FlexibleUIText : FlexibleUITextOverride
         rectTransform = GetComponent<RectTransform>();
         text.font = textSkinData.fontAsset;
 
-        var height = Screen.height;
-        var width = Screen.width;
-        float factor;
-
-        if (height > width)
-            factor = (float)height / 100f;
-
-        else
-            factor = (float)width / 100f;
+        float factor, m_width;
+        bool portrait;
+        (factor, m_width, portrait) = ScreenSizeFactor.GetFactor();
 
         switch (textType)
         {

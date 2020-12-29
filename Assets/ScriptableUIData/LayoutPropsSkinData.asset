@@ -38,13 +38,34 @@ MonoBehaviour:
     rectHeight: 5
     ignoreAnchors: 0
   ScrollRectContent:
-    paddingTop: 0.5
+    paddingTop: 1.5
     paddingLeft: 1.5
     paddingRight: 1.5
-    paddingBottom: 0.5
+    paddingBottom: 1.5
     alignment: 0
+  SessionHintContent:
+    paddingTop: 1
+    paddingLeft: 3
+    paddingRight: 3
+    paddingBottom: 1
+    alignment: 1
+  SessionHintAnchor:
+    rectAnchor: 1
+    rectPivot: 1
+    rectHeight: 0
+    ignoreAnchors: 0
   SelectionHelper:
     rectAnchor: 0
     rectPivot: 0
     rectHeight: 6
+    ignoreAnchors: 0
+  IntoAnimationSize:
+    rectAnchor: 4
+    rectPivot: 4
+    rectHeight: 100
+    ignoreAnchors: 0
+  timerFpsDisplay:
+    rectAnchor: 15
+    rectPivot: 7
+    rectHeight: 5
     ignoreAnchors: 0

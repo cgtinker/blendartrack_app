@@ -10,8 +10,12 @@ public class FlexibleUILayoutPropsData : ScriptableObject
     public m_LayoutProps InlineHeader;
     public m_LayoutProps InlineEmpty;
     public m_LayoutProps SupportFooter;
-    public m_ScrollRectData ScrollRectContent;
+    public m_CustomPadding ScrollRectContent;
+    public m_CustomPadding SessionHintContent;
+    public m_LayoutProps SessionHintAnchor;
     public m_LayoutProps SelectionHelper;
+    public m_LayoutProps IntoAnimationSize;
+    public m_LayoutProps timerFpsDisplay;
 }
 
 [System.Serializable]
@@ -24,7 +28,7 @@ public class m_LayoutProps
 }
 
 [System.Serializable]
-public class m_ScrollRectData
+public class m_CustomPadding
 {
     public float paddingTop;
     public float paddingLeft;

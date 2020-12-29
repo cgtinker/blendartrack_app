@@ -61,7 +61,7 @@ namespace ArRetarget
             {
                 popupDisplay.type = PopUpDisplay.PopupType.Notification;
                 //travel timings
-                popupDisplay.travelDuration = 10f;
+                popupDisplay.travelDuration = 5f;
                 popupDisplay.staticDuration = 5f;
 
                 popupDisplay.desitionation = FileBrowserButton;
@@ -71,7 +71,7 @@ namespace ArRetarget
             else
             {
                 popupDisplay.type = PopUpDisplay.PopupType.Notification;
-                popupDisplay.staticDuration = 5f;
+                popupDisplay.staticDuration = 8f;
                 popupDisplay.text = message;
             }
 

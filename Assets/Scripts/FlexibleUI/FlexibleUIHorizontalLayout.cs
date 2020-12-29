@@ -33,20 +33,12 @@ public class FlexibleUIHorizontalLayout : FlexibleUILayoutOverride
         thirdChild = this.gameObject.transform.GetChild(2).gameObject.GetComponent<LayoutElement>();
 
         //screen size for relative button size
-        var height = Screen.height;
-        var width = Screen.width;
-        float factor;
-        bool portrait = false;
+        float factor, m_width;
+        bool portrait;
+        (factor, m_width, portrait) = ScreenSizeFactor.GetFactor();
+
         RectOffset rectOffset = new RectOffset();
 
-        if (height > width)
-        {
-            factor = (float)height / 100f;
-            portrait = true;
-        }
-
-        else
-            factor = (float)width / 100f;
 
         switch (layoutType)
         {

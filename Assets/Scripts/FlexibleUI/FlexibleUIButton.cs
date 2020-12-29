@@ -53,15 +53,9 @@ public class FlexibleUIButton : FlexibleUIButtonOverride
         image.color = buttonSkinData.buttonBackgroundColor;
 
         //screen size for relative button size
-        var height = Screen.height;
-        var width = Screen.width;
-        float factor;
-
-        if (height > width)
-            factor = (float)height / 100f;
-
-        else
-            factor = (float)width / 100f;
+        float factor, m_width;
+        bool portrait;
+        (factor, m_width, portrait) = ScreenSizeFactor.GetFactor();
 
         Vector2 rectSize;
         rectSize = new Vector2(buttonSkinData.defaultButtonSize * factor, buttonSkinData.defaultButtonSize * factor);

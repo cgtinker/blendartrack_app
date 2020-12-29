@@ -13,7 +13,10 @@ public class FlexibleUILayoutProps : FlexibleUILayoutPropsOverride
         InlineHeader,
         InlineEmpty,
         ScrollRectContent,
-        SelectionHelper
+        SelectionHelper,
+        IntroAnim,
+        SessionHintContent,
+        TimerFPSDisplay
     }
 
     public RectTransform rectTransform;
@@ -24,23 +27,7 @@ public class FlexibleUILayoutProps : FlexibleUILayoutPropsOverride
         base.OnSkinUI();
         rectTransform = GetComponent<RectTransform>();
 
-        var height = Screen.height;
-        var width = Screen.width;
-
-        bool portrait = false;
-        float factor;
-
-        if (height > width)
-        {
-            factor = (float)height / 100f;
-            portrait = true;
-        }
-
-        else
-        {
-            factor = (float)width / 100f;
-            portrait = true;
-        }
+        (float factor, float m_width, bool portrait) = ScreenSizeFactor.GetFactor();
 
         switch (buttonType)
         {
@@ -62,21 +49,39 @@ public class FlexibleUILayoutProps : FlexibleUILayoutPropsOverride
             case CustomLayoutProperty.SelectionHelper:
                 SetLayoutProps(layoutPropsSkinData.SelectionHelper, factor, portrait);
                 break;
+            case CustomLayoutProperty.IntroAnim:
+                SetRectTransform(layoutPropsSkinData.IntoAnimationSize.rectAnchor, layoutPropsSkinData.IntoAnimationSize.rectPivot);
+
+                float m_animSize = layoutPropsSkinData.IntoAnimationSize.rectHeight * m_width;
+                rectTransform.sizeDelta = new Vector2((int)m_animSize, (int)m_animSize);
+                break;
             case CustomLayoutProperty.ScrollRectContent:
-                RectOffset rectOffset = new RectOffset();
-                LayoutGroup layoutGroup = this.gameObject.GetComponent<LayoutGroup>();
-
-                //relative offset
-                rectOffset.top = (int)(layoutPropsSkinData.ScrollRectContent.paddingTop * factor);
-                rectOffset.bottom = (int)(layoutPropsSkinData.ScrollRectContent.paddingBottom * factor);
-                rectOffset.left = (int)(layoutPropsSkinData.ScrollRectContent.paddingLeft * factor);
-                rectOffset.right = (int)(layoutPropsSkinData.ScrollRectContent.paddingRight * factor);
-
-                //layout group
-                layoutGroup.padding = rectOffset;
-                layoutGroup.childAlignment = layoutPropsSkinData.ScrollRectContent.alignment;
+                SetPaddingProps(layoutPropsSkinData.ScrollRectContent, factor);
+                break;
+            case CustomLayoutProperty.SessionHintContent:
+                SetPaddingProps(layoutPropsSkinData.SessionHintContent, factor);
+                SetRectTransform(layoutPropsSkinData.SessionHintAnchor.rectAnchor, layoutPropsSkinData.SessionHintAnchor.rectPivot);
+                break;
+            case CustomLayoutProperty.TimerFPSDisplay:
+                SetLayoutProps(layoutPropsSkinData.timerFpsDisplay, factor, portrait);
                 break;
         }
+    }
+
+    void SetPaddingProps(m_CustomPadding data, float factor)
+    {
+        RectOffset rectOffset = new RectOffset();
+        LayoutGroup layoutGroup = this.gameObject.GetComponent<LayoutGroup>();
+
+        //relative offset
+        rectOffset.top = (int)(data.paddingTop * factor);
+        rectOffset.bottom = (int)(data.paddingBottom * factor);
+        rectOffset.left = (int)(data.paddingLeft * factor);
+        rectOffset.right = (int)(data.paddingRight * factor);
+
+        //layout group
+        layoutGroup.padding = rectOffset;
+        layoutGroup.childAlignment = data.alignment;
     }
 
     public void SetLayoutProps(m_LayoutProps data, float factor, bool portrait)

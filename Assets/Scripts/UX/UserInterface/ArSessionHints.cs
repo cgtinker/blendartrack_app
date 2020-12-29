@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
+using System.Collections;
 
 namespace ArRetarget
 {
@@ -54,10 +55,11 @@ namespace ArRetarget
         ARPlaneManager m_PlaneManager;
         ReferenceCreator m_ReferenceCreator;
 
-        private float cur_time;
+        private float m_timeStamp;
 
         float minimumBrightness = 0.38f;
         #endregion
+
 
         private string m_msg;
         public void SessionHintMessages()
@@ -71,7 +73,7 @@ namespace ArRetarget
                             m_msg = "Move your device around slowly.";
                             break;
                         case TrackingType.FaceTracking:
-                            m_msg = "Try to fit your face in the camera frame";
+                            m_msg = $"Try to fit your face in {br}the camera frame";
                             break;
                     }
                     break;
@@ -83,7 +85,7 @@ namespace ArRetarget
                         case TrackingType.PlaneTracking:
                             //planes found a sufficient lightning condifitions
                             if (PlanesFound() && !insufficientLightning && PlayerPrefs.GetInt("reference", -1) == 1)
-                                m_msg = "Double Tap a location to place a Reference Object.";
+                                m_msg = $"Double Tap a location {br}to place a Reference Object.";
 
                             //if user doesnt play reference objs
                             else if (PlanesFound() && !insufficientLightning && PlayerPrefs.GetInt("reference", -1) == -1)
@@ -102,14 +104,14 @@ namespace ArRetarget
                             //no planes found with sufficient lightning conditions
                             else if (!PlanesFound() && !insufficientLightning && !stateResetted)
                             {
-                                m_msg = "Unable to find a surface. Try moving to the side or repositioning your phone.";
+                                m_msg = $"Unable to find a surface. {br}{br}Try moving to the side or {br}repositioning your phone.";
                                 ResetTimerState();
                             }
 
                             //no planes found and insufficient lightning conditions
                             else if (!PlanesFound() && !insufficientLightning && stateResetted)
                             {
-                                m_msg = "Try moving around, turning on more lights, and making sure your phone is pointed at a sufficiently textured surface.";
+                                m_msg = $"Try moving around, turning on more lights,{br} and making sure your phone is pointed{br} at a sufficiently textured surface.";
                                 ResetTimerState();
                             }
 
@@ -132,21 +134,21 @@ namespace ArRetarget
                             //face added and insufficient lightning conditions
                             else if (faceAdded && insufficientLightning)
                             {
-                                m_msg = "Try turning on more lights and capturing facial expressions";
+                                m_msg = $"Try turning on more lights and {br}capturing facial expressions";
                                 ResetTimerState();
                             }
 
                             //no face found and sufficient lightning conditions
                             else if (!faceAdded && !insufficientLightning)
                             {
-                                m_msg = "Try to position your face in the screen center.";
+                                m_msg = $"Try to position your face {br}in the screen center.";
                                 ResetTimerState();
                             }
 
                             //no face found and insufficient lightning conditions
                             else
                             {
-                                m_msg = "Try turning on more lights and positing your face in the screen center";
+                                m_msg = $"Try turning on more lights and {br}positing your face in the screen center";
                                 ResetTimerState();
                             }
                             break;
@@ -162,13 +164,13 @@ namespace ArRetarget
                             {
                                 if (!placedObject)
                                 {
-                                    m_msg = "Double Tap a location to place a Reference Object.";
+                                    m_msg = $"Double Tap a location to{br} place a Reference Object.";
                                     ResetTimerState();
                                 }
 
                                 else
                                 {
-                                    m_msg = "Tap long on a Reference Object to delete it.";
+                                    m_msg = $"Tap long on a Reference Object{br} to delete it.";
                                 }
                             }
 
@@ -188,7 +190,7 @@ namespace ArRetarget
 
                             else if (!faceAdded && faceRemoved)
                             {
-                                m_msg = "Try keeping your face withing the camera screen and avoiding rapid movements.";
+                                m_msg = $"Try keeping your face withing {br}the camera screen and {br}avoiding rapid movements.";
                                 ResetTimerState();
                             }
                             break;
@@ -215,8 +217,11 @@ namespace ArRetarget
 
 
         #region initialize and subscribe to events
-        private void Start()
+        static string br;
+        void Start()
         {
+            br = FileManagement.GetParagraph();
+
             if (inputHandler == null)
                 inputHandler = GameObject.FindGameObjectWithTag("interfaceManager").GetComponent<InputHandler>();
 
@@ -234,12 +239,12 @@ namespace ArRetarget
                 case TrackingType.PlaneTracking:
                     InitPlaneTrackingReferences();
                     //start to use the time enum
-                    cur_time = Time.time;
+                    m_timeStamp = Time.time;
                     trackTime = true;
                     break;
                 case TrackingType.FaceTracking:
                     InitFaceTrackingReferences();
-                    cur_time = Time.time;
+                    m_timeStamp = Time.time;
                     trackTime = true;
                     break;
                 case TrackingType.none:
@@ -297,7 +302,7 @@ namespace ArRetarget
             m_FaceManager = null;
             m_PlaneManager = null;
             m_ReferenceCreator = null;
-            cur_time = 0.0f;
+            m_timeStamp = 0.0f;
             trackTime = false;
             faceAdded = false;
             faceRemoved = false;
@@ -322,8 +327,8 @@ namespace ArRetarget
         #region enum setters
         [Header("Session Hint update frequency")]
         private bool trackTime = false;
-        public float stateFreq = 5f;
-        public float s_Offset = 2f;
+        private float freq = 10f;
+        private float m_offset = 4f;
         private int timer_ticker;
 
         private void Update()
@@ -336,28 +341,31 @@ namespace ArRetarget
                     switch (timeState)
                     {
                         case TimeState.None:
-                            if (cur_time + s_Offset < Time.time && cur_time + s_Offset + stateFreq > Time.time)
+                            if (m_timeStamp + m_offset < Time.time &&
+                                m_timeStamp - m_offset + freq > Time.time)
                             {
                                 if (timeState != TimeState.Started)
                                     TimeStateCallback = TimeState.Started;
                             }
                             break;
                         case TimeState.Started:
-                            if (cur_time + s_Offset + stateFreq < Time.time && cur_time + s_Offset + stateFreq * 2 > Time.time)
+                            if (m_timeStamp + m_offset + freq < Time.time &&
+                                m_timeStamp - m_offset + freq * 2 > Time.time)
                             {
                                 if (timeState != TimeState.Detecting)
                                     TimeStateCallback = TimeState.Detecting;
                             }
                             break;
                         case TimeState.Detecting:
-                            if (cur_time + s_Offset + stateFreq * 2 < Time.time && cur_time + s_Offset + stateFreq * 3 > Time.time)
+                            if (m_timeStamp + m_offset + freq * 2 < Time.time &&
+                                m_timeStamp - m_offset + freq * 3 > Time.time)
                             {
                                 if (timeState != TimeState.Deteceted)
                                     TimeStateCallback = TimeState.Deteceted;
                             }
                             break;
                         case TimeState.Deteceted:
-                            if (cur_time + s_Offset + stateFreq * 3 < Time.time)
+                            if (m_timeStamp + m_offset + freq * 3 < Time.time)
                             {
                                 if (timeState != TimeState.infinite)
                                     TimeStateCallback = TimeState.infinite;
@@ -374,23 +382,33 @@ namespace ArRetarget
         bool stateResetted;
         private void ResetTimerState()
         {
-            insufficientLightning = false;
-            faceRemoved = false;
-            stateResetted = true;
-            Debug.Log("Resetted State!");
+            StartCoroutine(WaitAndReset());
+        }
+
+        IEnumerator WaitAndReset()
+        {
+            yield return new WaitForSeconds(freq);
             switch (timeState)
             {
                 case TimeState.Detecting:
-                    cur_time = Time.time + s_Offset;
+                    m_timeStamp = Time.time - m_offset;
                     timeState = TimeState.None;
+                    Debug.Log($"(deting) Ressetted curTime: {m_timeStamp} :: {Time.time}");
                     break;
                 case TimeState.Deteceted:
-                    cur_time = Time.time + s_Offset + stateFreq;
+                    m_timeStamp = Time.time + freq - m_offset;
+                    Debug.Log($"(deted) Ressetted curTime: {m_timeStamp} :: {Time.time}");
                     timeState = TimeState.Started;
                     break;
             }
+
+            stateResetted = true;
+            insufficientLightning = false;
+            faceRemoved = false;
+
         }
 
+        #region tracked data
         //on received frame from ar camera
         int cam_ticker = 0;
         bool insufficientLightning = false;
@@ -463,6 +481,7 @@ namespace ArRetarget
         {
             placedObject = true;
         }
+        #endregion
         #endregion
     }
 }
