@@ -51,105 +51,45 @@ public class FlexibleUIHorizontalLayout : FlexibleUILayoutOverride
         switch (layoutType)
         {
             case LayoutType.Struct:
-                //layout element size
-                firstChild.preferredWidth = layoutSkinData.structPreferedFistChildSize * factor;
-                secondChild.preferredWidth = layoutSkinData.structPreferedSecondChildSize * factor;
-                thirdChild.preferredWidth = layoutSkinData.structPreferedThirdChildSize * factor;
-
-                //relative offset
-                rectOffset.top = (int)(layoutSkinData.structPadding.top * factor);
-                rectOffset.bottom = (int)(layoutSkinData.structPadding.bottom * factor);
-                rectOffset.left = (int)(layoutSkinData.structPadding.left * factor);
-                rectOffset.right = (int)(layoutSkinData.structPadding.right * factor);
-
-                layoutGroup.padding = rectOffset;
-                layoutGroup.childAlignment = layoutSkinData.stuctAlignment;
+                SetLayoutProps(layoutSkinData.Struct, factor);
                 break;
 
             case LayoutType.Header:
-                //layout element size
-                firstChild.preferredWidth = layoutSkinData.headerPreferedFistChildSize * factor;
-                secondChild.preferredWidth = layoutSkinData.headerPreferedSecondChildSize * factor;
-                thirdChild.preferredWidth = layoutSkinData.headerPreferedThirdChildSize * factor;
-
-                //relative offset
-                rectOffset.top = (int)(layoutSkinData.headerPadding.top * factor);
-                rectOffset.bottom = (int)(layoutSkinData.headerPadding.bottom * factor);
-                rectOffset.left = (int)(layoutSkinData.headerPadding.left * factor);
-                rectOffset.right = (int)(layoutSkinData.headerPadding.right * factor);
-
-                //layout group
-                layoutGroup.padding = rectOffset;
-                layoutGroup.childAlignment = layoutSkinData.footerAlignment;
+                SetLayoutProps(layoutSkinData.Header, factor);
                 break;
 
             case LayoutType.Footer:
-                //layout element size
-                firstChild.preferredWidth = layoutSkinData.footerPreferedFistChildSize * factor;
-                secondChild.preferredWidth = layoutSkinData.footerPreferedSecondChildSize * factor;
-                thirdChild.preferredWidth = layoutSkinData.footerPreferedThirdChildSize * factor;
-
-                //relative offset
-                rectOffset.top = (int)(layoutSkinData.footerPadding.top * factor);
-                rectOffset.bottom = (int)(layoutSkinData.footerPadding.bottom * factor);
-                rectOffset.left = (int)(layoutSkinData.footerPadding.left * factor);
-                rectOffset.right = (int)(layoutSkinData.footerPadding.right * factor);
-
-                //layout group
-                layoutGroup.padding = rectOffset;
-                layoutGroup.childAlignment = layoutSkinData.footerAlignment;
+                SetLayoutProps(layoutSkinData.Footer, factor);
                 break;
 
             case LayoutType.Button:
-                //layout element size
-                firstChild.preferredWidth = (layoutSkinData.buttonPreferedFistChildSize) * factor;
-                secondChild.preferredWidth = (layoutSkinData.buttonPreferedSecondChildSize) * factor;
-                thirdChild.preferredWidth = layoutSkinData.buttonPreferedThirdChildSize * factor;
-
-                //relative offset
-                rectOffset.top = (int)(layoutSkinData.buttonPadding.top * factor);
-                rectOffset.bottom = (int)(layoutSkinData.buttonPadding.bottom * factor);
-                rectOffset.left = (int)(layoutSkinData.buttonPadding.left * factor);
-                rectOffset.right = (int)(layoutSkinData.buttonPadding.right * factor);
-
-                //layout group
-                layoutGroup.padding = rectOffset;
-                layoutGroup.childAlignment = layoutSkinData.buttonAlignment;
+                SetLayoutProps(layoutSkinData.Button, factor);
                 break;
             case LayoutType.HeaderButton:
-                //layout element size
-                firstChild.preferredWidth = (layoutSkinData.headerButtonPreferedFistChildSize) * factor;
-                secondChild.preferredWidth = (layoutSkinData.headerButtonPreferedSecondChildSize) * factor;
-                thirdChild.preferredWidth = layoutSkinData.headerButtonPreferedThirdChildSize * factor;
-
-                //relative offset
-                rectOffset.top = (int)(layoutSkinData.headerButtonPadding.top * factor);
-                rectOffset.bottom = (int)(layoutSkinData.headerButtonPadding.bottom * factor);
-                rectOffset.left = (int)(layoutSkinData.headerButtonPadding.left * factor);
-                rectOffset.right = (int)(layoutSkinData.headerButtonPadding.right * factor);
-
-                //layout group
-                layoutGroup.padding = rectOffset;
-                layoutGroup.childAlignment = layoutSkinData.headerButtonAlignment;
+                SetLayoutProps(layoutSkinData.HeaderButton, factor);
                 break;
             case LayoutType.FPS:
-                //layout element size
-                firstChild.preferredWidth = (layoutSkinData.fpsButtonPreferedFistChildSize) * factor;
-                secondChild.preferredWidth = (layoutSkinData.fpsButtonPreferedSecondChildSize) * factor;
-                thirdChild.preferredWidth = layoutSkinData.fpsButtonPreferedThirdChildSize * factor;
-
-                //relative offset
-                rectOffset.top = (int)(layoutSkinData.fpsButtonPadding.top * factor);
-                rectOffset.bottom = (int)(layoutSkinData.fpsButtonPadding.bottom * factor);
-                rectOffset.left = (int)(layoutSkinData.fpsButtonPadding.left * factor);
-                rectOffset.right = (int)(layoutSkinData.fpsButtonPadding.right * factor);
-
-                //layout group
-                layoutGroup.padding = rectOffset;
-                layoutGroup.childAlignment = layoutSkinData.fpsButtonAlignment;
+                SetLayoutProps(layoutSkinData.fpsPlacement, factor);
                 break;
         }
+    }
 
+    void SetLayoutProps(m_LayoutData data, float factor)
+    {
+        //layout element size
+        firstChild.preferredWidth = data.preferedFistChildSize * factor;
+        secondChild.preferredWidth = data.preferedSecondChildSize * factor;
+        thirdChild.preferredWidth = data.preferedThirdChildSize * factor;
 
+        //relative offset
+        RectOffset rectOffset = new RectOffset();
+        rectOffset.top = (int)(data.padding.top * factor);
+        rectOffset.bottom = (int)(data.padding.bottom * factor);
+        rectOffset.left = (int)(data.padding.left * factor);
+        rectOffset.right = (int)(data.padding.right * factor);
+
+        //layout group
+        layoutGroup.padding = rectOffset;
+        layoutGroup.childAlignment = data.alignment;
     }
 }

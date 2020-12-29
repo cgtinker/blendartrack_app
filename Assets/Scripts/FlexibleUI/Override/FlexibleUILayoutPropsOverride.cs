@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode()]
-public class FlexibleUITextButtonOverride : MonoBehaviour
+public class FlexibleUILayoutPropsOverride : MonoBehaviour
 {
-    public FlexibleUITextButtonData textButtonSkinData;
+    public FlexibleUILayoutPropsData layoutPropsSkinData;
 
     protected virtual void OnSkinUI()
     {

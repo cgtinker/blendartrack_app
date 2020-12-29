@@ -13,32 +13,59 @@ MonoBehaviour:
   m_Name: TextSkinData
   m_EditorClassIdentifier: 
   fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
-  headerTextSize: 26
-  headerFontStyles: 9
-  headerAlignment: 513
-  headerOverflow: 0
-  headerRectSize: {x: 1, y: 1}
-  headerRectAnchor: 16
-  headerRectPivot: 3
-  defaultTextSize: 23
-  defaultFontStyles: 8
-  defaultAlignment: 513
-  defaultOverflow: 0
-  defaultRectSize: {x: 1, y: 1}
-  defaultRectAnchor: 16
-  defaultRectPivot: 3
-  buttonTextSize: 19
-  buttonFontStyles: 0
-  buttonAlignment: 513
-  buttonOverflow: 0
-  buttonRectSize: {x: 1, y: 1}
-  buttonRectAnchor: 14
-  buttonRectPivot: 3
-  hintTextSize: 23
-  hintFontStyles: 8
-  hintAlignment: 513
-  hintOverflow: 0
-  hintRectSize: {x: 1, y: 1}
-  hintRectAnchor: 1
-  hintRectPivot: 1
-  customTextSize: 23
+  Header:
+    textSize: 24
+    fontStyle: 9
+    alignment: 513
+    overflow: 0
+    rectSize: {x: 1, y: 1}
+    rectAnchor: 16
+    rectPivot: 3
+  Default:
+    textSize: 23
+    fontStyle: 8
+    alignment: 0
+    overflow: 0
+    rectSize: {x: 1, y: 1}
+    rectAnchor: 16
+    rectPivot: 3
+  Button:
+    textSize: 21
+    fontStyle: 0
+    alignment: 513
+    overflow: 0
+    rectSize: {x: 1, y: 1}
+    rectAnchor: 14
+    rectPivot: 3
+  Hint:
+    textSize: 23
+    fontStyle: 8
+    alignment: 514
+    overflow: 0
+    rectSize: {x: 1, y: 1}
+    rectAnchor: 16
+    rectPivot: 1
+  FileBrowserSelectionHelper:
+    textSize: 21
+    fontStyle: 0
+    alignment: 0
+    overflow: 0
+    rectSize: {x: 0, y: 0}
+    rectAnchor: 0
+    rectPivot: 0
+  StartUp:
+    textSize: 24
+    fontStyle: 9
+    alignment: 514
+    overflow: 0
+    rectSize: {x: 1, y: 1}
+    rectAnchor: 16
+    rectPivot: 4
+  SupportFooter:
+    textSize: 21
+    fontStyle: 0
+    alignment: 514
+    overflow: 0
+    rectSize: {x: 1, y: 1}
+    rectAnchor: 14
+    rectPivot: 4

@@ -12,57 +12,73 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e91523669b86b40369cc98d59c9658bc, type: 3}
   m_Name: LayoutSkinData
   m_EditorClassIdentifier: 
-  structPadding:
-    m_Left: 5
-    m_Right: 5
-    m_Top: 4
-    m_Bottom: 2
-  stuctAlignment: 4
-  structPreferedFistChildSize: 15
-  structPreferedSecondChildSize: 70
-  structPreferedThirdChildSize: 15
-  headerPadding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  headerAlignment: 0
-  headerPreferedFistChildSize: 66
-  headerPreferedSecondChildSize: 0
-  headerPreferedThirdChildSize: 33
-  footerPadding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  footerAlignment: 0
-  footerPreferedFistChildSize: 33
-  footerPreferedSecondChildSize: 33
-  footerPreferedThirdChildSize: 33
-  buttonPadding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  buttonAlignment: 0
-  buttonPreferedFistChildSize: 10
-  buttonPreferedSecondChildSize: 90
-  buttonPreferedThirdChildSize: 0
-  headerButtonPadding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  headerButtonAlignment: 0
-  headerButtonPreferedFistChildSize: 15
-  headerButtonPreferedSecondChildSize: 75
-  headerButtonPreferedThirdChildSize: 0
-  fpsButtonPadding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  fpsButtonAlignment: 6
-  fpsButtonPreferedFistChildSize: 33
-  fpsButtonPreferedSecondChildSize: 33
-  fpsButtonPreferedThirdChildSize: 33
+  Struct:
+    padding:
+      m_Left: 5
+      m_Right: 5
+      m_Top: 3
+      m_Bottom: 2
+    alignment: 4
+    preferedFistChildSize: 13
+    preferedSecondChildSize: 72
+    preferedThirdChildSize: 15
+  Header:
+    padding:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    alignment: 0
+    preferedFistChildSize: 66
+    preferedSecondChildSize: 0
+    preferedThirdChildSize: 33
+  Footer:
+    padding:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    alignment: 0
+    preferedFistChildSize: 33
+    preferedSecondChildSize: 33
+    preferedThirdChildSize: 33
+  Button:
+    padding:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    alignment: 0
+    preferedFistChildSize: 10
+    preferedSecondChildSize: 90
+    preferedThirdChildSize: 0
+  HeaderButton:
+    padding:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    alignment: 0
+    preferedFistChildSize: 15
+    preferedSecondChildSize: 75
+    preferedThirdChildSize: 0
+  fpsPlacement:
+    padding:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    alignment: 6
+    preferedFistChildSize: 33
+    preferedSecondChildSize: 33
+    preferedThirdChildSize: 33
+  ScrollContent:
+    padding:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    alignment: 0
+    preferedFistChildSize: 0
+    preferedSecondChildSize: 0
+    preferedThirdChildSize: 0

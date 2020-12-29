@@ -10,7 +10,9 @@ public class FlexibleUIText : FlexibleUITextOverride
         Default,
         Hint,
         ButtonText,
-        Custom
+        StartUp,
+        SelectionHelper,
+        SupportFooter
     }
 
     public TextMeshProUGUI text;
@@ -35,54 +37,45 @@ public class FlexibleUIText : FlexibleUITextOverride
         else
             factor = (float)width / 100f;
 
-        Vector2 rectSize;
-        int textSize;
-
         switch (textType)
         {
             case TextType.Headline:
-                textSize = (int)GetTextSize(textSkinData.headerTextSize, factor);
-
-                AssignTextStyle(textSize, textSkinData.headerFontStyles, textSkinData.headerAlignment, textSkinData.headerOverflow);
-
-                rectSize = new Vector2(textSkinData.headerRectSize.x * factor, textSkinData.headerRectSize.y * factor);
-                AssignRectTransform(rectSize, textSkinData.headerRectAnchor, textSkinData.headerRectPivot);
+                AssignTextStyle(textSkinData.Header, factor);
                 break;
 
             case TextType.Default:
-                textSize = (int)GetTextSize(textSkinData.defaultTextSize, factor);
-
-                AssignTextStyle(textSize, textSkinData.defaultFontStyles, textSkinData.defaultAlignment, textSkinData.defaultOverflow);
-
-                rectSize = new Vector2(textSkinData.defaultRectSize.x * factor, textSkinData.defaultRectSize.y * factor);
-                rectTransform.sizeDelta = rectSize;
-                AssignRectTransform(rectSize, textSkinData.defaultRectAnchor, textSkinData.defaultRectPivot);
+                AssignTextStyle(textSkinData.Default, factor);
                 break;
 
             case TextType.Hint:
-                textSize = (int)GetTextSize(textSkinData.hintTextSize, factor);
-
-                AssignTextStyle(textSize, textSkinData.hintFontStyles, textSkinData.hintAlignment, textSkinData.hintOverflow);
-
-                rectSize = new Vector2(textSkinData.hintRectSize.x * factor, textSkinData.hintRectSize.y * factor);
-                rectTransform.sizeDelta = rectSize;
-                AssignRectTransform(rectSize, textSkinData.hintRectAnchor, textSkinData.hintRectPivot);
+                AssignTextStyle(textSkinData.Hint, factor);
                 break;
 
-            case TextType.Custom:
-                text.fontSize = (int)GetTextSize(textSkinData.customTextSize, factor);
+            case TextType.SelectionHelper:
+                text.fontSize = (int)GetTextSize(textSkinData.FileBrowserSelectionHelper.textSize, factor);
                 break;
 
             case TextType.ButtonText:
-                textSize = (int)GetTextSize(textSkinData.buttonTextSize, factor);
+                AssignTextStyle(textSkinData.Button, factor);
+                break;
 
-                AssignTextStyle(textSize, textSkinData.buttonFontStyles, textSkinData.buttonAlignment, textSkinData.buttonOverflow);
+            case TextType.StartUp:
+                AssignTextStyle(textSkinData.StartUp, factor);
+                break;
 
-                rectSize = new Vector2(textSkinData.buttonRectSize.x * factor, textSkinData.buttonRectSize.y * factor);
-                rectTransform.sizeDelta = rectSize;
-                AssignRectTransform(rectSize, textSkinData.buttonRectAnchor, textSkinData.buttonRectPivot);
+            case TextType.SupportFooter:
+                AssignTextStyle(textSkinData.SupportFooter, factor);
                 break;
         }
+    }
+
+    void AssignTextStyle(m_TextData data, float factor)
+    {
+        int textSize = (int)GetTextSize(data.textSize, factor);
+        AssignTextStyle(textSize, data.fontStyle, data.alignment, data.overflow);
+        Vector2 rectSize = new Vector2(data.rectSize.x * factor, data.rectSize.y * factor);
+        rectTransform.sizeDelta = rectSize;
+        AssignRectTransform(rectSize, data.rectAnchor, data.rectPivot);
     }
 
     float GetTextSize(float m_textSize, float factor)
