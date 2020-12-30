@@ -16,7 +16,7 @@ MonoBehaviour:
     padding:
       m_Left: 5
       m_Right: 5
-      m_Top: 4
+      m_Top: 3
       m_Bottom: 3
     alignment: 4
     preferedFistChildSize: 13
@@ -49,8 +49,8 @@ MonoBehaviour:
       m_Top: 0
       m_Bottom: 0
     alignment: 0
-    preferedFistChildSize: 10
-    preferedSecondChildSize: 90
+    preferedFistChildSize: 13
+    preferedSecondChildSize: 87
     preferedThirdChildSize: 0
   HeaderButton:
     padding:
@@ -59,8 +59,8 @@ MonoBehaviour:
       m_Top: 0
       m_Bottom: 0
     alignment: 0
-    preferedFistChildSize: 12
-    preferedSecondChildSize: 90
+    preferedFistChildSize: 15
+    preferedSecondChildSize: 85
     preferedThirdChildSize: 0
   fpsPlacement:
     padding:

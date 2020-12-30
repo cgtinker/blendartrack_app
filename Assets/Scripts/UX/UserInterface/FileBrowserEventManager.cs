@@ -25,10 +25,14 @@ namespace ArRetarget
         private GameObject jsonViewerReference;
 
         //different buttons depending on json viewer state
-        [Header("Back Button in Viewer and Filebrowser")]
+        [Header("References to switch inbetween Viewer and Filebrowser")]
         public GameObject ViewerAcitveBackButton;
         public GameObject ViewerInactiveBackButton;
         public Image FileBrowserBackground;
+        public GameObject ViewerActiveTitle;
+        public GameObject ViewerInactiveTitle;
+
+        public GameObject SelectionHelperParent;
 
         //select buttons
         [Header("Select Buttons")]
@@ -207,16 +211,21 @@ namespace ArRetarget
             {
                 Debug.Log("attempt to preview data");
                 FileBrowserBackground.enabled = false;
-                //FileBrowserBackground.SetActive(false);
-                //SelectAllFilesBtn.SetActive(false);
 
                 //changing the back buttons
                 ViewerAcitveBackButton.SetActive(true);
                 ViewerInactiveBackButton.SetActive(false);
 
+                //changing title
+                ViewerActiveTitle.SetActive(true);
+                ViewerInactiveTitle.SetActive(false);
+
                 //changing footer
                 MenuFooter.SetActive(false);
                 SupportFooter.SetActive(true);
+
+                //deactivate selection helper
+                SelectionHelperParent.SetActive(false);
 
                 //instantiating the viewer
                 jsonViewerReference = Instantiate(JsonViewerPrefab, Vector3.zero, Quaternion.identity);
@@ -232,6 +241,11 @@ namespace ArRetarget
                     {
                         data.obj.SetActive(false);
                     }
+
+                    else
+                    {
+                        data.obj.GetComponent<JsonFileButton>().ChangeSelectionToggleStatus(true);
+                    }
                 }
             }
 
@@ -246,12 +260,17 @@ namespace ArRetarget
         {
             Debug.Log("stop viewing data");
             FileBrowserBackground.enabled = true;
-            //FileBrowserBackground.SetActive(true);
-            //SelectAllFilesBtn.SetActive(true);
 
             //changing the back buttons
             ViewerAcitveBackButton.SetActive(false);
             ViewerInactiveBackButton.SetActive(true);
+
+            //changing title
+            ViewerActiveTitle.SetActive(false);
+            ViewerInactiveTitle.SetActive(true);
+
+            //activate selection helper
+            SelectionHelperParent.SetActive(true);
 
             //changing footer
             MenuFooter.SetActive(true);

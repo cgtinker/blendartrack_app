@@ -38,7 +38,7 @@ MonoBehaviour:
     rectAnchor: 14
     rectPivot: 3
   Hint:
-    textSize: 23
+    textSize: 24
     fontStyle: 8
     alignment: 514
     overflow: 0

@@ -46,7 +46,7 @@ namespace ArRetarget
         public void OnTrackingStateChanged(string message)
         {
             inputHandler.GeneratedFilePopup(message, "");
-            Debug.Log(message);
+            //Debug.Log(message);
         }
 
         #region references
@@ -55,12 +55,10 @@ namespace ArRetarget
         ARPlaneManager m_PlaneManager;
         ReferenceCreator m_ReferenceCreator;
 
-        private float m_timeStamp;
-
         float minimumBrightness = 0.38f;
         #endregion
 
-
+        bool stateResetted;
         private string m_msg;
         public void SessionHintMessages()
         {
@@ -111,7 +109,7 @@ namespace ArRetarget
                             //no planes found and insufficient lightning conditions
                             else if (!PlanesFound() && !insufficientLightning && stateResetted)
                             {
-                                m_msg = $"Try moving around, turning on more lights,{br} and making sure your phone is pointed{br} at a sufficiently textured surface.";
+                                m_msg = $"Try moving around, turning on{br} more lights, and making sure{br} your phone is pointed at a {br}sufficiently textured surface.";
                                 ResetTimerState();
                             }
 
@@ -326,10 +324,22 @@ namespace ArRetarget
 
         #region enum setters
         [Header("Session Hint update frequency")]
-        private bool trackTime = false;
-        private float freq = 10f;
-        private float m_offset = 4f;
+        //helper
         private int timer_ticker;
+        private bool trackTime = false;
+        /// <summary>
+        /// interval to show a session hint in seconds
+        /// </summary>
+        private float freq = 8f;
+        /// <summary>
+        /// offset between the interval
+        /// </summary>
+        private float m_offset = 3f;
+        /// <summary>
+        /// timeStamp = time.Time at hint start
+        /// gets reseted if the conditions of a time state arent reached
+        /// </summary>
+        private float m_timeStamp;
 
         private void Update()
         {
@@ -338,51 +348,85 @@ namespace ArRetarget
             {
                 if (trackTime)
                 {
-                    switch (timeState)
-                    {
-                        case TimeState.None:
-                            if (m_timeStamp + m_offset < Time.time &&
-                                m_timeStamp - m_offset + freq > Time.time)
-                            {
-                                if (timeState != TimeState.Started)
-                                    TimeStateCallback = TimeState.Started;
-                            }
-                            break;
-                        case TimeState.Started:
-                            if (m_timeStamp + m_offset + freq < Time.time &&
-                                m_timeStamp - m_offset + freq * 2 > Time.time)
-                            {
-                                if (timeState != TimeState.Detecting)
-                                    TimeStateCallback = TimeState.Detecting;
-                            }
-                            break;
-                        case TimeState.Detecting:
-                            if (m_timeStamp + m_offset + freq * 2 < Time.time &&
-                                m_timeStamp - m_offset + freq * 3 > Time.time)
-                            {
-                                if (timeState != TimeState.Deteceted)
-                                    TimeStateCallback = TimeState.Deteceted;
-                            }
-                            break;
-                        case TimeState.Deteceted:
-                            if (m_timeStamp + m_offset + freq * 3 < Time.time)
-                            {
-                                if (timeState != TimeState.infinite)
-                                    TimeStateCallback = TimeState.infinite;
-                            }
-                            break;
-                        case TimeState.infinite:
-                            break;
-                    }
+                    SetTimeState();
                 }
+
                 timer_ticker = 0;
             }
         }
 
-        bool stateResetted;
+        //gets called about 3-6 times per second depending on fps
+        public void SetTimeState()
+        {
+
+            switch (timeState)
+            {
+                case TimeState.None:
+                    if (m_timeStamp + m_offset <= Time.time &&
+                        m_timeStamp + m_offset + 1 >= Time.time)
+                    {
+                        Debug.Log("None " + Time.time);
+                        if (timeState != TimeState.Started)
+                            TimeStateCallback = TimeState.Started;
+                    }
+                    break;
+                case TimeState.Started:
+                    if (m_timeStamp + m_offset * 2 + freq <= Time.time &&
+                        m_timeStamp + m_offset * 2 + freq + 1 >= Time.time)
+                    {
+                        Debug.Log("Started " + Time.time);
+                        if (timeState != TimeState.Detecting)
+                            TimeStateCallback = TimeState.Detecting;
+                    }
+                    break;
+                case TimeState.Detecting:
+                    if (m_timeStamp + m_offset * 3 + freq * 1 <= Time.time &&
+                        m_timeStamp + m_offset * 3 + freq * 1 + 2 >= Time.time)
+                    {
+                        Debug.Log("Detecting " + Time.time);
+                        if (timeState != TimeState.Deteceted)
+                            TimeStateCallback = TimeState.Deteceted;
+                    }
+                    break;
+                case TimeState.Deteceted:
+                    if (m_timeStamp + m_offset * 4 + freq * 1 <= Time.time &&
+                        m_timeStamp + m_offset * 4 + freq * 1 + 2 >= Time.time)
+                    {
+                        Debug.Log("Deteceted " + Time.time);
+                        if (timeState != TimeState.infinite)
+                            TimeStateCallback = TimeState.infinite;
+                    }
+                    break;
+                case TimeState.infinite:
+                    break;
+            }
+        }
+
+        public void ResetTimeState()
+        {
+            switch (timeState)
+            {
+                case TimeState.Detecting:
+                    m_timeStamp = Time.time + freq;
+                    timeState = TimeState.None;
+                    break;
+                case TimeState.Deteceted:
+                    m_timeStamp = Time.time + m_offset + freq * 2;
+                    timeState = TimeState.Started;
+                    break;
+            }
+
+            insufficientLightning = false;
+            faceRemoved = false;
+
+            if (!stateResetted)
+                stateResetted = true;
+        }
+
         private void ResetTimerState()
         {
-            StartCoroutine(WaitAndReset());
+            ResetTimeState();
+            //StartCoroutine(WaitAndReset());
         }
 
         IEnumerator WaitAndReset()
