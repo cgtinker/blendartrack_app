@@ -27,7 +27,9 @@ public class FlexibleUILayoutProps : FlexibleUILayoutPropsOverride
         base.OnSkinUI();
         rectTransform = GetComponent<RectTransform>();
 
-        (float factor, float m_width, bool portrait) = ScreenSizeFactor.GetFactor();
+        float factor, m_width;
+        bool portrait;
+        (factor, m_width, portrait) = ScreenSizeFactor.GetFactor();
 
         switch (buttonType)
         {

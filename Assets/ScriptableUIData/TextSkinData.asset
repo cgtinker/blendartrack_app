@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   Header:
-    textSize: 21
+    textSize: 24
     fontStyle: 9
     alignment: 513
     overflow: 0
@@ -22,7 +22,7 @@ MonoBehaviour:
     rectAnchor: 16
     rectPivot: 3
   Default:
-    textSize: 18
+    textSize: 21
     fontStyle: 8
     alignment: 0
     overflow: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     rectAnchor: 16
     rectPivot: 3
   Button:
-    textSize: 18
+    textSize: 21
     fontStyle: 0
     alignment: 513
     overflow: 0
@@ -38,7 +38,7 @@ MonoBehaviour:
     rectAnchor: 14
     rectPivot: 3
   Hint:
-    textSize: 20
+    textSize: 23
     fontStyle: 8
     alignment: 514
     overflow: 0
@@ -46,7 +46,7 @@ MonoBehaviour:
     rectAnchor: 16
     rectPivot: 1
   FileBrowserSelectionHelper:
-    textSize: 18
+    textSize: 21
     fontStyle: 0
     alignment: 0
     overflow: 0
@@ -54,7 +54,7 @@ MonoBehaviour:
     rectAnchor: 0
     rectPivot: 0
   StartUp:
-    textSize: 21
+    textSize: 24
     fontStyle: 9
     alignment: 514
     overflow: 0
@@ -62,7 +62,7 @@ MonoBehaviour:
     rectAnchor: 14
     rectPivot: 7
   SupportFooter:
-    textSize: 18
+    textSize: 21
     fontStyle: 0
     alignment: 514
     overflow: 0
