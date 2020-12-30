@@ -31,6 +31,7 @@ public class FlexibleUILayoutProps : FlexibleUILayoutPropsOverride
         bool portrait;
         (factor, m_width, portrait) = ScreenSizeFactor.GetFactor();
 
+
         switch (buttonType)
         {
             case CustomLayoutProperty.HeaderTop:
@@ -101,11 +102,6 @@ public class FlexibleUILayoutProps : FlexibleUILayoutPropsOverride
 
     void SetRectHeight(float height, float factor, bool portrait)
     {
-        if (portrait)
-            rectTransform.sizeDelta = new Vector2(1, (int)(height * factor));
-
-
-        else
-            rectTransform.sizeDelta = new Vector2((int)(height * factor), 1);
+        rectTransform.sizeDelta = new Vector2(1, (int)(height * factor));
     }
 }

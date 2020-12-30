@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: ButtonSkinData
   m_EditorClassIdentifier: 
   buttonBackground: {fileID: 21300000, guid: a6a79f06504614223a13b1ad8add83ce, type: 3}
-  buttonBackgroundColor: {r: 0.754717, g: 0.4521182, b: 0.4521182, a: 0}
+  buttonBackgroundColor: {r: 0.509434, g: 0.17061234, b: 0.17061234, a: 0}
   buttonScaleFactor: 1.3
   iconColor: {r: 1, g: 1, b: 1, a: 1}
   defaultButtonSize: 5
   backButton:
     icon: {fileID: 21300000, guid: 58ae3bca7d0924ddc94c7bf9d63ccf14, type: 3}
-    iconSize: 3.5
+    iconSize: 3
     minPxSize: 125
     maxPxSize: 255
     anchor: 3
@@ -78,15 +78,15 @@ MonoBehaviour:
     maxPxSize: 250
     anchor: 5
     pivot: 5
-    iconAnchor: 5
-    iconPivot: 5
+    iconAnchor: 4
+    iconPivot: 4
   selectedButton:
     icon: {fileID: 21300000, guid: 2ed92fdddd1cd41ae9e12ad441d4c118, type: 3}
     iconSize: 2.5
     minPxSize: 50
     maxPxSize: 150
-    anchor: 4
-    pivot: 4
+    anchor: 3
+    pivot: 3
     iconAnchor: 3
     iconPivot: 3
   deselectedButton:
@@ -94,8 +94,8 @@ MonoBehaviour:
     iconSize: 2.5
     minPxSize: 50
     maxPxSize: 150
-    anchor: 4
-    pivot: 4
+    anchor: 3
+    pivot: 3
     iconAnchor: 3
     iconPivot: 3
   recordingButton:

@@ -18,7 +18,7 @@ MonoBehaviour:
     fontStyle: 9
     alignment: 513
     overflow: 0
-    rectSize: {x: 1, y: 1}
+    rectSize: {x: 10, y: 1}
     rectAnchor: 16
     rectPivot: 3
   Default:

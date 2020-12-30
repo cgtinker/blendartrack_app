@@ -15,7 +15,7 @@ MonoBehaviour:
   Header:
     rectAnchor: 13
     rectPivot: 0
-    rectHeight: 10
+    rectHeight: 7
     ignoreAnchors: 0
   InlineButton:
     rectAnchor: 13
