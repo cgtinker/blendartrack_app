@@ -55,7 +55,7 @@ MonoBehaviour:
     iconPivot: 4
   dropdownButton:
     icon: {fileID: 21300000, guid: a0bfa698afe744dfa94e0c263c1f2346, type: 3}
-    iconSize: 5
+    iconSize: 3
     minPxSize: 125
     maxPxSize: 250
     anchor: 4

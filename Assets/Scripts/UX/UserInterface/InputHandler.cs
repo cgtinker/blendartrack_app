@@ -14,6 +14,7 @@ namespace ArRetarget
 
         [Header("Pop Up Display")]
         public GameObject PopupPrefab;
+        public GameObject OnFinishRecordingPrefab;
         public Transform PopupParent;
         public GameObject FileBrowserButton;
 
@@ -30,6 +31,7 @@ namespace ArRetarget
             GameObject obj = GameObject.FindGameObjectWithTag("manager");
             dataManager = obj.GetComponent<TrackingDataManager>();
             sceneManager = obj.GetComponent<AdditiveSceneManager>();
+            OnFinishRecordingPrefab.SetActive(false);
         }
 
         #region tracking
@@ -44,6 +46,7 @@ namespace ArRetarget
             string filename = dataManager.SerializeJson();
             string message = "tracking successfull!";
             GeneratedFilePopup(message, filename);
+            OnFinishRecordingPrefab.SetActive(true);
         }
         #endregion
 
