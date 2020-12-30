@@ -12,8 +12,9 @@ public static class ScreenSizeFactor
 
         int height = Screen.height;
         int width = Screen.width;
+        /*
         float dpi = Screen.dpi;
-
+        
 #if UNITY_ANDROID
         float x_dpi = DisplayMetricsAndroid.XDPI;
         float y_dpi = DisplayMetricsAndroid.YDPI;
@@ -126,7 +127,21 @@ public static class ScreenSizeFactor
             portrait_mode = false;
         }
 #endif
-        Debug.Log($"factor: {factor}, mW {m_width}, portait {portrait_mode}");
+        */
+
+        factor = (float)1920 / 100f;
+        m_width = (float)1080 / 100f;
+
+        if (height > width)
+        {
+            portrait_mode = true;
+        }
+
+        else
+        {
+            portrait_mode = false;
+        }
+
         return (factor, m_width, portrait_mode);
     }
 }
