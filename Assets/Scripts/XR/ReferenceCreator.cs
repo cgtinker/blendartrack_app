@@ -184,7 +184,7 @@ namespace ArRetarget
 
         private void CreateAnchor(Vector3 position)
         {
-            if (anchors.Count > 6)
+            if (anchors.Count < 5)
             {
                 var marker = Instantiate(anchorPrefab, position, Quaternion.identity);
                 marker.transform.localScale = anchorScale;

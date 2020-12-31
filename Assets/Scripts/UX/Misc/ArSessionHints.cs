@@ -70,6 +70,7 @@ namespace ArRetarget
                         case TrackingType.PlaneTracking:
                             m_msg = "Move your device around slowly.";
                             break;
+
                         case TrackingType.FaceTracking:
                             m_msg = $"Try to fit your face in {br}the camera frame";
                             break;
@@ -82,8 +83,11 @@ namespace ArRetarget
                     {
                         case TrackingType.PlaneTracking:
                             //planes found a sufficient lightning condifitions
-                            if (PlanesFound() && !insufficientLightning && PlayerPrefs.GetInt("reference", -1) == 1)
-                                m_msg = $"Double Tap a location {br}to place a Reference Object.";
+                            if (PlanesFound() && !insufficientLightning && PlayerPrefs.GetInt("reference", -1) == 1 && !placedObject)
+                            {
+                                m_msg = $"Double Tap a location to{br} place a Reference Object. {br}{br}Tap long to remove it.";
+                                //m_msg = $"Double Tap a location {br}to place a Reference Object.";
+                            }
 
                             //if user doesnt play reference objs
                             else if (PlanesFound() && !insufficientLightning && PlayerPrefs.GetInt("reference", -1) == -1)
@@ -95,7 +99,7 @@ namespace ArRetarget
                             //planes found with insufficient lightning conditions
                             else if (PlanesFound() && insufficientLightning)
                             {
-                                m_msg = "Try turning on more lights and moving around.";
+                                m_msg = $"Try turning on more lights{br} and moving around.";
                                 ResetTimerState();
                             }
 
@@ -115,7 +119,7 @@ namespace ArRetarget
 
                             else if (!PlanesFound() && !insufficientLightning && !stateResetted)
                             {
-                                m_msg = "Try turning on more lights and moving around.";
+                                m_msg = $"Try turning on more lights{br} and moving around.";
                                 ResetTimerState();
                             }
 
@@ -125,7 +129,7 @@ namespace ArRetarget
                             //face added and sufficient lightning conditions
                             if (faceAdded && !insufficientLightning)
                             {
-                                m_msg = "Ready for capturing facial expressions";
+                                m_msg = $"Ready for capturing{br} facial expressions";
                                 timeState = TimeState.infinite;
                             }
 
@@ -156,20 +160,10 @@ namespace ArRetarget
                 case TimeState.Deteceted:
                     switch (type)
                     {
-
                         case TrackingType.PlaneTracking:
-                            if (PlayerPrefs.GetInt("reference", -1) == 1)
+                            if (PlayerPrefs.GetInt("reference", -1) == 1 && !placedObject)
                             {
-                                if (!placedObject)
-                                {
-                                    m_msg = $"Double Tap a location to{br} place a Reference Object.";
-                                    ResetTimerState();
-                                }
-
-                                else
-                                {
-                                    m_msg = $"Tap long on a Reference Object{br} to delete it.";
-                                }
+                                m_msg = $"Double Tap a location to{br} place a Reference Object. {br}{br}Tap long to remove it.";
                             }
 
                             else
@@ -380,8 +374,8 @@ namespace ArRetarget
                     }
                     break;
                 case TimeState.Detecting:
-                    if (m_timeStamp + m_offset * 3 + freq * 1 <= Time.time &&
-                        m_timeStamp + m_offset * 3 + freq * 1 + 2 >= Time.time)
+                    if (m_timeStamp + m_offset * 3 + freq * 2 <= Time.time &&
+                        m_timeStamp + m_offset * 3 + freq * 2 + 1 >= Time.time)
                     {
                         Debug.Log("Detecting " + Time.time);
                         if (timeState != TimeState.Deteceted)
@@ -389,8 +383,8 @@ namespace ArRetarget
                     }
                     break;
                 case TimeState.Deteceted:
-                    if (m_timeStamp + m_offset * 4 + freq * 1 <= Time.time &&
-                        m_timeStamp + m_offset * 4 + freq * 1 + 2 >= Time.time)
+                    if (m_timeStamp + m_offset * 4 + freq * 3 <= Time.time &&
+                        m_timeStamp + m_offset * 4 + freq * 3 + 1 >= Time.time)
                     {
                         Debug.Log("Deteceted " + Time.time);
                         if (timeState != TimeState.infinite)

@@ -11,6 +11,8 @@ namespace ArRetarget
         public GameObject SettingsTitelPrefab;
         public GameObject empty;
 
+        GameObject videoSettigsTitle;
+
         public Transform SettingsObjParent;
 
         public List<SettingButtonData> cameraSettings = new List<SettingButtonData>();
@@ -55,20 +57,22 @@ namespace ArRetarget
             //video settings generated at runtime (device dependant)
             if (UserPreferences.Instance.CameraConfigList.Count > 0)
             {
-                GenerateSettingsTitel("Video Settings");
+                videoSettigsTitle = GenerateSettingsTitel("Video Settings");
                 GenerateRecordingSettingsButtons();
             }
         }
 
 
         #region ui generation
-        private void GenerateSettingsTitel(string displayName)
+        private GameObject GenerateSettingsTitel(string displayName)
         {
             var tmp = Instantiate(SettingsTitelPrefab, Vector3.zero, Quaternion.identity);
             var script = tmp.GetComponent<UserSettingsTitel>();
             script.Init(displayName);
             tmp.transform.SetParent(SettingsObjParent);
             tmp.transform.localScale = Vector3.one;
+
+            return tmp;
         }
 
         private void GenerateButtons(List<SettingButtonData> buttons, bool isToggleGroup)
@@ -109,6 +113,11 @@ namespace ArRetarget
 
             else
             {
+                if (videoSettigsTitle = null)
+                {
+                    videoSettigsTitle = GenerateSettingsTitel("Video Settings");
+                }
+
                 //removing current
                 foreach (SettingButtonData data in recordingSettings)
                 {
