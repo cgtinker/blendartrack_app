@@ -6,8 +6,14 @@ namespace ArRetarget
 {
     public class JsonDataImporter : MonoBehaviour
     {
+        [HideInInspector]
         public string path;
+        [HideInInspector]
         public TextAsset jsonFile;
+        [HideInInspector]
+        public GameObject importParent;
+        [HideInInspector]
+        public bool poseData = false;
 
         private static Dictionary<string, string> JsonType = new Dictionary<string, string>()
         {
@@ -18,6 +24,7 @@ namespace ArRetarget
 
         private IEnumerator ImportPoseData(string fileContent)
         {
+            poseData = true;
             yield return new WaitForEndOfFrame();
             //deserialzing the data
             CameraPoseContainer data = JsonUtility.FromJson<CameraPoseContainer>(fileContent);
@@ -63,7 +70,7 @@ namespace ArRetarget
 
         private GameObject ParentGameObject()
         {
-            GameObject importParent = new GameObject("importParent");
+            importParent = new GameObject("importParent");
             importParent.transform.SetParent(this.gameObject.transform);
 
             return importParent;

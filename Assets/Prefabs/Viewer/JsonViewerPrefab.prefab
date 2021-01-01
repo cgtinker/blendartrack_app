@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1634757821}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.35, z: -4}
+  m_LocalPosition: {x: 0, y: 0.25, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7078544931354696155}
@@ -117,6 +117,7 @@ GameObject:
   - component: {fileID: 7078544931354696155}
   - component: {fileID: 7078544931354696158}
   - component: {fileID: 7078544931354696153}
+  - component: {fileID: 1143956447949342666}
   m_Layer: 0
   m_Name: JsonViewerPrefab
   m_TagString: Untagged
@@ -167,3 +168,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   path: 
   jsonFile: {fileID: 4900000, guid: cfa8e6f9091654ed387288a31c8da673, type: 3}
+  importParent: {fileID: 0}
+  poseData: 0
+--- !u!114 &1143956447949342666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7078544931354696159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de694d3503d1647f19902611e30e6a53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewerCamera: {fileID: 1634757825}

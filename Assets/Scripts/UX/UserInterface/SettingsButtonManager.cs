@@ -113,7 +113,7 @@ namespace ArRetarget
 
             else
             {
-                if (videoSettigsTitle = null)
+                if (videoSettigsTitle == null)
                 {
                     videoSettigsTitle = GenerateSettingsTitel("Video Settings");
                 }

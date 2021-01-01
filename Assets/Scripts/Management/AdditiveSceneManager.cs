@@ -57,7 +57,8 @@ public class AdditiveSceneManager : MonoBehaviour
     {
         //{ 0, "Tutorial"},
         { 1, "Pose Data Tracker" },
-        { 2, "Shape Key Tracker" }
+        { 2, "Face Mesh Tracker" },
+        { 3, "Shape Key Tracker" }
     };
     #endregion
 
