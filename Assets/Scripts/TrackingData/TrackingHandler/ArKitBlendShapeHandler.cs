@@ -19,7 +19,7 @@ namespace ArRetarget
         private List<BlendShapeData> blendShapeDataList = new List<BlendShapeData>();
         private bool recording = false;
         ARFace m_Face;
-        private bool lastFrame;
+        private bool lastFrame = false;
 
         void Awake()
         {

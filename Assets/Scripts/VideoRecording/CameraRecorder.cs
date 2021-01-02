@@ -12,25 +12,22 @@ public class CameraRecorder : MonoBehaviour, IInit<string, string>, IStop
     private MP4Recorder recorder;
 
     private FixedIntervalClock clock;
-    //private ARCameraManager arCameraManager;
 
-    private bool recording;
     private string mediaDesitinationPath;
     string title;
+
     public void Init(string path, string title)
     {
+        //path and media title
         mediaDesitinationPath = path;
         this.title = title;
-        //referencing the ar camera
+
+        //referencing
         var sessionOrigin = GameObject.FindGameObjectWithTag("arSessionOrigin");
-        //arCameraManager = sessionOrigin.GetComponentInChildren<ARCameraManager>();
         XRCameraConfigHandler config = sessionOrigin.GetComponentInChildren<XRCameraConfigHandler>();
 
         //assigning running config
         int? fps = config.activeXRCameraConfig.framerate;
-        //int width = config.activeXRCameraConfig.height;
-        //int height = config.activeXRCameraConfig.width;
-
         (int width, int height) = GetScreenDimensions(config);
 
         //init the recorder
@@ -71,34 +68,27 @@ public class CameraRecorder : MonoBehaviour, IInit<string, string>, IStop
     private void InitRecorder(int width, int height, int fps, int bitrate, int keyframeInterval)
     {
         var br = bitrate * 1000000;
+
         //recorder settings
         recorder = new MP4Recorder(width: width, height: height, frameRate: fps, sampleRate: 0, channelCount: 0, bitrate: br, keyframeInterval: keyframeInterval);
-
-        //clock to match ar frame timings
-        //clock = new FixedIntervalClock(fps, false);
         clock = new FixedIntervalClock(fps, true);
 
-        //OnReceivedFrameUpdate();
-        recording = true;
+        //recorder camera input
         Camera cam = GameObject.FindGameObjectWithTag("recorder").GetComponent<Camera>();
-        // recording main camera with nat corder
         cameraInput = new CameraInput(recorder, clock, cam);
     }
 
     public async void StopTracking()
     {
-        //OnDisponseFrameUpdate();
-        // Stop commiting frames to the recorder
-        recording = false;
+        //stop commiting frames to the recorder and finish writing
         cameraInput.Dispose();
-
-        // Finish writing
         var path = await recorder.FinishWriting();
 
         //file name
         string filename = $"{title}_REC.mov";
         Debug.Log("dest: " + mediaDesitinationPath);
 
+        //safe data in zip / gallery
         if (PlayerPrefs.GetInt("vidzip", -1) == 1)
             FileManagement.CopyFile(sourceFile: path, destFile: $"{mediaDesitinationPath}{filename}");
         if (PlayerPrefs.GetInt("vidgal", -1) == 1)

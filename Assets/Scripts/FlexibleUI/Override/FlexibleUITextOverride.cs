@@ -17,5 +17,8 @@ public class FlexibleUITextOverride : MonoBehaviour
     {
         OnSkinUI();
     }
-
+    public virtual void Update()
+    {
+        OnSkinUI();
+    }
 }

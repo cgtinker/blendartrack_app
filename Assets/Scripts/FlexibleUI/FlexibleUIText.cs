@@ -12,7 +12,10 @@ public class FlexibleUIText : FlexibleUITextOverride
         ButtonText,
         StartUp,
         SelectionHelper,
-        SupportFooter
+        SupportFooter,
+        TutorialHead,
+        TutorialMessage,
+        TutorialSlideCounter
     }
 
     public TextMeshProUGUI text;
@@ -59,6 +62,18 @@ public class FlexibleUIText : FlexibleUITextOverride
 
             case TextType.SupportFooter:
                 AssignTextStyle(textSkinData.SupportFooter, factor);
+                break;
+
+            case TextType.TutorialHead:
+                AssignTextStyle(textSkinData.TutorialHead, factor);
+                break;
+
+            case TextType.TutorialMessage:
+                AssignTextStyle(textSkinData.TutorialMessage, factor);
+                break;
+
+            case TextType.TutorialSlideCounter:
+                AssignTextStyle(textSkinData.TutorialSlideCounter, factor);
                 break;
         }
     }

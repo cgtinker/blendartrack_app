@@ -27,6 +27,11 @@ public class FlexibleUIButtonData : ScriptableObject
     public m_ButtonData selectedButton;
     public m_ButtonData deselectedButton;
     public m_ButtonData recordingButton;
+
+    [Header("Tutorial Icons")]
+    public m_ButtonData tutorialIcon;
+    public m_ButtonData closeButton;
+    public m_ButtonData forwardButton;
 }
 
 [System.Serializable]

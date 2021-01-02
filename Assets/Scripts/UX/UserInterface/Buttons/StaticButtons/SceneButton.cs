@@ -44,6 +44,20 @@ public class SceneButton : MonoBehaviour, IPointerDownHandler
                 //buttonImage.sprite = data.sprite;
             }
         }
+
+        switch (DeviceManager.Instance.device)
+        {
+            case DeviceManager.Device.iOS:
+                if (this.gameObject.name == "swapButton")
+                {
+                    this.gameObject.SetActive(false);
+                }
+
+                this.gameObject.GetComponent<SceneButton>().enabled = false;
+                return;
+            default:
+                break;
+        }
     }
 
     //only works for face + camera tracking

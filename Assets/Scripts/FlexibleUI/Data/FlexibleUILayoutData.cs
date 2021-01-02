@@ -10,6 +10,7 @@ public class FlexibleUILayoutData : ScriptableObject
     public m_LayoutData HeaderButton;
     public m_LayoutData fpsPlacement;
     public m_LayoutData ScrollContent;
+    public m_LayoutData TutorialContent;
 }
 
 [System.Serializable]

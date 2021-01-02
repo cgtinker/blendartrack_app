@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class StartUp : MonoBehaviour
 {
+    public GameObject Tutorial;
+
     private IEnumerator Start()
     {
         //lock to portait screen in startup
@@ -17,12 +19,17 @@ public class StartUp : MonoBehaviour
         var obj = GameObject.FindGameObjectWithTag("manager");
         var sceneManager = obj.GetComponent<AdditiveSceneManager>();
 
-        //player prefs if first time
-        int firstTime = PlayerPrefs.GetInt("firstTime", -1);
-        if (firstTime == -1)
+        //turn of sleep mode
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        yield return new WaitForSeconds(0.25f);
+
+        //if first time
+        if (PlayerPrefs.GetInt("firstTime", -1) == -1)
         {
+            //must be 1 in the end
             PlayerPrefs.SetInt("firstTime", 1);
 
+            PlayerPrefs.SetInt("scene", 1);
             PlayerPrefs.SetInt("tutorial", 1);
             PlayerPrefs.SetInt("hints", 1);
             PlayerPrefs.SetInt("reference", 1);
@@ -30,19 +37,27 @@ public class StartUp : MonoBehaviour
             PlayerPrefs.SetInt("vidzip", 1);
         }
 
-        //turn of sleep mode
-        Screen.sleepTimeout = SleepTimeout.NeverSleep;
-        yield return new WaitForSeconds(0.25f);
+        if (PlayerPrefs.GetInt("tutorial", -1) == 1)
+        {
+            Tutorial.SetActive(true);
+            Destroy(this.gameObject);
+        }
 
-        //lock to portait screen in startup
-        Screen.autorotateToLandscapeLeft = true;
-        Screen.autorotateToLandscapeRight = true;
-        Screen.orientation = ScreenOrientation.AutoRotation;
+        else
+        {
+            Tutorial.SetActive(false);
 
-        //loading scene
-        int scene = PlayerPrefs.GetInt("scene", 1);
-        sceneManager.SwitchScene(scene);
+            //enable auto rotation
+            Screen.autorotateToLandscapeLeft = true;
+            Screen.autorotateToLandscapeRight = true;
+            Screen.orientation = ScreenOrientation.AutoRotation;
 
-        Destroy(this.gameObject);
+            //loading scene
+            int scene = PlayerPrefs.GetInt("scene", 1);
+            sceneManager.SwitchScene(scene);
+
+            Destroy(this.gameObject);
+        }
+
     }
 }

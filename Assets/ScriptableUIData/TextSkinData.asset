@@ -24,7 +24,7 @@ MonoBehaviour:
   Default:
     textSize: 21
     fontStyle: 8
-    alignment: 0
+    alignment: 257
     overflow: 0
     rectSize: {x: 1, y: 1}
     rectAnchor: 16
@@ -69,3 +69,27 @@ MonoBehaviour:
     rectSize: {x: 1, y: 1}
     rectAnchor: 14
     rectPivot: 4
+  TutorialHead:
+    textSize: 21
+    fontStyle: 1
+    alignment: 514
+    overflow: 0
+    rectSize: {x: 1, y: 1}
+    rectAnchor: 0
+    rectPivot: 0
+  TutorialMessage:
+    textSize: 21
+    fontStyle: 0
+    alignment: 513
+    overflow: 0
+    rectSize: {x: 1, y: 1}
+    rectAnchor: 0
+    rectPivot: 0
+  TutorialSlideCounter:
+    textSize: 18
+    fontStyle: 0
+    alignment: 514
+    overflow: 0
+    rectSize: {x: 1, y: 1}
+    rectAnchor: 14
+    rectPivot: 7

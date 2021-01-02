@@ -12,7 +12,8 @@ public class FlexibleUIVerticalLayout : FlexibleUILayoutOverride
         Footer,
         Button,
         HeaderButton,
-        FPS
+        FPS,
+        Tutorial
     };
 
     public LayoutType layoutType;
@@ -61,6 +62,9 @@ public class FlexibleUIVerticalLayout : FlexibleUILayoutOverride
                 break;
             case LayoutType.FPS:
                 SetLayout(layoutSkinData.fpsPlacement, factor);
+                break;
+            case LayoutType.Tutorial:
+                SetLayout(layoutSkinData.TutorialContent, factor);
                 break;
         }
     }

@@ -46,12 +46,28 @@ namespace ArRetarget
                 GenerateEmptySpace();
             }
 
-            //face settings
-            if (faceSettings.Count > 0)
+            switch (DeviceManager.Instance.device)
             {
-                GenerateSettingsTitel("Face Tracking");
-                GenerateButtons(faceSettings, false);
-                GenerateEmptySpace();
+                case DeviceManager.Device.iOS:
+                    break;
+                case DeviceManager.Device.iOSX:
+                    //face settings
+                    if (faceSettings.Count > 0)
+                    {
+                        GenerateSettingsTitel("Face Tracking");
+                        GenerateButtons(faceSettings, false);
+                        GenerateEmptySpace();
+                    }
+                    break;
+                case DeviceManager.Device.Android:
+                    //face settings
+                    if (faceSettings.Count > 0)
+                    {
+                        GenerateSettingsTitel("Face Tracking");
+                        GenerateButtons(faceSettings, false);
+                        GenerateEmptySpace();
+                    }
+                    break;
             }
 
             //video settings generated at runtime (device dependant)

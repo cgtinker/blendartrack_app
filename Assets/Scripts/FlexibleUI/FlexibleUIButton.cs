@@ -20,7 +20,11 @@ public class FlexibleUIButton : FlexibleUIButtonOverride
         Dropdown,
         Selected,
         Deselected,
-        Record
+        Record,
+
+        Tutorial,
+        CloseTutorial,
+        Forward
     }
 
     public Image image;
@@ -94,6 +98,18 @@ public class FlexibleUIButton : FlexibleUIButtonOverride
 
             case ButtonType.Record:
                 SetButtonStyle(buttonSkinData.recordingButton, factor, rectSize, buttonSkinData.iconColor);
+                break;
+
+            case ButtonType.Tutorial:
+                SetButtonStyle(buttonSkinData.tutorialIcon, factor, rectSize, buttonSkinData.iconColor);
+                break;
+
+            case ButtonType.CloseTutorial:
+                SetButtonStyle(buttonSkinData.closeButton, factor, rectSize, buttonSkinData.iconColor);
+                break;
+
+            case ButtonType.Forward:
+                SetButtonStyle(buttonSkinData.forwardButton, factor, rectSize, buttonSkinData.iconColor);
                 break;
         }
     }

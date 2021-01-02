@@ -82,3 +82,13 @@ MonoBehaviour:
     preferedFistChildSize: 0
     preferedSecondChildSize: 0
     preferedThirdChildSize: 0
+  TutorialContent:
+    padding:
+      m_Left: 5
+      m_Right: 5
+      m_Top: 4
+      m_Bottom: 5
+    alignment: 1
+    preferedFistChildSize: 50
+    preferedSecondChildSize: 35
+    preferedThirdChildSize: 15

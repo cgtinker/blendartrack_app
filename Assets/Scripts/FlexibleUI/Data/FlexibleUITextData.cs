@@ -15,6 +15,9 @@ public class FlexibleUITextData : ScriptableObject
     public m_TextData FileBrowserSelectionHelper;
     public m_TextData StartUp;
     public m_TextData SupportFooter;
+    public m_TextData TutorialHead;
+    public m_TextData TutorialMessage;
+    public m_TextData TutorialSlideCounter;
 }
 
 [System.Serializable]

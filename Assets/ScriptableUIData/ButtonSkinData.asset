@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ButtonSkinData
   m_EditorClassIdentifier: 
   buttonBackground: {fileID: 21300000, guid: a6a79f06504614223a13b1ad8add83ce, type: 3}
-  buttonBackgroundColor: {r: 0.509434, g: 0.17061234, b: 0.17061234, a: 0}
+  buttonBackgroundColor: {r: 0, g: 0, b: 0, a: 0}
   buttonScaleFactor: 1.3
   iconColor: {r: 1, g: 1, b: 1, a: 1}
   defaultButtonSize: 5
@@ -105,5 +105,32 @@ MonoBehaviour:
     maxPxSize: 400
     anchor: 4
     pivot: 4
+    iconAnchor: 4
+    iconPivot: 4
+  tutorialIcon:
+    icon: {fileID: 0}
+    iconSize: 11.5
+    minPxSize: 500
+    maxPxSize: 900
+    anchor: 4
+    pivot: 4
+    iconAnchor: 4
+    iconPivot: 4
+  closeButton:
+    icon: {fileID: 21300000, guid: 91ef5d4af42004d57aafc7610a865c95, type: 3}
+    iconSize: 2.2
+    minPxSize: 0
+    maxPxSize: 0
+    anchor: 2
+    pivot: 2
+    iconAnchor: 2
+    iconPivot: 2
+  forwardButton:
+    icon: {fileID: 21300000, guid: 70bb9064566294216b2b51d01ac29a7f, type: 3}
+    iconSize: 4
+    minPxSize: 125
+    maxPxSize: 250
+    anchor: 8
+    pivot: 8
     iconAnchor: 4
     iconPivot: 4

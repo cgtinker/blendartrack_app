@@ -15,35 +15,11 @@ public class AdditiveSceneManager : MonoBehaviour
 {
     public TrackingDataManager trackingDataManager;
 
-    //depending on the device, different scenes will be available
-    #region Device Management
-    public enum Device
-    {
-        iOS,
-        Android
-    };
-
-    public Device device
-    {
-        get;
-        set;
-    }
-
     //setting device
     private void Awake()
     {
         trackingDataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
-#if UNITY_IPHONE
-        device = Device.iOS;
-#endif
-#if UNITY_ANDROID
-        device = Device.Android;
-#endif
-#if UNITY_EDITOR
-        device = Device.Android;
-#endif
     }
-    #endregion
 
     #region Scene Dicts
     public static Dictionary<int, string> AndroidScenes = new Dictionary<int, string>
@@ -127,12 +103,15 @@ public class AdditiveSceneManager : MonoBehaviour
 
     public Dictionary<int, string> GetDeviceScenes()
     {
-        switch (device)
+        switch (DeviceManager.Instance.device)
         {
-            case Device.Android:
+            case DeviceManager.Device.Android:
                 return AndroidScenes;
 
-            case Device.iOS:
+            case DeviceManager.Device.iOS:
+                return IOSScenes;
+
+            case DeviceManager.Device.iOSX:
                 return IOSScenes;
 
             default:
