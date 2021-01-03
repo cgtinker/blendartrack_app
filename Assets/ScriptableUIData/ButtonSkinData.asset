@@ -145,7 +145,7 @@ MonoBehaviour:
     iconPivot: 4
   resetPopButton:
     icon: {fileID: 21300000, guid: 51651f26330fc418297d06503814ddf6, type: 3}
-    iconSize: 3.8
+    iconSize: 3.59
     minPxSize: 0
     maxPxSize: 0
     anchor: 4
@@ -154,7 +154,7 @@ MonoBehaviour:
     iconPivot: 4
   previewPopButton:
     icon: {fileID: 21300000, guid: 516736956c8d547a18bbab6095bb6885, type: 3}
-    iconSize: 3.3
+    iconSize: 3.12
     minPxSize: 0
     maxPxSize: 0
     anchor: 4
@@ -163,7 +163,7 @@ MonoBehaviour:
     iconPivot: 4
   resumePopButton:
     icon: {fileID: 21300000, guid: d9ca1acd731704dda9fa7cad136ea35b, type: 3}
-    iconSize: 4
+    iconSize: 3.74
     minPxSize: 0
     maxPxSize: 0
     anchor: 4

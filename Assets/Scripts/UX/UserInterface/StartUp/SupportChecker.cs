@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
+using TMPro;
 
 /// <summary>
 /// This example shows how to check for AR support before the ARSession is enabled.
@@ -23,9 +24,9 @@ public class SupportChecker : MonoBehaviour
     }
 
     [SerializeField]
-    Text m_LogText;
+    TextMeshProUGUI m_LogText;
 
-    public Text logText
+    public TextMeshProUGUI logText
     {
         get { return m_LogText; }
         set { m_LogText = value; }
@@ -42,7 +43,7 @@ public class SupportChecker : MonoBehaviour
 
     void Log(string message)
     {
-        m_LogText.text += $"{message}\n";
+        m_LogText.text += $"<br>{message}\n";
     }
 
     IEnumerator CheckSupport()
@@ -55,18 +56,17 @@ public class SupportChecker : MonoBehaviour
 
         if (ARSession.state == ARSessionState.NeedsInstall)
         {
-            Log("Your device supports AR, but requires a software update.");
-            Log("Attempting install...");
+            Log("Your device supports AR, but requires a software update. Attempting install...");
             yield return ARSession.Install();
         }
 
         if (ARSession.state == ARSessionState.Ready)
         {
             Log("Your device supports AR!");
-            Log("Starting AR session...");
 
             // To start the ARSession, we just need to enable it.
             m_Session.enabled = true;
+            this.gameObject.SetActive(false);
         }
         else
         {
@@ -83,12 +83,6 @@ public class SupportChecker : MonoBehaviour
                     SetInstallButtonActive(true);
                     break;
             }
-
-            Log("\n[Start non-AR experience instead]");
-
-            //
-            // Start a non-AR fallback experience here...
-            //
         }
     }
 
@@ -116,11 +110,14 @@ public class SupportChecker : MonoBehaviour
             {
                 Log("Success! Starting AR session...");
                 m_Session.enabled = true;
+                this.gameObject.SetActive(false);
             }
         }
         else
         {
             Log("Error: ARSession does not require install.");
+            yield return new WaitForSeconds(2f);
+            this.gameObject.SetActive(false);
         }
     }
 
@@ -131,6 +128,13 @@ public class SupportChecker : MonoBehaviour
 
     void OnEnable()
     {
-        StartCoroutine(CheckSupport());
+        if (DeviceManager.Instance.device == DeviceManager.Device.Android)
+        {
+            m_Session.enabled = false;
+            StartCoroutine(CheckSupport());
+        }
+
+        else
+            this.gameObject.SetActive(false);
     }
 }

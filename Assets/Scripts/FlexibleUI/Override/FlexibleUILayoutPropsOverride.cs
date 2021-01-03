@@ -16,8 +16,4 @@ public class FlexibleUILayoutPropsOverride : MonoBehaviour
     {
         OnSkinUI();
     }
-    public virtual void Update()
-    {
-        OnSkinUI();
-    }
 }

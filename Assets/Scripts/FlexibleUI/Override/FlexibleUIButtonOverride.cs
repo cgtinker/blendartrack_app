@@ -19,9 +19,4 @@ public class FlexibleUIButtonOverride : MonoBehaviour
     {
         OnSkinUI();
     }
-
-    public virtual void Update()
-    {
-        OnSkinUI();
-    }
 }

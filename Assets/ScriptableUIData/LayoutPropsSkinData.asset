@@ -69,3 +69,8 @@ MonoBehaviour:
     rectPivot: 7
     rectHeight: 5
     ignoreAnchors: 0
+  RecordingPopup:
+    rectAnchor: 0
+    rectPivot: 0
+    rectHeight: 35
+    ignoreAnchors: 1

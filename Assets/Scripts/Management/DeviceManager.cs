@@ -21,6 +21,7 @@ public class DeviceManager : Singleton<DeviceManager>
     //setting device
     private void Awake()
     {
+#if Unity_IOS
         if (Application.platform == RuntimePlatform.IPhonePlayer)
         {
             bool deviceIsIphoneX = UnityEngine.iOS.Device.generation == UnityEngine.iOS.DeviceGeneration.iPhoneX;
@@ -38,14 +39,15 @@ public class DeviceManager : Singleton<DeviceManager>
                 return;
             }
         }
-
-        else if (Application.platform == RuntimePlatform.Android)
+#endif
+#if UNITY_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
         {
             device = Device.Android;
             Debug.Log("Runtime Platform: " + device);
             return;
         }
-
+#endif
         else
         {
             device = Device.iOS;
