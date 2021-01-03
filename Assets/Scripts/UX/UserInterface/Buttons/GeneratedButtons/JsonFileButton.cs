@@ -7,6 +7,9 @@ namespace ArRetarget
     public class JsonFileButton : MonoBehaviour
     {
         public GameObject ViewDataButton;
+        public Image viewedDataImage;
+        public Sprite viewedDataIcon;
+        public Sprite unviewedDataIcon;
 
         //file name of the json
         public TextMeshProUGUI filenameText;
@@ -52,7 +55,7 @@ namespace ArRetarget
             {
                 return;
             }
-
+            viewedDataImage.sprite = viewedDataIcon;
             ViewDataButton.SetActive(false);
             //toggling the viewer, deactivating other btns
             viewerActive = !viewerActive;

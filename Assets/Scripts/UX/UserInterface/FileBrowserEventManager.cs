@@ -283,6 +283,8 @@ namespace ArRetarget
             //reactivating the buttons
             foreach (JsonDirectory data in JsonDirectories)
             {
+                data.obj.GetComponent<JsonFileButton>().ViewDataButton.SetActive(true);
+
                 if (!data.obj.activeSelf)
                 {
                     data.obj.SetActive(true);
