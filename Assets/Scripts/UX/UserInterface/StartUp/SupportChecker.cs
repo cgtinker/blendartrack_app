@@ -56,7 +56,8 @@ public class SupportChecker : MonoBehaviour
 
         if (ARSession.state == ARSessionState.NeedsInstall)
         {
-            Log("Your device supports AR, but requires a software update. Attempting install...");
+            Log("Your device supports AR, but requires a software update.");
+            Log("Attempting install...");
             yield return ARSession.Install();
         }
 
@@ -83,6 +84,8 @@ public class SupportChecker : MonoBehaviour
                     SetInstallButtonActive(true);
                     break;
             }
+
+            Log("\n[Software update failed. Please install ArCore via the AppStore. Retargeter requieres ArCore.]");
         }
     }
 
@@ -116,8 +119,6 @@ public class SupportChecker : MonoBehaviour
         else
         {
             Log("Error: ARSession does not require install.");
-            yield return new WaitForSeconds(2f);
-            this.gameObject.SetActive(false);
         }
     }
 
@@ -128,13 +129,6 @@ public class SupportChecker : MonoBehaviour
 
     void OnEnable()
     {
-        if (DeviceManager.Instance.device == DeviceManager.Device.Android)
-        {
-            m_Session.enabled = false;
-            StartCoroutine(CheckSupport());
-        }
-
-        else
-            this.gameObject.SetActive(false);
+        StartCoroutine(CheckSupport());
     }
 }

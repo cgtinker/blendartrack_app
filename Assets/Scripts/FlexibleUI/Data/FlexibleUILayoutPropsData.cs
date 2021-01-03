@@ -16,7 +16,6 @@ public class FlexibleUILayoutPropsData : ScriptableObject
     public m_LayoutProps SelectionHelper;
     public m_LayoutProps IntoAnimationSize;
     public m_LayoutProps timerFpsDisplay;
-
     public m_LayoutProps RecordingPopup;
 }
 
