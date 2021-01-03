@@ -3118,16 +3118,16 @@ MonoBehaviour:
     userPrefsName: hints
     obj: {fileID: 0}
     status: 0
-  - displayName: tutorial at start
-    userPrefsName: tutorial
+  - displayName: safe video in zip
+    userPrefsName: vidzip
     obj: {fileID: 0}
     status: 0
   - displayName: safe video in gallery
     userPrefsName: vidgal
     obj: {fileID: 0}
     status: 0
-  - displayName: safe video in zip
-    userPrefsName: vidzip
+  - displayName: tutorial at start
+    userPrefsName: tutorial
     obj: {fileID: 0}
     status: 0
 --- !u!114 &325641338
