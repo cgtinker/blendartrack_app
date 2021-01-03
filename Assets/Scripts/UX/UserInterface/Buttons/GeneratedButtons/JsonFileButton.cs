@@ -6,13 +6,15 @@ namespace ArRetarget
 {
     public class JsonFileButton : MonoBehaviour
     {
+        public GameObject ViewDataButton;
+
         //file name of the json
         public TextMeshProUGUI filenameText;
 
         //visual selection state
         //public Toggle selectToggleBtn;
         //public Button selectToggleBtn;
-        private bool btnIsOn = false;
+        public bool btnIsOn = false;
 
         public GameObject selected;
         public GameObject deselected;
@@ -23,6 +25,11 @@ namespace ArRetarget
 
         //info about the safed json file
         public JsonDirectory m_jsonDirData;
+
+        private void OnEnable()
+        {
+            ViewDataButton.SetActive(true);
+        }
 
         public void InitFileButton(JsonDirectory jsonFileData, FileBrowserEventManager fileBtnManager)
         {
@@ -46,6 +53,7 @@ namespace ArRetarget
                 return;
             }
 
+            ViewDataButton.SetActive(false);
             //toggling the viewer, deactivating other btns
             viewerActive = !viewerActive;
             //dropdownViewerBtnImg.SetActive(viewerActive);

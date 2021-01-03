@@ -21,10 +21,15 @@ public class FlexibleUIButton : FlexibleUIButtonOverride
         Selected,
         Deselected,
         Record,
+        Preview,
 
         Tutorial,
         CloseTutorial,
-        Forward
+        Forward,
+
+        Resume,
+        Reset,
+        PreviewPop
     }
 
     public Image image;
@@ -110,6 +115,22 @@ public class FlexibleUIButton : FlexibleUIButtonOverride
 
             case ButtonType.Forward:
                 SetButtonStyle(buttonSkinData.forwardButton, factor, rectSize, buttonSkinData.iconColor);
+                break;
+
+            case ButtonType.Resume:
+                SetButtonStyle(buttonSkinData.resumePopButton, factor, rectSize, buttonSkinData.iconColor);
+                break;
+
+            case ButtonType.PreviewPop:
+                SetButtonStyle(buttonSkinData.previewPopButton, factor, rectSize, buttonSkinData.iconColor);
+                break;
+
+            case ButtonType.Reset:
+                SetButtonStyle(buttonSkinData.resetPopButton, factor, rectSize, buttonSkinData.iconColor);
+                break;
+
+            case ButtonType.Preview:
+                SetButtonStyle(buttonSkinData.previewButton, factor, rectSize, buttonSkinData.iconColor);
                 break;
         }
     }

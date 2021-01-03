@@ -49,9 +49,9 @@ MonoBehaviour:
       m_Top: 0
       m_Bottom: 0
     alignment: 0
-    preferedFistChildSize: 13
-    preferedSecondChildSize: 87
-    preferedThirdChildSize: 0
+    preferedFistChildSize: 12
+    preferedSecondChildSize: 76
+    preferedThirdChildSize: 12
   HeaderButton:
     padding:
       m_Left: 0
@@ -92,3 +92,13 @@ MonoBehaviour:
     preferedFistChildSize: 50
     preferedSecondChildSize: 35
     preferedThirdChildSize: 15
+  RecordingPopup:
+    padding:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    alignment: 4
+    preferedFistChildSize: 50
+    preferedSecondChildSize: 50
+    preferedThirdChildSize: 0

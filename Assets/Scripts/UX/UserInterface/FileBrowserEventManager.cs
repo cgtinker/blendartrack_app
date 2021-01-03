@@ -206,7 +206,6 @@ namespace ArRetarget
         public void OnToggleViewer(int btnIndex, bool activateViewer, string fileContents)
         {
             PurgeOrphanZips();
-
             if (activateViewer)
             {
                 Debug.Log("attempt to preview data");
@@ -244,7 +243,9 @@ namespace ArRetarget
 
                     else
                     {
-                        data.obj.GetComponent<JsonFileButton>().ChangeSelectionToggleStatus(true);
+                        var jsonFileButton = data.obj.GetComponent<JsonFileButton>();
+                        jsonFileButton.ChangeSelectionToggleStatus(true);
+                        jsonFileButton.btnIsOn = true;
                     }
                 }
             }

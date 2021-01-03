@@ -44,8 +44,8 @@ namespace ArRetarget
         {
             dataManager.ToggleRecording();
             string filename = dataManager.SerializeJson();
-            string message = "tracking successfull!";
-            GeneratedFilePopup(message, filename);
+            //string message = "tracking successfull!";
+            //GeneratedFilePopup(message, filename);
             OnFinishRecordingPrefab.SetActive(true);
         }
         #endregion

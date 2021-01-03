@@ -13,7 +13,8 @@ public class FlexibleUIVerticalLayout : FlexibleUILayoutOverride
         Button,
         HeaderButton,
         FPS,
-        Tutorial
+        Tutorial,
+        RecordingPopup
     };
 
     public LayoutType layoutType;
@@ -63,8 +64,13 @@ public class FlexibleUIVerticalLayout : FlexibleUILayoutOverride
             case LayoutType.FPS:
                 SetLayout(layoutSkinData.fpsPlacement, factor);
                 break;
+
             case LayoutType.Tutorial:
                 SetLayout(layoutSkinData.TutorialContent, factor);
+                break;
+
+            case LayoutType.RecordingPopup:
+                SetLayout(layoutSkinData.RecordingPopup, factor);
                 break;
         }
     }

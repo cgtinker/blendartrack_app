@@ -107,6 +107,15 @@ MonoBehaviour:
     pivot: 4
     iconAnchor: 4
     iconPivot: 4
+  previewButton:
+    icon: {fileID: 21300000, guid: 516736956c8d547a18bbab6095bb6885, type: 3}
+    iconSize: 2.4
+    minPxSize: 0
+    maxPxSize: 0
+    anchor: 4
+    pivot: 4
+    iconAnchor: 4
+    iconPivot: 4
   tutorialIcon:
     icon: {fileID: 0}
     iconSize: 11.5
@@ -132,5 +141,32 @@ MonoBehaviour:
     maxPxSize: 250
     anchor: 8
     pivot: 8
+    iconAnchor: 4
+    iconPivot: 4
+  resetPopButton:
+    icon: {fileID: 21300000, guid: 51651f26330fc418297d06503814ddf6, type: 3}
+    iconSize: 3.8
+    minPxSize: 0
+    maxPxSize: 0
+    anchor: 4
+    pivot: 4
+    iconAnchor: 4
+    iconPivot: 4
+  previewPopButton:
+    icon: {fileID: 21300000, guid: 516736956c8d547a18bbab6095bb6885, type: 3}
+    iconSize: 3.3
+    minPxSize: 0
+    maxPxSize: 0
+    anchor: 4
+    pivot: 4
+    iconAnchor: 4
+    iconPivot: 4
+  resumePopButton:
+    icon: {fileID: 21300000, guid: d9ca1acd731704dda9fa7cad136ea35b, type: 3}
+    iconSize: 4
+    minPxSize: 0
+    maxPxSize: 0
+    anchor: 4
+    pivot: 4
     iconAnchor: 4
     iconPivot: 4

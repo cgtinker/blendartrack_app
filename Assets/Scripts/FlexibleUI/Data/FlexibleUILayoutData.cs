@@ -11,6 +11,7 @@ public class FlexibleUILayoutData : ScriptableObject
     public m_LayoutData fpsPlacement;
     public m_LayoutData ScrollContent;
     public m_LayoutData TutorialContent;
+    public m_LayoutData RecordingPopup;
 }
 
 [System.Serializable]

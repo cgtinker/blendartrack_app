@@ -13,7 +13,8 @@ public class FlexibleUIHorizontalLayout : FlexibleUILayoutOverride
         Button,
         HeaderButton,
         FPS,
-        Tutorial
+        Tutorial,
+        RecordingPopup
     }
 
     public LayoutGroup layoutGroup;
@@ -44,34 +45,38 @@ public class FlexibleUIHorizontalLayout : FlexibleUILayoutOverride
         switch (layoutType)
         {
             case LayoutType.Struct:
-                SetLayoutProps(layoutSkinData.Struct, factor);
+                SetLayout(layoutSkinData.Struct, factor);
                 break;
 
             case LayoutType.Header:
-                SetLayoutProps(layoutSkinData.Header, factor);
+                SetLayout(layoutSkinData.Header, factor);
                 break;
 
             case LayoutType.Footer:
-                SetLayoutProps(layoutSkinData.Footer, factor);
+                SetLayout(layoutSkinData.Footer, factor);
                 break;
 
             case LayoutType.Button:
-                SetLayoutProps(layoutSkinData.Button, factor);
+                SetLayout(layoutSkinData.Button, factor);
                 break;
             case LayoutType.HeaderButton:
-                SetLayoutProps(layoutSkinData.HeaderButton, factor);
+                SetLayout(layoutSkinData.HeaderButton, factor);
                 break;
             case LayoutType.FPS:
-                SetLayoutProps(layoutSkinData.fpsPlacement, factor);
+                SetLayout(layoutSkinData.fpsPlacement, factor);
                 break;
 
             case LayoutType.Tutorial:
-                SetLayoutProps(layoutSkinData.TutorialContent, factor);
+                SetLayout(layoutSkinData.TutorialContent, factor);
+                break;
+
+            case LayoutType.RecordingPopup:
+                SetLayout(layoutSkinData.RecordingPopup, factor);
                 break;
         }
     }
 
-    void SetLayoutProps(m_LayoutData data, float factor)
+    void SetLayout(m_LayoutData data, float factor)
     {
         //layout element size
         firstChild.preferredWidth = data.preferedFistChildSize * factor;
