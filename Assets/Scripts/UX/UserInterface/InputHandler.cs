@@ -26,6 +26,8 @@ namespace ArRetarget
         TrackingDataManager dataManager;
         AdditiveSceneManager sceneManager;
 
+        public bool recording = false;
+
         private void Awake()
         {
             GameObject obj = GameObject.FindGameObjectWithTag("manager");
@@ -37,11 +39,13 @@ namespace ArRetarget
         #region tracking
         public void StartTracking()
         {
+            recording = true;
             dataManager.ToggleRecording();
         }
 
         public void StopTrackingAndSerializeData()
         {
+            recording = false;
             dataManager.ToggleRecording();
             string filename = dataManager.SerializeJson();
             //string message = "tracking successfull!";

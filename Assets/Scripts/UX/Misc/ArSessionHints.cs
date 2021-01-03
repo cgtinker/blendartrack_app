@@ -46,7 +46,6 @@ namespace ArRetarget
         public void OnTrackingStateChanged(string message)
         {
             inputHandler.GeneratedFilePopup(message, "");
-            //Debug.Log(message);
         }
 
         #region references
@@ -62,6 +61,9 @@ namespace ArRetarget
         private string m_msg;
         public void SessionHintMessages()
         {
+            if (inputHandler.recording)
+                return;
+
             switch (timeState)
             {
                 case TimeState.Started:

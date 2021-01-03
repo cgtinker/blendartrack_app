@@ -243,9 +243,12 @@ namespace ArRetarget
 
                     else
                     {
+                        //change selection and visual
                         var jsonFileButton = data.obj.GetComponent<JsonFileButton>();
                         jsonFileButton.ChangeSelectionToggleStatus(true);
                         jsonFileButton.btnIsOn = true;
+                        jsonFileButton.ViewDataButton.SetActive(false);
+                        jsonFileButton.viewedDataImage.sprite = jsonFileButton.viewedDataIcon;
                     }
                 }
             }

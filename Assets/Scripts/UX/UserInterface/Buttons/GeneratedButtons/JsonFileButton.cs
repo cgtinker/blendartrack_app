@@ -29,11 +29,6 @@ namespace ArRetarget
         //info about the safed json file
         public JsonDirectory m_jsonDirData;
 
-        private void OnEnable()
-        {
-            ViewDataButton.SetActive(true);
-        }
-
         public void InitFileButton(JsonDirectory jsonFileData, FileBrowserEventManager fileBtnManager)
         {
             //ref to manager
