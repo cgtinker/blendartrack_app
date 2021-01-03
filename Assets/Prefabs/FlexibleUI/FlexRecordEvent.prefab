@@ -1437,10 +1437,10 @@ RectTransform:
   m_Father: {fileID: 2232443325376865900}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -175}
-  m_SizeDelta: {x: 835, y: 350}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &2232443325170882166
 CanvasRenderer:
@@ -3092,6 +3092,7 @@ GameObject:
   - component: {fileID: 107941449993493581}
   - component: {fileID: 9157898029254173873}
   - component: {fileID: 8495686290488221679}
+  - component: {fileID: 7718473544423881172}
   m_Layer: 5
   m_Name: FlexRecordEvent
   m_TagString: Untagged
@@ -3157,3 +3158,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7718473544423881172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8495686290488221672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f149692957c3f470695f5c8805fb4227, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layoutPropsSkinData: {fileID: 11400000, guid: 87b7e1473f3a74a0293470eb232dd19e,
+    type: 2}
+  rectTransform: {fileID: 107941449993493581}
+  buttonType: 10

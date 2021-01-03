@@ -16,7 +16,8 @@ public class FlexibleUILayoutProps : FlexibleUILayoutPropsOverride
         SelectionHelper,
         IntroAnim,
         SessionHintContent,
-        TimerFPSDisplay
+        TimerFPSDisplay,
+        RecordingPopup
     }
 
     public RectTransform rectTransform;
@@ -68,6 +69,13 @@ public class FlexibleUILayoutProps : FlexibleUILayoutPropsOverride
             case CustomLayoutProperty.TimerFPSDisplay:
                 SetLayoutProps(layoutPropsSkinData.timerFpsDisplay, factor, portrait);
                 break;
+            case CustomLayoutProperty.RecordingPopup:
+                if (portrait)
+                    SetRectHeight(layoutPropsSkinData.RecordingPopup.rectHeight, factor, portrait);
+
+                else
+                    SetRectHeight(layoutPropsSkinData.RecordingPopup.rectHeight, m_width, portrait);
+                break;
         }
     }
 
@@ -91,6 +99,7 @@ public class FlexibleUILayoutProps : FlexibleUILayoutPropsOverride
     {
         if (!data.ignoreAnchors)
             SetRectTransform(data.rectAnchor, data.rectPivot);
+
         SetRectHeight(data.rectHeight, factor, portrait);
     }
 
