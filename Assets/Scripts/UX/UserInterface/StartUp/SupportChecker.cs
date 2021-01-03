@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
+using TMPro;
 
 /// <summary>
 /// This example shows how to check for AR support before the ARSession is enabled.
@@ -23,9 +24,9 @@ public class SupportChecker : MonoBehaviour
     }
 
     [SerializeField]
-    Text m_LogText;
+    TextMeshProUGUI m_LogText;
 
-    public Text logText
+    public TextMeshProUGUI logText
     {
         get { return m_LogText; }
         set { m_LogText = value; }
@@ -42,7 +43,7 @@ public class SupportChecker : MonoBehaviour
 
     void Log(string message)
     {
-        m_LogText.text += $"{message}\n";
+        m_LogText.text += $"<br>{message}\n";
     }
 
     IEnumerator CheckSupport()
@@ -63,10 +64,10 @@ public class SupportChecker : MonoBehaviour
         if (ARSession.state == ARSessionState.Ready)
         {
             Log("Your device supports AR!");
-            Log("Starting AR session...");
 
             // To start the ARSession, we just need to enable it.
             m_Session.enabled = true;
+            this.gameObject.SetActive(false);
         }
         else
         {
@@ -84,11 +85,7 @@ public class SupportChecker : MonoBehaviour
                     break;
             }
 
-            Log("\n[Start non-AR experience instead]");
-
-            //
-            // Start a non-AR fallback experience here...
-            //
+            Log("\n[Software update failed. Please install ArCore via the AppStore. Retargeter requieres ArCore.]");
         }
     }
 
@@ -116,6 +113,7 @@ public class SupportChecker : MonoBehaviour
             {
                 Log("Success! Starting AR session...");
                 m_Session.enabled = true;
+                this.gameObject.SetActive(false);
             }
         }
         else
