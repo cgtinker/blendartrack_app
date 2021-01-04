@@ -96,9 +96,9 @@ namespace ArRetarget
                 var tmp_point = arCamera.WorldToScreenPoint(tmp_pos);
                 var vec = new Vector3(tmp_point.x / camera_width, tmp_point.y / camera_height, tmp_point.z);
 
-                if (vec.x > 0.1f && vec.x < 0.4f && vec.z > 0 || vec.x > 0.6f && vec.x < 0.9f && vec.z > 0)
+                if (vec.x > 0.005f && vec.x < 0.495f && vec.z > 0 || vec.x > 0.505f && vec.x < 0.995f && vec.z > 0)
                 {
-                    if (vec.y > 0.1f && vec.y < 0.4f || vec.y > 0.6f && vec.y < 0.9f)
+                    if (vec.y > 0.005f && vec.y < 0.495f || vec.y > 0.505f && vec.y < 0.995f)
                     {
                         tar = tmp_pos;
                         rayHit = true;
@@ -108,11 +108,11 @@ namespace ArRetarget
             }
 
             if (!rayHit)
-                tar = RayByPlanePosition();
+                tar = DeviationRay();
 
             return tar;
         }
-
+        /*
         int iter = 0;
         public Vector3 RayByPlanePosition()
         {
@@ -149,7 +149,7 @@ namespace ArRetarget
 
             return tar;
         }
-
+        */
         float iterations = 5;
         bool rayHit;
         Vector3 tar;
@@ -170,11 +170,6 @@ namespace ArRetarget
                     tar = pose.position;
                     rayHit = true;
                     break;
-                }
-
-                else
-                {
-                    Debug.LogWarning("No plane object found");
                 }
             }
 

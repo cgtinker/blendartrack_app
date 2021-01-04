@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System.Collections.Generic;
 public class DeviceManager : Singleton<DeviceManager>
 {
     //depending on the device, different scenes will be available
@@ -21,11 +21,25 @@ public class DeviceManager : Singleton<DeviceManager>
     //setting device
     private void Awake()
     {
-#if Unity_IOS
+#if UNITY_IOS
         if (Application.platform == RuntimePlatform.IPhonePlayer)
         {
-            bool deviceIsIphoneX = UnityEngine.iOS.Device.generation == UnityEngine.iOS.DeviceGeneration.iPhoneX;
-            if (deviceIsIphoneX)
+            bool lowerThanIphoneX =
+                UnityEngine.iOS.Device.generation == UnityEngine.iOS.DeviceGeneration.iPhone6 ||
+                UnityEngine.iOS.Device.generation == UnityEngine.iOS.DeviceGeneration.iPhone6Plus ||
+                UnityEngine.iOS.Device.generation == UnityEngine.iOS.DeviceGeneration.iPhone6S ||
+                UnityEngine.iOS.Device.generation == UnityEngine.iOS.DeviceGeneration.iPhone6SPlus ||
+
+                UnityEngine.iOS.Device.generation == UnityEngine.iOS.DeviceGeneration.iPhone7 ||
+                UnityEngine.iOS.Device.generation == UnityEngine.iOS.DeviceGeneration.iPhone7Plus ||
+
+                UnityEngine.iOS.Device.generation == UnityEngine.iOS.DeviceGeneration.iPhone8 ||
+                UnityEngine.iOS.Device.generation == UnityEngine.iOS.DeviceGeneration.iPhone8Plus ||
+
+                UnityEngine.iOS.Device.generation == UnityEngine.iOS.DeviceGeneration.iPhoneSE1Gen
+                ;
+
+            if (!lowerThanIphoneX)
             {
                 device = Device.iOSX;
                 Debug.Log("Runtime Platform: " + device);
@@ -50,7 +64,7 @@ public class DeviceManager : Singleton<DeviceManager>
 #endif
         else
         {
-            device = Device.iOS;
+            device = Device.iOSX;
             Debug.Log("Runtime Platform Unity Editor: " + device);
             return;
         }

@@ -302,7 +302,16 @@ namespace ArRetarget
         /// </summary>
         public void GenerateButtons()
         {
-            PurgeOrphanZips();
+            try
+            {
+                PurgeOrphanZips();
+            }
+
+            catch
+            {
+                Debug.LogWarning("cannot purge zips on instant preview");
+            }
+
             Debug.Log("Generating preview buttons");
             JsonDirectories = GetDirectories();
 
@@ -341,7 +350,7 @@ namespace ArRetarget
 
                 //message
                 var para = FileManagement.GetParagraph();
-                m_pop.text = $"Wow, such empty!{para}Please record something to preview and share files";
+                m_pop.text = $"Wow, such empty!{para}Please record something to {para}preview and share files";
                 m_pop.type = PopUpDisplay.PopupType.Static;
 
                 //transforms

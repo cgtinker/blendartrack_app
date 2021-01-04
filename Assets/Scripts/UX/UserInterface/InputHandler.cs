@@ -33,6 +33,7 @@ namespace ArRetarget
             GameObject obj = GameObject.FindGameObjectWithTag("manager");
             dataManager = obj.GetComponent<TrackingDataManager>();
             sceneManager = obj.GetComponent<AdditiveSceneManager>();
+
             OnFinishRecordingPrefab.SetActive(false);
         }
 
@@ -50,6 +51,7 @@ namespace ArRetarget
             string filename = dataManager.SerializeJson();
             //string message = "tracking successfull!";
             //GeneratedFilePopup(message, filename);
+
             OnFinishRecordingPrefab.SetActive(true);
         }
         #endregion
@@ -57,6 +59,9 @@ namespace ArRetarget
         #region UI Events
         public void GeneratedFilePopup(string message, string filename)
         {
+            if (OnFinishRecordingPrefab.activeSelf)
+                return;
+
             //generating popup element
             var m_popup = Instantiate(PopupPrefab) as GameObject;
             popupList.Add(m_popup);
@@ -87,6 +92,7 @@ namespace ArRetarget
 
         public void PurgeOrphanPopups()
         {
+            OnFinishRecordingPrefab.SetActive(false);
             foreach (GameObject popup in popupList)
             {
                 Destroy(popup);

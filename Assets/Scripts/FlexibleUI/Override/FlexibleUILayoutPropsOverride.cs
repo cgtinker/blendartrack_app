@@ -11,8 +11,9 @@ public class FlexibleUILayoutPropsOverride : MonoBehaviour
     {
 
     }
+
     //adjusting UI data on awake
-    public virtual void Awake()
+    public virtual void OnEnable()
     {
         OnSkinUI();
     }
