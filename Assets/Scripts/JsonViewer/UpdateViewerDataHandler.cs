@@ -51,7 +51,8 @@ namespace ArRetarget
 
             else
             {
-                Debug.LogError("Tried to set a negative frame end value: " + frames);
+                frameEnd = 0;
+                Debug.LogWarning("Tried to set a negative frame end value: " + frames);
             }
         }
     }

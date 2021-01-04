@@ -15,55 +15,27 @@ namespace ArRetarget
             GameObject obj = GenerateGismos();
             obj.transform.parent = this.gameObject.transform;
 
-            //setting the endframe of the animation
-            viewHandler.SetFrameEnd(data.cameraPoseList.Count);
+            if (data.cameraPoseList.Count > 0)
+            {
+                //setting the endframe of the animation
+                viewHandler.SetFrameEnd(data.cameraPoseList.Count);
 
-            yield return new WaitForEndOfFrame();
-            StartCoroutine(UpdateData(obj, data));
-            obj.SetActive(true);
+                yield return new WaitForEndOfFrame();
+                StartCoroutine(UpdateData(obj, data));
+                obj.SetActive(true);
+            }
+
+            else
+            {
+                Debug.LogWarning("recording doesn't have contents");
+            }
         }
 
         private GameObject GenerateGismos()
         {
             var obj = Instantiate(Resources.Load("TrailGizmos", typeof(GameObject)) as GameObject);
             obj.SetActive(false);
-            /*
-            //runtime generation doesnt work on ios
-            //holds the axis
-            GameObject obj = new GameObject("parent");
-            obj.transform.position = Vector3.zero;
-            obj.transform.rotation = Quaternion.Euler(Vector3.zero);
 
-            GameObject axisX = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            axisX.name = "axisX";
-            axisX.transform.position = new Vector3(0.5f, 0f, 0f);
-            axisX.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, -1.0f));
-
-            GameObject axisY = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            axisY.name = "axisY";
-            axisY.transform.position = new Vector3(0.5f, 0.5f, 0.5f);
-            axisY.transform.rotation = Quaternion.Euler(new Vector3(90f, 0f, 0f));
-
-            GameObject axisZ = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            axisZ.name = "axisZ";
-            axisZ.transform.position = new Vector3(0.0f, 0.0f, 0.5f);
-            axisZ.transform.rotation = Quaternion.Euler(new Vector3(0f, 90f, 0f));
-
-            List<GameObject> axisList = new List<GameObject>()
-            {
-                axisX,
-                axisY,
-                axisZ
-            };
-
-            //adding material and parent
-            foreach (GameObject axis in axisList)
-            {
-                axis.GetComponent<MeshRenderer>().material = Resources.Load("SimpleEmission", typeof(Material)) as Material;
-                axis.transform.localScale = new Vector3(0.025f, 0.025f, 1);
-                axis.transform.parent = obj.transform;
-            }
-            */
             return obj;
         }
 

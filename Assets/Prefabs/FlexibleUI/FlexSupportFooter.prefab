@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 12.8, y: 12.8}
+  m_SizeDelta: {x: 19.2, y: 19.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4787591431674377204
 CanvasRenderer:
@@ -93,8 +93,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26
-  m_fontSizeBase: 26
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -164,8 +164,9 @@ GameObject:
   - component: {fileID: 4787591432907911058}
   - component: {fileID: 826863038}
   - component: {fileID: 4828420558149755179}
+  - component: {fileID: 4427894999637840705}
   m_Layer: 5
-  m_Name: SupportFooter
+  m_Name: FlexSupportFooter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -189,7 +190,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1, y: 37}
+  m_SizeDelta: {x: 1, y: 96}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4787591432907911059
 CanvasRenderer:
@@ -287,4 +288,28 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4787591432907911058}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4427894999637840705}
+        m_TargetAssemblyTypeName: ArRetarget.SupportProject, Assembly-CSharp
+        m_MethodName: OnSupportProject
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &4427894999637840705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4787591432907911056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e8189fd55bd41a7b54aa27e414ee1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

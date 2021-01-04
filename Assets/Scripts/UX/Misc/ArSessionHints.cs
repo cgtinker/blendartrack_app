@@ -361,7 +361,6 @@ namespace ArRetarget
                     if (m_timeStamp + m_offset <= Time.time &&
                         m_timeStamp + m_offset + 1 >= Time.time)
                     {
-                        Debug.Log("None " + Time.time);
                         if (timeState != TimeState.Started)
                             TimeStateCallback = TimeState.Started;
                     }
@@ -370,7 +369,6 @@ namespace ArRetarget
                     if (m_timeStamp + m_offset * 2 + freq <= Time.time &&
                         m_timeStamp + m_offset * 2 + freq + 1 >= Time.time)
                     {
-                        Debug.Log("Started " + Time.time);
                         if (timeState != TimeState.Detecting)
                             TimeStateCallback = TimeState.Detecting;
                     }
@@ -379,7 +377,6 @@ namespace ArRetarget
                     if (m_timeStamp + m_offset * 3 + freq * 2 <= Time.time &&
                         m_timeStamp + m_offset * 3 + freq * 2 + 1 >= Time.time)
                     {
-                        Debug.Log("Detecting " + Time.time);
                         if (timeState != TimeState.Deteceted)
                             TimeStateCallback = TimeState.Deteceted;
                     }
@@ -388,7 +385,6 @@ namespace ArRetarget
                     if (m_timeStamp + m_offset * 4 + freq * 3 <= Time.time &&
                         m_timeStamp + m_offset * 4 + freq * 3 + 1 >= Time.time)
                     {
-                        Debug.Log("Deteceted " + Time.time);
                         if (timeState != TimeState.infinite)
                             TimeStateCallback = TimeState.infinite;
                     }
@@ -398,7 +394,7 @@ namespace ArRetarget
             }
         }
 
-        public void ResetTimeState()
+        private void ResetTimerState()
         {
             switch (timeState)
             {
@@ -417,35 +413,6 @@ namespace ArRetarget
 
             if (!stateResetted)
                 stateResetted = true;
-        }
-
-        private void ResetTimerState()
-        {
-            ResetTimeState();
-            //StartCoroutine(WaitAndReset());
-        }
-
-        IEnumerator WaitAndReset()
-        {
-            yield return new WaitForSeconds(freq);
-            switch (timeState)
-            {
-                case TimeState.Detecting:
-                    m_timeStamp = Time.time - m_offset;
-                    timeState = TimeState.None;
-                    Debug.Log($"(deting) Ressetted curTime: {m_timeStamp} :: {Time.time}");
-                    break;
-                case TimeState.Deteceted:
-                    m_timeStamp = Time.time + freq - m_offset;
-                    Debug.Log($"(deted) Ressetted curTime: {m_timeStamp} :: {Time.time}");
-                    timeState = TimeState.Started;
-                    break;
-            }
-
-            stateResetted = true;
-            insufficientLightning = false;
-            faceRemoved = false;
-
         }
 
         #region tracked data

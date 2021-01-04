@@ -48,8 +48,11 @@ namespace ArRetarget
         {
             if (string.IsNullOrEmpty(m_jsonDirData.jsonFilePath))
             {
+                viewedDataImage.sprite = viewedDataIcon;
+                Debug.LogWarning("Json file doesn't contain any values");
                 return;
             }
+
             viewedDataImage.sprite = viewedDataIcon;
             ViewDataButton.SetActive(false);
             //toggling the viewer, deactivating other btns

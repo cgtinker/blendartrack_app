@@ -11,28 +11,36 @@ namespace ArRetarget
 
         public IEnumerator InitViewer(MeshDataContainer data)
         {
-            //generating points if received the point amout
-            if (GetPointAmount(data) > 0 && meshDataListIndex < data.meshDataList.Count)
+            if (data.meshDataList.Count > 0)
             {
-                //setting frame end
-                viewHandler.SetFrameEnd(data.meshDataList.Count);
-                //generating points
-                List<GameObject> meshPoints = GeneratePoints(GetPointAmount(data));
+                //generating points if received the point amout
+                if (GetPointAmount(data) > 0 && meshDataListIndex < data.meshDataList.Count)
+                {
+                    //setting frame end
+                    viewHandler.SetFrameEnd(data.meshDataList.Count);
+                    //generating points
+                    List<GameObject> meshPoints = GeneratePoints(GetPointAmount(data));
 
-                yield return new WaitForEndOfFrame();
-                //start updating
-                StartCoroutine(UpdateData(meshPoints, data));
-            }
+                    yield return new WaitForEndOfFrame();
+                    //start updating
+                    StartCoroutine(UpdateData(meshPoints, data));
+                }
 
-            //restarting if there arent points at a certain frame
-            else if (GetPointAmount(data) == 0 && meshDataListIndex > data.meshDataList.Count)
-            {
-                StartCoroutine(InitViewer(data));
+                //restarting if there arent points at a certain frame
+                else if (GetPointAmount(data) == 0 && meshDataListIndex > data.meshDataList.Count)
+                {
+                    StartCoroutine(InitViewer(data));
+                }
+
+                else
+                {
+                    Debug.LogError("Mesh Data Container doesnt have stored data");
+                }
             }
 
             else
             {
-                Debug.LogError("Mesh Data Container doesnt have stored data");
+                Debug.LogWarning("recording doesn't have contents");
             }
 
             yield return new WaitForEndOfFrame();

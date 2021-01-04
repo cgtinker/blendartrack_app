@@ -314,6 +314,16 @@ PrefabInstance:
       propertyPath: m_Depth
       value: -100
       objectReference: {fileID: 0}
+    - target: {fileID: 399560189990281314, guid: 41af6cebb1cf542e583d2ea2018144f3,
+        type: 3}
+      propertyPath: near clip plane
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 399560189990281314, guid: 41af6cebb1cf542e583d2ea2018144f3,
+        type: 3}
+      propertyPath: far clip plane
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 1900558112432525381, guid: 41af6cebb1cf542e583d2ea2018144f3,
         type: 3}
       propertyPath: m_IsActive
