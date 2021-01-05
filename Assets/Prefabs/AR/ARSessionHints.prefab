@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6482605968545988471}
-  - component: {fileID: 6482605968545988470}
+  - component: {fileID: 2305560168729712556}
   m_Layer: 0
   m_Name: ARSessionHints
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6482605968545988470
+--- !u!114 &2305560168729712556
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,9 +40,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6482605968545988465}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a2092acdbbf245ce90a2eb709a04574, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c1c0f8e7208d4768b5a532004d9a160, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 1
-  stateFreq: 6
-  s_Offset: 3
+  type: 0

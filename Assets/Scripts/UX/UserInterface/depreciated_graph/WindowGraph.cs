@@ -8,9 +8,9 @@ using System;
 public class WindowGraph : MonoBehaviour
 {
     [SerializeField]
-    private Sprite spriteDot;
+    private Sprite spriteDot = null;
     [SerializeField]
-    private RectTransform graphContainer;
+    private RectTransform graphContainer = null;
 
     private void Awake()
     {

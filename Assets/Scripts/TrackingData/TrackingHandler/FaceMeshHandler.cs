@@ -5,7 +5,7 @@ using Unity.Collections;
 
 namespace ArRetarget
 {
-    public class FaceMeshHandler : MonoBehaviour, IInit<string>, IPrefix, IStop
+    public class FaceMeshHandler : MonoBehaviour, IInit<string, string>, IPrefix, IStop //IGet<int, bool>,
     {
         private bool lastFrame = false;
         private ARFace m_face;
@@ -20,6 +20,7 @@ namespace ArRetarget
 
         private void Start()
         {
+            write = false;
             //reference ar face component
             TrackingDataManager dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
             dataManager.SetRecorderReference(this.gameObject);
@@ -39,6 +40,11 @@ namespace ArRetarget
             lastFrame = true;
         }
 
+        private bool updatedVerticesThisFrame;
+        private int frame;
+        private bool recording = false;
+        static string jsonContents;
+        int curTick;
         private void OnFaceUpdate(ARFacesChangedEventArgs args)
         {
             //assign newly added ar face
@@ -59,23 +65,17 @@ namespace ArRetarget
             GetMeshDataAndWriteJson();
         }
 
-        private int frame;
-        private int curTick = 0;
-        static string jsonContents;
-        private bool updatedVerticesThisFrame;
-        private bool recording = false;
-        bool write = false;
+        bool write;
         private void GetMeshDataAndWriteJson()
         {
-            //accessing vertex data
             if (!updatedVerticesThisFrame && recording)
             {
                 //getting vertex data
                 frame++;
                 MeshData meshData = GetMeshData(frame);
                 string json = JsonUtility.ToJson(meshData);
-
                 (jsonContents, curTick, write) = DataHelper.JsonContentTicker(lastFrame: lastFrame, curTick: curTick, reqTick: 15, contents: jsonContents, json);
+
 
                 if (write && !lastFrame)
                 {
@@ -94,18 +94,15 @@ namespace ArRetarget
         }
 
         //only works with a single face mesh
-        public void Init(string path)
+        public void Init(string path, string title)
         {
             //assign variables
             lastFrame = false;
-            write = false;
             recording = true;
             jsonContents = "";
-            frame = 0;
-            curTick = 0;
 
             //init json file on disk
-            filepath = $"{path}_{j_Prefix()}.json";
+            filepath = $"{path}{title}_{j_Prefix()}.json";
             JsonFileWriter.WriteDataToFile(path: filepath, text: "", title: "meshDataList", lastFrame: false);
             Debug.Log("Initialized face mesh");
         }

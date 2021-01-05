@@ -19,37 +19,51 @@ namespace ArRetarget
 
         private List<GameObject> popupList = new List<GameObject>();
 
+        [Header("on finish rec Display")]
+        public GameObject OnFinishRecordingPrefab;
+
         [Header("Scene Management")]
         public TextMeshProUGUI SceneTitle;
 
         TrackingDataManager dataManager;
         AdditiveSceneManager sceneManager;
 
+        public bool recording = false;
+
         private void Awake()
         {
             GameObject obj = GameObject.FindGameObjectWithTag("manager");
             dataManager = obj.GetComponent<TrackingDataManager>();
             sceneManager = obj.GetComponent<AdditiveSceneManager>();
+
+            OnFinishRecordingPrefab.SetActive(false);
         }
 
         #region tracking
         public void StartTracking()
         {
+            recording = true;
             dataManager.ToggleRecording();
         }
 
         public void StopTrackingAndSerializeData()
         {
+            recording = false;
             dataManager.ToggleRecording();
-            string filename = dataManager.SerializeJson();
-            string message = "tracking successfull!";
-            GeneratedFilePopup(message, filename);
+            //string filename = dataManager.SerializeJson();
+            //string message = "tracking successfull!";
+            //GeneratedFilePopup(message, filename);
+
+            OnFinishRecordingPrefab.SetActive(true);
         }
         #endregion
 
         #region UI Events
         public void GeneratedFilePopup(string message, string filename)
         {
+            if (OnFinishRecordingPrefab.activeSelf)
+                return;
+
             //generating popup element
             var m_popup = Instantiate(PopupPrefab) as GameObject;
             popupList.Add(m_popup);
@@ -61,7 +75,7 @@ namespace ArRetarget
             {
                 popupDisplay.type = PopUpDisplay.PopupType.Notification;
                 //travel timings
-                popupDisplay.travelDuration = 10f;
+                popupDisplay.travelDuration = 5f;
                 popupDisplay.staticDuration = 5f;
 
                 popupDisplay.desitionation = FileBrowserButton;
@@ -71,7 +85,7 @@ namespace ArRetarget
             else
             {
                 popupDisplay.type = PopUpDisplay.PopupType.Notification;
-                popupDisplay.staticDuration = 5f;
+                popupDisplay.staticDuration = 8f;
                 popupDisplay.text = message;
             }
 
@@ -80,6 +94,7 @@ namespace ArRetarget
 
         public void PurgeOrphanPopups()
         {
+            OnFinishRecordingPrefab.SetActive(false);
             foreach (GameObject popup in popupList)
             {
                 Destroy(popup);

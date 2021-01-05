@@ -4,10 +4,17 @@ using System.Collections.Generic;
 
 namespace ArRetarget
 {
+    //TODO: public error popup required if deserialization failed
     public class JsonDataImporter : MonoBehaviour
     {
+        [HideInInspector]
         public string path;
+        [HideInInspector]
         public TextAsset jsonFile;
+        [HideInInspector]
+        public GameObject importParent;
+        [HideInInspector]
+        public bool poseData = false;
 
         private static Dictionary<string, string> JsonType = new Dictionary<string, string>()
         {
@@ -18,9 +25,22 @@ namespace ArRetarget
 
         private IEnumerator ImportPoseData(string fileContent)
         {
+            poseData = true;
             yield return new WaitForEndOfFrame();
+            CameraPoseContainer data = new CameraPoseContainer();
+
             //deserialzing the data
-            CameraPoseContainer data = JsonUtility.FromJson<CameraPoseContainer>(fileContent);
+            try
+            {
+                data = JsonUtility.FromJson<CameraPoseContainer>(fileContent);
+            }
+
+            catch
+            {
+                data.cameraPoseList = new List<PoseData>();
+                Debug.LogWarning("pose data is corrupted or file is to large");
+            }
+
             //generating a parent game object
             GameObject parent = ParentGameObject();
             //adding the importer component - assigning the update method
@@ -33,7 +53,19 @@ namespace ArRetarget
         private IEnumerator ImportBlendShapeData(string fileContent)
         {
             //Debug.Log(fileContent);
-            BlendShapeContainter data = JsonUtility.FromJson<BlendShapeContainter>(fileContent);
+            BlendShapeContainter data = new BlendShapeContainter();
+
+            try
+            {
+                data = JsonUtility.FromJson<BlendShapeContainter>(fileContent);
+            }
+
+            catch
+            {
+                data.blendShapeData = new List<BlendShapeData>();
+                Debug.LogWarning("blend shape data is corrupted or file is to large");
+            }
+
             Debug.Log(data + ", " + data.blendShapeData.Count);
 
             //generating a parent game object
@@ -50,8 +82,19 @@ namespace ArRetarget
         private IEnumerator ImportFaceMeshData(string fileContent)
         {
             yield return new WaitForEndOfFrame();
+            MeshDataContainer data = new MeshDataContainer();
+
             //deserialzing the data
-            MeshDataContainer data = JsonUtility.FromJson<MeshDataContainer>(fileContent);
+            try
+            {
+                data = JsonUtility.FromJson<MeshDataContainer>(fileContent);
+            }
+
+            catch
+            {
+                data.meshDataList = new List<MeshData>();
+                Debug.LogWarning("face mesh data is corrupted or file is to large");
+            }
             //generating a parent game object
             GameObject parent = ParentGameObject();
             //adding the importer component - assigning the update method
@@ -63,7 +106,7 @@ namespace ArRetarget
 
         private GameObject ParentGameObject()
         {
-            GameObject importParent = new GameObject("importParent");
+            importParent = new GameObject("importParent");
             importParent.transform.SetParent(this.gameObject.transform);
 
             return importParent;

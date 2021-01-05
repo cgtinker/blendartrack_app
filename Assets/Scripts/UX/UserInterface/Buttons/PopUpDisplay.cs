@@ -55,6 +55,7 @@ public class PopUpDisplay : MonoBehaviour
     private void SetTransform(Transform parent)
     {
         this.transform.SetParent(parent);
+        this.transform.localScale = Vector3.one;
     }
 
     public float currentTravelTime = 0; // actual floating time 

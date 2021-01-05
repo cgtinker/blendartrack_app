@@ -28,10 +28,33 @@ public class UserPreferences : Singleton<UserPreferences>
     #endregion
 
     #region XRCamera Prefs
+    //for referencing settings in face mode
+    private void Awake()
+    {
+        if (CameraConfigList.Count == 0)
+        {
+            GetAvailableXRCameraConfigs();
+        }
+    }
+
+    void GetAvailableXRCameraConfigs()
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            var m_config = PlayerPrefs.GetString($"cameraConfig_{i}", "");
+
+            if (m_config != "")
+            {
+                CameraConfigList.Add(m_config);
+            }
+        }
+    }
+
     //referencing available camera settings
     public void ReferenceAvailableXRCameraConfigs(List<string> availableConfigs)
     {
-        //settings can diver depending on front / back camera
+        //settings can differ depending on front / back camera
+        //only setting front camera settings as recording on android wasnt possible
         if (availableConfigs.Count != CameraConfigList.Count)
         {
             CameraConfigList.Clear();
@@ -40,6 +63,10 @@ public class UserPreferences : Singleton<UserPreferences>
             {
                 if (!CameraConfigList.Contains(availableConfigs[i]))
                 {
+                    //reference in player prefs
+                    string configTitle = $"cameraConfig_{i}";
+                    PlayerPrefs.SetString(configTitle, availableConfigs[i]);
+                    //add to list
                     CameraConfigList.Add(availableConfigs[i]);
                 }
             }

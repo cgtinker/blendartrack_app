@@ -34,7 +34,6 @@ namespace ArRetarget
         public List<MeshData> meshDataList;
     }
 
-
     [System.Serializable]
     public class PointCloud
     {
@@ -46,6 +45,21 @@ namespace ArRetarget
     public class RefereceData
     {
         public List<Vector3> anchorData;
+    }
+    #endregion
+
+    #region pose data containers
+    [System.Serializable]
+    public class FacePoseContainer
+    {
+        public List<PoseData> facePoseList;
+    }
+
+
+    [System.Serializable]
+    public class CameraPoseContainer
+    {
+        public List<PoseData> cameraPoseList;
     }
     #endregion
 
@@ -61,10 +75,15 @@ namespace ArRetarget
         public int frame;
     }
 
+    /// <summary>
+    /// contains a list of screen pos data (vector + frame)
+    /// </summary>
     [System.Serializable]
     public class ScreenPosContainer
     {
+        //world to screen position data
         public List<ScreenPosData> screenPosData;
+        //public Vector anchor;
     }
     #endregion
 
@@ -89,6 +108,14 @@ namespace ArRetarget
         public string shapeKey;
     }
 
+    /// <summary>
+    /// container for json serialization containing blend shapes
+    /// </summary>
+    [System.Serializable]
+    public class BlendShapeContainter
+    {
+        public List<BlendShapeData> blendShapeData;
+    }
     #endregion
 
     #region camera intrinsics data
@@ -123,20 +150,6 @@ namespace ArRetarget
         public int fps;
         public float width;
         public float height;
-    }
-    #endregion
-
-    #region viewer containers
-    [System.Serializable]
-    public class CameraPoseContainer
-    {
-        public List<PoseData> cameraPoseList;
-    }
-
-    [System.Serializable]
-    public class BlendShapeContainter
-    {
-        public List<BlendShapeData> blendShapeData;
     }
     #endregion
 }

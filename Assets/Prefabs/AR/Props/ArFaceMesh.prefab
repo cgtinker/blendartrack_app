@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4296732611517254620}
   - component: {fileID: 8297501284205480049}
   - component: {fileID: 7775798157249432421}
+  - component: {fileID: 746494133162761283}
   m_Layer: 0
   m_Name: ArFaceMesh
   m_TagString: face
@@ -108,3 +109,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &746494133162761283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3588910708775601286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 715c5c0ccc0554d6cb0d1870b8a54cb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iosWireframe: {fileID: 2800000, guid: 2930f03ac5d2c49e78c966706db71803, type: 3}
+  androidWireframe: {fileID: 2800000, guid: 4ed3335eb6e2b4a35ade97345ea4f049, type: 3}

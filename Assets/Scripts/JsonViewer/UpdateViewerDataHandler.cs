@@ -12,7 +12,7 @@ namespace ArRetarget
 
         private void Start()
         {
-            Application.targetFrameRate = 30;
+            //Application.targetFrameRate = 30;
             StartCoroutine(UpdateData());
         }
 
@@ -51,7 +51,8 @@ namespace ArRetarget
 
             else
             {
-                Debug.LogError("Tried to set a negative frame end value: " + frames);
+                frameEnd = 0;
+                Debug.LogWarning("Tried to set a negative frame end value: " + frames);
             }
         }
     }

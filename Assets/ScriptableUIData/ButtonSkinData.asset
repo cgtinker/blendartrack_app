@@ -1,0 +1,172 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e599e622d08a4a2f9302087efbf12b8, type: 3}
+  m_Name: ButtonSkinData
+  m_EditorClassIdentifier: 
+  buttonBackground: {fileID: 21300000, guid: a6a79f06504614223a13b1ad8add83ce, type: 3}
+  buttonBackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+  buttonScaleFactor: 1.3
+  iconColor: {r: 1, g: 1, b: 1, a: 1}
+  defaultButtonSize: 5
+  backButton:
+    icon: {fileID: 21300000, guid: 58ae3bca7d0924ddc94c7bf9d63ccf14, type: 3}
+    iconSize: 3
+    minPxSize: 125
+    maxPxSize: 255
+    anchor: 3
+    pivot: 3
+    iconAnchor: 4
+    iconPivot: 4
+  deleteButton:
+    icon: {fileID: 21300000, guid: 35e24cfc0a5e2493d9f5eb4c4fa0918c, type: 3}
+    iconSize: 5
+    minPxSize: 125
+    maxPxSize: 255
+    anchor: 5
+    pivot: 5
+    iconAnchor: 4
+    iconPivot: 4
+  shareButton:
+    icon: {fileID: 21300000, guid: 5ba2d5b3f43d940df8d07a48bb703d89, type: 3}
+    iconSize: 5
+    minPxSize: 125
+    maxPxSize: 255
+    anchor: 4
+    pivot: 4
+    iconAnchor: 4
+    iconPivot: 4
+  swapButton:
+    icon: {fileID: 21300000, guid: 7a406060f28374040959f6d7f200a12d, type: 3}
+    iconSize: 5
+    minPxSize: 125
+    maxPxSize: 250
+    anchor: 3
+    pivot: 3
+    iconAnchor: 4
+    iconPivot: 4
+  dropdownButton:
+    icon: {fileID: 21300000, guid: a0bfa698afe744dfa94e0c263c1f2346, type: 3}
+    iconSize: 3
+    minPxSize: 125
+    maxPxSize: 250
+    anchor: 4
+    pivot: 4
+    iconAnchor: 4
+    iconPivot: 4
+  filebrowserButton:
+    icon: {fileID: 21300000, guid: ceaa6d99bb011481e98de33000d0ff08, type: 3}
+    iconSize: 5
+    minPxSize: 125
+    maxPxSize: 250
+    anchor: 5
+    pivot: 5
+    iconAnchor: 4
+    iconPivot: 4
+  settingsButton:
+    icon: {fileID: 21300000, guid: 4fc555e26c6b54f9fabf99e5a3904144, type: 3}
+    iconSize: 4.2
+    minPxSize: 125
+    maxPxSize: 250
+    anchor: 5
+    pivot: 5
+    iconAnchor: 4
+    iconPivot: 4
+  selectedButton:
+    icon: {fileID: 21300000, guid: 2ed92fdddd1cd41ae9e12ad441d4c118, type: 3}
+    iconSize: 2.5
+    minPxSize: 50
+    maxPxSize: 150
+    anchor: 3
+    pivot: 3
+    iconAnchor: 3
+    iconPivot: 3
+  deselectedButton:
+    icon: {fileID: 21300000, guid: c33b3edb518ad40f8bcd50d2cfa9b168, type: 3}
+    iconSize: 2.5
+    minPxSize: 50
+    maxPxSize: 150
+    anchor: 3
+    pivot: 3
+    iconAnchor: 3
+    iconPivot: 3
+  recordingButton:
+    icon: {fileID: 0}
+    iconSize: 9
+    minPxSize: 200
+    maxPxSize: 400
+    anchor: 4
+    pivot: 4
+    iconAnchor: 4
+    iconPivot: 4
+  previewButton:
+    icon: {fileID: 0}
+    iconSize: 2.4
+    minPxSize: 0
+    maxPxSize: 0
+    anchor: 4
+    pivot: 4
+    iconAnchor: 4
+    iconPivot: 4
+  tutorialIcon:
+    icon: {fileID: 0}
+    iconSize: 11.5
+    minPxSize: 500
+    maxPxSize: 900
+    anchor: 4
+    pivot: 4
+    iconAnchor: 4
+    iconPivot: 4
+  closeButton:
+    icon: {fileID: 21300000, guid: 91ef5d4af42004d57aafc7610a865c95, type: 3}
+    iconSize: 2.2
+    minPxSize: 0
+    maxPxSize: 0
+    anchor: 2
+    pivot: 2
+    iconAnchor: 2
+    iconPivot: 2
+  forwardButton:
+    icon: {fileID: 21300000, guid: 70bb9064566294216b2b51d01ac29a7f, type: 3}
+    iconSize: 4
+    minPxSize: 125
+    maxPxSize: 250
+    anchor: 8
+    pivot: 8
+    iconAnchor: 4
+    iconPivot: 4
+  resetPopButton:
+    icon: {fileID: 21300000, guid: 51651f26330fc418297d06503814ddf6, type: 3}
+    iconSize: 3.59
+    minPxSize: 0
+    maxPxSize: 0
+    anchor: 4
+    pivot: 4
+    iconAnchor: 4
+    iconPivot: 4
+  previewPopButton:
+    icon: {fileID: 21300000, guid: 4d3f93b06cb854a619f53c73272c709f, type: 3}
+    iconSize: 3.12
+    minPxSize: 0
+    maxPxSize: 0
+    anchor: 4
+    pivot: 4
+    iconAnchor: 4
+    iconPivot: 4
+  resumePopButton:
+    icon: {fileID: 21300000, guid: d9ca1acd731704dda9fa7cad136ea35b, type: 3}
+    iconSize: 3.74
+    minPxSize: 0
+    maxPxSize: 0
+    anchor: 4
+    pivot: 4
+    iconAnchor: 4
+    iconPivot: 4

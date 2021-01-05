@@ -11,7 +11,7 @@ public class SceneButton : MonoBehaviour, IPointerDownHandler
 {
     //ref
     public TextMeshProUGUI mainMenuSceneTitle;
-    public Image buttonImage;
+    //public Image buttonImage;
     AdditiveSceneManager sceneManager;
     TrackingDataManager trackingDataManager;
     public InputHandler inputHandler;
@@ -43,6 +43,20 @@ public class SceneButton : MonoBehaviour, IPointerDownHandler
                 mainMenuSceneTitle.text = data.titel;
                 //buttonImage.sprite = data.sprite;
             }
+        }
+
+        switch (DeviceManager.Instance.device)
+        {
+            case DeviceManager.Device.iOS:
+                if (this.gameObject.name == "swapButton")
+                {
+                    this.gameObject.SetActive(false);
+                }
+
+                this.gameObject.GetComponent<SceneButton>().enabled = false;
+                return;
+            default:
+                break;
         }
     }
 

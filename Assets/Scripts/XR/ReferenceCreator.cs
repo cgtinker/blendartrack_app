@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.XR.ARFoundation;
 using System;
+using UnityEngine.EventSystems;
 
 namespace ArRetarget
 {
@@ -13,7 +14,6 @@ namespace ArRetarget
         bool active;
         [Header("Placed Prefab")]
         public GameObject anchorPrefab;
-        Vector3 anchorScale = new Vector3(0.25f, 0.25f, 0.25f);
 
         [Header("Double Tapping")]
         int TapCount;
@@ -25,10 +25,16 @@ namespace ArRetarget
         public List<GameObject> anchors = new List<GameObject>();
         private List<ARRaycastHit> arRaycastHits = new List<ARRaycastHit>();
 
+        private Transform arCameraTransform;
+
         private void Start()
         {
             if (PlayerPrefs.GetInt("reference", -1) == 1)
+            {
                 active = true;
+                arCameraTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
+                StartCoroutine(RelativeScaleByDistance());
+            }
 
             else
                 active = false;
@@ -56,6 +62,7 @@ namespace ArRetarget
                 CreateAnchor(pose.position);
             }
         }
+
         #endregion
 
         #region detect input
@@ -170,16 +177,57 @@ namespace ArRetarget
 
         private void CreateAnchor(Vector3 position)
         {
-            var marker = Instantiate(anchorPrefab, position, Quaternion.identity);
-            marker.transform.localScale = anchorScale;
-            anchors.Add(marker);
-            CreatedMarker();
+            if (anchors.Count < 5)
+            {
+                var marker = Instantiate(anchorPrefab, position, Quaternion.identity);
+                marker.transform.localScale = InstanceSizeByDistance(position);
+                anchors.Add(marker);
+                CreatedMarker();
+            }
+
+            else
+            {
+                anchors[0].transform.position = position;
+                anchors[0].transform.localScale = InstanceSizeByDistance(position);
+            }
         }
 
         private void DeleteAnchor(GameObject anchor)
         {
             anchors.Remove(anchor);
             Destroy(anchor);
+        }
+        #endregion
+
+        #region scale by distance
+        WaitForSeconds updateStep = new WaitForSeconds(1.5f);
+        private IEnumerator RelativeScaleByDistance()
+        {
+            yield return updateStep;
+            foreach (GameObject obj in anchors)
+            {
+                obj.transform.localScale = InstanceSizeByDistance(obj.transform.position);
+            }
+
+            StartCoroutine(RelativeScaleByDistance());
+        }
+
+        Vector3 relScale = new Vector3(0.2f, 0.2f, 0.2f);
+        const float minFactor = 0.5f;
+        const float midFactor = 1f;
+        const float maxFactor = 2f;
+        private Vector3 InstanceSizeByDistance(Vector3 position)
+        {
+            float distance = Vector3.Distance(position, arCameraTransform.position);
+
+            if (distance < minFactor)
+                return new Vector3(relScale.x * minFactor, relScale.y * minFactor, relScale.z * minFactor);
+
+            else if (distance < maxFactor)
+                return new Vector3(relScale.x * midFactor, relScale.y * midFactor, relScale.z * midFactor);
+
+            else
+                return new Vector3(relScale.x * maxFactor, relScale.y * maxFactor, relScale.z * maxFactor);
         }
         #endregion
     }

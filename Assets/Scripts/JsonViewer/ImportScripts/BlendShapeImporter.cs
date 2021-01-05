@@ -81,17 +81,25 @@ public class BlendShapeImporter : MonoBehaviour, IInitViewer<BlendShapeContainte
 
     public IEnumerator InitViewer(BlendShapeContainter data)
     {
-        //generating the obj
-        var m_head = Instantiate(Resources.Load("SlothHead", typeof(GameObject)) as GameObject);
-        m_head.transform.parent = this.gameObject.transform;
-        skinnedMeshRenderer = m_head.GetComponentInChildren<SkinnedMeshRenderer>();
+        if (data.blendShapeData.Count > 0)
+        {
+            //generating the obj
+            var m_head = Instantiate(Resources.Load("SlothHead", typeof(GameObject)) as GameObject);
+            m_head.transform.parent = this.gameObject.transform;
+            skinnedMeshRenderer = m_head.GetComponentInChildren<SkinnedMeshRenderer>();
 
-        //generate the feature maps
-        CreateFeatureBlendMapping();
-        viewHandler.SetFrameEnd(data.blendShapeData.Count);
-        yield return new WaitForEndOfFrame();
+            //generate the feature maps
+            CreateFeatureBlendMapping();
+            viewHandler.SetFrameEnd(data.blendShapeData.Count);
+            yield return new WaitForEndOfFrame();
 
-        StartCoroutine(UpdateData(m_head, data));
+            StartCoroutine(UpdateData(m_head, data));
+        }
+
+        else
+        {
+            Debug.LogWarning("data to preview doesnt have contents");
+        }
     }
 
 

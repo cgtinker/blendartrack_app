@@ -6,16 +6,16 @@ using Unity.Collections;
 namespace ArRetarget
 {
 
-    public class PointCloudHandler : MonoBehaviour, IInit<string>, IStop, IPrefix
+    public class PointCloudHandler : MonoBehaviour, IInit<string, string>, IStop, IPrefix
     {
         ARPointCloud arPointCloud;
         public List<Vector3> points;
         private string filePath;
         private bool lastFrame;
 
-        public void Init(string path)
+        public void Init(string path, string title)
         {
-            filePath = $"{path}_{j_Prefix()}.json";
+            filePath = $"{path}{title}_{j_Prefix()}.json";
             lastFrame = false;
             JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "points", lastFrame: false);
             arPointCloud = GameObject.FindGameObjectWithTag("pointCloud").GetComponent<ARPointCloud>();
@@ -44,40 +44,24 @@ namespace ArRetarget
             }
         }
 
-        //TODO: implement last frame logic
+        bool write;
+        int curTick;
+        static string contents;
         public void GetCurrentPoints()
         {
-            NativeSlice<Vector3>? pos = arPointCloud.positions;
+            NativeSlice<Vector3>? pointCloud = arPointCloud.positions;
 
-            if (!lastFrame)
+            foreach (Vector3 point in pointCloud)
             {
-                //getting point cloud data
-                foreach (Vector3 vec in pos)
-                {
-                    var point = vec;
+                string json = JsonUtility.ToJson(point);
+                (contents, curTick, write) = DataHelper.JsonContentTicker(lastFrame: false, curTick: curTick, reqTick: 21, contents: contents, json: json);
 
-                    string json = JsonUtility.ToJson(point);
-                    JsonFileWriter.WriteDataToFile(path: filePath, text: json, title: "", lastFrame: lastFrame);
+                if (write)
+                {
+                    JsonFileWriter.WriteDataToFile(path: filePath, text: contents, title: "", lastFrame: lastFrame);
+                    contents = "";
                 }
             }
-
-            else
-            {
-                string m_j = "";
-
-                foreach (Vector3 vec in pos)
-                {
-                    var point = vec;
-                    m_j = JsonUtility.ToJson(point);
-                    break;
-                }
-
-                string par = "]}";
-                string json = $"{m_j}{par}";
-
-                JsonFileWriter.WriteDataToFile(path: filePath, text: json, title: "", lastFrame: lastFrame);
-            }
-
         }
 
         public string j_Prefix()

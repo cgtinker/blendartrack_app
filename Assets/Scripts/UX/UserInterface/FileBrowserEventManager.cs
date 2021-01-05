@@ -4,6 +4,8 @@ using UnityEngine;
 using System.IO;
 using System;
 using TMPro;
+using UnityEngine.UI;
+
 namespace ArRetarget
 {
     public class FileBrowserEventManager : MonoBehaviour
@@ -23,10 +25,14 @@ namespace ArRetarget
         private GameObject jsonViewerReference;
 
         //different buttons depending on json viewer state
-        [Header("Back Button in Viewer and Filebrowser")]
+        [Header("References to switch inbetween Viewer and Filebrowser")]
         public GameObject ViewerAcitveBackButton;
         public GameObject ViewerInactiveBackButton;
-        public GameObject FileBrowserBackground;
+        public Image FileBrowserBackground;
+        public GameObject ViewerActiveTitle;
+        public GameObject ViewerInactiveTitle;
+
+        public GameObject SelectionHelperParent;
 
         //select buttons
         [Header("Select Buttons")]
@@ -200,20 +206,25 @@ namespace ArRetarget
         public void OnToggleViewer(int btnIndex, bool activateViewer, string fileContents)
         {
             PurgeOrphanZips();
-
             if (activateViewer)
             {
                 Debug.Log("attempt to preview data");
-                FileBrowserBackground.SetActive(false);
-                //SelectAllFilesBtn.SetActive(false);
+                FileBrowserBackground.enabled = false;
 
                 //changing the back buttons
                 ViewerAcitveBackButton.SetActive(true);
                 ViewerInactiveBackButton.SetActive(false);
 
+                //changing title
+                ViewerActiveTitle.SetActive(true);
+                ViewerInactiveTitle.SetActive(false);
+
                 //changing footer
                 MenuFooter.SetActive(false);
                 SupportFooter.SetActive(true);
+
+                //deactivate selection helper
+                SelectionHelperParent.SetActive(false);
 
                 //instantiating the viewer
                 jsonViewerReference = Instantiate(JsonViewerPrefab, Vector3.zero, Quaternion.identity);
@@ -229,6 +240,16 @@ namespace ArRetarget
                     {
                         data.obj.SetActive(false);
                     }
+
+                    else
+                    {
+                        //change selection and visual
+                        var jsonFileButton = data.obj.GetComponent<JsonFileButton>();
+                        jsonFileButton.ChangeSelectionToggleStatus(true);
+                        jsonFileButton.btnIsOn = true;
+                        jsonFileButton.ViewDataButton.SetActive(false);
+                        jsonFileButton.viewedDataImage.sprite = jsonFileButton.viewedDataIcon;
+                    }
                 }
             }
 
@@ -242,12 +263,18 @@ namespace ArRetarget
         public void DeactivateViewer()
         {
             Debug.Log("stop viewing data");
-            FileBrowserBackground.SetActive(true);
-            //SelectAllFilesBtn.SetActive(true);
+            FileBrowserBackground.enabled = true;
 
             //changing the back buttons
             ViewerAcitveBackButton.SetActive(false);
             ViewerInactiveBackButton.SetActive(true);
+
+            //changing title
+            ViewerActiveTitle.SetActive(false);
+            ViewerInactiveTitle.SetActive(true);
+
+            //activate selection helper
+            SelectionHelperParent.SetActive(true);
 
             //changing footer
             MenuFooter.SetActive(true);
@@ -259,6 +286,8 @@ namespace ArRetarget
             //reactivating the buttons
             foreach (JsonDirectory data in JsonDirectories)
             {
+                data.obj.GetComponent<JsonFileButton>().ViewDataButton.SetActive(true);
+
                 if (!data.obj.activeSelf)
                 {
                     data.obj.SetActive(true);
@@ -273,7 +302,16 @@ namespace ArRetarget
         /// </summary>
         public void GenerateButtons()
         {
-            PurgeOrphanZips();
+            try
+            {
+                PurgeOrphanZips();
+            }
+
+            catch
+            {
+                Debug.LogWarning("cannot purge zips on instant preview");
+            }
+
             Debug.Log("Generating preview buttons");
             JsonDirectories = GetDirectories();
 
@@ -289,6 +327,7 @@ namespace ArRetarget
                     //set file data index
                     JsonDirectories[i].index = i;
                     //set json file data obj
+                    Debug.Log("Instantitaing button");
                     var jsonFileBtnObj = Instantiate(JsonFileButtonPrefab, Vector3.zero, Quaternion.identity);
                     JsonDirectories[i].obj = jsonFileBtnObj;
                     jsonFileBtnObj.name = JsonDirectories[i].dirName;
@@ -311,7 +350,7 @@ namespace ArRetarget
 
                 //message
                 var para = FileManagement.GetParagraph();
-                m_pop.text = $"Wow, such empty!{para}Please record something to preview and share files";
+                m_pop.text = $"Wow, such empty!{para}Please record something to {para}preview and share files";
                 m_pop.type = PopUpDisplay.PopupType.Static;
 
                 //transforms
@@ -341,7 +380,7 @@ namespace ArRetarget
                     JsonDirectory m_dir = new JsonDirectory();
                     m_dir.dirName = FileManagement.GetDirectoryName(dirs[t]);
                     m_dir.dirPath = dirs[t];
-                    Debug.Log(m_dir.dirPath);
+                    //Debug.Log(m_dir.dirPath);
                     tmp_jsonDirectories.Add(m_dir);
                 }
             }
