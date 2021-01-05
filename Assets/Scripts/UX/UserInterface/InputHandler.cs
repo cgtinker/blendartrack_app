@@ -14,11 +14,13 @@ namespace ArRetarget
 
         [Header("Pop Up Display")]
         public GameObject PopupPrefab;
-        public GameObject OnFinishRecordingPrefab;
         public Transform PopupParent;
         public GameObject FileBrowserButton;
 
         private List<GameObject> popupList = new List<GameObject>();
+
+        [Header("on finish rec Display")]
+        public GameObject OnFinishRecordingPrefab;
 
         [Header("Scene Management")]
         public TextMeshProUGUI SceneTitle;
@@ -48,7 +50,7 @@ namespace ArRetarget
         {
             recording = false;
             dataManager.ToggleRecording();
-            string filename = dataManager.SerializeJson();
+            //string filename = dataManager.SerializeJson();
             //string message = "tracking successfull!";
             //GeneratedFilePopup(message, filename);
 

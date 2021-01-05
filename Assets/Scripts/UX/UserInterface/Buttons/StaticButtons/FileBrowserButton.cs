@@ -31,12 +31,22 @@ public class FileBrowserButton : MonoBehaviour
 
         else
         {
-            fileBrowser.SetActive(true);
-            inputHandler.PurgeOrphanPopups();
-            fileBrowserEventManager.GenerateButtons();
-            inputHandler.DisableArSession();
-            mainScreen.SetActive(false);
+            OpenFileBrowser();
+            Cleanup();
         }
     }
 
+    //capsuled for instant preview
+    public void OpenFileBrowser()
+    {
+        fileBrowserEventManager.GenerateButtons();
+        inputHandler.DisableArSession();
+        fileBrowser.SetActive(true);
+    }
+
+    public void Cleanup()
+    {
+        inputHandler.PurgeOrphanPopups();
+        mainScreen.SetActive(false);
+    }
 }

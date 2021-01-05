@@ -8,22 +8,35 @@ namespace ArRetarget
     {
         public FileBrowserEventManager fileBrowserEventManager;
         public FileBrowserButton fileBrowserButton;
-
-        public GameObject recorderPopup;
+        public GameObject BlackOverlay;
 
         public void OnOpenPreview()
         {
-            StartCoroutine(Open());
+            StartCoroutine(OpenPreview());
+            BlackOverlay.SetActive(true);
         }
 
-        IEnumerator Open()
+        IEnumerator OpenPreview()
         {
-            yield return new WaitForSeconds(0.2f);
+            //some weird wait timings for iOS
 
-            fileBrowserButton.OnOpenFileBrowser();
+            //guess the .net system io file handling
+            //cause some longer wait times on iOS
+            //resulting in weird timing handling
+
+            yield return new WaitForEndOfFrame();
+
+            //reusing btn event (wait for purge)
+            fileBrowserButton.OpenFileBrowser();
+            yield return new WaitForEndOfFrame();
+
+            //create preview
             fileBrowserEventManager.OnToggleViewer(0, true, FileManagement.FileContents(fileBrowserEventManager.JsonDirectories[0].jsonFilePath));
 
-            //recorderPopup.SetActive(false);
+            yield return new WaitForSeconds(0.1f);
+            BlackOverlay.SetActive(false);
+
+            fileBrowserButton.Cleanup();
         }
     }
 }
