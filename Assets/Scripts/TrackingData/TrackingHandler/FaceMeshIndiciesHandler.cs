@@ -54,7 +54,7 @@ namespace ArRetarget
             {
                 string json = JsonUtility.ToJson(meshGeometry);
 
-                JsonFileWriter.WriteDataToFile(path: filepath, text: json, title: "", lastFrame: true);
+                JsonFileWriter.WriteDataToFile(path: filepath, text: json + "]}", title: "", lastFrame: true);
                 recording = false;
                 write = false;
             }
@@ -79,22 +79,24 @@ namespace ArRetarget
 
         static List<Vector3> s_Vertices = new List<Vector3>();
         static List<int> s_Indices = new List<int>();
+        static List<Vector2> s_Uvs = new List<Vector2>();
         private MeshGeometry GetMeshGeometry()
         {
             MeshGeometry meshGeometry = new MeshGeometry();
 
             if (!m_face)
             {
-                Debug.Log("no face??");
                 return meshGeometry;
             }
 
-            if (TryCopyToList(m_face.vertices, s_Vertices) && TryCopyToList(m_face.indices, s_Indices) && !write)
+            if (TryCopyToList(m_face.vertices, s_Vertices) &&
+                TryCopyToList(m_face.indices, s_Indices) &&
+                TryCopyToList(m_face.uvs, s_Uvs) && !write)
             {
                 meshGeometry.pos = s_Vertices;
                 meshGeometry.indices = s_Indices;
+                meshGeometry.uvs = s_Uvs;
                 write = true;
-                Debug.Log("success?");
             }
 
             return meshGeometry;

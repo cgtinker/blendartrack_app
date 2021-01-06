@@ -30,6 +30,7 @@ namespace ArRetarget
     {
         public List<Vector3> pos;
         public List<int> indices;
+        public List<Vector2> uvs;
     }
 
     /// <summary>
