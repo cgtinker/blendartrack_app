@@ -13,8 +13,9 @@ namespace ArRetarget
         public float offset;
         public bool assigned = false;
 
-        public void Init()
+        public IEnumerator Start()
         {
+            yield return new WaitForEndOfFrame();
             if (assigned == false)
             {
                 StartCoroutine(SetReferences());
@@ -40,8 +41,11 @@ namespace ArRetarget
 
             for (int i = 0; i < Trackers.Count; i++)
             {
-                if (Trackers[i].value == 1)
+                Debug.Log(Trackers[i].nameInPlayerPrefs + Trackers[i].value);
+
+                if (Trackers[i].value >= 1)
                 {
+                    Debug.Log("set");
                     dataManager.SetRecorderReference(Trackers[i].obj);
 
                     var screenPosTracker = Trackers[i].obj.GetComponent<WorldToScreenPosHandler>();
@@ -64,6 +68,7 @@ namespace ArRetarget
         /// <summary>
         /// int used as bool -> -1 = false, +1 = true
         /// </summary>
+        [HideInInspector]
         public int value;
     }
 }

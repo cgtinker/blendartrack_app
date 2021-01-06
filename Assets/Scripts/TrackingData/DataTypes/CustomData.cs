@@ -25,6 +25,13 @@ namespace ArRetarget
         public int frame;
     }
 
+    [System.Serializable]
+    public class MeshGeometry
+    {
+        public List<Vector3> pos;
+        public List<int> indices;
+    }
+
     /// <summary>
     /// moving mesh vertecies container for json serialization
     /// </summary>

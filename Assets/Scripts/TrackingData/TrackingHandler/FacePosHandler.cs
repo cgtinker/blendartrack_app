@@ -18,13 +18,6 @@ namespace ArRetarget
                 m_FaceManager.facesChanged += OnFaceUpdate;
         }
 
-        private IEnumerator Start()
-        {
-            yield return new WaitForEndOfFrame();
-            TrackingDataManager dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
-            dataManager.SetRecorderReference(this.gameObject);
-        }
-
         private string filePath;
         public void Init(string path, string title)
         {

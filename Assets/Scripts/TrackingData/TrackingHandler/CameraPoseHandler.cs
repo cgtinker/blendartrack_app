@@ -12,8 +12,6 @@ namespace ArRetarget
         {
             var dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
             dataManager.SetRecorderReference(this.gameObject);
-            var referencer = GameObject.FindGameObjectWithTag("referencer").GetComponent<TrackerReferencer>();
-            referencer.Init();
         }
 
         private string filePath;

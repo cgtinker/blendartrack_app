@@ -88,9 +88,10 @@ public class SceneButton : MonoBehaviour, IPointerDownHandler
     private IEnumerator LoadTargetScene(int index)
     {
         inputHandler.PurgeOrphanPopups();
-        sceneManager.SwitchScene(index);
-        yield return new WaitForEndOfFrame();
         sceneManager.ResetArScene();
+        yield return new WaitForEndOfFrame();
+
+        sceneManager.SwitchScene(index);
         //StartCoroutine(ARSessionState.EnableAR(enabled: true));
     }
 

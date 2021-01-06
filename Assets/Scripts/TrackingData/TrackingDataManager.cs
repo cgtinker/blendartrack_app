@@ -115,21 +115,17 @@ namespace ArRetarget
         string folderPath = "";
         public IEnumerator OnInitRetargeting()
         {
-            Debug.Log("new folder");
             //folder to store files
             string curTime = FileManagement.GetDateTime();
 
             folderPath = $"{persistentPath}/{curTime}_{prefixs[0].j_Prefix()}";
             FileManagement.CreateDirectory(folderPath);
-            Debug.Log("created dir");
 
             //time to create dir
             yield return waitForFrame;
             //initialize trackers
-            Debug.Log("init subpath");
             InitTrackers(folderPath, "/" + curTime);
 
-            Debug.Log("Enabled retargeting");
             //time to init - starting at frame 1 because of the delay
             yield return waitForFrame;
             frame = 1;

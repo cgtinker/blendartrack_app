@@ -8,18 +8,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Main.unity
     guid: e75b23218d3bb49de8b6e92697683cde
-  - enabled: 0
-    path: Assets/Scenes/Tutorial.unity
-    guid: a041818c850b646518686c60fc9cce69
   - enabled: 1
     path: Assets/Scenes/Pose Data Tracker.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
     path: Assets/Scenes/Face Mesh Tracker.unity
     guid: 6abb2efede512461b8e1175576713eb4
-  - enabled: 0
-    path: Assets/Scenes/Shape Key Tracker.unity
-    guid: 26eeb938186e447d0ae9f04353ce6973
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 273c9ecc124c84beda7f536a4664f9ef,
       type: 2}
