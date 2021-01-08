@@ -111,7 +111,7 @@ namespace ArRetarget
 
                 //share data
                 FileManagement.ShareZip(zip, subject, text);
-                StartCoroutine(DeleteZip(zip));
+                //StartCoroutine(DeleteZip(zip));
             }
         }
         #endregion
