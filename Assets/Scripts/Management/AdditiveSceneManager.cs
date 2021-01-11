@@ -51,7 +51,7 @@ public class AdditiveSceneManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Debug.Log("OnSceneLoaded: " + scene.name);
-        Debug.Log(mode);
+        //Debug.Log(mode);
         string tarScene = GetScene(UserPreferences.Instance.GetIntPref("scene"));
 
         if (tarScene == scene.name)

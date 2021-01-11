@@ -33,6 +33,7 @@ namespace ArRetarget
         public GameObject ViewerInactiveTitle;
 
         public GameObject SelectionHelperParent;
+        public GameObject LoadingScreen;
 
         //select buttons
         [Header("Select Buttons")]
@@ -59,6 +60,8 @@ namespace ArRetarget
             selectBtnTextList.Add(todayBtnTxt); // 0
             selectBtnTextList.Add(allBtnTxt);   // 1
             selectBtnTextList.Add(noneBtnTxt);  // 2
+
+            LoadingScreen.SetActive(false);
         }
 
         #region input events
@@ -86,33 +89,47 @@ namespace ArRetarget
             List<string> selectedDirPaths = GetSelectedDirectories();
 
             if (selectedDirNames.Count <= 0)
+            {
+                LogManager.Instance.Log("No Files selected. <br>Please select a file and try again.", LogManager.Message.Warning);
                 return;
+            }
 
             else
             {
-                //date time reference
-                string localDate = FileManagement.GetDateTimeText();
+                LoadingScreen.SetActive(true);
 
-                //path to generated zip
-                string zip = FileManagement.CompressDirectories(selectedDirPaths);
-
-                //listing files to transfer for subject message
-                string filenames = "";
-                var paragraph = FileManagement.GetParagraph();
-                foreach (string filename in selectedDirNames)
-                {
-                    var curFilename = filename + paragraph;
-                    filenames += curFilename;
-                }
-
-                //setting up share message / text
-                string subject = "Retarget " + localDate;
-                string text = "Retarget " + localDate + paragraph + paragraph + "Attached Files: " + paragraph + filenames;
-
-                //share data
-                FileManagement.ShareZip(zip, subject, text);
-                //StartCoroutine(DeleteZip(zip));
+                StartCoroutine(CompressDataForceLoadingScreen(selectedDirNames, selectedDirPaths));
             }
+        }
+
+        private IEnumerator CompressDataForceLoadingScreen(List<string> selectedDirNames, List<string> selectedDirPaths)
+        {
+            LoadingScreen.SetActive(true);
+
+            yield return new WaitForSeconds(0.2f);
+            //date time reference
+            string localDate = FileManagement.GetDateTimeText();
+
+            //path to generated zip
+            string zip = FileManagement.CompressDirectories(selectedDirPaths);
+
+            //listing files to transfer for subject message
+            string filenames = "";
+            var paragraph = FileManagement.GetParagraph();
+            foreach (string filename in selectedDirNames)
+            {
+                var curFilename = filename + paragraph;
+                filenames += curFilename;
+            }
+
+            //setting up share message / text
+            string subject = "Retarget " + localDate;
+            string text = "Retarget " + localDate + paragraph + paragraph + "Attached Files: " + paragraph + filenames;
+            LoadingScreen.SetActive(false);
+
+            //share data
+            FileManagement.ShareZip(zip, subject, text);
+            //StartCoroutine(DeleteZip(zip));
         }
         #endregion
 
@@ -203,36 +220,71 @@ namespace ArRetarget
 
         #region json viewer
         //setting all other buttons inactive
-        public void OnToggleViewer(int btnIndex, bool activateViewer, string fileContents)
+        public void OnToggleViewer(int btnIndex, bool activateViewer)
         {
             PurgeOrphanZips();
             if (activateViewer)
             {
-                Debug.Log("attempt to preview data");
-                FileBrowserBackground.enabled = false;
+                StartCoroutine(OpeningFile(btnIndex));
+            }
 
-                //changing the back buttons
-                ViewerAcitveBackButton.SetActive(true);
-                ViewerInactiveBackButton.SetActive(false);
+            else
+            {
+                DeactivateViewer();
+                LoadingScreen.SetActive(false);
+            }
+        }
 
-                //changing title
-                ViewerActiveTitle.SetActive(true);
-                ViewerInactiveTitle.SetActive(false);
+        private IEnumerator OpeningFile(int btnIndex)
+        {
+            double mib = FileManagement.GetFileSize(JsonDirectories[btnIndex].jsonFilePath);
+            Debug.Log(mib);
 
-                //changing footer
-                MenuFooter.SetActive(false);
-                SupportFooter.SetActive(true);
+            if (mib > 10.0 && mib < 65.0)
+            {
+                LoadingScreen.SetActive(true);
+                yield return new WaitForSeconds(0.2f);
+            }
 
-                //deactivate selection helper
-                SelectionHelperParent.SetActive(false);
+            else if (mib > 65.0)
+            {
+                LogManager.Instance.Log("The recording size is to large for the in app viewer. But you can still try to import the data in blender!", LogManager.Message.Warning);
+                var jsonFile = JsonDirectories[btnIndex].obj.GetComponent<JsonFileButton>();
+                jsonFile.ViewDataButton.SetActive(false);
+                jsonFile.viewerActive = false;
+                yield break;
+            }
 
-                //instantiating the viewer
-                jsonViewerReference = Instantiate(JsonViewerPrefab, Vector3.zero, Quaternion.identity);
-                var jsonDataImporter = jsonViewerReference.GetComponent<JsonDataImporter>();
+            string contents = FileManagement.FileContents(JsonDirectories[btnIndex].jsonFilePath);
+            Debug.Log("attempt to preview data");
+            FileBrowserBackground.enabled = false;
 
-                //open the json file and import the data to preview it
-                jsonDataImporter.OpenFile(fileContents);
+            //changing the back buttons
+            ViewerAcitveBackButton.SetActive(true);
+            ViewerInactiveBackButton.SetActive(false);
 
+            //changing title
+            ViewerActiveTitle.SetActive(true);
+            ViewerInactiveTitle.SetActive(false);
+
+            //changing footer
+            MenuFooter.SetActive(false);
+            SupportFooter.SetActive(true);
+
+            //deactivate selection helper
+            SelectionHelperParent.SetActive(false);
+
+            //instantiating the viewer
+            jsonViewerReference = Instantiate(JsonViewerPrefab, Vector3.zero, Quaternion.identity);
+            var jsonDataImporter = jsonViewerReference.GetComponent<JsonDataImporter>();
+
+            //open the json file and import the data to preview it
+            bool fileOpen = jsonDataImporter.OpenFile(contents);
+
+            yield return new WaitForEndOfFrame();
+
+            if (fileOpen)
+            {
                 //deactivating the other buttons
                 foreach (JsonDirectory data in JsonDirectories)
                 {
@@ -249,13 +301,9 @@ namespace ArRetarget
                         jsonFileButton.btnIsOn = true;
                         jsonFileButton.ViewDataButton.SetActive(false);
                         jsonFileButton.viewedDataImage.sprite = jsonFileButton.viewedDataIcon;
+                        LoadingScreen.SetActive(false);
                     }
                 }
-            }
-
-            else
-            {
-                DeactivateViewer();
             }
         }
 
@@ -443,6 +491,7 @@ namespace ArRetarget
 
             else
             {
+                LogManager.Instance.Log($"folder doesn't contain valid json contents <br><br>{path}", LogManager.Message.Warning);
                 Debug.LogWarning("Directory doesn't contain a valid json");
                 return m_dir;
             }

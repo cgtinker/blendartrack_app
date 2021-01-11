@@ -23,7 +23,7 @@ namespace ArRetarget
         public GameObject deselected;
 
         //reference for the json viewer
-        private bool viewerActive = false;
+        public bool viewerActive = false;
         private FileBrowserEventManager jsonFileButtonManager;
 
         //info about the safed json file
@@ -49,7 +49,7 @@ namespace ArRetarget
             if (string.IsNullOrEmpty(m_jsonDirData.jsonFilePath))
             {
                 viewedDataImage.sprite = viewedDataIcon;
-                Debug.LogWarning("Json file doesn't contain any values");
+                LogManager.Instance.Log("File reference couldn't be found. May the included files are corrupted or empty.", LogManager.Message.Error);
                 return;
             }
 
@@ -58,8 +58,8 @@ namespace ArRetarget
             //toggling the viewer, deactivating other btns
             viewerActive = !viewerActive;
             //dropdownViewerBtnImg.SetActive(viewerActive);
-            string fileContents = FileManagement.FileContents(m_jsonDirData.jsonFilePath);
-            jsonFileButtonManager.OnToggleViewer(this.m_jsonDirData.index, viewerActive, fileContents);
+            //string fileContents = FileManagement.FileContents(m_jsonDirData.jsonFilePath);
+            jsonFileButtonManager.OnToggleViewer(this.m_jsonDirData.index, viewerActive);
         }
 
         public void OnToggleButton()

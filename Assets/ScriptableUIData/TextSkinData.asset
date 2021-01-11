@@ -79,7 +79,7 @@ MonoBehaviour:
     rectPivot: 0
   TutorialMessage:
     textSize: 21
-    fontStyle: 0
+    fontStyle: 8
     alignment: 513
     overflow: 0
     rectSize: {x: 1, y: 1}
@@ -87,7 +87,7 @@ MonoBehaviour:
     rectPivot: 0
   TutorialSlideCounter:
     textSize: 18
-    fontStyle: 0
+    fontStyle: 8
     alignment: 514
     overflow: 0
     rectSize: {x: 1, y: 1}

@@ -18,11 +18,11 @@ namespace ArRetarget
 
         IEnumerator OpenPreview()
         {
-            //some weird wait timings for iOS
+            // some weird wait timings for iOS
 
-            //guess the .net system io file handling
-            //cause some longer wait times on iOS
-            //resulting in weird timing handling
+            // guess the .net system io file handling
+            // cause some longer wait times on iOS
+            // resulting in weird timing handling
 
             yield return new WaitForEndOfFrame();
 
@@ -31,9 +31,9 @@ namespace ArRetarget
             yield return new WaitForEndOfFrame();
 
             //create preview
-            fileBrowserEventManager.OnToggleViewer(0, true, FileManagement.FileContents(fileBrowserEventManager.JsonDirectories[0].jsonFilePath));
+            fileBrowserEventManager.OnToggleViewer(0, true);
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.2f);
             BlackOverlay.SetActive(false);
 
             fileBrowserButton.Cleanup();

@@ -40,6 +40,13 @@ namespace ArRetarget
 
         #region files
         #region share / save files
+        public static double GetFileSize(string path)
+        {
+            long fileSize = new System.IO.FileInfo(path).Length;
+            double sizeMiB = fileSize / 1000000.0;
+            return sizeMiB;
+        }
+
         public static void WriteDataToDisk(string data, string persistentPath, string filename)
         {
             Debug.Log("Serializing json data");

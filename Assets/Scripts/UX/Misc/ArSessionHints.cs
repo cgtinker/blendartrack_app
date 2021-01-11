@@ -339,6 +339,9 @@ namespace ArRetarget
 
         private void Update()
         {
+            if (inputHandler.recording)
+                return;
+
             timer_ticker++;
             if (timer_ticker == 10)
             {
@@ -425,6 +428,9 @@ namespace ArRetarget
         //check lightning conditions
         private void FrameChanged(ARCameraFrameEventArgs args)
         {
+            if (inputHandler.recording)
+                return;
+
             cam_ticker++;
             {
                 if (cam_ticker == 5)

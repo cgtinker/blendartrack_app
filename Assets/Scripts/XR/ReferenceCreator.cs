@@ -212,6 +212,7 @@ namespace ArRetarget
             StartCoroutine(RelativeScaleByDistance());
         }
 
+        //setting reference obj scale by distance
         Vector3 relScale = new Vector3(0.2f, 0.2f, 0.2f);
         const float minFactor = 0.5f;
         const float midFactor = 1f;

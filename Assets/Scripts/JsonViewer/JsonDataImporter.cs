@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 namespace ArRetarget
 {
-    //TODO: public error popup required if deserialization failed
     public class JsonDataImporter : MonoBehaviour
     {
         [HideInInspector]
@@ -15,6 +14,7 @@ namespace ArRetarget
         public GameObject importParent;
         [HideInInspector]
         public bool poseData = false;
+        bool importSucess;
 
         private static Dictionary<string, string> JsonType = new Dictionary<string, string>()
         {
@@ -33,50 +33,63 @@ namespace ArRetarget
             try
             {
                 data = JsonUtility.FromJson<CameraPoseContainer>(fileContent);
+                importSucess = true;
             }
 
             catch
             {
                 data.cameraPoseList = new List<PoseData>();
                 Debug.LogWarning("pose data is corrupted or file is to large");
+                LogManager.Instance.Log("Cannot preview data - it's probaly corrupted.", LogManager.Message.Error);
+                importSucess = false;
             }
 
-            //generating a parent game object
-            GameObject parent = ParentGameObject();
-            //adding the importer component - assigning the update method
-            var importer = parent.AddComponent<CameraPoseImporter>();
-            importer.viewHandler = this.gameObject.GetComponent<UpdateViewerDataHandler>();
+            if (importSucess)
+            {
+                //generating a parent game object
+                GameObject parent = ParentGameObject();
+                //adding the importer component - assigning the update method
+                var importer = parent.AddComponent<CameraPoseImporter>();
+                importer.viewHandler = this.gameObject.GetComponent<UpdateViewerDataHandler>();
 
-            StartCoroutine(importer.InitViewer(data));
+                StartCoroutine(importer.InitViewer(data));
+            }
         }
 
         private IEnumerator ImportBlendShapeData(string fileContent)
         {
             //Debug.Log(fileContent);
             BlendShapeContainter data = new BlendShapeContainter();
-
             try
             {
                 data = JsonUtility.FromJson<BlendShapeContainter>(fileContent);
+                importSucess = true;
             }
 
             catch
             {
                 data.blendShapeData = new List<BlendShapeData>();
                 Debug.LogWarning("blend shape data is corrupted or file is to large");
+                LogManager.Instance.Log("Cannot preview data - it's probaly corrupted.", LogManager.Message.Error);
+                importSucess = false;
             }
-
-            Debug.Log(data + ", " + data.blendShapeData.Count);
-
-            //generating a parent game object
-            GameObject parent = ParentGameObject();
 
             yield return new WaitForEndOfFrame();
 
-            var importer = parent.AddComponent<BlendShapeImporter>();
-            importer.viewHandler = this.gameObject.GetComponent<UpdateViewerDataHandler>();
+            if (importSucess)
+            {
+                Debug.Log(data + ", " + data.blendShapeData.Count);
 
-            StartCoroutine(importer.InitViewer(data));
+                //generating a parent game object
+                GameObject parent = ParentGameObject();
+
+                yield return new WaitForEndOfFrame();
+
+                var importer = parent.AddComponent<BlendShapeImporter>();
+                importer.viewHandler = this.gameObject.GetComponent<UpdateViewerDataHandler>();
+
+                StartCoroutine(importer.InitViewer(data));
+            }
         }
 
         private IEnumerator ImportFaceMeshData(string fileContent)
@@ -88,20 +101,28 @@ namespace ArRetarget
             try
             {
                 data = JsonUtility.FromJson<MeshDataContainer>(fileContent);
+                importSucess = true;
             }
 
             catch
             {
                 data.meshDataList = new List<MeshData>();
                 Debug.LogWarning("face mesh data is corrupted or file is to large");
-            }
-            //generating a parent game object
-            GameObject parent = ParentGameObject();
-            //adding the importer component - assigning the update method
-            var importer = parent.AddComponent<FaceMeshImporter>();
-            importer.viewHandler = this.gameObject.GetComponent<UpdateViewerDataHandler>();
+                LogManager.Instance.Log("Cannot preview data - it's probaly corrupted.", LogManager.Message.Error);
 
-            StartCoroutine(importer.InitViewer(data));
+                importSucess = false;
+            }
+
+            if (importSucess)
+            {
+                //generating a parent game object
+                GameObject parent = ParentGameObject();
+                //adding the importer component - assigning the update method
+                var importer = parent.AddComponent<FaceMeshImporter>();
+                importer.viewHandler = this.gameObject.GetComponent<UpdateViewerDataHandler>();
+
+                StartCoroutine(importer.InitViewer(data));
+            }
         }
 
         private GameObject ParentGameObject()
@@ -113,7 +134,7 @@ namespace ArRetarget
         }
 
         #region validation
-        public void OpenFile(string fileContent)
+        public bool OpenFile(string fileContent)
         {
             //validation for imported files (only)
             ValidationResponse response = ValidateJsonFile(fileContent);
@@ -123,11 +144,14 @@ namespace ArRetarget
             {
                 //starting the coroutine based on the dict
                 StartCoroutine(response.MethodName, fileContent);
+                return true;
             }
 
             else
             {
+                LogManager.Instance.Log("Cannot invoke Input method - Json File probaly corrupted.", LogManager.Message.Error);
                 Debug.LogError("Cannot invoke Input method - Json File probaly corrupted");
+                return false;
             }
         }
 
