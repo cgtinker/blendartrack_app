@@ -253,7 +253,7 @@ namespace ArRetarget
 
             else if (mib > 65.0)
             {
-                LogManager.Instance.Log("The recording size is to large for the in app viewer. But you can still try to import the data in blender!", LogManager.Message.Warning);
+                LogManager.Instance.Log("The recording size is to large for the in app viewer. But you can still import the data in blender!", LogManager.Message.Warning);
                 var jsonFile = JsonDirectories[btnIndex].obj.GetComponent<JsonFileButton>();
                 jsonFile.ViewDataButton.SetActive(false);
                 jsonFile.viewerActive = false;
