@@ -120,7 +120,10 @@ namespace ArRetarget
                     recording = false;
                 }
              JsonFileWriter.WriteDataToFile(path: filePath, text: json, title: "", lastFrame: lastFrame);
-            
+            if (lastFrame)
+            {
+                filePath = null;
+            }
 #endif
             }
         }

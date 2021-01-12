@@ -13,6 +13,7 @@ public static class JsonFileWriter
         return containerPrefix;
     }
 
+    //writing data directly in a .json file
     public static void WriteDataToFile(string path, string text, string title, bool lastFrame)
     {
         if (!File.Exists(path))

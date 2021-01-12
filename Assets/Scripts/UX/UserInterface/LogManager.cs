@@ -9,7 +9,8 @@ namespace ArRetarget
         {
             Notification,
             Warning,
-            Error
+            Error,
+            Disable
         }
         public Message msg;
 

@@ -9,7 +9,7 @@ namespace ArRetarget
     {
         private ARFace m_face;
         private ARFaceManager m_faceManager;
-        private string filepath;
+        private string filePath;
 
         private void Start()
         {
@@ -54,9 +54,10 @@ namespace ArRetarget
             {
                 string json = JsonUtility.ToJson(meshGeometry);
 
-                JsonFileWriter.WriteDataToFile(path: filepath, text: json + "]}", title: "", lastFrame: true);
+                JsonFileWriter.WriteDataToFile(path: filePath, text: json + "]}", title: "", lastFrame: true);
                 recording = false;
                 write = false;
+                filePath = null;
             }
         }
 
@@ -65,8 +66,8 @@ namespace ArRetarget
         {
             write = false;
             //init json file on disk
-            filepath = $"{path}{title}_{j_Prefix()}.json";
-            JsonFileWriter.WriteDataToFile(path: filepath, text: "", title: "meshGeometry", lastFrame: false);
+            filePath = $"{path}{title}_{j_Prefix()}.json";
+            JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "meshGeometry", lastFrame: false);
             recording = true;
             Debug.Log("init face mesh indicies handler");
         }

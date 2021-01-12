@@ -61,6 +61,9 @@ namespace ArRetarget
                     JsonFileWriter.WriteDataToFile(path: filePath, text: contents, title: "", lastFrame: lastFrame);
                     contents = "";
                 }
+
+                if (lastFrame)
+                    filePath = null;
             }
         }
 

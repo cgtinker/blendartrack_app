@@ -4033,6 +4033,7 @@ MonoBehaviour:
   ViewerInactiveTitle: {fileID: 513844751}
   SelectionHelperParent: {fileID: 2063487152}
   LoadingScreen: {fileID: 853605113}
+  LoadingMessage: {fileID: 2045910971}
   noneBtnTxt: {fileID: 1567337653}
   allBtnTxt: {fileID: 1384434343}
   todayBtnTxt: {fileID: 532623020}
@@ -5244,10 +5245,10 @@ RectTransform:
   m_Father: {fileID: 1815895830}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 417, y: -1068.1744}
-  m_SizeDelta: {x: 642, y: 160.89316}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &386629059
 MonoBehaviour:
@@ -5739,6 +5740,18 @@ MonoBehaviour:
       - m_Target: {fileID: 325641338}
         m_TargetAssemblyTypeName: ArRetarget.FileBrowserEventManager, Assembly-CSharp
         m_MethodName: DeactivateViewer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 325641338}
+        m_TargetAssemblyTypeName: ArRetarget.FileBrowserEventManager, Assembly-CSharp
+        m_MethodName: PurgeErrorMessages
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6524,9 +6537,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 325641339}
-        m_TargetAssemblyTypeName: ArRetarget.InputHandler, Assembly-CSharp
-        m_MethodName: ReloadScene
+      - m_Target: {fileID: 325641338}
+        m_TargetAssemblyTypeName: ArRetarget.FileBrowserEventManager, Assembly-CSharp
+        m_MethodName: PurgeErrorMessages
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6551,6 +6564,18 @@ MonoBehaviour:
       - m_Target: {fileID: 325641338}
         m_TargetAssemblyTypeName: ArRetarget.FileBrowserEventManager, Assembly-CSharp
         m_MethodName: ClearButtonList
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 325641339}
+        m_TargetAssemblyTypeName: ArRetarget.InputHandler, Assembly-CSharp
+        m_MethodName: ReloadScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8208,7 +8233,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 540, y: -174.16884}
+  m_AnchoredPosition: {x: 540, y: -174.16797}
   m_SizeDelta: {x: 888, y: 234.33768}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &703438736
@@ -10133,6 +10158,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 325641338}
+        m_TargetAssemblyTypeName: ArRetarget.FileBrowserEventManager, Assembly-CSharp
+        m_MethodName: PurgeErrorMessages
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &874949237
 GameObject:
   m_ObjectHideFlags: 0
@@ -10531,9 +10568,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 325641339}
-        m_TargetAssemblyTypeName: ArRetarget.InputHandler, Assembly-CSharp
-        m_MethodName: ReloadScene
+      - m_Target: {fileID: 325641338}
+        m_TargetAssemblyTypeName: ArRetarget.FileBrowserEventManager, Assembly-CSharp
+        m_MethodName: PurgeErrorMessages
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10558,6 +10595,18 @@ MonoBehaviour:
       - m_Target: {fileID: 325641338}
         m_TargetAssemblyTypeName: ArRetarget.FileBrowserEventManager, Assembly-CSharp
         m_MethodName: ClearButtonList
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 325641339}
+        m_TargetAssemblyTypeName: ArRetarget.InputHandler, Assembly-CSharp
+        m_MethodName: ReloadScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11229,10 +11278,10 @@ RectTransform:
   m_Father: {fileID: 1550684138}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 642, y: 46.88}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &936804898
 MonoBehaviour:
@@ -13295,9 +13344,8 @@ MonoBehaviour:
   m_titel: {fileID: 1024105767}
   m_message: {fileID: 1916971060}
   icon: {fileID: 295035546}
-  errorIcon: {fileID: 21300000, guid: a97ca0b99ece2d94aaaf59653feb45dd, type: 3}
-  warningIcon: {fileID: 21300000, guid: af17f91b4376d6a41a793c056c02dadc, type: 3}
-  loadingIcon: {fileID: 21300000, guid: dbf3cf3a9a7084887a8769ff0385d871, type: 3}
+  errorIcon: {fileID: 21300000, guid: 689b1a8f59b2c4981843c02ffd1ce4aa, type: 3}
+  warningIcon: {fileID: 21300000, guid: cde9378584a3943d3803df5a42330eac, type: 3}
 --- !u!1 &1166942653
 GameObject:
   m_ObjectHideFlags: 0
@@ -14637,10 +14685,10 @@ RectTransform:
   m_Father: {fileID: 1550684138}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -46.88}
-  m_SizeDelta: {x: 642, y: 144.63}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1343682077
 MonoBehaviour:
@@ -16874,10 +16922,10 @@ RectTransform:
   m_Father: {fileID: 1815895830}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 417, y: -344.15527}
-  m_SizeDelta: {x: 642, y: 536.31055}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1516165782
 MonoBehaviour:
@@ -17277,10 +17325,10 @@ RectTransform:
   m_Father: {fileID: 1815895830}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 417, y: -800.0192}
-  m_SizeDelta: {x: 642, y: 375.4174}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1550684139
 MonoBehaviour:
@@ -22534,7 +22582,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 19.2, y: 19.2}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &2045910970
 MonoBehaviour:

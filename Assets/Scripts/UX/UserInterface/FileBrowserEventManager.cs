@@ -33,7 +33,9 @@ namespace ArRetarget
         public GameObject ViewerInactiveTitle;
 
         public GameObject SelectionHelperParent;
+        [Header("Loading Screen")]
         public GameObject LoadingScreen;
+        public TextMeshProUGUI LoadingMessage;
 
         //select buttons
         [Header("Select Buttons")]
@@ -97,7 +99,7 @@ namespace ArRetarget
             else
             {
                 LoadingScreen.SetActive(true);
-
+                LoadingMessage.text = "zipping files...";
                 StartCoroutine(CompressDataForceLoadingScreen(selectedDirNames, selectedDirPaths));
             }
         }
@@ -223,6 +225,8 @@ namespace ArRetarget
         public void OnToggleViewer(int btnIndex, bool activateViewer)
         {
             PurgeOrphanZips();
+            DestroyOrphanViewer();
+
             if (activateViewer)
             {
                 StartCoroutine(OpeningFile(btnIndex));
@@ -243,6 +247,7 @@ namespace ArRetarget
             if (mib > 20.0 && mib < 65.0)
             {
                 LoadingScreen.SetActive(true);
+                LoadingMessage.text = "loading .json preview...";
                 yield return new WaitForSeconds(0.2f);
             }
 
@@ -257,22 +262,7 @@ namespace ArRetarget
 
             string contents = FileManagement.FileContents(JsonDirectories[btnIndex].jsonFilePath);
             Debug.Log("attempt to preview data");
-            FileBrowserBackground.enabled = false;
-
-            //changing the back buttons
-            ViewerAcitveBackButton.SetActive(true);
-            ViewerInactiveBackButton.SetActive(false);
-
-            //changing title
-            ViewerActiveTitle.SetActive(true);
-            ViewerInactiveTitle.SetActive(false);
-
-            //changing footer
-            MenuFooter.SetActive(false);
-            SupportFooter.SetActive(true);
-
-            //deactivate selection helper
-            SelectionHelperParent.SetActive(false);
+            ActivateViewerButtons(true);
 
             //instantiating the viewer
             jsonViewerReference = Instantiate(JsonViewerPrefab, Vector3.zero, Quaternion.identity);
@@ -307,31 +297,35 @@ namespace ArRetarget
             }
         }
 
+        private void ActivateViewerButtons(bool status)
+        {
+            FileBrowserBackground.enabled = !status;
+
+            //changing the back buttons
+            ViewerAcitveBackButton.SetActive(status);
+            ViewerInactiveBackButton.SetActive(!status);
+
+            //changing title
+            ViewerActiveTitle.SetActive(status);
+            ViewerInactiveTitle.SetActive(!status);
+
+            //changing footer
+            MenuFooter.SetActive(!status);
+            SupportFooter.SetActive(status);
+
+            //deactivate selection helper
+            SelectionHelperParent.SetActive(!status);
+
+        }
+
         //single for back button
         public void DeactivateViewer()
         {
+            DestroyOrphanViewer();
+
             Debug.Log("stop viewing data");
-            FileBrowserBackground.enabled = true;
+            ActivateViewerButtons(false);
 
-            //changing the back buttons
-            ViewerAcitveBackButton.SetActive(false);
-            ViewerInactiveBackButton.SetActive(true);
-
-            //changing title
-            ViewerActiveTitle.SetActive(false);
-            ViewerInactiveTitle.SetActive(true);
-
-            //activate selection helper
-            SelectionHelperParent.SetActive(true);
-
-            //changing footer
-            MenuFooter.SetActive(true);
-            SupportFooter.SetActive(false);
-
-            //destroying the viewer
-            Destroy(jsonViewerReference);
-
-            //reactivating the buttons
             foreach (JsonDirectory data in JsonDirectories)
             {
                 data.obj.GetComponent<JsonFileButton>().ViewDataButton.SetActive(true);
@@ -350,67 +344,63 @@ namespace ArRetarget
         /// </summary>
         public void GenerateButtons()
         {
-            try
-            {
-                PurgeOrphanZips();
-            }
-
-            catch
-            {
-                Debug.LogWarning("cannot purge zips on instant preview");
-            }
-
+            PurgeOrphanZips();
             Debug.Log("Generating preview buttons");
             JsonDirectories = GetDirectories();
 
+            //sorting dirs by time
             if (JsonDirectories.Count > 1)
                 JsonDirectories.Sort((JsonDirectory x, JsonDirectory y) => y.value.CompareTo(x.value));
-            HighlightSelectBtnText(2); //none selected
+
+            HighlightSelectBtnText(2);  //none selected
 
             if (JsonDirectories.Count != 0)
-            {
-                //create buttons
-                for (int i = 0; i < JsonDirectories.Count; i++)
-                {
-                    //set file data index
-                    JsonDirectories[i].index = i;
-                    //set json file data obj
-                    Debug.Log("Instantitaing button");
-                    var jsonFileBtnObj = Instantiate(JsonFileButtonPrefab, Vector3.zero, Quaternion.identity);
-                    JsonDirectories[i].obj = jsonFileBtnObj;
-                    jsonFileBtnObj.name = JsonDirectories[i].dirName;
-                    //setting parent
-                    jsonFileBtnObj.transform.SetParent(JsonFileButtonParent);
-                    //setting scale
-                    jsonFileBtnObj.transform.localScale = Vector3.one;
-
-                    //passing data to the button script
-                    var fileButtonScript = jsonFileBtnObj.GetComponent<JsonFileButton>();
-                    fileButtonScript.InitFileButton(JsonDirectories[i], gameObject.GetComponent<FileBrowserEventManager>());
-                }
-            }
+                InstantiatingButtons();
 
             else
+                NoFilesAvailablePopup();
+        }
+
+        private void InstantiatingButtons()
+        {
+            //create buttons
+            for (int i = 0; i < JsonDirectories.Count; i++)
             {
-                //new popup
-                var popup = Instantiate(popupPrefab, Vector3.zero, Quaternion.identity);
-                var m_pop = popup.GetComponent<PopUpDisplay>();
+                //set file data index
+                JsonDirectories[i].index = i;
+                //set json file data obj
+                var jsonFileBtnObj = Instantiate(JsonFileButtonPrefab, Vector3.zero, Quaternion.identity);
+                JsonDirectories[i].obj = jsonFileBtnObj;
+                jsonFileBtnObj.name = JsonDirectories[i].dirName;
+                //setting parent
+                jsonFileBtnObj.transform.SetParent(JsonFileButtonParent);
+                //setting scale
+                jsonFileBtnObj.transform.localScale = Vector3.one;
 
-                //message
-                var para = FileManagement.GetParagraph();
-                m_pop.text = $"Wow, such empty!{para}Please record something to {para}preview and share files";
-                m_pop.type = PopUpDisplay.PopupType.Static;
-
-                //transforms
-                popup.transform.localScale = Vector3.one;
-                m_pop.DisplayPopup(JsonFileButtonParent);
-
-                //reference for cleanup
-                popupReference = popup;
+                //passing data to the button script
+                var fileButtonScript = jsonFileBtnObj.GetComponent<JsonFileButton>();
+                fileButtonScript.InitFileButton(JsonDirectories[i], gameObject.GetComponent<FileBrowserEventManager>());
             }
         }
 
+        private void NoFilesAvailablePopup()
+        {
+            //new popup
+            var popup = Instantiate(popupPrefab, Vector3.zero, Quaternion.identity);
+            var m_pop = popup.GetComponent<PopUpDisplay>();
 
+            //message
+            var para = FileManagement.GetParagraph();
+            m_pop.text = $"Wow, such empty!{para}Please record something to {para}preview and share files";
+            m_pop.type = PopUpDisplay.PopupType.Static;
+
+            //transforms
+            popup.transform.localScale = Vector3.one;
+            m_pop.DisplayPopup(JsonFileButtonParent);
+
+            //reference for cleanup
+            popupReference = popup;
+        }
         #region Get Directories
         //dir
         static string[] suffixes = { "cam", "face" };
@@ -540,16 +530,48 @@ namespace ArRetarget
         #endregion
 
         #region cleanup
+        private void OnDisable()
+        {
+            DestroyOrphanViewer();
+            ClearButtonList();
+            PurgeOrphanZips();
+        }
+
+        public void PurgeErrorMessages()
+        {
+            LogManager.Instance.Log("", LogManager.Message.Disable);
+        }
+
         public void PurgeOrphanZips()
         {
-            FileInfo[] zipFiles = FileManagement.GetZipsAtPath(persistentPath);
-
-            if (zipFiles.Length > 0)
+            try
             {
-                Debug.Log("Purging " + zipFiles.Length + " orphan zips");
-                foreach (FileInfo zip in zipFiles)
+                FileInfo[] zipFiles = FileManagement.GetZipsAtPath(persistentPath);
+
+                if (zipFiles.Length > 0)
                 {
-                    FileManagement.DeleteFile(zip.FullName);
+                    Debug.Log("Purging " + zipFiles.Length + " orphan zips");
+                    foreach (FileInfo zip in zipFiles)
+                    {
+                        FileManagement.DeleteFile(zip.FullName);
+                    }
+                }
+            }
+
+            catch
+            {
+                Debug.LogWarning("Cannot purge zips in certain circumstance");
+            }
+        }
+
+        public void DestroyOrphanViewer()
+        {
+            GameObject[] orphanViewer = GameObject.FindGameObjectsWithTag("viewer");
+            if (orphanViewer.Length != 0)
+            {
+                foreach (GameObject viewer in orphanViewer)
+                {
+                    Destroy(viewer);
                 }
             }
         }

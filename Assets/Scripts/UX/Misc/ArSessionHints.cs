@@ -165,7 +165,7 @@ namespace ArRetarget
                         case TrackingType.PlaneTracking:
                             if (PlayerPrefs.GetInt("reference", -1) == 1 && !placedObject)
                             {
-                                m_msg = $"Double Tap a location to{br} place a Reference Object. {br}{br}Tap long to remove it.";
+                                m_msg = $"Double Tap a location to{br} place a Reference Object. {br}{br}Tap and hold to remove it.";
                             }
 
                             else

@@ -17,11 +17,12 @@ namespace ArRetarget
         public Image icon;
         public Sprite errorIcon;
         public Sprite warningIcon;
-        public Sprite loadingIcon;
 
         LogManager logger;
 
         bool logged;
+
+        //listen to log event
         private void Start()
         {
             logged = false;
@@ -44,23 +45,30 @@ namespace ArRetarget
             HandleLog(msg);
         }
 
+        //display log messages (warnings / errors)
         public void HandleLog(string msg)
         {
             switch (LogManager.Instance.msg)
             {
                 case LogManager.Message.Notification:
                     break;
+
                 case LogManager.Message.Warning:
                     m_titel.text = "warning";
                     m_message.text = "<br>" + msg;
                     icon.sprite = warningIcon;
                     displayParent.SetActive(true);
                     break;
+
                 case LogManager.Message.Error:
                     m_titel.text = "operation failed";
                     m_message.text = "<br>" + msg;
                     icon.sprite = errorIcon;
                     displayParent.SetActive(true);
+                    break;
+
+                case LogManager.Message.Disable:
+                    displayParent.SetActive(false);
                     break;
             }
         }

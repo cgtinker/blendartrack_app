@@ -10,7 +10,7 @@ namespace ArRetarget
         private bool lastFrame = false;
         private ARFace m_face;
         private ARFaceManager m_faceManager;
-        private string filepath;
+        private string filePath;
 
         private void Awake()
         {
@@ -32,7 +32,6 @@ namespace ArRetarget
         {
             //unsub from the ar face changes event
             m_faceManager.facesChanged -= OnFaceUpdate;
-            recording = false;
         }
 
         public void StopTracking()
@@ -79,15 +78,16 @@ namespace ArRetarget
 
                 if (write && !lastFrame)
                 {
-                    JsonFileWriter.WriteDataToFile(path: filepath, text: jsonContents, title: "", lastFrame: lastFrame);
+                    JsonFileWriter.WriteDataToFile(path: filePath, text: jsonContents, title: "", lastFrame: lastFrame);
                     jsonContents = "";
                 }
 
                 else if (write && lastFrame)
                 {
-                    JsonFileWriter.WriteDataToFile(path: filepath, text: jsonContents, title: "", lastFrame: lastFrame);
+                    JsonFileWriter.WriteDataToFile(path: filePath, text: jsonContents, title: "", lastFrame: lastFrame);
                     jsonContents = "";
-                    OnDisable();
+                    recording = false;
+                    filePath = null;
                 }
             }
             updatedVerticesThisFrame = false;
@@ -102,8 +102,8 @@ namespace ArRetarget
             jsonContents = "";
 
             //init json file on disk
-            filepath = $"{path}{title}_{j_Prefix()}.json";
-            JsonFileWriter.WriteDataToFile(path: filepath, text: "", title: "meshDataList", lastFrame: false);
+            filePath = $"{path}{title}_{j_Prefix()}.json";
+            JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "meshDataList", lastFrame: false);
             Debug.Log("Initialized face mesh");
         }
 

@@ -24,6 +24,7 @@ namespace ArRetarget
         public void OnToggleRecording()
         {
             recording = !recording;
+            inputHandler.PurgeOrphanPopups();
 
             if (recording)
             {

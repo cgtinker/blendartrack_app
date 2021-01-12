@@ -31,7 +31,15 @@ namespace ArRetarget
             yield return new WaitForEndOfFrame();
 
             //create preview
-            fileBrowserEventManager.OnToggleViewer(0, true);
+            try
+            {
+                fileBrowserEventManager.OnToggleViewer(0, true);
+            }
+
+            catch
+            {
+                Debug.Log("Cannot launch instant preview");
+            }
 
             yield return new WaitForSeconds(0.2f);
             BlackOverlay.SetActive(false);
