@@ -240,7 +240,7 @@ namespace ArRetarget
             double mib = FileManagement.GetFileSize(JsonDirectories[btnIndex].jsonFilePath);
             Debug.Log(mib);
 
-            if (mib > 10.0 && mib < 65.0)
+            if (mib > 20.0 && mib < 65.0)
             {
                 LoadingScreen.SetActive(true);
                 yield return new WaitForSeconds(0.2f);

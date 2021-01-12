@@ -49,7 +49,7 @@ namespace ArRetarget
             if (string.IsNullOrEmpty(m_jsonDirData.jsonFilePath))
             {
                 viewedDataImage.sprite = viewedDataIcon;
-                LogManager.Instance.Log("File reference couldn't be found. May the included files are corrupted or empty.", LogManager.Message.Error);
+                LogManager.Instance.Log("File reference couldn't be found. May the included files are corrupted or empty. Consider to check the data manually on your desktop.", LogManager.Message.Error);
                 return;
             }
 

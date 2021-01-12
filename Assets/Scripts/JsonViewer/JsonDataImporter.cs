@@ -40,7 +40,7 @@ namespace ArRetarget
             {
                 data.cameraPoseList = new List<PoseData>();
                 Debug.LogWarning("pose data is corrupted or file is to large");
-                LogManager.Instance.Log("Cannot preview data - it's probaly corrupted.", LogManager.Message.Error);
+                LogManager.Instance.Log("Cannot preview data - it's probaly corrupted. The .json may contains a closing parenthesis error. <br><br>Consider to record again. If you can reproduce the error please message me.", LogManager.Message.Error);
                 importSucess = false;
             }
 
@@ -70,7 +70,7 @@ namespace ArRetarget
             {
                 data.blendShapeData = new List<BlendShapeData>();
                 Debug.LogWarning("blend shape data is corrupted or file is to large");
-                LogManager.Instance.Log("Cannot preview data - it's probaly corrupted.", LogManager.Message.Error);
+                LogManager.Instance.Log("Cannot preview data - it's probaly corrupted. The .json may contains a closing parenthesis error. <br><br>Consider to record again. If you can reproduce the error please message me.", LogManager.Message.Error);
                 importSucess = false;
             }
 
@@ -108,8 +108,7 @@ namespace ArRetarget
             {
                 data.meshDataList = new List<MeshData>();
                 Debug.LogWarning("face mesh data is corrupted or file is to large");
-                LogManager.Instance.Log("Cannot preview data - it's probaly corrupted.", LogManager.Message.Error);
-
+                LogManager.Instance.Log("Cannot preview data - it's probaly corrupted. The .json may contains a closing parenthesis error. <br><br>Consider to record again. If you can reproduce the error please message me.", LogManager.Message.Error);
                 importSucess = false;
             }
 
