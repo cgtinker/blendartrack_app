@@ -74,5 +74,5 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # Private Data in Player Settings
-/[Pp]rojectSettings/[Uu]nityConnectSettings.asset
-/[Pp]rojectSettings/[Pp]rojectSettings.asset
+/[Pp]rojectSettings/UnityConnectSettings.asset
+/[Pp]rojectSettings/ProjectSettings.asset

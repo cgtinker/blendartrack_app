@@ -14,7 +14,7 @@ UnityConnectSettings:
     m_EventUrl: https://perf-events.cloud.unity3d.com
     m_Enabled: 0
     m_LogBufferSize: 10
-    m_CaptureEditorExceptions: 0
+    m_CaptureEditorExceptions: 1
   UnityPurchasingSettings:
     m_Enabled: 0
     m_TestMode: 0
