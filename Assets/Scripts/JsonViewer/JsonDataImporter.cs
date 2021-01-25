@@ -149,7 +149,7 @@ namespace ArRetarget
             else
             {
                 LogManager.Instance.Log("Cannot invoke Input method - Json File probaly corrupted.", LogManager.Message.Error);
-                Debug.LogError("Cannot invoke Input method - Json File probaly corrupted");
+                Debug.LogWarning("Cannot invoke Input method - Json File probaly corrupted");
                 return false;
             }
         }

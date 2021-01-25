@@ -33,6 +33,8 @@ public static class JsonFileWriter
             {
                 if (!lastFrame)
                     sw.WriteLine($"{text}{w}");
+
+                //TODO: different data types requiere different closing types
                 else
                     sw.WriteLine($"{text}");
             }

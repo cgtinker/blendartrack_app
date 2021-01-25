@@ -62,7 +62,7 @@ namespace ArRetarget
                 nativeShare.AddFile(path);
 
             else
-                Debug.LogError("path to zip not valid");
+                Debug.LogWarning("path to zip not valid");
 
             nativeShare.SetSubject(subject).SetText(text);
             nativeShare.Share();
@@ -170,7 +170,7 @@ namespace ArRetarget
 
             catch (Exception e)
             {
-                Debug.LogError("Directory does already exist: " + e.ToString());
+                Debug.LogWarning("Directory does already exist: " + e.ToString());
             }
         }
         #endregion
@@ -217,7 +217,7 @@ namespace ArRetarget
 
             catch (Exception e)
             {
-                Debug.LogError("Directory doesn't exist: " + e.ToString());
+                Debug.LogWarning("Directory doesn't exist: " + e.ToString());
                 return new string[0];
             }
         }

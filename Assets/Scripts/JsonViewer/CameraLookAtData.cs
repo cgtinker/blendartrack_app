@@ -20,6 +20,7 @@ namespace ArRetarget
                 StartCoroutine(CameraLookAt());
         }
 
+        //camera looks at imported data on import, to avoid the impression there is possibly no data
         IEnumerator CameraLookAt()
         {
             yield return new WaitForEndOfFrame();

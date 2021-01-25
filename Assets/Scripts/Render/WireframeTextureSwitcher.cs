@@ -10,6 +10,7 @@ namespace ArRetarget
         public Texture androidWireframe;
         Material material;
 
+        //switches face mesh material for iOS / Android on instantiation
         private void Awake()
         {
             material = gameObject.GetComponent<MeshRenderer>().material;

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿/*
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,6 +15,7 @@ public class CanvasOrientationHandler : MonoBehaviour
         SetOrientation();
     }
 
+    //getting type of screen switch callback by checking canvas orientation
     void SetOrientation()
     {
         if (rectTransform == null)
@@ -39,3 +41,4 @@ public class CanvasOrientationHandler : MonoBehaviour
         SetOrientation();
     }
 }
+*/

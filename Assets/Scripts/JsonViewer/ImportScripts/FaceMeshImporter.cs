@@ -34,7 +34,7 @@ namespace ArRetarget
 
                 else
                 {
-                    Debug.LogError("Mesh Data Container doesnt have stored data");
+                    Debug.LogWarning("Mesh Data Container doesnt have stored data");
                 }
             }
 
