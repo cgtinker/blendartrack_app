@@ -6,7 +6,7 @@ namespace ArRetarget
 {
     public class SupportProject : MonoBehaviour
     {
-        const string m_url = "https://www.patreon.com/cgtinker";
+        const string m_url = "https://www.buymeacoffee.com/cgtinker";
 
         public void OnSupportProject()
         {
