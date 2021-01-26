@@ -413,7 +413,8 @@ namespace ArRetarget
             for (int t = 0; t < dirs.Length; t++)
             {
                 //plugin "NatSuite" generates an empty "gallery-folder" on recording
-                if (!FileManagement.StringEndsWith(dirs[t], "Gallery"))
+                //release build may contain an empty "Unity / unity" folder
+                if (!FileManagement.StringEndsWith(dirs[t], "Gallery") && !FileManagement.StringEndsWith(dirs[t], "nity"))
                 {
                     JsonDirectory m_dir = new JsonDirectory();
                     m_dir.dirName = FileManagement.GetDirectoryName(dirs[t]);
