@@ -245,7 +245,7 @@ PlayerSettings:
   clonedFromGUID: c0afd0d1d80e3634a9dac47e8a0426ea
   templatePackageId: com.unity.template.3d@3.1.2
   templateDefaultScene: Assets/Scenes/SampleScene.unity
-  AndroidTargetArchitectures: 1
+  AndroidTargetArchitectures: 3
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
   AndroidKeystoreName: '{dedicated}: retargeter.keystore'
@@ -262,8 +262,8 @@ PlayerSettings:
     height: 180
     banner: {fileID: 0}
   androidGamepadSupportLevel: 0
-  AndroidMinifyWithR8: 0
-  AndroidMinifyRelease: 0
+  AndroidMinifyWithR8: 1
+  AndroidMinifyRelease: 1
   AndroidMinifyDebug: 0
   AndroidValidateAppBundleSize: 1
   AndroidAppBundleSizeToValidate: 150
@@ -809,9 +809,11 @@ PlayerSettings:
     28: EXTOSC
     29: EXTOSC
   platformArchitecture: {}
-  scriptingBackend: {}
+  scriptingBackend:
+    Android: 1
   il2cppCompilerConfiguration: {}
   managedStrippingLevel:
+    Android: 2
     iPhone: 3
   incrementalIl2cppBuild: {}
   allowUnsafeCode: 1
@@ -884,7 +886,7 @@ PlayerSettings:
     Analytics: 0
     Build: 0
     Collab: 0
-    Game Performance: 0
+    Game Performance: 1
     Purchasing: 0
     UNet: 1
     Unity Ads: 0
@@ -900,10 +902,10 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  cloudProjectId: 
+  cloudProjectId: ca916a4e-ec37-4368-891a-08011c1248f4
   framebufferDepthMemorylessMode: 0
-  projectName: 
-  organizationId: 
+  projectName: Retargeter
+  organizationId: cgtinker
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
