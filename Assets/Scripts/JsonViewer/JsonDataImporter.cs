@@ -29,7 +29,7 @@ namespace ArRetarget
             yield return new WaitForEndOfFrame();
             CameraPoseContainer data = new CameraPoseContainer();
 
-            //deserialzing the data
+            // deserialzing the data
             try
             {
                 data = JsonUtility.FromJson<CameraPoseContainer>(fileContent);
@@ -44,16 +44,14 @@ namespace ArRetarget
                 importSucess = false;
             }
 
-            if (importSucess)
-            {
-                //generating a parent game object
-                GameObject parent = ParentGameObject();
-                //adding the importer component - assigning the update method
-                var importer = parent.AddComponent<CameraPoseImporter>();
-                importer.viewHandler = this.gameObject.GetComponent<UpdateViewerDataHandler>();
+            if (!importSucess) yield break;
+            //generating a parent game object
+            GameObject parent = ParentGameObject();
+            //adding the importer component - assigning the update method
+            var importer = parent.AddComponent<CameraPoseImporter>();
+            importer.updateViewerData = this.gameObject.GetComponent<UpdateViewerData>();
 
-                StartCoroutine(importer.InitViewer(data));
-            }
+            StartCoroutine(importer.InitViewer(data));
         }
 
         private IEnumerator ImportBlendShapeData(string fileContent)
@@ -86,7 +84,7 @@ namespace ArRetarget
                 yield return new WaitForEndOfFrame();
 
                 var importer = parent.AddComponent<BlendShapeImporter>();
-                importer.viewHandler = this.gameObject.GetComponent<UpdateViewerDataHandler>();
+                importer.viewHandler = this.gameObject.GetComponent<UpdateViewerData>();
 
                 StartCoroutine(importer.InitViewer(data));
             }
@@ -118,7 +116,7 @@ namespace ArRetarget
                 GameObject parent = ParentGameObject();
                 //adding the importer component - assigning the update method
                 var importer = parent.AddComponent<FaceMeshImporter>();
-                importer.viewHandler = this.gameObject.GetComponent<UpdateViewerDataHandler>();
+                importer.viewHandler = this.gameObject.GetComponent<UpdateViewerData>();
 
                 StartCoroutine(importer.InitViewer(data));
             }

@@ -131,7 +131,6 @@ namespace ArRetarget
 
             //share data
             FileManagement.ShareZip(zip, subject, text);
-            //StartCoroutine(DeleteZip(zip));
         }
         #endregion
 
@@ -594,45 +593,6 @@ namespace ArRetarget
             }
             JsonDirectories.Clear();
         }
-
-        public IEnumerator DeleteZip(string zipPath)
-        {
-            yield return new WaitForSeconds(5.0f);
-            FileManagement.DeleteFile(zipPath);
-        }
         #endregion
-    }
-
-    [System.Serializable]
-    public class JsonDirectory
-    {
-        /// <summary>
-        /// path to the directory
-        /// </summary>
-        public string dirPath;
-        /// <summary>
-        /// name of the directory
-        /// </summary>
-        public string dirName;
-        /// <summary>
-        /// path to the json file
-        /// </summary>
-        public string jsonFilePath;
-        /// <summary>
-        /// instantiated button object
-        /// </summary>
-        public GameObject obj;
-        /// <summary>
-        /// bool to determine if toggle has been selected
-        /// </summary>
-        public bool active;
-        /// <summary>
-        /// index for reference
-        /// </summary>
-        public int index;
-        /// <summary>
-        /// value for sorting
-        /// </summary>
-        public Int64 value;
     }
 }

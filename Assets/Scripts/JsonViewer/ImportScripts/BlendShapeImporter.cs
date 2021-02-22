@@ -6,7 +6,7 @@ using ArRetarget;
 public class BlendShapeImporter : MonoBehaviour, IInitViewer<BlendShapeContainter>, IUpdate<GameObject, BlendShapeContainter>
 {
     public SkinnedMeshRenderer skinnedMeshRenderer;
-    public UpdateViewerDataHandler viewHandler;
+    public UpdateViewerData viewHandler;
 
     /// <summary>
     /// dictionary for referencing arkit shape key values

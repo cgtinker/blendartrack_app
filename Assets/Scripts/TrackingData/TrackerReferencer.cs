@@ -13,6 +13,7 @@ namespace ArRetarget
         public float offset;
         public bool assigned = false;
 
+        #region init
         public IEnumerator Start()
         {
             yield return new WaitForEndOfFrame();
@@ -32,6 +33,7 @@ namespace ArRetarget
                 tracker.value = PlayerPrefs.GetInt(tracker.nameInPlayerPrefs, -1);
             }
         }
+        #endregion
 
         private IEnumerator SetReferences()
         {

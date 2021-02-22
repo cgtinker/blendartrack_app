@@ -6,7 +6,7 @@ namespace ArRetarget
 {
     public class CameraPoseImporter : MonoBehaviour, IInitViewer<CameraPoseContainer>, IUpdate<GameObject, CameraPoseContainer>
     {
-        public UpdateViewerDataHandler viewHandler;
+        public UpdateViewerData updateViewerData;
 
         //generating the necessary obj for viewing
         public IEnumerator InitViewer(CameraPoseContainer data)
@@ -18,7 +18,7 @@ namespace ArRetarget
             if (data.cameraPoseList.Count > 0)
             {
                 //setting the endframe of the animation
-                viewHandler.SetFrameEnd(data.cameraPoseList.Count);
+                updateViewerData.SetFrameEnd(data.cameraPoseList.Count);
 
                 yield return new WaitForEndOfFrame();
                 StartCoroutine(UpdateData(obj, data));
@@ -43,14 +43,14 @@ namespace ArRetarget
         public IEnumerator UpdateData(GameObject obj, CameraPoseContainer data)
         {
             //if last frame restart particle emission
-            if (data.cameraPoseList.Count - 1 == viewHandler.frame)
+            if (data.cameraPoseList.Count - 1 == updateViewerData.frame)
             {
                 var emitter = obj.GetComponent<ParticleSystem>();
                 emitter.Clear();
             }
 
             //data at current frame
-            var m_ref = data.cameraPoseList[viewHandler.frame];
+            var m_ref = data.cameraPoseList[updateViewerData.frame];
             var pos = new Vector3((float)m_ref.pos.x, (float)m_ref.pos.y - 0.5f, (float)m_ref.pos.z);
             var rot = new Vector3((float)m_ref.rot.x, (float)m_ref.rot.y, (float)m_ref.rot.z);
 

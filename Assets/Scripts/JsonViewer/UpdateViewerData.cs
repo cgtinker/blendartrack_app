@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace ArRetarget
 {
-    public class UpdateViewerDataHandler : MonoBehaviour
+    public class UpdateViewerData : MonoBehaviour
     {
         public int frame = 0;
 

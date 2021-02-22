@@ -28,7 +28,7 @@ namespace ArRetarget
         public List<ScreenPosData> screenPosList = new List<ScreenPosData>();
         private string filePath;
 
-        #region interfaces
+        #region init
         public void Init(string path, string title)
         {
             filePath = $"{path}{title}_{j_Prefix()}.json";
@@ -57,7 +57,9 @@ namespace ArRetarget
             camera_width = arCamera.pixelWidth;
             camera_height = arCamera.pixelHeight;
         }
+        #endregion
 
+        #region getting and writing data
         public void GetFrameData(int frame, bool lastFrame)
         {
 
@@ -88,6 +90,13 @@ namespace ArRetarget
             }
         }
 
+        public string j_Prefix()
+        {
+            return "screen";
+        }
+        #endregion
+
+        #region generating relative screen pos data
         public Vector3 PosByMarker()
         {
             rayHit = false;
@@ -183,13 +192,8 @@ namespace ArRetarget
 
             return tar;
         }
-
-        public string j_Prefix()
-        {
-            return "screen";
-        }
-
         #endregion
+
         /// <summary>
         /// returns a vector with normalized x, y values at a given frame:
         /// (0, 0) -> bottom left

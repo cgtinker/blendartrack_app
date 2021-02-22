@@ -74,9 +74,7 @@ namespace ArRetarget
             foreach (string path in pathList)
             {
                 if (ValidatePath(path))
-                {
                     nativeShare.AddFile(path);
-                }
             }
 
             nativeShare.SetSubject(subject).SetText(text);
@@ -134,15 +132,10 @@ namespace ArRetarget
             try
             {
                 if (File.Exists(mediaPath))
-                {
                     return true;
-                }
 
                 else
-                {
-                    Debug.Log("File not found");
                     return false;
-                }
             }
 
             catch (IOException ioExp)
@@ -161,9 +154,7 @@ namespace ArRetarget
             try
             {
                 if (ValidateDirectory(path) == true)
-                {
                     return;
-                }
 
                 DirectoryInfo di = Directory.CreateDirectory(path);
             }
@@ -272,7 +263,6 @@ namespace ArRetarget
                 DeleteDirectory(m_dir);
 
                 return m_dir + ".zip";
-                //delete the tmp folder
             }
         }
 
@@ -285,14 +275,14 @@ namespace ArRetarget
         #region String methods
         public static Int64 StringToInt(string input)
         {
-            string b = string.Empty;
+            string tmp = string.Empty;
             Int64 val = 0;
 
-            b = String.Join("", input.Where(char.IsDigit));
+            tmp = String.Join("", input.Where(char.IsDigit));
 
-            if (b.Length > 0)
+            if (tmp.Length > 0)
             {
-                bool t = Int64.TryParse(b, out val);
+                bool t = Int64.TryParse(tmp, out val);
             }
 
             return val;
@@ -310,13 +300,10 @@ namespace ArRetarget
         public static string RemoveSuffixFromEnd(this string s, string suffix)
         {
             if (s.EndsWith(suffix))
-            {
                 return s.Substring(0, s.Length - suffix.Length);
-            }
+
             else
-            {
                 return s;
-            }
         }
 
         public static string RemoveLengthFromEnd(string s, int length)

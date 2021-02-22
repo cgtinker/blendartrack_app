@@ -11,7 +11,7 @@ namespace ArRetarget
         public GameObject SettingsTitelPrefab;
         public GameObject empty;
 
-        GameObject videoSettigsTitle;
+        private GameObject videoSettigsTitle;
 
         public Transform SettingsObjParent;
 
@@ -97,9 +97,7 @@ namespace ArRetarget
             {
                 //if button is already instantiate
                 if (button.obj)
-                {
                     return;
-                }
 
                 //generate button
                 var tmp = Instantiate(SettingsButtonPrefab, Vector3.zero, Quaternion.identity);

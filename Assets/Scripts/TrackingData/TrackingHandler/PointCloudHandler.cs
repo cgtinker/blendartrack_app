@@ -8,11 +8,12 @@ namespace ArRetarget
 
     public class PointCloudHandler : MonoBehaviour, IInit<string, string>, IStop, IPrefix
     {
-        ARPointCloud arPointCloud;
-        public List<Vector3> points;
+        private ARPointCloud arPointCloud;
+        private List<Vector3> points;
         private string filePath;
         private bool lastFrame;
 
+        #region init
         public void Init(string path, string title)
         {
             filePath = $"{path}{title}_{j_Prefix()}.json";
@@ -21,7 +22,9 @@ namespace ArRetarget
             arPointCloud = GameObject.FindGameObjectWithTag("pointCloud").GetComponent<ARPointCloud>();
             ReceivePointCloud();
         }
+        #endregion
 
+        #region referencing point cloud
         public void ReceivePointCloud()
         {
             arPointCloud.updated += OnPointCloudChanged;
@@ -43,7 +46,9 @@ namespace ArRetarget
                 arPointCloud.updated -= OnPointCloudChanged;
             }
         }
+        #endregion
 
+        #region getting and writing data
         bool write;
         int curTick;
         static string contents;
@@ -71,5 +76,6 @@ namespace ArRetarget
         {
             return "cloud";
         }
+        #endregion
     }
 }

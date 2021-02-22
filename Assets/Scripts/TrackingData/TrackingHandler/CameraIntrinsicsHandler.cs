@@ -11,7 +11,12 @@ namespace ArRetarget
         private ARCameraManager arCameraManager;
 
         private string filePath;
-        //int frame = 0;
+
+        private int curTick;
+        private static string contents;
+        private bool write;
+
+        #region initializing
         public void Init(string path, string title)
         {
             filePath = $"{path}{title}_{j_Prefix()}.json";
@@ -29,6 +34,9 @@ namespace ArRetarget
             contents = "";
             write = false;
         }
+        #endregion
+
+        #region getting and writing data
         public void GetFrameData(int frame, bool lastFrame)
         {
             if (arCamera == null)
@@ -39,88 +47,75 @@ namespace ArRetarget
 
             if (!lastFrame)
             {
-                //proj matrix
-                Matrix4x4 m_matrix = arCamera.projectionMatrix;
-                CameraProjectionMatrix tmp = new CameraProjectionMatrix();
-                tmp.frame = frame;
-                tmp.cameraProjectionMatrix = m_matrix;
-
-                //prepare data
-                string json = JsonUtility.ToJson(tmp);
-                (contents, curTick, write) = DataHelper.JsonContentTicker(lastFrame: lastFrame, curTick: curTick, reqTick: 23, contents: contents, json: json);
-
-                //write contents
-                if (write)
-                {
-                    JsonFileWriter.WriteDataToFile(path: filePath, text: contents, "", lastFrame: lastFrame);
-                    contents = "";
-                }
-
-                if (lastFrame)
-                    filePath = null;
-
+                WriteDataContinously(frame, lastFrame);
             }
 
             else if (lastFrame)
             {
-                //proj matrix
-                Matrix4x4 m_matrix = arCamera.projectionMatrix;
-                CameraProjectionMatrix tmp = new CameraProjectionMatrix();
-                tmp.frame = frame;
-                tmp.cameraProjectionMatrix = m_matrix;
-
-                //config
-                CameraConfig m_config = GetCameraConfiguration();
-                ScreenResolution m_res = GetResolution();
-
-                //prepare data
-                string matrix = JsonUtility.ToJson(tmp);
-                string config = JsonUtility.ToJson(m_config);
-                string res = JsonUtility.ToJson(m_res);
-
-                //phrasing
-                string par = "}";
-                string quote = "\"";
-                string json = $"{matrix}],{quote}cameraConfig{quote}:{config},{quote}resolution{quote}:{res}{par}";
-
-                //writing
-                contents += json;
-                JsonFileWriter.WriteDataToFile(path: filePath, text: contents, "", lastFrame: lastFrame);
-                contents = "";
+                WriteDataLastFrame(frame, lastFrame);
             }
         }
 
-        int curTick;
-        static string contents;
-        bool write;
-        private void GetAndWriteData(bool lastFrame, string json)
+        private void WriteDataContinously(int frame, bool lastFrame)
         {
+            //proj matrix
+            Matrix4x4 m_matrix = arCamera.projectionMatrix;
+            CameraProjectionMatrix tmp = new CameraProjectionMatrix();
+            tmp.frame = frame;
+            tmp.cameraProjectionMatrix = m_matrix;
+
+            //prepare data
+            string json = JsonUtility.ToJson(tmp);
             (contents, curTick, write) = DataHelper.JsonContentTicker(lastFrame: lastFrame, curTick: curTick, reqTick: 23, contents: contents, json: json);
 
+            //write contents
             if (write)
             {
                 JsonFileWriter.WriteDataToFile(path: filePath, text: contents, "", lastFrame: lastFrame);
                 contents = "";
             }
-        }
-        /*
-        //provide json string
-        public string j_String()
-        {
-            CameraIntrinsicsContainer container = GetCameraIntrinsicsContainer();
-            var json = JsonUtility.ToJson(container);
 
-            return json;
+            if (lastFrame)
+                filePath = null;
         }
-        */
-        //json file prefix
+
+        private void WriteDataLastFrame(int frame, bool lastFrame)
+        {
+            //proj matrix
+            Matrix4x4 m_matrix = arCamera.projectionMatrix;
+            CameraProjectionMatrix tmp = new CameraProjectionMatrix();
+            tmp.frame = frame;
+            tmp.cameraProjectionMatrix = m_matrix;
+
+            //config
+            CameraConfig m_config = GetCameraConfiguration();
+            ScreenResolution m_res = GetResolution();
+
+            //prepare data
+            string matrix = JsonUtility.ToJson(tmp);
+            string config = JsonUtility.ToJson(m_config);
+            string res = JsonUtility.ToJson(m_res);
+
+            //phrasing
+            string par = "}";
+            string quote = "\"";
+            string json = $"{matrix}],{quote}cameraConfig{quote}:{config},{quote}resolution{quote}:{res}{par}";
+
+            //writing
+            contents += json;
+            JsonFileWriter.WriteDataToFile(path: filePath, text: contents, "", lastFrame: lastFrame);
+            contents = "";
+        }
+
         public string j_Prefix()
         {
             return "intrinsics";
         }
+        #endregion
 
+        /*
         //generate container storing intrinsics data, camera config and screen resolution
-        public CameraIntrinsicsContainer GetCameraIntrinsicsContainer()
+        private CameraIntrinsicsContainer GetCameraIntrinsicsContainer()
         {
             CameraIntrinsicsContainer container = new CameraIntrinsicsContainer();
 
@@ -133,6 +128,7 @@ namespace ArRetarget
 
             return container;
         }
+        */
 
         #region prepare subsystem data
         //formatting subsystem camera config for json conversion

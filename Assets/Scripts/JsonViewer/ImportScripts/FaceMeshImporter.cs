@@ -6,36 +6,14 @@ namespace ArRetarget
 {
     public class FaceMeshImporter : MonoBehaviour, IInitViewer<MeshDataContainer>, IUpdate<List<GameObject>, MeshDataContainer>
     {
-        public UpdateViewerDataHandler viewHandler;
+        public UpdateViewerData viewHandler;
         int meshDataListIndex = 0;
 
         public IEnumerator InitViewer(MeshDataContainer data)
         {
             if (data.meshDataList.Count > 0)
             {
-                //generating points if received the point amout
-                if (GetPointAmount(data) > 0 && meshDataListIndex < data.meshDataList.Count)
-                {
-                    //setting frame end
-                    viewHandler.SetFrameEnd(data.meshDataList.Count);
-                    //generating points
-                    List<GameObject> meshPoints = GeneratePoints(GetPointAmount(data));
-
-                    yield return new WaitForEndOfFrame();
-                    //start updating
-                    StartCoroutine(UpdateData(meshPoints, data));
-                }
-
-                //restarting if there arent points at a certain frame
-                else if (GetPointAmount(data) == 0 && meshDataListIndex > data.meshDataList.Count)
-                {
-                    StartCoroutine(InitViewer(data));
-                }
-
-                else
-                {
-                    Debug.LogWarning("Mesh Data Container doesnt have stored data");
-                }
+                StartCoroutine(InitFaceGeometry(data));
             }
 
             else
@@ -44,6 +22,33 @@ namespace ArRetarget
             }
 
             yield return new WaitForEndOfFrame();
+        }
+
+        private IEnumerator InitFaceGeometry(MeshDataContainer data)
+        {
+            //generating points if received the point amout
+            if (GetPointAmount(data) > 0 && meshDataListIndex < data.meshDataList.Count)
+            {
+                //setting frame end
+                viewHandler.SetFrameEnd(data.meshDataList.Count);
+                //generating points
+                List<GameObject> meshPoints = GeneratePoints(GetPointAmount(data));
+
+                yield return new WaitForEndOfFrame();
+                //start updating
+                StartCoroutine(UpdateData(meshPoints, data));
+            }
+
+            //restarting if there arent points at a certain frame
+            else if (GetPointAmount(data) == 0 && meshDataListIndex > data.meshDataList.Count)
+            {
+                StartCoroutine(InitViewer(data));
+            }
+
+            else
+            {
+                Debug.LogWarning("Mesh Data Container doesnt have stored data");
+            }
         }
 
         public IEnumerator UpdateData(List<GameObject> obj, MeshDataContainer data)

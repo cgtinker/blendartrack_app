@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using TMPro;
@@ -46,7 +47,7 @@ namespace ArRetarget
         }
 
         //display log messages (warnings / errors)
-        public void HandleLog(string msg)
+        private void HandleLog(string msg)
         {
             switch (LogManager.Instance.msg)
             {
@@ -70,6 +71,8 @@ namespace ArRetarget
                 case LogManager.Message.Disable:
                     displayParent.SetActive(false);
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
     }

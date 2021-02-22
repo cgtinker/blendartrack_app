@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace ArRetarget
+﻿using UnityEngine;
+namespace UX
 {
     public class UIStateMachine : Singleton<UIStateMachine>
     {
@@ -13,20 +10,26 @@ namespace ArRetarget
             Tutorial,
             Tracking,
             Filebrowser,
+            Viewer,
             Settings
         }
 
-        private State uiState;
+        private State _uiState;
 
         public void SetState(State state)
         {
-            uiState = state;
+            _uiState = state;
             UpdateState();
+        }
+
+        private void Awake()
+        {
+            Debug.Log("test");
         }
 
         private void UpdateState()
         {
-            switch (uiState)
+            switch (_uiState)
             {
                 case State.StartUp:
                     break;
@@ -41,6 +44,9 @@ namespace ArRetarget
                     break;
 
                 case State.Filebrowser:
+                    break;
+
+                case State.Viewer:
                     break;
 
                 case State.Settings:

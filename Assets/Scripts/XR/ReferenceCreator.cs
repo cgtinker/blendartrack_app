@@ -62,7 +62,6 @@ namespace ArRetarget
                 CreateAnchor(pose.position);
             }
         }
-
         #endregion
 
         #region detect input
@@ -78,7 +77,7 @@ namespace ArRetarget
             }
         }
 
-
+        #region long tap
         private float timer = 0.0f;
         //for touch timing
         bool newTouch = false;
@@ -90,28 +89,10 @@ namespace ArRetarget
 
                 //delete marker when long touch time has been reached
                 if (timer > LongTouchTime)
-                {
-                    if (Input.touches[0].phase == TouchPhase.Stationary)
-                    {
-                        DeleteDetectedMarker(Input.GetTouch(0));
-                    }
-
-                    //reset when done
-                    newTouch = false;
-                    timer = 0.0f;
-                    TapCount = 0;
-                }
+                    OnLongTab();
 
                 else
-                {
-                    //reset if the touch ended
-                    if (Input.touches[0].phase == TouchPhase.Ended)
-                    {
-                        newTouch = false;
-                        timer = 0.0f;
-                    }
-                }
-
+                    ResetTabTimer();
             }
 
             else
@@ -121,6 +102,31 @@ namespace ArRetarget
             }
         }
 
+        private void OnLongTab()
+        {
+            if (Input.touches[0].phase == TouchPhase.Stationary)
+            {
+                DeleteDetectedMarker(Input.GetTouch(0));
+            }
+
+            //reset when done
+            newTouch = false;
+            timer = 0.0f;
+            TapCount = 0;
+        }
+
+        private void ResetTabTimer()
+        {
+            //reset if the touch ended
+            if (Input.touches[0].phase == TouchPhase.Ended)
+            {
+                newTouch = false;
+                timer = 0.0f;
+            }
+        }
+        #endregion
+
+        #region double tab
         private void DetectDoubleTab()
         {
             Touch touch = Input.GetTouch(0);
@@ -150,6 +156,7 @@ namespace ArRetarget
                 TapCount = 0;
             }
         }
+        #endregion
         #endregion
 
         #region create & delete
