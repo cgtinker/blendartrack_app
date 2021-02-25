@@ -193,40 +193,5 @@ namespace ArRetarget
             }
         }
         #endregion
-        //Todo: fix pathing and determine which files actually needs to use old serialization method
-        //public string SerializeJson()
-        //{
-        /*
-
-//string time = FileManagement.GetDateTime();
-//string dir_path = $"{persistentPath}/{time}_{prefixs[0].j_Prefix()}";
-string msg = $"{FileManagement.GetParagraph()}";
-
-//FileManagement.CreateDirectory(dir_path);
-
-for (int i = 0; i < jsons.Count; i++)
-{
-    string contents = jsons[i].j_String();
-    string prefix = prefixs[i].j_Prefix();
-    string filename = $"tmpdata_{prefix}.json";
-
-    FileManagement.WriteDataToDisk(data: contents, persistentPath: folderPath, filename: filename);
-}
-
-//only if scene loaded
-if (PlayerPrefs.GetInt("recordCam", -1) == -1 && PlayerPrefs.GetInt("scene", -1) == 1)
-{
-    return msg;
-}
-
-else
-{
-    string tmp = $"{msg}{FileManagement.GetParagraph()}{FileManagement.GetParagraph()}recording saved to gallery";
-    return tmp;
-}
-        */
-        // return "";
-
-        //}
     }
 }

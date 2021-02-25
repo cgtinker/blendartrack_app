@@ -13,118 +13,123 @@ using System;
 /// </summary>
 public class AdditiveSceneManager : MonoBehaviour
 {
-    public TrackingDataManager trackingDataManager;
-
-    //setting device
-    private void Awake()
-    {
-        trackingDataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
-    }
-
-    #region Scene Dicts
-    public static Dictionary<int, string> AndroidScenes = new Dictionary<int, string>
-    {
+	#region Scene Dicts
+	public static Dictionary<int, string> AndroidScenes = new Dictionary<int, string>
+	{
         //{ 0, "Tutorial"},
         { 1, "Pose Data Tracker" },
-        { 2, "Face Mesh Tracker" }
-    };
+		{ 2, "Face Mesh Tracker" }
+	};
 
-    public static Dictionary<int, string> IOSScenes = new Dictionary<int, string>
-    {
+	public static Dictionary<int, string> IOSScenes = new Dictionary<int, string>
+	{
         //{ 0, "Tutorial"},
         { 1, "Pose Data Tracker" },
-        { 2, "Face Mesh Tracker" },
-        { 3, "Shape Key Tracker" }
-    };
-    #endregion
+		{ 2, "Face Mesh Tracker" },
+		{ 3, "Shape Key Tracker" }
+	};
 
-    void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
+	#endregion
 
-    void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
+	#region scene loaded
+	void OnEnable()
+	{
+		SceneManager.sceneLoaded += OnSceneLoaded;
+	}
 
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        Debug.Log("OnSceneLoaded: " + scene.name);
-        //Debug.Log(mode);
-        string tarScene = GetScene(UserPreferences.Instance.GetIntPref("scene"));
+	void OnDisable()
+	{
+		SceneManager.sceneLoaded -= OnSceneLoaded;
+	}
 
-        if (tarScene == scene.name)
-            switchingScene = false;
-    }
+	void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+	{
+		Debug.Log("OnSceneLoaded: " + scene.name);
 
-    private bool switchingScene = false;
-    //the scenne switch uses an int to receive the scene input, to allow crossplatform handling
-    public void SwitchScene(int sceneIndex)
-    {
-        if (!switchingScene)
-        {
-            switchingScene = true;
-            //unload the previous scene (stored in the user preferences)
-            string preScene = GetScene(UserPreferences.Instance.GetIntPref("scene"));
-            if (SceneManager.GetSceneByName(preScene).isLoaded)
-                SceneManager.UnloadSceneAsync(preScene);
+		string tarScene = GetScene(UserPreferences.Instance.GetIntPref("scene"));
 
-            else
-                Debug.Log("User resetted app or uses first time");
+		if (tarScene == scene.name)
+			switchingScene = false;
+	}
+	#endregion
 
+	private bool switchingScene = false;
+	//the scenne switch uses an int to receive the scene input, to allow crossplatform handling
+	public void SwitchScene(int sceneIndex)
+	{
+		if (!switchingScene)
+		{
+			switchingScene = true;
+			//unload the previous scene (stored in the user preferences)
+			string previousLoadedScene = GetScene(UserPreferences.Instance.GetIntPref("scene"));
+			if (SceneManager.GetSceneByName(previousLoadedScene).isLoaded)
+				UnloadScene(previousLoadedScene);
 
-            trackingDataManager.ResetTrackerInterfaces();
-            //saving reference to the loaded scene (can be received in the userPrefs)
-            PlayerPrefs.SetInt("scene", sceneIndex);
-            string tarScene = GetScene(sceneIndex);
+			else
+				Debug.Log("User resetted app or uses first time");
 
-            //loading the target scene
-            SceneManager.LoadSceneAsync(tarScene, LoadSceneMode.Additive);
-        }
-    }
+			//TODO: Reset Interfaces on loading a tracker Scene
+			//trackingDataManager.ResetTrackerInterfaces();
+			//saving reference to the loaded scene (can be received in the userPrefs)
+			PlayerPrefs.SetInt("scene", sceneIndex);
+			string targetScene = GetScene(sceneIndex);
 
-    public void ReloadScene()
-    {
-        string preScene = GetScene(UserPreferences.Instance.GetIntPref("scene"));
-        var sceneDict = GetDeviceScenes();
+			//loading the target scene
+			LoadSceneAsync(targetScene);
+		}
+	}
 
-        foreach (KeyValuePair<int, string> pair in sceneDict)
-        {
-            if (pair.Value == preScene)
-                SwitchScene(pair.Key);
-        }
-    }
+	private void UnloadScene(string sceneName)
+	{
+		SceneManager.UnloadSceneAsync(sceneName);
+	}
 
-    public void ResetArScene()
-    {
-        StartCoroutine(ArRetarget.ARSessionState.EnableAR(enabled: true));
-    }
+	private void LoadSceneAsync(string sceneName)
+	{
+		SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+	}
 
-    public Dictionary<int, string> GetDeviceScenes()
-    {
-        switch (DeviceManager.Instance.device)
-        {
-            case DeviceManager.Device.Android:
-                return AndroidScenes;
+	public void ReloadScene()
+	{
+		string preScene = GetScene(UserPreferences.Instance.GetIntPref("scene"));
+		var sceneDict = GetDeviceScenes();
 
-            case DeviceManager.Device.iOS:
-                return IOSScenes;
+		foreach (KeyValuePair<int, string> pair in sceneDict)
+		{
+			if (pair.Value == preScene)
+				SwitchScene(pair.Key);
+		}
+	}
 
-            case DeviceManager.Device.iOSX:
-                return IOSScenes;
+	public void ResetArScene()
+	{
+		StartCoroutine(ArRetarget.ARSessionState.EnableAR(enabled: true));
+	}
 
-            default:
-                return IOSScenes;
-        }
-    }
+	public Dictionary<int, string> GetDeviceScenes()
+	{
+		switch (DeviceManager.Instance.device)
+		{
+			case DeviceManager.Device.Android:
+			return AndroidScenes;
 
-    //getting the scene name by the relative int
-    public string GetScene(int sceneKey)
-    {
-        //getting the scene by dictionary key
-        Dictionary<int, string> tmp = GetDeviceScenes();
-        string scene = tmp[sceneKey];
-        return scene;
-    }
+			case DeviceManager.Device.iOS:
+			return IOSScenes;
+
+			case DeviceManager.Device.iOSX:
+			return IOSScenes;
+
+			default:
+			return IOSScenes;
+		}
+	}
+
+	//getting the scene name by the relative int
+	public string GetScene(int sceneKey)
+	{
+		//getting the scene by dictionary key
+		Dictionary<int, string> tmp = GetDeviceScenes();
+		string scene = tmp[sceneKey];
+		return scene;
+	}
 }

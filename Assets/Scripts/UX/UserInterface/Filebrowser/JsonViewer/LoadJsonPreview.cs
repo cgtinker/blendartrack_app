@@ -5,7 +5,7 @@ using TMPro;
 
 namespace ArRetarget
 {
-    public class JsonViewer : MonoBehaviour
+    public class LoadJsonPreview : MonoBehaviour
     {
                 [SerializeField]
                 private GameObject LoadingScreen = null;

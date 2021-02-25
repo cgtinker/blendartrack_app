@@ -9,7 +9,7 @@ namespace ArRetarget
     {
         public static void PurgeErrorMessages()
         {
-            LogManager.Instance.Log("", LogManager.Message.Disable);
+            //LogManager.Instance.Log("", LogManager.Message.Disable);
         }
 
         public static void PurgeOrphanZips()
