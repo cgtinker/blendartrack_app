@@ -10,10 +10,13 @@ namespace ArRetarget
 			StartUp,
 			Update,
 			Tutorial,
+
+			RecentTracking,
 			FaceTracking,
 			CameraTracking,
+			SwitchTrackingType,
+
 			Filebrowser,
-			Viewer,
 			Settings
 		}
 
@@ -33,39 +36,67 @@ namespace ArRetarget
 
 		private void UpdateState()
 		{
+			OnPreviousArState();
+			Debug.Log(appState);
+
 			switch (appState)
 			{
 				case State.StartUp:
-				AsyncSceneManager.LoadScene("StartUp");
 				Screen.sleepTimeout = SleepTimeout.NeverSleep;
-				setOrientation = Orientation.Portrait;
+				ScreenOrientationManager.setOrientation = ScreenOrientationManager.Orientation.Portrait;
+				AsyncSceneManager.LoadScene("StartUp");
 				break;
 
 				case State.Update:
 				break;
 
 				case State.Tutorial:
+				AsyncSceneManager.LoadScene("Tutorial");
+				break;
+
+				case State.RecentTracking:
+				string recentTrackingScene = PlayerPrefs.GetString("scene", "Pose Data Tracker");
+
+				if (recentTrackingScene == "Pose Data Tracker")
+					SetState(State.CameraTracking);
+				else
+					SetState(State.FaceTracking);
+
+				Debug.LogWarning(recentTrackingScene);
+				break;
+
+				case State.SwitchTrackingType:
+				switch (previousState)
+				{
+					case State.FaceTracking:
+					SetState(State.CameraTracking);
+					break;
+					case State.CameraTracking:
+					SetState(State.FaceTracking);
+					break;
+				}
 				break;
 
 				case State.FaceTracking:
-				ResetTrackerInterfaces();
+				AsyncSceneManager.LoadScene("Face Mesh Tracker");
 				StartCoroutine(ARSessionState.EnableAR(enabled: true));
-				setOrientation = Orientation.Auto;
+				ScreenOrientationManager.setOrientation = ScreenOrientationManager.Orientation.Auto;
+				ResetTrackerInterfaces();
 				break;
 
 				case State.CameraTracking:
-				ResetTrackerInterfaces();
+				AsyncSceneManager.LoadScene("Pose Data Tracker");
 				StartCoroutine(ARSessionState.EnableAR(enabled: true));
-				setOrientation = Orientation.Auto;
+				ScreenOrientationManager.setOrientation = ScreenOrientationManager.Orientation.Auto;
+				ResetTrackerInterfaces();
 				break;
 
 				case State.Filebrowser:
-				break;
-
-				case State.Viewer:
+				AsyncSceneManager.LoadScene("Filebrowser");
 				break;
 
 				case State.Settings:
+				AsyncSceneManager.LoadScene("Settings");
 				break;
 
 				default:
@@ -76,48 +107,34 @@ namespace ArRetarget
 		}
 		#endregion
 
-		TrackingDataManager trackingDataManager;
+		#region Reset ar tracking state
+		private void OnPreviousArState()
+		{
+			switch (previousState)
+			{
+				case State.FaceTracking:
+				StartCoroutine(ARSessionState.EnableAR(enabled: false));
+				ResetTrackerInterfaces();
+				break;
+				case State.CameraTracking:
+				StartCoroutine(ARSessionState.EnableAR(enabled: false));
+				ResetTrackerInterfaces();
+				break;
+				default:
+				ScreenOrientationManager.setOrientation = ScreenOrientationManager.Orientation.Portrait;
+				break;
+			}
+		}
+
 		private void ResetTrackerInterfaces()
 		{
-			if (!trackingDataManager)
-				trackingDataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
+			var go = GameObject.FindGameObjectWithTag("manager");
 
-			trackingDataManager.ResetTrackerInterfaces();
-		}
-
-		#region Screen Orientation
-		private enum Orientation
-		{
-			Portrait,
-			Auto
-		}
-
-		private Orientation m_orientation;
-
-		private Orientation setOrientation
-		{
-			get
+			if (go)
 			{
-				return m_orientation;
-			}
-			set
-			{
-				m_orientation = value;
-				SetScreenOrientation();
-			}
-		}
-
-		private void SetScreenOrientation()
-		{
-			switch (m_orientation)
-			{
-				case Orientation.Portrait:
-				ScreenOrientationManager.SetPortraitMode();
-				break;
-
-				case Orientation.Auto:
-				ScreenOrientationManager.SetAutoRotation();
-				break;
+				Debug.Log("Resetting Tracking Data");
+				var trackingDataManager = go.GetComponent<TrackingDataManager>();
+				trackingDataManager.ResetTrackerInterfaces();
 			}
 		}
 		#endregion

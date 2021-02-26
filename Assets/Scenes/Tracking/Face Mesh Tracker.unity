@@ -843,7 +843,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileBrowserEventManager: {fileID: 0}
-  fileBrowserButton: {fileID: 1391590111}
+  fileBrowserButton: {fileID: 0}
   BlackOverlay: {fileID: 0}
 --- !u!114 &236366642
 MonoBehaviour:
@@ -887,19 +887,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 236366643}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 236366641}
-        m_TargetAssemblyTypeName: ArRetarget.DirectJsonPreview, Assembly-CSharp
-        m_MethodName: OnOpenPreview
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &236366643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3031,12 +3019,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 668276751}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_Father: {fileID: 1246677093}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &712773305
 GameObject:
@@ -3407,55 +3395,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 831839504}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 866218434}
-        m_TargetAssemblyTypeName: ArRetarget.InputHandler, Assembly-CSharp
-        m_MethodName: PurgeOrphanPopups
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 866218434}
-        m_TargetAssemblyTypeName: ArRetarget.InputHandler, Assembly-CSharp
-        m_MethodName: DisableArSession
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 866218434}
-        m_TargetAssemblyTypeName: ArRetarget.InputHandler, Assembly-CSharp
-        m_MethodName: ReloadScene
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1112280463}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &831839504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3523,6 +3463,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 866218435}
+  - component: {fileID: 866218436}
   - component: {fileID: 866218434}
   m_Layer: 0
   m_Name: Tracking - UI
@@ -3540,16 +3481,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 866218433}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1538d55e67a8e40ebbff345434749a96, type: 3}
+  m_Script: {fileID: 11500000, guid: e1bc3f4b64b624af5a840cae097ed171, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainMenu: {fileID: 176472717}
   PopupPrefab: {fileID: 7118352235362218606, guid: db59d0c3ef6dd4524915e7e0effaeebc,
     type: 3}
   PopupParent: {fileID: 414475090}
-  FileBrowserButton: {fileID: 1391590109}
   OnFinishRecordingPrefab: {fileID: 1112280463}
-  SceneTitle: {fileID: 1690223551}
   recording: 0
 --- !u!4 &866218435
 Transform:
@@ -3558,14 +3496,27 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 866218433}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 563244120}
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_Father: {fileID: 1246677093}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &866218436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866218433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ede6fbf1d07364409a23537921809504, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputHandler: {fileID: 0}
 --- !u!1 &937821215
 GameObject:
   m_ObjectHideFlags: 0
@@ -4715,10 +4666,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1177560105}
   - component: {fileID: 1177560110}
+  - component: {fileID: 1177560111}
+  - component: {fileID: 1177560106}
   - component: {fileID: 1177560109}
   - component: {fileID: 1177560108}
   - component: {fileID: 1177560107}
-  - component: {fileID: 1177560106}
   m_Layer: 5
   m_Name: recordButton
   m_TagString: Untagged
@@ -4759,7 +4711,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1013045763}
-  inputHandler: {fileID: 866218434}
   Timer: {fileID: 1632598188}
 --- !u!114 &1177560107
 MonoBehaviour:
@@ -4861,6 +4812,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 866218436}
+        m_TargetAssemblyTypeName: ArRetarget.TrackingButtonEventListner, Assembly-CSharp
+        m_MethodName: TrackingSceneButtonInput
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1177560111}
+          m_ObjectArgumentAssemblyTypeName: ArRetarget.TrackingButtonComponent, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1177560106}
         m_TargetAssemblyTypeName: ArRetarget.RecordButton, Assembly-CSharp
         m_MethodName: OnToggleRecording
@@ -4873,6 +4836,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1177560111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177560104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16a22acd7c5664bdeaa0b439e50cca98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
 --- !u!1 &1183323170
 GameObject:
   m_ObjectHideFlags: 0
@@ -4970,6 +4946,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1183323170}
   m_CullTransparentMesh: 0
+--- !u!1 &1246677092
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1246677093}
+  m_Layer: 0
+  m_Name: GUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1246677093
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246677092}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 668276754}
+  - {fileID: 866218435}
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1263866479
 GameObject:
   m_ObjectHideFlags: 0
@@ -5211,10 +5219,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1391590110}
   - component: {fileID: 1391590115}
+  - component: {fileID: 1391590111}
   - component: {fileID: 1391590114}
   - component: {fileID: 1391590113}
   - component: {fileID: 1391590112}
-  - component: {fileID: 1391590111}
   m_Layer: 5
   m_Name: filebrowserButton
   m_TagString: Untagged
@@ -5251,12 +5259,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1391590109}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65ce98c2ba2f74fd6ae8c0f0d1e95220, type: 3}
+  m_Script: {fileID: 11500000, guid: 16a22acd7c5664bdeaa0b439e50cca98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interfaceObj: {fileID: 866218433}
-  fileBrowser: {fileID: 0}
-  mainScreen: {fileID: 176472717}
+  type: 2
 --- !u!114 &1391590112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5357,13 +5363,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1391590111}
-        m_TargetAssemblyTypeName: FileBrowserButton, Assembly-CSharp
-        m_MethodName: OnOpenFileBrowser
-        m_Mode: 1
+      - m_Target: {fileID: 866218436}
+        m_TargetAssemblyTypeName: ArRetarget.TrackingButtonEventListner, Assembly-CSharp
+        m_MethodName: TrackingSceneButtonInput
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1391590111}
+          m_ObjectArgumentAssemblyTypeName: ArRetarget.TrackingButtonComponent, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -5444,10 +5450,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1430134539}
   - component: {fileID: 1430134544}
+  - component: {fileID: 1430134540}
   - component: {fileID: 1430134543}
   - component: {fileID: 1430134542}
   - component: {fileID: 1430134541}
-  - component: {fileID: 1430134540}
   m_Layer: 5
   m_Name: settingsButton
   m_TagString: Untagged
@@ -5484,12 +5490,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1430134538}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bc48265d5f0c4147be61bf7f6cab06b, type: 3}
+  m_Script: {fileID: 11500000, guid: 16a22acd7c5664bdeaa0b439e50cca98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interfaceObj: {fileID: 866218433}
-  settingsMenu: {fileID: 0}
-  mainScreen: {fileID: 176472717}
+  type: 3
 --- !u!114 &1430134541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5590,13 +5594,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1430134540}
-        m_TargetAssemblyTypeName: SettingsButton, Assembly-CSharp
-        m_MethodName: OnOpenSettings
-        m_Mode: 1
+      - m_Target: {fileID: 866218436}
+        m_TargetAssemblyTypeName: ArRetarget.TrackingButtonEventListner, Assembly-CSharp
+        m_MethodName: TrackingSceneButtonInput
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1430134540}
+          m_ObjectArgumentAssemblyTypeName: ArRetarget.TrackingButtonComponent, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -5612,10 +5616,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1459568432}
   - component: {fileID: 1459568437}
+  - component: {fileID: 1459568433}
   - component: {fileID: 1459568436}
   - component: {fileID: 1459568435}
   - component: {fileID: 1459568434}
-  - component: {fileID: 1459568433}
   m_Layer: 5
   m_Name: swapButton
   m_TagString: Untagged
@@ -5652,19 +5656,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1459568431}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db62cdb0805224695b78df43748686e3, type: 3}
+  m_Script: {fileID: 11500000, guid: 16a22acd7c5664bdeaa0b439e50cca98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenuSceneTitle: {fileID: 1690223551}
-  inputHandler: {fileID: 866218434}
-  CameraTracking:
-    titel: Camera Tracking
-    sprite: {fileID: 0}
-    index: 1
-  FaceTracking:
-    titel: Face Tracking
-    sprite: {fileID: 0}
-    index: 2
+  type: 1
 --- !u!114 &1459568434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5764,7 +5759,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1459568435}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 866218436}
+        m_TargetAssemblyTypeName: ArRetarget.TrackingButtonEventListner, Assembly-CSharp
+        m_MethodName: TrackingSceneButtonInput
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1459568433}
+          m_ObjectArgumentAssemblyTypeName: ArRetarget.TrackingButtonComponent, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1572206254
 GameObject:
   m_ObjectHideFlags: 0
@@ -6380,7 +6387,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: face tracking
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
@@ -6903,6 +6910,51 @@ Transform:
   m_Father: {fileID: 248870447}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1858796519
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1858796521}
+  - component: {fileID: 1858796520}
+  m_Layer: 0
+  m_Name: TrackingDataManager
+  m_TagString: manager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1858796520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1858796519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23dfa73105f6a41e3a158e8bbc86bb6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recording: 0
+  captureIntrinsics: 1
+--- !u!4 &1858796521
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1858796519}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.19999981, z: -4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1870769033
 GameObject:
   m_ObjectHideFlags: 0
@@ -7208,19 +7260,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1965648680}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db62cdb0805224695b78df43748686e3, type: 3}
+  m_Script: {fileID: 11500000, guid: 16a22acd7c5664bdeaa0b439e50cca98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenuSceneTitle: {fileID: 1690223551}
-  inputHandler: {fileID: 866218434}
-  CameraTracking:
-    titel: Camera Tracking
-    sprite: {fileID: 0}
-    index: 1
-  FaceTracking:
-    titel: Face Tracking
-    sprite: {fileID: 0}
-    index: 2
+  type: 1
 --- !u!114 &1965648686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7263,7 +7306,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1965648682}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 866218436}
+        m_TargetAssemblyTypeName: ArRetarget.TrackingButtonEventListner, Assembly-CSharp
+        m_MethodName: TrackingSceneButtonInput
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1965648685}
+          m_ObjectArgumentAssemblyTypeName: ArRetarget.TrackingButtonComponent, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2075159766
 GameObject:
   m_ObjectHideFlags: 0

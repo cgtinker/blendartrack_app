@@ -6,192 +6,197 @@ using UnityEngine.XR.ARFoundation;
 
 namespace ArRetarget
 {
-    public class TrackingDataManager : MonoBehaviour
-    {
-        #region refs
-        private string persistentPath;
-        public bool _recording = false;
-        public bool captureIntrinsics = true;
-        private int frame = 0;
-        private ARSession arSession;
+	public class TrackingDataManager : MonoBehaviour
+	{
+		#region refs
+		private string persistentPath;
+		public bool _recording = false;
+		public bool captureIntrinsics = true;
+		private int frame = 0;
+		private ARSession arSession;
 
-        private List<IGet<int, bool>> getters = new List<IGet<int, bool>>();
-        private List<IJson> jsons = new List<IJson>();
-        private List<IInit<string, string>> inits = new List<IInit<string, string>>();
-        private List<IStop> stops = new List<IStop>();
-        private List<IPrefix> prefixs = new List<IPrefix>();
-        #endregion
+		private List<IGet<int, bool>> getters = new List<IGet<int, bool>>();
+		private List<IJson> jsons = new List<IJson>();
+		private List<IInit<string, string>> inits = new List<IInit<string, string>>();
+		private List<IStop> stops = new List<IStop>();
+		private List<IPrefix> prefixs = new List<IPrefix>();
+		#endregion
 
-        #region initialize tracking session
-        void Start()
-        {
-            //set persistent path
-            persistentPath = Application.persistentDataPath;
-            _recording = false;
+		#region initialize tracking session
+		void Start()
+		{
+			//set persistent path
+			persistentPath = Application.persistentDataPath;
+			_recording = false;
 
-            //match the frame rate of ar and unity updates
-            if (arSession == null)
-            {
-                arSession = GameObject.FindGameObjectWithTag("arSession").GetComponent<ARSession>();
-            }
+			//match the frame rate of ar and unity updates
+			if (arSession == null)
+			{
+				var ob = GameObject.FindGameObjectWithTag("arSession");
 
-            if (!arSession.matchFrameRate)
-                arSession.matchFrameRate = true;
+				if (ob)
+					arSession = ob.GetComponent<ARSession>();
+				else
+					Debug.Log("No ARSession obj available");
+			}
 
-            Debug.Log("Session started");
-        }
+			if (arSession && !arSession.matchFrameRate)
+				arSession.matchFrameRate = true;
 
-        //resetting as not all tracking models include all tracker interfaces
-        public void ResetTrackerInterfaces()
-        {
-            var referencer = GameObject.FindGameObjectWithTag("referencer");
-            if (referencer != null)
-            {
-                var script = referencer.GetComponent<TrackerReferencer>();
-                script.assigned = false;
-            }
+			Debug.Log("Session started");
+		}
 
-            getters.Clear();
-            jsons.Clear();
-            inits.Clear();
-            stops.Clear();
-            prefixs.Clear();
-        }
+		//resetting as not all tracking models include all tracker interfaces
+		public void ResetTrackerInterfaces()
+		{
+			var referencer = GameObject.FindGameObjectWithTag("referencer");
+			if (referencer != null)
+			{
+				var script = referencer.GetComponent<TrackerReferencer>();
+				script.assigned = false;
+			}
 
-        //the tracking references always contains some of the following interfaces
-        public void SetRecorderReference(GameObject obj)
-        {
-            if (obj.GetComponent<IInit<string, string>>() != null)
-            {
-                inits.Add(obj.GetComponent<IInit<string, string>>());
-            }
+			getters.Clear();
+			jsons.Clear();
+			inits.Clear();
+			stops.Clear();
+			prefixs.Clear();
+		}
 
-            if (obj.GetComponent<IPrefix>() != null)
-            {
-                prefixs.Add(obj.GetComponent<IPrefix>());
-            }
+		//the tracking references always contains some of the following interfaces
+		public void SetRecorderReference(GameObject obj)
+		{
+			if (obj.GetComponent<IInit<string, string>>() != null)
+			{
+				inits.Add(obj.GetComponent<IInit<string, string>>());
+			}
 
-            if (obj.GetComponent<IJson>() != null)
-            {
+			if (obj.GetComponent<IPrefix>() != null)
+			{
+				prefixs.Add(obj.GetComponent<IPrefix>());
+			}
 
-                jsons.Add(obj.GetComponent<IJson>());
-            }
+			if (obj.GetComponent<IJson>() != null)
+			{
 
-            if (obj.GetComponent<IGet<int, bool>>() != null)
-            {
-                getters.Add(obj.GetComponent<IGet<int, bool>>());
-            }
+				jsons.Add(obj.GetComponent<IJson>());
+			}
 
-            if (obj.GetComponent<IStop>() != null)
-            {
-                stops.Add(obj.GetComponent<IStop>());
-            }
+			if (obj.GetComponent<IGet<int, bool>>() != null)
+			{
+				getters.Add(obj.GetComponent<IGet<int, bool>>());
+			}
 
-            Debug.Log("Received: " + obj.name);
-        }
-        #endregion
+			if (obj.GetComponent<IStop>() != null)
+			{
+				stops.Add(obj.GetComponent<IStop>());
+			}
 
-        #region capturing
-        //called by the recording button in the capture interface
-        public void ToggleRecording()
-        {
-            if (!_recording)
-            {
-                lastFrame = false;
-                StartCoroutine(OnInitRetargeting());
-            }
+			Debug.Log("Received: " + obj.name);
+		}
+		#endregion
 
-            else
-            {
-                OnStopRetargeting();
-            }
+		#region capturing
+		//called by the recording button in the capture interface
+		public void ToggleRecording()
+		{
+			if (!_recording)
+			{
+				lastFrame = false;
+				StartCoroutine(OnInitRetargeting());
+			}
 
-            _recording = !_recording;
+			else
+			{
+				OnStopRetargeting();
+			}
 
-            Debug.Log($"Recording: {_recording}");
-        }
+			_recording = !_recording;
 
-        WaitForEndOfFrame waitForFrame = new WaitForEndOfFrame();
-        string folderPath = "";
-        public IEnumerator OnInitRetargeting()
-        {
-            //folder to store files
-            string curTime = FileManagement.GetDateTime();
+			Debug.Log($"Recording: {_recording}");
+		}
 
-            folderPath = $"{persistentPath}/{curTime}_{prefixs[0].j_Prefix()}";
-            FileManagement.CreateDirectory(folderPath);
+		WaitForEndOfFrame waitForFrame = new WaitForEndOfFrame();
+		string folderPath = "";
+		public IEnumerator OnInitRetargeting()
+		{
+			//folder to store files
+			string curTime = FileManagement.GetDateTime();
 
-            //time to create dir
-            yield return waitForFrame;
-            //initialize trackers
-            InitTrackers(folderPath, "/" + curTime);
+			folderPath = $"{persistentPath}/{curTime}_{prefixs[0].j_Prefix()}";
+			FileManagement.CreateDirectory(folderPath);
 
-            //time to init - starting at frame 1 because of the delay
-            yield return waitForFrame;
-            frame = 1;
-            OnEnableTracking();
-        }
+			//time to create dir
+			yield return waitForFrame;
+			//initialize trackers
+			InitTrackers(folderPath, "/" + curTime);
 
-        //each tracker creates a file to write json data while tracking
-        private void InitTrackers(string path, string title)
-        {
-            Debug.Log("Attempt to init");
-            foreach (var init in inits)
-            {
-                init.Init(path, title);
-            }
-        }
+			//time to init - starting at frame 1 because of the delay
+			yield return waitForFrame;
+			frame = 1;
+			OnEnableTracking();
+		}
 
-        //called by toggle button event
-        private void OnStopRetargeting()
-        {
-            if (stops.Count > 0)
-            {
-                Debug.Log("stops: " + stops.Count);
-                foreach (var stop in stops)
-                {
-                    stop.StopTracking();
-                }
-            }
-        }
+		//each tracker creates a file to write json data while tracking
+		private void InitTrackers(string path, string title)
+		{
+			Debug.Log("Attempt to init");
+			foreach (var init in inits)
+			{
+				init.Init(path, title);
+			}
+		}
 
-        protected virtual void OnEnableTracking()
-        {
-            Debug.Log("Enabled Tracking");
-            Application.onBeforeRender += OnBeforeRenderPreformUpdate;
-        }
+		//called by toggle button event
+		private void OnStopRetargeting()
+		{
+			if (stops.Count > 0)
+			{
+				Debug.Log("stops: " + stops.Count);
+				foreach (var stop in stops)
+				{
+					stop.StopTracking();
+				}
+			}
+		}
 
-        protected virtual void OnDisableTracking()
-        {
-            Debug.Log("Disabled Tracking");
-            Application.onBeforeRender -= OnBeforeRenderPreformUpdate;
-        }
+		protected virtual void OnEnableTracking()
+		{
+			Debug.Log("Enabled Tracking");
+			Application.onBeforeRender += OnBeforeRenderPreformUpdate;
+		}
 
-        private bool lastFrame;
-        //update tracking data before the render event
-        protected virtual void OnBeforeRenderPreformUpdate()
-        {
-            if (_recording && getters.Count > 0 && !lastFrame)
-            {
-                GetFrameData();
-            }
+		protected virtual void OnDisableTracking()
+		{
+			Debug.Log("Disabled Tracking");
+			Application.onBeforeRender -= OnBeforeRenderPreformUpdate;
+		}
 
-            else if (!_recording && getters.Count > 0 && !lastFrame)
-            {
-                lastFrame = true;
-                GetFrameData();
-                OnDisableTracking();
-            }
-        }
+		private bool lastFrame;
+		//update tracking data before the render event
+		protected virtual void OnBeforeRenderPreformUpdate()
+		{
+			if (_recording && getters.Count > 0 && !lastFrame)
+			{
+				GetFrameData();
+			}
 
-        private void GetFrameData()
-        {
-            frame++;
-            foreach (var getter in getters)
-            {
-                getter.GetFrameData(frame, lastFrame);
-            }
-        }
-        #endregion
-    }
+			else if (!_recording && getters.Count > 0 && !lastFrame)
+			{
+				lastFrame = true;
+				GetFrameData();
+				OnDisableTracking();
+			}
+		}
+
+		private void GetFrameData()
+		{
+			frame++;
+			foreach (var getter in getters)
+			{
+				getter.GetFrameData(frame, lastFrame);
+			}
+		}
+		#endregion
+	}
 }

@@ -1,46 +1,63 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public static class ScreenOrientationManager
+namespace ArRetarget
 {
-	public static void SetAutoRotation()
+	public class ScreenOrientationManager
 	{
-		SetOrientation("auto");
-	}
-
-	public static void SetPortraitMode()
-	{
-		SetOrientation("portrait");
-	}
-
-	private static void SetOrientation(string orientation)
-	{
-		try
+		public enum Orientation
 		{
-			Debug.Log($"Attempt to set {orientation} screen orientation");
+			Portrait,
+			Auto
+		}
 
-			if (orientation == "auto")
+		private static Orientation m_orientation;
+
+		public static Orientation setOrientation
+		{
+			get
 			{
-				SetAutoRotation(true);
-				Screen.orientation = ScreenOrientation.AutoRotation;
+				return m_orientation;
+			}
+			set
+			{
+				m_orientation = value;
+				AttemptToChangeOrientation();
+			}
+		}
+
+		private static void AttemptToChangeOrientation()
+		{
+			try
+			{
+				SetScreenOrientation();
 			}
 
-			else
+			catch
 			{
+				Debug.LogError($"Cannot set {m_orientation} screen orientation");
+			}
+		}
+
+		private static void SetScreenOrientation()
+		{
+			switch (m_orientation)
+			{
+				case Orientation.Portrait:
 				SetAutoRotation(false);
 				Screen.orientation = ScreenOrientation.Portrait;
+				break;
+
+				case Orientation.Auto:
+				SetAutoRotation(true);
+				Screen.orientation = ScreenOrientation.AutoRotation;
+				break;
 			}
 		}
 
-		catch
+		private static void SetAutoRotation(bool cur)
 		{
-			Debug.LogError($"Cannot set {orientation} screen orientation");
+			Screen.autorotateToLandscapeLeft = cur;
+			Screen.autorotateToLandscapeRight = cur;
 		}
-	}
-
-	private static void SetAutoRotation(bool cur)
-	{
-		Screen.autorotateToLandscapeLeft = cur;
-		Screen.autorotateToLandscapeRight = cur;
 	}
 }

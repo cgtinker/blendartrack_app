@@ -50,12 +50,13 @@ namespace ArRetarget
 
 		private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 		{
-			Debug.Log($"Scene {mode} loaded: {scene.name}");
-			int sceneCount = GetSceneCount();
+			int loadedScenes = GetSceneCount();
+			CheckSceneType(scene.name);
+			Debug.Log($"Loaded {scene.name} successfully. {loadedScenes} loaded scenes active");
 			switch (sceneType)
 			{
 				case SceneTypes.Tracking:
-				PlayerPrefs.SetString("scene", "scene.name");
+				PlayerPrefs.SetString("scene", scene.name);
 				previousLoadedScene = scene.name;
 				break;
 
@@ -74,7 +75,7 @@ namespace ArRetarget
 		}
 		#endregion
 
-		public static void LoadSceneBeforeQuit()
+		public static void LoadStartupTrackingScene()
 		{
 			string sceneBeforeQuit = PlayerPrefs.GetString("scene", "Pose Data Tracker");
 			LoadScene(sceneBeforeQuit);
@@ -88,13 +89,14 @@ namespace ArRetarget
 			if (SceneIsLoaded(previousLoadedScene))
 				UnloadSceneAsync(previousLoadedScene);
 
+			Debug.Log("previous" + previousLoadedScene);
 			LoadSceneAsync(sceneName);
 		}
 
 		public static int GetSceneCount()
 		{
 			int count = SceneManager.sceneCount;
-			if (count > 3)
+			if (count > 2)
 				Debug.LogError("Scene Count: " + count);
 
 			return count;
