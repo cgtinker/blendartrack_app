@@ -7,16 +7,16 @@ using UnityEditor;
 [ExecuteInEditMode()]
 public class FlexibleUIButtonOverride : MonoBehaviour
 {
-    public FlexibleUIButtonData buttonSkinData;
+	public FlexibleUIButtonData data;
 
-    protected virtual void OnSkinUI()
-    {
+	protected virtual void OnSkinUI()
+	{
 
-    }
+	}
 
-    //adjusting UI data on awake
-    public virtual void Awake()
-    {
-        OnSkinUI();
-    }
+	//adjusting UI data on awake
+	public virtual void Awake()
+	{
+		OnSkinUI();
+	}
 }

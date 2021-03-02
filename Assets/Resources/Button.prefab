@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 8700424098158001429}
   - component: {fileID: 8700424098158001430}
   - component: {fileID: 8700424098158001431}
-  - component: {fileID: 8700424098158001432}
+  - component: {fileID: 8712941985159826753}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -196,22 +196,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8700424098158001432
+--- !u!114 &8712941985159826753
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8700424098158001434}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: caa7357d6980f40f4a0e1c8b0e3c28c0, type: 3}
+  m_Script: {fileID: 11500000, guid: 4cce3d1c1b9e940f885f91cc720c319f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonSkinData: {fileID: 11400000, guid: 6871e1776351a408eb87134f38dc1b26, type: 2}
+  data: {fileID: 0}
+  m_data: {fileID: 11400000, guid: 786966a71e9c24ecc912f24bfeb9cdb0, type: 2}
   image: {fileID: 8700424098158001431}
   icon: {fileID: 8700424097607991096}
   button: {fileID: 8700424098158001429}
-  buttonType: 0
   rectTransform: {fileID: 8700424098158001433}
   iconTransform: {fileID: 8700424097607991097}

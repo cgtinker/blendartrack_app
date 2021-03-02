@@ -5,11 +5,11 @@ namespace ArRetarget
 	public class RecordButton : MonoBehaviour
 	{
 		[SerializeField]
-		private Animator animator;
+		private Animator animator = null;
 
 		[SerializeField]
-		private GameObject Timer;
-		private TimeCounter counter;
+		private GameObject Timer = null;
+		private TimeCounter counter = null;
 
 		private bool recording;
 

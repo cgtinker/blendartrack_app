@@ -14,16 +14,16 @@ namespace ArRetarget
 
 		[Header("Pop Up Display")]
 		[SerializeField]
-		private GameObject PopupPrefab;
+		private GameObject PopupPrefab = null;
 		[SerializeField]
-		private Transform PopupParent;
+		private Transform PopupParent = null;
 		//public GameObject FileBrowserButton;
 
 		private List<GameObject> popupList = new List<GameObject>();
 
 		[Header("on finish rec Display")]
 		[SerializeField]
-		private GameObject OnFinishRecordingPrefab;
+		private GameObject OnFinishRecordingPrefab = null;
 		private TrackingDataManager dataManager;
 
 		public bool recording = false;

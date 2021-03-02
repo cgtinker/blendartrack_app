@@ -349,10 +349,10 @@ RectTransform:
   m_Father: {fileID: 210743902}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 148, y: -135.52058}
-  m_SizeDelta: {x: 296, y: 271.04117}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &57098455
 GameObject:
@@ -484,10 +484,10 @@ RectTransform:
   m_Father: {fileID: 757016537}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 66.6, y: -117.16884}
-  m_SizeDelta: {x: 133.2, y: 234.33768}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &131002095
 MonoBehaviour:
@@ -1269,7 +1269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caa7357d6980f40f4a0e1c8b0e3c28c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonSkinData: {fileID: 11400000, guid: 6871e1776351a408eb87134f38dc1b26, type: 2}
+  data: {fileID: 0}
   image: {fileID: 329616032}
   icon: {fileID: 2097633732}
   button: {fileID: 329616034}
@@ -1551,10 +1551,10 @@ RectTransform:
   m_Father: {fileID: 757016537}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 133.2, y: 0}
-  m_SizeDelta: {x: 754.8, y: 234.33768}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &495242640
 MonoBehaviour:
@@ -1962,10 +1962,10 @@ RectTransform:
   m_Father: {fileID: 210743902}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 444, y: -135.52058}
-  m_SizeDelta: {x: 296, y: 271.04117}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &585963026
 GameObject:
@@ -3398,7 +3398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caa7357d6980f40f4a0e1c8b0e3c28c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonSkinData: {fileID: 11400000, guid: 6871e1776351a408eb87134f38dc1b26, type: 2}
+  data: {fileID: 0}
   image: {fileID: 814433908}
   icon: {fileID: 1397411995}
   button: {fileID: 814433910}
@@ -3532,7 +3532,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1016422798}
   - component: {fileID: 1016422801}
-  - component: {fileID: 1016422800}
   - component: {fileID: 1016422799}
   - component: {fileID: 1016422797}
   m_Layer: 0
@@ -3587,18 +3586,6 @@ MonoBehaviour:
   JsonFileButtonPrefab: {fileID: 583121047191220868, guid: 9a7e2ff2814dc45b8889212ad20b93f4,
     type: 3}
   JsonFileButtonParent: {fileID: 9443926}
---- !u!114 &1016422800
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1016422796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 529debc9d24e04c1fa47bd66dd38c601, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1016422801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3611,7 +3598,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 534e7ee6bd6a44c08880c8151cab176c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jsonDirectoryHandler: {fileID: 1016422800}
   generateJsonDirectoryButtons: {fileID: 1016422799}
   filesAvailablePopup: {fileID: 1016422797}
 --- !u!1 &1024916623
@@ -4540,10 +4526,10 @@ RectTransform:
   m_Father: {fileID: 757016537}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 888, y: -117.16884}
-  m_SizeDelta: {x: 0, y: 234.33768}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1334641412
 MonoBehaviour:
@@ -6315,7 +6301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caa7357d6980f40f4a0e1c8b0e3c28c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonSkinData: {fileID: 11400000, guid: 6871e1776351a408eb87134f38dc1b26, type: 2}
+  data: {fileID: 0}
   image: {fileID: 1978379838}
   icon: {fileID: 1024916625}
   button: {fileID: 1978379840}
@@ -6545,7 +6531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caa7357d6980f40f4a0e1c8b0e3c28c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonSkinData: {fileID: 11400000, guid: 6871e1776351a408eb87134f38dc1b26, type: 2}
+  data: {fileID: 11400000, guid: 6871e1776351a408eb87134f38dc1b26, type: 2}
   image: {fileID: 2014177366}
   icon: {fileID: 596544453}
   button: {fileID: 2014177368}
@@ -6875,8 +6861,8 @@ RectTransform:
   m_Father: {fileID: 210743902}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 740, y: -135.52058}
-  m_SizeDelta: {x: 296, y: 271.04117}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
