@@ -7,7 +7,6 @@ namespace ArRetarget
 	public class FilebrowserManager : MonoBehaviour
 	{
 		public static string persistentPath;
-		public static List<JsonDirectory> JsonDirectories = new List<JsonDirectory>();
 
 		//[SerializeField]
 		//private JsonDirectoryHandler jsonDirectoryHandler = null;
@@ -20,21 +19,56 @@ namespace ArRetarget
 		private void Awake()
 		{
 			persistentPath = Application.persistentDataPath;
-			JsonDirectoryHandler jsonDirectoryHandler = new JsonDirectoryHandler();
-			JsonDirectories = jsonDirectoryHandler.GetDirectories(persistentPath);
+			List<JsonDirectory> currentJsonDirectories = GetDirectories();
+			FileManager.JsonDirectories = currentJsonDirectories;
 
-			//sorting dirs by time
-			if (JsonDirectories.Count > 1)
-				JsonDirectories.Sort((JsonDirectory x, JsonDirectory y) => y.value.CompareTo(x.value));
-
-			else
+			if (FileManager.JsonDirectories.Count == 0)
 				filesAvailablePopup.InstantiatePopup();
 		}
 
-		// instantiate the buttons
+		// generating buttons
 		private void Start()
 		{
-			generateJsonDirectoryButtons.GenerateButtons(JsonDirectories);
+			generateJsonDirectoryButtons.GenerateButtons(FileManager.JsonDirectories);
+		}
+
+		// getting stored and active json directories
+		private static List<JsonDirectory> GetDirectories()
+		{
+			JsonDirectoryHandler jsonDirectoryHandler = new JsonDirectoryHandler();
+
+			var recentJsonDirectories = FileManager.GetRecentDirectories;
+			var currentJsonDirectories = jsonDirectoryHandler.GetDirectories(persistentPath);
+
+			if (recentJsonDirectories.Count != currentJsonDirectories.Count)
+			{
+				var updatedDirectories = CompareToRecentlyStoredDirectories(recentJsonDirectories, currentJsonDirectories);
+
+				return updatedDirectories;
+			}
+
+			for (int i = 0; i < currentJsonDirectories.Count; i++)
+			{
+				if (recentJsonDirectories[i].dirPath != currentJsonDirectories[i].dirPath)
+				{
+					return currentJsonDirectories;
+				}
+			}
+
+			return recentJsonDirectories;
+		}
+
+		// updating json directories
+		private static List<JsonDirectory> CompareToRecentlyStoredDirectories(List<JsonDirectory> recentJsonDirectories, List<JsonDirectory> currentJsonDirectories)
+		{
+			int diff = currentJsonDirectories.Count - recentJsonDirectories.Count;
+
+			for (int i = diff; i < currentJsonDirectories.Count; i++)
+			{
+				currentJsonDirectories[i] = recentJsonDirectories[i - 3];
+			}
+
+			return currentJsonDirectories;
 		}
 
 		/// clean up after leaving the file browser
@@ -42,8 +76,8 @@ namespace ArRetarget
 		{
 			PurgeOrphans.PurgeOrphanZips();
 			PurgeOrphans.PurgeErrorMessages();
-			PurgeOrphans.DestroyOrphanButtons(JsonDirectories);
-			JsonDirectories.Clear();
+			PurgeOrphans.DestroyOrphanButtons(FileManager.JsonDirectories);
+			//FileManager.JsonDirectories.Clear();
 		}
 	}
 }

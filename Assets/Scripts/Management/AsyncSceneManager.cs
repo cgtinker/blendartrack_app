@@ -8,6 +8,11 @@ namespace ArRetarget
 	public class AsyncSceneManager : MonoBehaviour
 	{
 		private static string previousLoadedScene;
+		public static string loadedScene
+		{
+			get;
+			private set;
+		}
 
 		#region SceneTypes
 		public enum SceneTypes
@@ -27,7 +32,8 @@ namespace ArRetarget
 			{ "Filebrowser", SceneTypes.UI },
 			{ "Settings", SceneTypes.UI },
 			{ "Tutorial", SceneTypes.UI },
-			{ "PersistentData", SceneTypes.Persistent }
+			{ "JsonViewer", SceneTypes.UI },
+			{ "Main", SceneTypes.Persistent }
 		};
 
 		private static SceneTypes CheckSceneType(string sceneName)
@@ -72,6 +78,8 @@ namespace ArRetarget
 				previousLoadedScene = scene.name;
 				break;
 			}
+
+			loadedScene = scene.name;
 		}
 		#endregion
 

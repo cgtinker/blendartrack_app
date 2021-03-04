@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 1008797617084089171}
   - component: {fileID: 1008797617084089182}
   - component: {fileID: 1008797617084089183}
-  - component: {fileID: 1008797617084089168}
-  - component: {fileID: 1008797617084089169}
   - component: {fileID: 1008797617084089170}
+  - component: {fileID: 3365776233806958738}
+  - component: {fileID: 9068557499518598743}
   m_Layer: 5
   m_Name: FlexSettingsButtonPrefab
   m_TagString: Untagged
@@ -77,40 +77,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &1008797617084089168
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1008797617084089172}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c305a117b7364ababb1c483f809fa17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  layoutSkinData: {fileID: 11400000, guid: 916cf064d50fb41bc911cd793dcdf2d7, type: 2}
-  layoutGroup: {fileID: 1008797617084089183}
-  layoutType: 3
-  firstChild: {fileID: 1008797617243741399}
-  secondChild: {fileID: 1008797617418117005}
-  thirdChild: {fileID: 1008797617202091226}
---- !u!114 &1008797617084089169
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1008797617084089172}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f149692957c3f470695f5c8805fb4227, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  layoutPropsSkinData: {fileID: 11400000, guid: 87b7e1473f3a74a0293470eb232dd19e,
-    type: 2}
-  rectTransform: {fileID: 1008797617084089171}
-  buttonType: 1
 --- !u!114 &1008797617084089170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,6 +94,37 @@ MonoBehaviour:
   btnIsOn: 0
   selected: {fileID: 1008797618417906405}
   deselected: {fileID: 1008797617134341778}
+--- !u!114 &3365776233806958738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1008797617084089172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5329db679e0be4aa3b416e1b2ec22a5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: de54271d5442f47268870fc8e6a5b8e5, type: 2}
+  layoutGroup: {fileID: 1008797617084089183}
+  firstChild: {fileID: 1008797617243741399}
+  secondChild: {fileID: 1008797617418117005}
+  thirdChild: {fileID: 1008797617202091226}
+--- !u!114 &9068557499518598743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1008797617084089172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad00030bc48074c4fb935c1206f077cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: a00c903d2f9014d3c8d976b2bb36731b, type: 2}
+  rectTransform: {fileID: 1008797617084089171}
 --- !u!1 &1008797617134341778
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,7 +137,7 @@ GameObject:
   - component: {fileID: 1008797617134341789}
   - component: {fileID: 1008797617134341790}
   - component: {fileID: 1008797617134341791}
-  - component: {fileID: 1008797617134341776}
+  - component: {fileID: 1672814377309190937}
   m_Layer: 5
   m_Name: deselected
   m_TagString: Untagged
@@ -261,7 +258,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1008797617134341776
+--- !u!114 &1672814377309190937
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -270,14 +267,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1008797617134341778}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: caa7357d6980f40f4a0e1c8b0e3c28c0, type: 3}
+  m_Script: {fileID: 11500000, guid: 4cce3d1c1b9e940f885f91cc720c319f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonSkinData: {fileID: 11400000, guid: 6871e1776351a408eb87134f38dc1b26, type: 2}
+  data: {fileID: 11400000, guid: dd63ee8eda01346b19ad059dd3721789, type: 2}
+  defaultData: {fileID: 11400000, guid: 8e3d5927a7a3c4634af86ef4719b98b5, type: 2}
   image: {fileID: 1008797617134341791}
   icon: {fileID: 1008797617211698018}
   button: {fileID: 1008797617134341789}
-  buttonType: 10
   rectTransform: {fileID: 1008797617134341777}
   iconTransform: {fileID: 1008797617211698019}
 --- !u!1 &1008797617202091229
@@ -341,7 +338,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 0
+  m_PreferredWidth: 230.40001
   m_PreferredHeight: 120
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1
@@ -514,7 +511,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 249.6
+  m_PreferredWidth: 230.40001
   m_PreferredHeight: 120
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1
@@ -612,7 +609,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 1670.4
+  m_PreferredWidth: 1459.2001
   m_PreferredHeight: 840
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1
@@ -789,7 +786,7 @@ GameObject:
   - component: {fileID: 1008797618417906401}
   - component: {fileID: 1008797618417906402}
   - component: {fileID: 1008797618417906403}
-  - component: {fileID: 1008797618417906404}
+  - component: {fileID: 2422562911479282342}
   m_Layer: 5
   m_Name: selected
   m_TagString: Untagged
@@ -910,7 +907,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1008797618417906404
+--- !u!114 &2422562911479282342
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -919,14 +916,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1008797618417906405}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: caa7357d6980f40f4a0e1c8b0e3c28c0, type: 3}
+  m_Script: {fileID: 11500000, guid: 4cce3d1c1b9e940f885f91cc720c319f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonSkinData: {fileID: 11400000, guid: 6871e1776351a408eb87134f38dc1b26, type: 2}
+  data: {fileID: 11400000, guid: b3184858c6dd64c95bac6a8f9d1e1d73, type: 2}
+  defaultData: {fileID: 11400000, guid: 8e3d5927a7a3c4634af86ef4719b98b5, type: 2}
   image: {fileID: 1008797618417906403}
   icon: {fileID: 1008797617915993414}
   button: {fileID: 1008797618417906401}
-  buttonType: 9
   rectTransform: {fileID: 1008797618417906400}
   iconTransform: {fileID: 1008797617915993432}
 --- !u!1 &1008797618879714575
@@ -940,7 +937,7 @@ GameObject:
   - component: {fileID: 1008797618879714574}
   - component: {fileID: 1008797618879714571}
   - component: {fileID: 1008797618879714572}
-  - component: {fileID: 1008797618879714573}
+  - component: {fileID: 4525144991524835201}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -1064,7 +1061,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &1008797618879714573
+--- !u!114 &4525144991524835201
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1073,10 +1070,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1008797618879714575}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 687645f4d607f41048ba9167eea79aa3, type: 3}
+  m_Script: {fileID: 11500000, guid: fb5184a354f9a4152901dd44988c17a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textSkinData: {fileID: 11400000, guid: 34ce73d6a992c41789d1cd37f55b6366, type: 2}
+  data: {fileID: 11400000, guid: 1b6943bcdd82349c5a35eb4bbd97d3c7, type: 2}
+  font: {fileID: 11400000, guid: 4a70415e9ace94e46b17ee7632ad1295, type: 2}
   text: {fileID: 1008797618879714572}
-  textType: 3
   rectTransform: {fileID: 1008797618879714574}

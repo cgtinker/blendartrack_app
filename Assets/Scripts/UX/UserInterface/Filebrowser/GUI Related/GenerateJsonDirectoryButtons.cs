@@ -44,7 +44,7 @@ namespace ArRetarget
 
 				//passing data to the button script
 				var fileButtonScript = jsonFileBtnObj.GetComponent<JsonFileButton>();
-				fileButtonScript.InitFileButton(JsonDirectories[i], gameObject.GetComponent<FileBrowserEventManager>());
+				fileButtonScript.InitFileButton(JsonDirectories[i]);
 			}
 		}
 	}

@@ -10,9 +10,7 @@ namespace ArRetarget
 
 		public List<JsonDirectory> GetDirectories(string persistentPath)
 		{
-			string[] dirs = FileManagement.GetDirectories(persistentPath);
-			List<JsonDirectory> tmp_jsonDirectories = new List<JsonDirectory>();
-			AddValidFoldersToDirectoryList(dirs, tmp_jsonDirectories);
+			List<JsonDirectory> tmp_jsonDirectories = GetValidDirectories(persistentPath);
 
 			if (tmp_jsonDirectories.Count == 0)
 				return tmp_jsonDirectories;
@@ -20,8 +18,25 @@ namespace ArRetarget
 			for (int i = 0; i < tmp_jsonDirectories.Count; i++)
 			{
 				GetJsonForPreviewByName(tmp_jsonDirectories, i);
+				GetFileSizes(tmp_jsonDirectories, i);
 			}
 
+			tmp_jsonDirectories.Sort((JsonDirectory x, JsonDirectory y) => y.value.CompareTo(x.value));
+
+			return tmp_jsonDirectories;
+		}
+
+		private static void GetFileSizes(List<JsonDirectory> tmp_jsonDirectories, int i)
+		{
+			if (FileManagement.ValidatePath(tmp_jsonDirectories[i].jsonFilePath))
+				tmp_jsonDirectories[i].jsonSize = (int)FileManagement.GetFileSize(tmp_jsonDirectories[i].jsonFilePath);
+		}
+
+		private List<JsonDirectory> GetValidDirectories(string persistentPath)
+		{
+			string[] dirs = FileManagement.GetDirectories(persistentPath);
+			List<JsonDirectory> tmp_jsonDirectories = new List<JsonDirectory>();
+			AddValidFoldersToDirectoryList(dirs, tmp_jsonDirectories);
 			return tmp_jsonDirectories;
 		}
 
@@ -56,8 +71,6 @@ namespace ArRetarget
 				}
 			}
 		}
-
-
 		#endregion
 
 		#region subdir pointer to file

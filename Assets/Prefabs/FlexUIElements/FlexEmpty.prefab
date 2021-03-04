@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9033506918276824797}
-  - component: {fileID: 7925094950432875140}
+  - component: {fileID: 7686576189759487184}
   m_Layer: 5
   m_Name: FlexEmpty
   m_TagString: Untagged
@@ -34,9 +34,9 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1, y: 38}
+  m_SizeDelta: {x: 1, y: 57}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7925094950432875140
+--- !u!114 &7686576189759487184
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,10 +45,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 8885375446283609047}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f149692957c3f470695f5c8805fb4227, type: 3}
+  m_Script: {fileID: 11500000, guid: ad00030bc48074c4fb935c1206f077cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layoutPropsSkinData: {fileID: 11400000, guid: 87b7e1473f3a74a0293470eb232dd19e,
-    type: 2}
+  data: {fileID: 11400000, guid: f8598aea5a89d420b8d57db27ab7ff2b, type: 2}
   rectTransform: {fileID: 9033506918276824797}
-  buttonType: 4

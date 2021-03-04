@@ -27,20 +27,6 @@ namespace ArRetarget
 			else
 				StateMachine.Instance.SetState(StateMachine.State.RecentTracking);
 		}
-
-		private void CheckArCoreSupport()
-		{
-			//check if ar core is installed
-			if (DeviceManager.Instance.device == DeviceManager.Device.Android)
-			{
-				//SupportChecker.SetActive(true);
-			}
-
-			else
-			{
-				//SupportChecker.SetActive(false);
-			}
-		}
 	}
 }
 

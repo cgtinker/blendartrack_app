@@ -1,4 +1,7 @@
 ﻿using UnityEngine;
+using System;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace ArRetarget
 {
@@ -17,7 +20,8 @@ namespace ArRetarget
 			SwitchTrackingType,
 
 			Filebrowser,
-			Settings
+			Settings,
+			JsonViewer
 		}
 
 		private State appState;
@@ -29,9 +33,22 @@ namespace ArRetarget
 			UpdateState();
 		}
 
-		private void Awake()
+		private IEnumerator Start()
 		{
-			SetState(State.StartUp);
+			yield return new WaitForEndOfFrame();
+			Debug.Log("Started State Machine");
+
+			if (DeviceManager.Instance.device != DeviceManager.Device.UnityEditor ||
+				AsyncSceneManager.loadedScene == "Main")
+			{
+				SetState(State.StartUp);
+			}
+
+			else if (DeviceManager.Instance.device == DeviceManager.Device.UnityEditor &&
+				AsyncSceneManager.loadedScene != "Main")
+			{
+				AsyncSceneManager.LoadScene("Main");
+			}
 		}
 
 		private void UpdateState()
@@ -61,8 +78,6 @@ namespace ArRetarget
 					SetState(State.CameraTracking);
 				else
 					SetState(State.FaceTracking);
-
-				Debug.LogWarning(recentTrackingScene);
 				break;
 
 				case State.SwitchTrackingType:
@@ -93,6 +108,16 @@ namespace ArRetarget
 
 				case State.Filebrowser:
 				AsyncSceneManager.LoadScene("Filebrowser");
+
+				GameObject[] orphans = GameObject.FindGameObjectsWithTag("viewer");
+				foreach (GameObject go in orphans)
+				{
+					Destroy(go);
+				}
+				break;
+
+				case State.JsonViewer:
+				AsyncSceneManager.LoadScene("JsonViewer");
 				break;
 
 				case State.Settings:

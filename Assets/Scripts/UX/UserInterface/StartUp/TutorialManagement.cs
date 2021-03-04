@@ -147,20 +147,7 @@ namespace ArRetarget
 		public void OnCloseTutorial()
 		{
 			PlayerPrefs.SetInt("tutorial", -1);
-
-			/*
-            //enable auto rotation
-            Screen.autorotateToLandscapeLeft = true;
-            Screen.autorotateToLandscapeRight = true;
-            Screen.orientation = ScreenOrientation.AutoRotation;
-            
-
-            //loading scene
-            int scene = PlayerPrefs.GetInt("scene", 1);
-            GameObject.FindGameObjectWithTag("manager").GetComponent<AdditiveSceneManager>().SwitchScene(scene);
-
-            this.gameObject.SetActive(false);
-            */
+			this.gameObject.GetComponent<ReturnToTrackingScene>().ReturnToTracking();
 		}
 		#endregion
 	}

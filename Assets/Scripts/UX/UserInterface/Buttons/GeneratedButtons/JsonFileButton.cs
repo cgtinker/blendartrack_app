@@ -4,86 +4,95 @@ using UnityEngine.UI;
 
 namespace ArRetarget
 {
-    public class JsonFileButton : MonoBehaviour
-    {
-        public GameObject ViewDataButton;
-        public Image viewedDataImage;
-        public Sprite viewedDataIcon;
-        public Sprite unviewedDataIcon;
+	public class JsonFileButton : MonoBehaviour
+	{
+		[SerializeField]
+		private GameObject ViewDataButton;
+		[SerializeField]
+		private Image viewedDataImage;
+		[SerializeField]
+		private Sprite viewedDataIcon;
+		[SerializeField]
+		private Sprite unviewedDataIcon;
 
-        //file name of the json
-        public TextMeshProUGUI filenameText;
+		//file name of the json
+		[SerializeField]
+		private TextMeshProUGUI filenameText;
 
-        //visual selection state
-        //public Toggle selectToggleBtn;
-        //public Button selectToggleBtn;
-        public bool btnIsOn = false;
+		//visual selection state
+		//public Toggle selectToggleBtn;
+		//public Button selectToggleBtn;
+		[SerializeField]
+		private bool btnIsOn = false;
 
-        public GameObject selected;
-        public GameObject deselected;
+		[SerializeField]
+		private GameObject selected;
+		[SerializeField]
+		private GameObject deselected;
 
-        //reference for the json viewer
-        public bool viewerActive = false;
-        private FileBrowserEventManager jsonFileButtonManager;
+		//info about the safed json file
+		public JsonDirectory m_jsonDirData;
 
-        //info about the safed json file
-        public JsonDirectory m_jsonDirData;
+		public void InitFileButton(JsonDirectory jsonFileData)
+		{
+			m_jsonDirData = new JsonDirectory();
+			m_jsonDirData = jsonFileData;
+			filenameText.text = jsonFileData.dirName;
 
-        public void InitFileButton(JsonDirectory jsonFileData, FileBrowserEventManager fileBtnManager)
-        {
-            //ref to manager
-            jsonFileButtonManager = fileBtnManager;
-            //paste data
-            m_jsonDirData = new JsonDirectory();
-            m_jsonDirData = jsonFileData;
-            //setting title
-            filenameText.text = m_jsonDirData.dirName;
-            //init btns are inactive
-            btnIsOn = false;
-            selected.SetActive(false);
-            deselected.SetActive(true);
-        }
+			if (jsonFileData.jsonSize >= 65)
+			{
+				ViewDataButton.SetActive(false);
+			}
 
-        public void OnTouchViewData()
-        {
-            if (string.IsNullOrEmpty(m_jsonDirData.jsonFilePath))
-            {
-                viewedDataImage.sprite = viewedDataIcon;
-                LogManager.Instance.Log("File reference couldn't be found. May the included files are corrupted or empty. Consider to check the data manually on your desktop.", LogManager.Message.Error);
-                return;
-            }
+			btnIsOn = m_jsonDirData.active;
+			ChangeViewedDisplayStatus(jsonFileData.viewed);
+			ChangeSelectionToggleStatus(btnIsOn);
+		}
 
-            viewedDataImage.sprite = viewedDataIcon;
-            ViewDataButton.SetActive(false);
-            //toggling the viewer, deactivating other btns
-            viewerActive = !viewerActive;
-            //dropdownViewerBtnImg.SetActive(viewerActive);
-            //string fileContents = FileManagement.FileContents(m_jsonDirData.jsonFilePath);
-            jsonFileButtonManager.OnToggleViewer(this.m_jsonDirData.index, viewerActive);
-        }
+		public void OnTouchViewData()
+		{
+			m_jsonDirData.viewed = true;
+			ChangeViewedDisplayStatus(true);
 
-        public void OnToggleButton()
-        {
-            btnIsOn = !btnIsOn;
-            ChangeSelectionToggleStatus(btnIsOn);
-        }
+			if (string.IsNullOrEmpty(m_jsonDirData.jsonFilePath))
+			{
+				viewedDataImage.sprite = viewedDataIcon;
+				LogManager.Instance.Log("File reference couldn't be found. May the included files are corrupted or empty. Consider to check the data manually on your desktop.", LogManager.Message.Error);
+				return;
+			}
 
-        public void ChangeSelectionToggleStatus(bool status)
-        {
-            selected.SetActive(status);
-            deselected.SetActive(!status);
+			FileManager.ChangeDirectoryProperties(m_jsonDirData);
+			FileManager.JsonPreview = m_jsonDirData;
+			StateMachine.Instance.SetState(StateMachine.State.JsonViewer);
+		}
 
-            if (m_jsonDirData.active == status)
-            {
-                return;
-            }
+		private void ChangeViewedDisplayStatus(bool viewed)
+		{
+			if (viewed)
+				viewedDataImage.sprite = viewedDataIcon;
 
-            //changed state and update the json file data status in btn manager
-            m_jsonDirData.active = status;
-            jsonFileButtonManager.JsonDirectories[m_jsonDirData.index].active = status;
+			else
+				viewedDataImage.sprite = unviewedDataIcon;
+		}
 
-            //remove the all / none / today highlight if there is any
-            jsonFileButtonManager.HighlightSelectBtnText(10);
-        }
-    }
+		public void OnToggleButton()
+		{
+			btnIsOn = !btnIsOn;
+			ChangeSelectionToggleStatus(btnIsOn);
+		}
+
+		public void ChangeSelectionToggleStatus(bool status)
+		{
+			selected.SetActive(status);
+			deselected.SetActive(!status);
+
+			if (m_jsonDirData.active == status)
+			{
+				return;
+			}
+
+			m_jsonDirData.active = status;
+			FileManager.ChangeDirectoryProperties(m_jsonDirData);
+		}
+	}
 }
