@@ -1,91 +1,58 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using ArRetarget;
 
 namespace ArRetarget
 {
-    public class SelectionHelper : MonoBehaviour
-    {
-        public void SelectTodaysFiles(List<JsonDirectory> jsonDirectories)
-        {
-            if (jsonDirectories.Count == 0)
-                return;
+	public class SelectionHelper : MonoBehaviour
+	{
+		public void SelectAllFiles()
+		{
+			SelectAllFiles(true);
+		}
 
-            string daytime = FileManagement.GetDateTime();
-            var curTime = FileManagement.StringToInt(daytime);    //conversion to get rid of signs
-            string today = FileManagement.RemoveLengthFromEnd(curTime.ToString(), 6);
+		public void DeselectAllFiles()
+		{
+			SelectAllFiles(false);
+		}
 
-            foreach (JsonDirectory data in jsonDirectories)
-            {
-                //get only year / month / day
-                string day = FileManagement.RemoveLengthFromEnd(data.value.ToString(), 6);
+		public void SelectTodaysFiles()
+		{
+			if (FileManager.JsonDirectories.Count == 0)
+				return;
 
-                if (today == day)
-                {
-                    var btn = data.obj.GetComponent<JsonFileButton>();
-                    btn.ChangeSelectionToggleStatus(true);
-                }
+			string daytime = FileManagement.GetDateTime();
+			var curTime = FileManagement.StringToInt(daytime);
+			string today = FileManagement.RemoveLengthFromEnd(curTime.ToString(), 6);
 
-                else
-                {
-                    var btn = data.obj.GetComponent<JsonFileButton>();
-                    btn.ChangeSelectionToggleStatus(false);
-                }
-            }
-            HighlightSelectBtnText(0);
-        }
+			for (int i = 0; i < FileManager.JsonDirectories.Count; i++)
+			{
+				string day = FileManagement.RemoveLengthFromEnd(
+					FileManager.JsonDirectories[i].value.ToString(), 6);
 
-        public void SelectAllFiles(List<JsonDirectory> jsonDirectories)
-        {
-            if (jsonDirectories.Count == 0)
-                return;
+				if (today == day)
+					ChangeSelectionStatus(i, true);
 
-            foreach (JsonDirectory data in jsonDirectories)
-            {
-                var btn = data.obj.GetComponent<JsonFileButton>();
-                btn.ChangeSelectionToggleStatus(true);
-            }
+				else
+					ChangeSelectionStatus(i, false);
+			}
+		}
 
-            HighlightSelectBtnText(1);
-        }
+		private static void SelectAllFiles(bool selected)
+		{
+			if (FileManager.JsonDirectories.Count == 0)
+				return;
 
-        public void DeselectAllFiles(List<JsonDirectory> jsonDirectories)
-        {
-            if (jsonDirectories.Count == 0)
-                return;
+			for (int i = 0; i < FileManager.JsonDirectories.Count; i++)
+			{
+				ChangeSelectionStatus(i, selected);
+			}
+		}
 
-            foreach (JsonDirectory data in jsonDirectories)
-            {
-                var btn = data.obj.GetComponent<JsonFileButton>();
-                btn.ChangeSelectionToggleStatus(false);
-            }
-
-            HighlightSelectBtnText(2);
-        }
-
-        //TODO: implement states for highlighting SelectionBtnText
-        public void HighlightSelectBtnText(int index)
-        {
-            //PurgeOrphans.PurgeOrphanZips("");
-            /*
-            for (int i = 0; i < selectBtnTextList.Count; i++)
-            {
-                if (i == index)
-                {
-                    if (selectBtnTextList[i].fontStyle != FontStyles.Underline)
-                    {
-                        selectBtnTextList[i].fontStyle = FontStyles.Underline;
-                    }
-                }
-
-                else
-                {
-                    if (selectBtnTextList[i].fontStyle != FontStyles.Normal)
-                        selectBtnTextList[i].fontStyle = FontStyles.Normal;
-                }
-            }
-            */
-        }
-    }
+		private static void ChangeSelectionStatus(int i, bool selected)
+		{
+			var btn = FileManager.JsonDirectories[i].obj.GetComponent<JsonFileButton>();
+			btn.ChangeButtonStatus(selected);
+		}
+	}
 }

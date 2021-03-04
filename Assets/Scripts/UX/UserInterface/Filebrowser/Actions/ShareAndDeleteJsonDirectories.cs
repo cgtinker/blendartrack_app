@@ -5,114 +5,114 @@ using TMPro;
 
 namespace ArRetarget
 {
-    public class ShareAndDeleteJsonDirectories : MonoBehaviour
-    {
-        //delete selected files
-        public void OnDeleteSelectedFiles(List<JsonDirectory> JsonDirectories)
-        {
-            List<string> selectedFiles = GetSelectedDirectories(JsonDirectories);
+	public class ShareAndDeleteJsonDirectories : MonoBehaviour
+	{
+		//delete selected files
+		public void OnDeleteSelectedFiles(List<JsonDirectory> JsonDirectories)
+		{
+			List<string> selectedFiles = GetSelectedDirectories(JsonDirectories);
 
-            if (selectedFiles.Count <= 0)
-                return;
+			if (selectedFiles.Count <= 0)
+				return;
 
-            else
-                FileManagement.DeleteDirectories(selectedFiles);
-        }
+			else
+				FileManagement.DeleteDirectories(selectedFiles);
+		}
 
-        //native share event for selected files
-        public void OnShareSelectedFiles(
-            GameObject LoadingScreen, TextMeshProUGUI LoadingMessage, List<JsonDirectory> JsonDirectories)
-        {
-            //ref selected file
-            List<string> selectedDirNames = GetSelectedDirectoryNames(JsonDirectories);
-            List<string> selectedDirPaths = GetSelectedDirectories(JsonDirectories);
+		//native share event for selected files
+		public void OnShareSelectedFiles(
+			GameObject LoadingScreen, TextMeshProUGUI LoadingMessage, List<JsonDirectory> JsonDirectories)
+		{
+			//ref selected file
+			List<string> selectedDirNames = GetSelectedDirectoryNames(JsonDirectories);
+			List<string> selectedDirPaths = GetSelectedDirectories(JsonDirectories);
 
-            if (selectedDirNames.Count <= 0)
-            {
-                LogManager.Instance.Log(
-                    "No Files selected. <br>Please select a file and try again.",
-                    LogManager.Message.Warning);
-                return;
-            }
+			if (selectedDirNames.Count <= 0)
+			{
+				LogManager.Instance.Log(
+					"No Files selected. <br>Please select a file and try again.",
+					LogManager.Message.Warning);
+				return;
+			}
 
-            else
-            {
-                LoadingScreen.SetActive(true);
-                LoadingMessage.text = "zipping files...";
-                StartCoroutine(CompressDataForceLoadingScreen(selectedDirNames, selectedDirPaths, LoadingScreen));
-            }
-        }
+			else
+			{
+				LoadingScreen.SetActive(true);
+				LoadingMessage.text = "zipping files...";
+				StartCoroutine(CompressDataForceLoadingScreen(selectedDirNames, selectedDirPaths, LoadingScreen));
+			}
+		}
 
-        private IEnumerator CompressDataForceLoadingScreen(
-            List<string> selectedDirNames, List<string> selectedDirPaths,
-            GameObject LoadingScreen)
-        {
-            LoadingScreen.SetActive(true);
+		private IEnumerator CompressDataForceLoadingScreen(
+			List<string> selectedDirNames, List<string> selectedDirPaths,
+			GameObject LoadingScreen)
+		{
+			LoadingScreen.SetActive(true);
 
-            yield return new WaitForSeconds(0.2f);
-            //date time reference
-            string localDate = FileManagement.GetDateTimeText();
+			yield return new WaitForSeconds(0.2f);
+			//date time reference
+			string localDate = FileManagement.GetDateTimeText();
 
-            //path to generated zip
-            string zip = FileManagement.CompressDirectories(selectedDirPaths);
+			//path to generated zip
+			string zip = FileManagement.CompressDirectories(selectedDirPaths);
 
-            //listing files to transfer for subject message
-            string filenames = "";
-            var paragraph = FileManagement.GetParagraph();
-            foreach (string filename in selectedDirNames)
-            {
-                var curFilename = filename + paragraph;
-                filenames += curFilename;
-            }
+			//listing files to transfer for subject message
+			string filenames = "";
+			var paragraph = FileManagement.GetParagraph();
+			foreach (string filename in selectedDirNames)
+			{
+				var curFilename = filename + paragraph;
+				filenames += curFilename;
+			}
 
-            //setting up share message / text
-            string subject = "Retarget " + localDate;
-            string text = "" + "Retarget " + localDate + paragraph + paragraph +
-                "Attached Files: " + paragraph + filenames;
-            LoadingScreen.SetActive(false);
+			//setting up share message / text
+			string subject = "Retarget " + localDate;
+			string text = "" + "Retarget " + localDate + paragraph + paragraph +
+				"Attached Files: " + paragraph + filenames;
+			LoadingScreen.SetActive(false);
 
-            //share data
-            FileManagement.ShareZip(zip, subject, text);
-        }
+			//share data
+			FileManagement.ShareZip(zip, subject, text);
+		}
 
-        #region get selected files
-        /// <summary>
-        /// get all selected dir names
-        /// </summary>
-        /// <returns></returns>
-        private List<string> GetSelectedDirectoryNames(List<JsonDirectory> JsonDirectories)
-        {
-            List<string> tmp_list = new List<string>();
+		#region get selected files
+		/// <summary>
+		/// get all selected dir names
+		/// </summary>
+		/// <returns></returns>
+		private List<string> GetSelectedDirectoryNames(List<JsonDirectory> JsonDirectories)
+		{
+			List<string> tmp_list = new List<string>();
 
-            foreach (JsonDirectory data in JsonDirectories)
-            {
-                if (data.active)
-                {
-                    tmp_list.Add(data.dirName);
-                }
-            }
+			foreach (JsonDirectory data in JsonDirectories)
+			{
+				if (data.active)
+				{
+					tmp_list.Add(data.dirName);
+				}
+			}
 
-            return tmp_list;
-        }
+			return tmp_list;
+		}
 
-        /// <summary>
-        /// get all selected directory paths
-        /// </summary>
-        /// <returns></returns>
-        private List<string> GetSelectedDirectories(List<JsonDirectory> JsonDirectories)
-        {
-            List<string> tmp_list = new List<string>();
+		/// <summary>
+		/// get all selected directory paths
+		/// </summary>
+		/// <returns></returns>
+		private List<string> GetSelectedDirectories(List<JsonDirectory> JsonDirectories)
+		{
+			List<string> tmp_list = new List<string>();
 
-            foreach (JsonDirectory data in JsonDirectories)
-            {
-                if (data.active)
-                {
-                    tmp_list.Add(data.dirPath);
-                }
-            }
+			foreach (JsonDirectory data in JsonDirectories)
+			{
+				if (data.active)
+				{
+					tmp_list.Add(data.dirPath);
+				}
+			}
 
-            return tmp_list;
-        }
-        #endregion
-    }
+			return tmp_list;
+		}
+		#endregion
+	}
 }

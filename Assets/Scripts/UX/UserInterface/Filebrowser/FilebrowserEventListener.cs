@@ -1,73 +1,116 @@
 ﻿using UnityEngine;
-using System.Collections;
-
+using System.Collections.Generic;
+using TMPro;
 namespace ArRetarget
 {
-    public class FilebrowserEventListener : MonoBehaviour
-    {
-        public static string persistentPath;
+	[RequireComponent(typeof(FilebrowserManager),
+		(typeof(SelectionHelper)),
+		(typeof(ShareAndDeleteJsonDirectories)))]
+	public class FilebrowserEventListener : MonoBehaviour
+	{
+		[SerializeField]
+		private GameObject loadingScreenObj;
+		[SerializeField]
+		private TextMeshProUGUI loadingScreenText;
 
-        private void Start()
-        {
-            persistentPath = Application.persistentDataPath;
-        }
+		private FilebrowserManager filebrowserManager;
+		private ShareAndDeleteJsonDirectories shareAndDelete;
 
-        #region Share and Delete
-        public void OnShareFiles()
-        {
+		[SerializeField]
+		private List<TextMeshProUGUI> selectionHelpers = new List<TextMeshProUGUI>();
+		private SelectionHelper selectionHelper;
 
-        }
+		private void Start()
+		{
+			filebrowserManager = this.gameObject.GetComponent<FilebrowserManager>();
+			shareAndDelete = this.gameObject.GetComponent<ShareAndDeleteJsonDirectories>();
+			selectionHelper = this.gameObject.GetComponent<SelectionHelper>();
+			loadingScreenObj.SetActive(false);
+		}
 
-        public void OnDeleteFiles()
-        {
+		#region Share and Delete
+		public void OnShareFiles()
+		{
+			shareAndDelete.OnShareSelectedFiles(loadingScreenObj, loadingScreenText, FileManager.JsonDirectories);
+		}
 
-        }
-        #endregion
+		public void OnDeleteFiles()
+		{
+			shareAndDelete.OnDeleteSelectedFiles(FileManager.JsonDirectories);
+			PurgeOrphans.DestroyOrphanButtons(FileManager.JsonDirectories);
+			filebrowserManager.Start();
+		}
+		#endregion
 
-        #region Select and Preview
-        public void OnSelectFile()
-        {
+		#region File Selection
+		private enum SelectionState
+		{
+			today,
+			none,
+			all,
+			custom
+		}
 
-        }
+		private SelectionState selectionState;
+		private SelectionState setSelectionState
+		{
+			get { return selectionState; }
+			set
+			{
+				selectionState = value;
+				UpdateSelectionState();
+			}
+		}
 
-        public void OnPreviewFile()
-        {
+		public void OnSelectFile()
+		{
+			setSelectionState = SelectionState.custom;
+		}
 
-        }
-        #endregion
+		public void OnSelectAllFiles()
+		{
+			setSelectionState = SelectionState.all;
+			selectionHelper.SelectAllFiles();
+		}
 
-        #region Selection Helper
-        public void OnSelectAllFiles()
-        {
+		public void OnSelectNoneFiles()
+		{
+			setSelectionState = SelectionState.none;
+			selectionHelper.DeselectAllFiles();
+		}
 
-        }
+		public void OnSelectTodayFiles()
+		{
+			setSelectionState = SelectionState.today;
+			selectionHelper.SelectTodaysFiles();
+		}
 
-        public void OnSelectNoneFiles()
-        {
+		private void UpdateSelectionState()
+		{
+			PurgeOrphans.PurgeOrphanZips();
+			foreach (TextMeshProUGUI text in selectionHelpers)
+			{
+				if (text.fontStyle != FontStyles.Normal)
+					text.fontStyle = FontStyles.Normal;
+			}
 
-        }
+			switch (selectionState)
+			{
+				case SelectionState.none:
+				selectionHelpers[2].fontStyle = FontStyles.Underline | FontStyles.Bold;
+				break;
+				case SelectionState.all:
+				selectionHelpers[1].fontStyle = FontStyles.Underline | FontStyles.Bold;
+				break;
+				case SelectionState.today:
+				selectionHelpers[0].fontStyle = FontStyles.Underline | FontStyles.Bold;
+				break;
+				case SelectionState.custom:
+				break;
+			}
+		}
+		#endregion
 
-        public void OnSelectTodayFiles()
-        {
 
-        }
-        #endregion
-
-        #region Navigation
-        public void OnReturnToFilebrowser()
-        {
-
-        }
-
-        public void OnReturnToTracking()
-        {
-
-        }
-
-        public void OnOpenViewer()
-        {
-
-        }
-        #endregion
-    }
+	}
 }

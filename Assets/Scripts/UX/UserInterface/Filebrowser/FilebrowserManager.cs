@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace ArRetarget
 {
+	[RequireComponent(typeof(FilebrowserEventListener))]
 	public class FilebrowserManager : MonoBehaviour
 	{
 		public static string persistentPath;
@@ -16,56 +17,53 @@ namespace ArRetarget
 		private FilebrowserNoFilesAvailablePopup filesAvailablePopup = null;
 
 		// referencing all stored directories containing (valid) .jsons
-		private void Awake()
+		public void Awake()
 		{
 			persistentPath = Application.persistentDataPath;
-			List<JsonDirectory> currentJsonDirectories = GetDirectories();
-			FileManager.JsonDirectories = currentJsonDirectories;
-
-			if (FileManager.JsonDirectories.Count == 0)
-				filesAvailablePopup.InstantiatePopup();
 		}
 
 		// generating buttons
-		private void Start()
+		public void Start()
 		{
+			FileManager.JsonDirectories = GetUpdatedDirectories();
+
+			if (FileManager.JsonDirectories.Count == 0)
+				filesAvailablePopup.InstantiatePopup();
+
 			generateJsonDirectoryButtons.GenerateButtons(FileManager.JsonDirectories);
 		}
 
 		// getting stored and active json directories
-		private static List<JsonDirectory> GetDirectories()
+		private static List<JsonDirectory> GetUpdatedDirectories()
 		{
 			JsonDirectoryHandler jsonDirectoryHandler = new JsonDirectoryHandler();
 
 			var recentJsonDirectories = FileManager.GetRecentDirectories;
 			var currentJsonDirectories = jsonDirectoryHandler.GetDirectories(persistentPath);
 
-			if (recentJsonDirectories.Count != currentJsonDirectories.Count)
-			{
-				var updatedDirectories = CompareToRecentlyStoredDirectories(recentJsonDirectories, currentJsonDirectories);
+			var updatedDirectories = CompareToRecentlyStoredDirectories(
+					recentJsonDirectories, currentJsonDirectories);
 
-				return updatedDirectories;
-			}
-
-			for (int i = 0; i < currentJsonDirectories.Count; i++)
-			{
-				if (recentJsonDirectories[i].dirPath != currentJsonDirectories[i].dirPath)
-				{
-					return currentJsonDirectories;
-				}
-			}
-
-			return recentJsonDirectories;
+			return updatedDirectories;
 		}
 
 		// updating json directories
-		private static List<JsonDirectory> CompareToRecentlyStoredDirectories(List<JsonDirectory> recentJsonDirectories, List<JsonDirectory> currentJsonDirectories)
+		private static List<JsonDirectory> CompareToRecentlyStoredDirectories(
+			List<JsonDirectory> recentJsonDirectories,
+			List<JsonDirectory> currentJsonDirectories)
 		{
-			int diff = currentJsonDirectories.Count - recentJsonDirectories.Count;
 
-			for (int i = diff; i < currentJsonDirectories.Count; i++)
+			for (int i = 0; i < currentJsonDirectories.Count; i++)
 			{
-				currentJsonDirectories[i] = recentJsonDirectories[i - 3];
+				for (int x = 0; x < recentJsonDirectories.Count; x++)
+				{
+					if (currentJsonDirectories[i].jsonFilePath != null &&
+						currentJsonDirectories[i].jsonFilePath == recentJsonDirectories[x].jsonFilePath)
+					{
+						currentJsonDirectories[i] = recentJsonDirectories[x];
+						break;
+					}
+				}
 			}
 
 			return currentJsonDirectories;
@@ -77,7 +75,6 @@ namespace ArRetarget
 			PurgeOrphans.PurgeOrphanZips();
 			PurgeOrphans.PurgeErrorMessages();
 			PurgeOrphans.DestroyOrphanButtons(FileManager.JsonDirectories);
-			//FileManager.JsonDirectories.Clear();
 		}
 	}
 }

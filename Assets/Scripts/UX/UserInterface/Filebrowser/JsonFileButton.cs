@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections;
 
 namespace ArRetarget
 {
@@ -15,51 +16,52 @@ namespace ArRetarget
 		[SerializeField]
 		private Sprite unviewedDataIcon;
 
-		//file name of the json
 		[SerializeField]
 		private TextMeshProUGUI filenameText;
 
-		//visual selection state
-		//public Toggle selectToggleBtn;
-		//public Button selectToggleBtn;
 		[SerializeField]
 		private bool btnIsOn = false;
-
 		[SerializeField]
 		private GameObject selected;
 		[SerializeField]
 		private GameObject deselected;
 
-		//info about the safed json file
-		public JsonDirectory m_jsonDirData;
+		private FilebrowserEventListener eventListener;
+		private JsonDirectory m_jsonDirData;
+
+		private IEnumerator Start()
+		{
+			yield return new WaitForEndOfFrame();
+			var obj = GameObject.FindGameObjectWithTag("interfaceManager");
+			eventListener = obj.GetComponent<FilebrowserEventListener>();
+		}
 
 		public void InitFileButton(JsonDirectory jsonFileData)
 		{
-			m_jsonDirData = new JsonDirectory();
 			m_jsonDirData = jsonFileData;
 			filenameText.text = jsonFileData.dirName;
-
-			if (jsonFileData.jsonSize >= 65)
-			{
-				ViewDataButton.SetActive(false);
-			}
+			bool viewable = ViewableJsonContents(jsonFileData);
+			ViewDataButton.SetActive(viewable);
 
 			btnIsOn = m_jsonDirData.active;
 			ChangeViewedDisplayStatus(jsonFileData.viewed);
 			ChangeSelectionToggleStatus(btnIsOn);
 		}
 
+		public void OnToggleButton()
+		{
+			btnIsOn = !btnIsOn;
+			eventListener.OnSelectFile();
+			ChangeSelectionToggleStatus(btnIsOn);
+		}
+
 		public void OnTouchViewData()
 		{
+			if (!ViewableJsonContents(m_jsonDirData))
+				return;
+
 			m_jsonDirData.viewed = true;
 			ChangeViewedDisplayStatus(true);
-
-			if (string.IsNullOrEmpty(m_jsonDirData.jsonFilePath))
-			{
-				viewedDataImage.sprite = viewedDataIcon;
-				LogManager.Instance.Log("File reference couldn't be found. May the included files are corrupted or empty. Consider to check the data manually on your desktop.", LogManager.Message.Error);
-				return;
-			}
 
 			FileManager.ChangeDirectoryProperties(m_jsonDirData);
 			FileManager.JsonPreview = m_jsonDirData;
@@ -75,24 +77,28 @@ namespace ArRetarget
 				viewedDataImage.sprite = unviewedDataIcon;
 		}
 
-		public void OnToggleButton()
+		private bool ViewableJsonContents(JsonDirectory jsonFileData)
 		{
-			btnIsOn = !btnIsOn;
-			ChangeSelectionToggleStatus(btnIsOn);
+			if (jsonFileData.jsonSize >= 65 || string.IsNullOrEmpty(m_jsonDirData.jsonFilePath))
+			{
+				return false;
+			}
+
+			return true;
 		}
 
-		public void ChangeSelectionToggleStatus(bool status)
+		private void ChangeSelectionToggleStatus(bool status)
 		{
 			selected.SetActive(status);
 			deselected.SetActive(!status);
-
-			if (m_jsonDirData.active == status)
-			{
-				return;
-			}
-
 			m_jsonDirData.active = status;
 			FileManager.ChangeDirectoryProperties(m_jsonDirData);
+		}
+
+		public void ChangeButtonStatus(bool status)
+		{
+			btnIsOn = status;
+			ChangeSelectionToggleStatus(status);
 		}
 	}
 }

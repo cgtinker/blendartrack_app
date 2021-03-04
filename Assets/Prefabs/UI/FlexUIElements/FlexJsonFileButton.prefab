@@ -35,11 +35,11 @@ RectTransform:
   m_Father: {fileID: 583121046407373846}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 96, y: 96}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &828748212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,7 +83,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 583121047191220866}
+      - m_Target: {fileID: 6112856672455109627}
         m_TargetAssemblyTypeName: ArRetarget.JsonFileButton, Assembly-CSharp
         m_MethodName: OnTouchViewData
         m_Mode: 1
@@ -184,11 +184,11 @@ RectTransform:
   m_Father: {fileID: 828748208}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 46.08, y: 46.08}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_SizeDelta: {x: 48, y: 48}
+  m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &1291392992
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -633,7 +633,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 583121047191220866}
+      - m_Target: {fileID: 6112856672455109627}
         m_TargetAssemblyTypeName: ArRetarget.JsonFileButton, Assembly-CSharp
         m_MethodName: OnTouchViewData
         m_Mode: 1
@@ -656,9 +656,9 @@ GameObject:
   - component: {fileID: 583121047191220871}
   - component: {fileID: 583121047191220867}
   - component: {fileID: 583121047191220864}
-  - component: {fileID: 583121047191220866}
   - component: {fileID: 6553180612403262297}
   - component: {fileID: 4770820763403293596}
+  - component: {fileID: 6112856672455109627}
   m_Layer: 5
   m_Name: FlexJsonFileButton
   m_TagString: Untagged
@@ -722,35 +722,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &583121047191220866
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 583121047191220868}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a50cf6a7af784f388a01a53c6fd0698, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ViewDataButton: {fileID: 1291392989}
-  viewedDataImage: {fileID: 1291392991}
-  viewedDataIcon: {fileID: 21300000, guid: 0d25279f993434e47a952c4e3c906fdf, type: 3}
-  unviewedDataIcon: {fileID: 21300000, guid: 4d3f93b06cb854a619f53c73272c709f, type: 3}
-  filenameText: {fileID: 583121046273680197}
-  btnIsOn: 0
-  selected: {fileID: 583121048226839868}
-  deselected: {fileID: 583121048202658940}
-  viewerActive: 0
-  m_jsonDirData:
-    dirPath: 
-    dirName: 
-    jsonFilePath: 
-    obj: {fileID: 0}
-    active: 0
-    index: 0
-    value: 0
 --- !u!114 &6553180612403262297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -782,6 +753,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: a00c903d2f9014d3c8d976b2bb36731b, type: 2}
   rectTransform: {fileID: 583121047191220871}
+--- !u!114 &6112856672455109627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 583121047191220868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8287b3cac14d54a6eba955a54e8c0fb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ViewDataButton: {fileID: 828748207}
+  viewedDataImage: {fileID: 1291392991}
+  viewedDataIcon: {fileID: 21300000, guid: 0d25279f993434e47a952c4e3c906fdf, type: 3}
+  unviewedDataIcon: {fileID: 21300000, guid: 4d3f93b06cb854a619f53c73272c709f, type: 3}
+  filenameText: {fileID: 583121046273680197}
+  btnIsOn: 0
+  selected: {fileID: 583121048226839868}
+  deselected: {fileID: 583121048202658940}
 --- !u!1 &583121047517712766
 GameObject:
   m_ObjectHideFlags: 0
@@ -1113,7 +1104,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 583121047191220866}
+      - m_Target: {fileID: 6112856672455109627}
         m_TargetAssemblyTypeName: ArRetarget.JsonFileButton, Assembly-CSharp
         m_MethodName: OnToggleButton
         m_Mode: 1
@@ -1265,7 +1256,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 583121047191220866}
+      - m_Target: {fileID: 6112856672455109627}
         m_TargetAssemblyTypeName: ArRetarget.JsonFileButton, Assembly-CSharp
         m_MethodName: OnToggleButton
         m_Mode: 1
