@@ -208,8 +208,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cce3d1c1b9e940f885f91cc720c319f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 0}
-  m_data: {fileID: 11400000, guid: 786966a71e9c24ecc912f24bfeb9cdb0, type: 2}
+  data: {fileID: 11400000, guid: 786966a71e9c24ecc912f24bfeb9cdb0, type: 2}
+  defaultData: {fileID: 11400000, guid: 8e3d5927a7a3c4634af86ef4719b98b5, type: 2}
   image: {fileID: 8700424098158001431}
   icon: {fileID: 8700424097607991096}
   button: {fileID: 8700424098158001429}

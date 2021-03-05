@@ -91,8 +91,6 @@ namespace ArRetarget
 			{
 				stops.Add(obj.GetComponent<IStop>());
 			}
-
-			Debug.Log("Received: " + obj.name);
 		}
 		#endregion
 

@@ -441,7 +441,7 @@ GameObject:
   - component: {fileID: 325641340}
   m_Layer: 0
   m_Name: Start Up UI
-  m_TagString: interfaceManager
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -890,7 +890,7 @@ MonoBehaviour:
     m_Left: 96
     m_Right: 96
     m_Top: 57
-    m_Bottom: 57
+    m_Bottom: 52
   m_ChildAlignment: 4
   m_Spacing: 0
   m_ChildForceExpandWidth: 1

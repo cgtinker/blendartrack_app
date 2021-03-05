@@ -62,7 +62,7 @@ MonoBehaviour:
     nameInPlayerPrefs: cloud
     value: -1
   - obj: {fileID: 831538456237622015}
-    nameInPlayerPrefs: reference
+    nameInPlayerPrefs: default
     value: -1
   motionAnchorTag: anchor
   offset: 0

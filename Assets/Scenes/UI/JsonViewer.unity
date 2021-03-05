@@ -840,7 +840,7 @@ MonoBehaviour:
     m_Left: 96
     m_Right: 96
     m_Top: 57
-    m_Bottom: 53
+    m_Bottom: 52
   m_ChildAlignment: 4
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
@@ -1226,7 +1226,7 @@ GameObject:
   - component: {fileID: 1016422797}
   m_Layer: 0
   m_Name: JsonViewer UI
-  m_TagString: interfaceManager
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1688,6 +1688,7 @@ GameObject:
   - component: {fileID: 1326259132}
   - component: {fileID: 1326259133}
   - component: {fileID: 1326259136}
+  - component: {fileID: 1326259137}
   m_Layer: 5
   m_Name: viewerBtn
   m_TagString: Untagged
@@ -1823,6 +1824,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneToLoad: 7
+--- !u!114 &1326259137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1326259130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9a8519e0d7e24ef8b45c65f4bc230dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1387126485
 GameObject:
   m_ObjectHideFlags: 0
@@ -2291,6 +2304,7 @@ GameObject:
   - component: {fileID: 1978379839}
   - component: {fileID: 1978379838}
   - component: {fileID: 1978379837}
+  - component: {fileID: 1978379842}
   m_Layer: 5
   m_Name: backButtonViewer
   m_TagString: Untagged
@@ -2444,6 +2458,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneToLoad: 7
+--- !u!114 &1978379842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1978379835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9a8519e0d7e24ef8b45c65f4bc230dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2000108092
 GameObject:
   m_ObjectHideFlags: 0
@@ -2832,7 +2858,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4719915188905407676}
+      - m_Target: {fileID: 4719915188905407675}
         m_TargetAssemblyTypeName: ArRetarget.JsonFileButton, Assembly-CSharp
         m_MethodName: OnToggleButton
         m_Mode: 1
@@ -2965,7 +2991,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4719915188905407676}
+      - m_Target: {fileID: 4719915188905407675}
         m_TargetAssemblyTypeName: ArRetarget.JsonFileButton, Assembly-CSharp
         m_MethodName: OnToggleButton
         m_Mode: 1
@@ -3187,22 +3213,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4719915188600300804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4719915188600300806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 687645f4d607f41048ba9167eea79aa3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textSkinData: {fileID: 11400000, guid: 34ce73d6a992c41789d1cd37f55b6366, type: 2}
-  text: {fileID: 4719915188600300923}
-  textType: 3
-  rectTransform: {fileID: 4719915188600300805}
 --- !u!224 &4719915188600300805
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3233,7 +3243,6 @@ GameObject:
   - component: {fileID: 4719915188600300805}
   - component: {fileID: 4719915188600300922}
   - component: {fileID: 4719915188600300923}
-  - component: {fileID: 4719915188600300804}
   - component: {fileID: 2052082508686812630}
   m_Layer: 5
   m_Name: Text
@@ -3381,19 +3390,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4719915188787478685}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4719915188905407676}
-        m_TargetAssemblyTypeName: ArRetarget.JsonFileButton, Assembly-CSharp
-        m_MethodName: OnTouchViewData
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!222 &4719915188787478675
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3524,10 +3521,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4719915188905407673}
   - component: {fileID: 4719915188905407677}
-  - component: {fileID: 4719915188905407678}
-  - component: {fileID: 4719915188905407676}
+  - component: {fileID: 4719915188905407675}
   - component: {fileID: 1398010687238337895}
   - component: {fileID: 838360499861689762}
+  - component: {fileID: 4719915188905407678}
   m_Layer: 5
   m_Name: JsonButtonPointer
   m_TagString: Untagged
@@ -3535,7 +3532,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &4719915188905407676
+--- !u!114 &4719915188905407675
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3544,28 +3541,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 4719915188905407674}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a50cf6a7af784f388a01a53c6fd0698, type: 3}
+  m_Script: {fileID: 11500000, guid: 8287b3cac14d54a6eba955a54e8c0fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ViewDataButton: {fileID: 5302751460221948387}
-  viewedDataImage: {fileID: 5302751460221948385}
-  viewedDataIcon: {fileID: 21300000, guid: 0d25279f993434e47a952c4e3c906fdf, type: 3}
-  unviewedDataIcon: {fileID: 21300000, guid: 4d3f93b06cb854a619f53c73272c709f, type: 3}
+  ViewDataButton: {fileID: 0}
+  viewedDataImage: {fileID: 5302751461370378124}
+  viewedDataIcon: {fileID: 0}
+  unviewedDataIcon: {fileID: 0}
   filenameText: {fileID: 4719915188600300923}
   btnIsOn: 0
   selected: {fileID: 4719915187867663106}
   deselected: {fileID: 4719915187776504386}
-  viewerActive: 0
-  m_jsonDirData:
-    dirPath: 
-    dirName: 
-    jsonFilePath: 
-    obj: {fileID: 0}
-    active: 0
-    viewed: 0
-    index: 0
-    jsonSize: 0
-    value: 0
 --- !u!222 &4719915188905407677
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3718,7 +3704,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4719915188905407676}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ArRetarget.JsonFileButton, Assembly-CSharp
         m_MethodName: OnTouchViewData
         m_Mode: 1

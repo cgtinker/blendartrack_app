@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace ArRetarget
 {
-	[RequireComponent(typeof(Button))]
 	public class ReturnToTrackingScene : MonoBehaviour
 	{
 		public void ReturnToTracking()

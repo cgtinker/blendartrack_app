@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 2337975999660408467}
   - component: {fileID: 4608195299941202212}
   - component: {fileID: 8474645399083029521}
-  - component: {fileID: 2460969954741175771}
+  - component: {fileID: 4560095121781620839}
   m_Layer: 5
   m_Name: VerticalLayout
   m_TagString: Untagged
@@ -270,20 +270,19 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &2460969954741175771
+--- !u!114 &4560095121781620839
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5031783633436557662}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a755332f38e694e85861961d9ef5dc25, type: 3}
+  m_Script: {fileID: 11500000, guid: 5329db679e0be4aa3b416e1b2ec22a5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layoutSkinData: {fileID: 11400000, guid: 916cf064d50fb41bc911cd793dcdf2d7, type: 2}
-  layoutType: 0
+  data: {fileID: 11400000, guid: 43d4c273a610c4117933d83b9bed3a35, type: 2}
   layoutGroup: {fileID: 8474645399083029521}
   firstChild: {fileID: 941788934465534945}
   secondChild: {fileID: 7302028797904566109}

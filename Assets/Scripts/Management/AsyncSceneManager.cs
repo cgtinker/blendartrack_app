@@ -26,13 +26,14 @@ namespace ArRetarget
 
 		private static Dictionary<string, SceneTypes> SceneTypeDict = new Dictionary<string, SceneTypes>()
 		{
-			{ "Pose Data Tracker", SceneTypes.Tracking },
+			{ "Camera Tracker", SceneTypes.Tracking },
 			{ "Face Mesh Tracker", SceneTypes.Tracking },
 			{ "StartUp", SceneTypes.UI },
 			{ "Filebrowser", SceneTypes.UI },
 			{ "Settings", SceneTypes.UI },
 			{ "Tutorial", SceneTypes.UI },
 			{ "JsonViewer", SceneTypes.UI },
+			{ "ArCoreSupport", SceneTypes.UI },
 			{ "Main", SceneTypes.Persistent }
 		};
 
@@ -85,7 +86,7 @@ namespace ArRetarget
 
 		public static void LoadStartupTrackingScene()
 		{
-			string sceneBeforeQuit = PlayerPrefs.GetString("scene", "Pose Data Tracker");
+			string sceneBeforeQuit = PlayerPrefs.GetString("scene", "Camera Tracker");
 			LoadScene(sceneBeforeQuit);
 		}
 
@@ -97,7 +98,6 @@ namespace ArRetarget
 			if (SceneIsLoaded(previousLoadedScene))
 				UnloadSceneAsync(previousLoadedScene);
 
-			Debug.Log("previous" + previousLoadedScene);
 			LoadSceneAsync(sceneName);
 		}
 

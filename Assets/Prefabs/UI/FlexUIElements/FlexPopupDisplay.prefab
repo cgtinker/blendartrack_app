@@ -153,7 +153,7 @@ GameObject:
   - component: {fileID: 8244558447817778889}
   - component: {fileID: 8244558447817778890}
   - component: {fileID: 8244558447817778891}
-  - component: {fileID: 8244558447817778888}
+  - component: {fileID: 7445702437250589282}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -179,7 +179,7 @@ RectTransform:
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 1}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &8244558447817778890
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -235,8 +235,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 46
-  m_fontSizeBase: 46
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -277,21 +277,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &8244558447817778888
+--- !u!114 &7445702437250589282
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8244558447817778902}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 687645f4d607f41048ba9167eea79aa3, type: 3}
+  m_Script: {fileID: 11500000, guid: fb5184a354f9a4152901dd44988c17a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textSkinData: {fileID: 11400000, guid: 34ce73d6a992c41789d1cd37f55b6366, type: 2}
+  data: {fileID: 11400000, guid: 624c2d0b133c14ea2a5e3459d4128d06, type: 2}
+  font: {fileID: 11400000, guid: 4a70415e9ace94e46b17ee7632ad1295, type: 2}
   text: {fileID: 8244558447817778891}
-  textType: 2
   rectTransform: {fileID: 8244558447817778889}
 --- !u!1 &8744135266221797369
 GameObject:
@@ -306,7 +306,7 @@ GameObject:
   - component: {fileID: 8744135266221797370}
   - component: {fileID: 8744135266221797371}
   - component: {fileID: 8744135266221797368}
-  - component: {fileID: 807242231661105665}
+  - component: {fileID: 6645899063108410081}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -412,19 +412,17 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &807242231661105665
+--- !u!114 &6645899063108410081
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8744135266221797369}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f149692957c3f470695f5c8805fb4227, type: 3}
+  m_Script: {fileID: 11500000, guid: ad00030bc48074c4fb935c1206f077cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layoutPropsSkinData: {fileID: 11400000, guid: 87b7e1473f3a74a0293470eb232dd19e,
-    type: 2}
+  data: {fileID: 11400000, guid: fbba9d231464344749f42a9c23fea605, type: 2}
   rectTransform: {fileID: 8176064977799539840}
-  buttonType: 8

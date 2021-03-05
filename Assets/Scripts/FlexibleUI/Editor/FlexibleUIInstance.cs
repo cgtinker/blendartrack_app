@@ -6,10 +6,10 @@ public class FlexibleUIInstance : Editor
 {
 	static GameObject clickedObject;
 
-	[MenuItem("GameObject/FlexibleUI/FlexButton", priority = 0)]
+	[MenuItem("GameObject/FlexibleUI/Button", priority = 0)]
 	public static void AddButton()
 	{
-		var obj = Create("FlexButton");
+		var obj = Create("Button");
 	}
 
 	[MenuItem("GameObject/FlexibleUI/Text", priority = 0)]

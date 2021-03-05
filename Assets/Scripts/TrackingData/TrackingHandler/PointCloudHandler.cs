@@ -59,12 +59,14 @@ namespace ArRetarget
 			foreach (Vector3 point in pointCloud)
 			{
 				string json = JsonUtility.ToJson(point);
-				(contents, curTick, write) = DataHelper.JsonContentTicker(lastFrame: false, curTick: curTick, reqTick: 21, contents: contents, json: json);
+				(contents, curTick, write) = DataHelper.JsonContentTicker(
+					lastFrame: false, curTick: curTick, reqTick: 21, contents: contents, json: json);
 
 				//TODO: Check for closing
 				if (write)
 				{
-					JsonFileWriter.WriteDataToFile(path: filePath, text: contents, title: "", lastFrame: lastFrame);
+					JsonFileWriter.WriteDataToFile(
+						path: filePath, text: contents, title: "", lastFrame: lastFrame);
 					contents = "";
 				}
 

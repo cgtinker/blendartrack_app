@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 7677378817582957972}
   - component: {fileID: 7677378817582957971}
   - component: {fileID: 7677378817582957970}
-  - component: {fileID: 7677378817582957973}
+  - component: {fileID: 4254139191715106434}
   m_Layer: 5
   m_Name: HorizontalLayout
   m_TagString: Untagged
@@ -171,21 +171,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &7677378817582957973
+--- !u!114 &4254139191715106434
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7677378817582957975}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c305a117b7364ababb1c483f809fa17, type: 3}
+  m_Script: {fileID: 11500000, guid: 5329db679e0be4aa3b416e1b2ec22a5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layoutSkinData: {fileID: 11400000, guid: 916cf064d50fb41bc911cd793dcdf2d7, type: 2}
+  data: {fileID: 11400000, guid: 43d4c273a610c4117933d83b9bed3a35, type: 2}
   layoutGroup: {fileID: 7677378817582957970}
-  layoutType: 1
   firstChild: {fileID: 7677378818400609510}
   secondChild: {fileID: 7677378817028030836}
   thirdChild: {fileID: 7677378817922430425}

@@ -56,12 +56,12 @@ public class DeviceManager : Singleton<DeviceManager>
 		}
 #endif
 #if UNITY_ANDROID
-        if (Application.platform == RuntimePlatform.Android)
-        {
-            device = Device.Android;
-            Debug.Log("Runtime Platform: " + device);
-            return;
-        }
+		if (Application.platform == RuntimePlatform.Android)
+		{
+			device = Device.Android;
+			Debug.Log("Runtime Platform: " + device);
+			return;
+		}
 #endif
 		else
 		{
