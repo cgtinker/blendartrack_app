@@ -25,7 +25,7 @@ namespace ArRetarget
 		// generating buttons
 		public void Start()
 		{
-			FileManager.JsonDirectories = GetUpdatedDirectories();
+			FileManager.JsonDirectories = GetUpdatedDirectories(persistentPath);
 
 			if (FileManager.JsonDirectories.Count == 0)
 				filesAvailablePopup.InstantiatePopup();
@@ -34,7 +34,7 @@ namespace ArRetarget
 		}
 
 		// getting stored and active json directories
-		private static List<JsonDirectory> GetUpdatedDirectories()
+		public static List<JsonDirectory> GetUpdatedDirectories(string persistentPath)
 		{
 			JsonDirectoryHandler jsonDirectoryHandler = new JsonDirectoryHandler();
 

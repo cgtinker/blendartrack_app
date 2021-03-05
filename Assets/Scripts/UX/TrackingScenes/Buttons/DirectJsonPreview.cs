@@ -8,15 +8,14 @@ namespace ArRetarget
 	{
 		public void OpenJsonPreview()
 		{
-			JsonDirectoryHandler jsonDirectoryHandler = new JsonDirectoryHandler();
-			var dirs = jsonDirectoryHandler.GetDirectories(Application.persistentDataPath);
+			FileManager.JsonDirectories = FilebrowserManager.GetUpdatedDirectories(Application.persistentDataPath);
 
-			if (dirs[0].jsonSize < 65 && !String.IsNullOrEmpty(dirs[0].jsonFilePath))
+			if (FileManager.JsonDirectories[0].jsonSize < 65 && !String.IsNullOrEmpty(FileManager.JsonDirectories[0].jsonFilePath))
 			{
-				StartCoroutine(OpenPreview(dirs[0]));
+				StartCoroutine(OpenPreview(FileManager.JsonDirectories[0]));
 			}
 
-			else if (dirs[0].jsonSize > 65)
+			else if (FileManager.JsonDirectories[0].jsonSize > 65)
 			{
 				LogManager.Instance.Log("The recording size is to large for the in app viewer. But you can still import the data in blender!", LogManager.Message.Warning);
 			}
@@ -29,9 +28,11 @@ namespace ArRetarget
 
 		private IEnumerator OpenPreview(JsonDirectory dir)
 		{
+			dir.viewed = true;
+			FileManager.ChangeDirectoryProperties(dir);
 			FileManager.JsonPreview = dir;
 			FileManager.InstantPreview = true;
-			yield return new WaitForSeconds(0.2f);
+			yield return new WaitForSeconds(0.3f);
 			StateMachine.Instance.SetState(StateMachine.State.JsonViewer);
 		}
 	}

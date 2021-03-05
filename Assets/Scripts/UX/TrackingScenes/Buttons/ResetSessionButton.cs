@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 namespace ArRetarget
 {
@@ -6,8 +7,7 @@ namespace ArRetarget
 	{
 		public void ResetArSession()
 		{
-			ARSessionState.EnableAR(false);
-			ARSessionState.EnableAR(true);
+			StateMachine.Instance.SetState(StateMachine.State.RecentTracking);
 		}
 	}
 }

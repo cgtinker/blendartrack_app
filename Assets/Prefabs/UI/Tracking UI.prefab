@@ -2710,6 +2710,21 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4148985451863494276, guid: 6878dbaee59604a489c148656e64338f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: ArRetarget.ResetSessionButton, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4148985451863494276, guid: 6878dbaee59604a489c148656e64338f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ResetArSession
+      objectReference: {fileID: 0}
+    - target: {fileID: 4148985451863494276, guid: 6878dbaee59604a489c148656e64338f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4148985451863494277, guid: 6878dbaee59604a489c148656e64338f,
         type: 3}
       propertyPath: m_AnchorMin.y
