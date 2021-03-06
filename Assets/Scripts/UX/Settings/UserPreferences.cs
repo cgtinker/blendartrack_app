@@ -8,8 +8,9 @@ using UnityEngine;
 public class UserPreferences : Singleton<UserPreferences>
 {
 	#region Reference dictionarys for default values
-	private Dictionary<string, string> StringPrefDict = new Dictionary<string, string>();
+	//private Dictionary<string, string> StringPrefDict = new Dictionary<string, string>();
 
+	/*
 	public Dictionary<string, int> IntPrefDict = new Dictionary<string, int>()
 	{
         //scene ref
@@ -20,8 +21,8 @@ public class UserPreferences : Singleton<UserPreferences>
         { "recordFace", -1 },    // record video during face caputre
         { "cloud", -1 },         // recording point cloud data
     };
-
-	private Dictionary<string, float> FloatPrefDict = new Dictionary<string, float>();
+	*/
+	//private Dictionary<string, float> FloatPrefDict = new Dictionary<string, float>();
 
 	public Dictionary<string, int> CameraConfigDict = new Dictionary<string, int>();
 	public List<string> CameraConfigList = new List<string>();
@@ -90,6 +91,11 @@ public class UserPreferences : Singleton<UserPreferences>
 	#endregion
 
 	#region Get Values
+	#region set and get user prefs
+
+	#endregion
+
+
 	/*
 	public float GetFloatPref(string key)
 	{

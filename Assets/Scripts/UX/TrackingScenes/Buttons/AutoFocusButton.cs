@@ -15,14 +15,15 @@ namespace ArRetarget
 			var cam = GameObject.FindGameObjectWithTag("MainCamera");
 			cameraManager = cam.GetComponent<ARCameraManager>();
 
-			bool strike = IsFixedFocus();
-			StrikeThoughText(strike);
+			bool fixedFocus = IsFixedFocus();
+			AdjustTextDisplay(!fixedFocus);
 		}
 
 		public void ToggleFocusMode()
 		{
 			bool fixedFocus = IsFixedFocus();
 			SetAutoFocus(!fixedFocus);
+			AdjustTextDisplay(fixedFocus);
 		}
 
 		private bool IsFixedFocus()
@@ -58,13 +59,13 @@ namespace ArRetarget
 				cameraManager.focusMode = UnityEngine.XR.ARSubsystems.CameraFocusMode.Auto;
 		}
 
-		private void StrikeThoughText(bool fixedFocus)
+		private void AdjustTextDisplay(bool auto)
 		{
-			if (fixedFocus)
-				text.fontStyle = FontStyles.Strikethrough;
+			if (auto)
+				text.text = "auto";
 
 			else
-				text.fontStyle = FontStyles.Normal;
+				text.text = "fixed";
 		}
 	}
 }

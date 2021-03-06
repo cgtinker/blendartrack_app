@@ -8,16 +8,16 @@ namespace ArRetarget
 	{
 		#region refs
 		public GameObject SettingsButtonPrefab;
-		public GameObject SettingsTitelPrefab;
-		public GameObject empty;
+		//public GameObject SettingsTitelPrefab;
+		public GameObject videoSettingsHeader;
+		//public GameObject empty;
 
-		private GameObject videoSettigsTitle;
-
+		//private GameObject videoSettigsTitle;
 		public Transform SettingsObjParent;
 
-		public List<SettingButtonData> cameraSettings = new List<SettingButtonData>();
-		public List<SettingButtonData> faceSettings = new List<SettingButtonData>();
-		public List<SettingButtonData> generalSettings = new List<SettingButtonData>();
+		//public List<SettingButtonData> cameraSettings = new List<SettingButtonData>();
+		//public List<SettingButtonData> faceSettings = new List<SettingButtonData>();
+		//public List<SettingButtonData> generalSettings = new List<SettingButtonData>();
 		private List<SettingButtonData> recordingSettings = new List<SettingButtonData>();
 		#endregion
 
@@ -28,6 +28,7 @@ namespace ArRetarget
 
 		public void GenerateSettingsButtons()
 		{
+			/*
 			//general
 			if (generalSettings.Count > 0)
 			{
@@ -39,7 +40,7 @@ namespace ArRetarget
 			//camera settings
 			if (cameraSettings.Count > 0)
 			{
-				GenerateSettingsTitel("Camera Tracking");
+				//GenerateSettingsTitel("Camera Tracking");
 				GenerateButtons(cameraSettings, false);
 				GenerateEmptySpace();
 			}
@@ -67,51 +68,32 @@ namespace ArRetarget
 				}
 				break;
 			}
-
+			*/
 			//video settings generated at runtime (device dependant)
 			if (UserPreferences.Instance.CameraConfigList.Count > 0)
 			{
-				videoSettigsTitle = GenerateSettingsTitel("Video Settings");
+				//videoSettigsTitle = GenerateSettingsTitel("Video Settings");
 				GenerateRecordingSettingsButtons();
 			}
 		}
 
 
 		#region ui generation
-		private GameObject GenerateSettingsTitel(string displayName)
-		{
-			var tmp = Instantiate(SettingsTitelPrefab, Vector3.zero, Quaternion.identity);
-			var script = tmp.GetComponent<UserSettingsTitel>();
-			script.Init(displayName);
-			tmp.transform.SetParent(SettingsObjParent);
-			tmp.transform.localScale = Vector3.one;
 
-			return tmp;
-		}
 
-		private void GenerateButtons(List<SettingButtonData> buttons, bool isToggleGroup)
+		//custom toggle group
+		public void OnToggleXRCameraSetting(string name)
 		{
-			foreach (SettingButtonData button in buttons)
+			foreach (SettingButtonData button in recordingSettings)
 			{
-				//if button is already instantiate
-				if (button.obj)
-					return;
-
-				//generate button
-				var tmp = Instantiate(SettingsButtonPrefab, Vector3.zero, Quaternion.identity);
-				button.obj = tmp;
-				var script = tmp.GetComponent<UserSettingsButton>();
-				script.Init(button.displayName, button.userPrefsName, isToggleGroup, this.gameObject.GetComponent<SettingsButtonManager>());
-				tmp.transform.SetParent(SettingsObjParent);
-				tmp.transform.localScale = Vector3.one;
+				if (button.userPrefsName != name)
+				{
+					var script = button.obj.GetComponent<UserSettingsButton>();
+					script.ChangeSelectionToggleStatus(false);
+					script.SetUserPreference(button.userPrefsName, false);
+					script.btnIsOn = false;
+				}
 			}
-		}
-
-		private void GenerateEmptySpace()
-		{
-			var tmp = Instantiate(empty, Vector3.zero, Quaternion.identity);
-			tmp.transform.SetParent(SettingsObjParent);
-			tmp.transform.localScale = Vector3.one;
 		}
 
 		//can be different for face / cam (face recording currently not possible)
@@ -125,11 +107,12 @@ namespace ArRetarget
 
 			else
 			{
+				/*
 				if (videoSettigsTitle == null)
 				{
 					videoSettigsTitle = GenerateSettingsTitel("Video Settings");
 				}
-
+				*/
 				//removing current
 				foreach (SettingButtonData data in recordingSettings)
 				{
@@ -153,22 +136,51 @@ namespace ArRetarget
 				GenerateButtons(recordingSettings, true);
 			}
 		}
-		#endregion
 
-		//custom toggle group
-		public void OnToggleXRCameraSetting(string name)
+		#region ui gen
+		private void GenerateButtons(List<SettingButtonData> buttons, bool isToggleGroup)
 		{
-			foreach (SettingButtonData button in recordingSettings)
+			foreach (SettingButtonData button in buttons)
 			{
-				if (button.userPrefsName != name)
-				{
-					var script = button.obj.GetComponent<UserSettingsButton>();
-					script.ChangeSelectionToggleStatus(false);
-					script.SetUserPreference(button.userPrefsName, false);
-					script.btnIsOn = false;
-				}
+				//if button is already instantiate
+				if (button.obj)
+					return;
+
+				//generate button
+				var tmp = Instantiate(SettingsButtonPrefab, Vector3.zero, Quaternion.identity);
+				button.obj = tmp;
+				var script = tmp.GetComponent<UserSettingsButton>();
+				script.Init(button.displayName, button.userPrefsName, isToggleGroup, this.gameObject.GetComponent<SettingsButtonManager>());
+				tmp.transform.SetParent(SettingsObjParent);
+
+				//sappling index for video ui generation
+				int parentIndex = videoSettingsHeader.transform.GetSiblingIndex();
+				tmp.transform.SetSiblingIndex(parentIndex + 1);
+
+				tmp.transform.localScale = Vector3.one;
 			}
 		}
+
+		/*
+		private GameObject GenerateSettingsTitel(string displayName)
+		{
+			var tmp = Instantiate(SettingsTitelPrefab, Vector3.zero, Quaternion.identity);
+			var script = tmp.GetComponent<UserSettingsTitel>();
+			script.Init(displayName);
+			tmp.transform.SetParent(SettingsObjParent);
+			tmp.transform.localScale = Vector3.one;
+
+			return tmp;
+		}
+		private void GenerateEmptySpace()
+		{
+			var tmp = Instantiate(empty, Vector3.zero, Quaternion.identity);
+			tmp.transform.SetParent(SettingsObjParent);
+			tmp.transform.localScale = Vector3.one;
+		}
+		*/
+		#endregion
+		#endregion
 	}
 
 	[System.Serializable]

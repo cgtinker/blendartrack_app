@@ -27,7 +27,7 @@ public class CameraRecorder : MonoBehaviour, IInit<string, string>, IStop
 		//assigning running config
 		int? fps = config.activeXRCameraConfig.framerate;
 		(int width, int height) = GetScreenDimensions(config);
-		int bitrate = PlayerPrefs.GetInt("bitrate", 8);
+		int bitrate = (int)PlayerPrefs.GetFloat("bitrate", 8);
 
 		//init the recorder
 		if (fps == 0 || fps == null)

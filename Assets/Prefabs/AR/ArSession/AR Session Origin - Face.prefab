@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 1174374355524812753}
   - component: {fileID: 1174374355524812752}
   - component: {fileID: 2083740220}
+  - component: {fileID: 1174374356437457522}
+  - component: {fileID: 4879278459342360668}
   m_Layer: 0
   m_Name: AR Camera
   m_TagString: MainCamera
@@ -108,7 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4966719baa26e4b0e8231a24d9bd491a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FocusMode: 1
+  m_FocusMode: 0
   m_LightEstimationMode: 0
 --- !u!114 &1174374355524812752
 MonoBehaviour:
@@ -155,6 +157,49 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &1174374356437457522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1174374355524812782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+--- !u!114 &4879278459342360668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1174374355524812782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 449caa63a1af8409dbe3463e67d05a1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1174374356063063644
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,7 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caeceacb624484daf8e379c2252fd246, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FacePrefab: {fileID: 3588910708775601286, guid: c0625ae0c684041f4aba39e182cabe91,
+  m_FacePrefab: {fileID: 3588910708775601286, guid: 20254e8393669412bb420308d0e1083a,
     type: 3}
   m_MaximumFaceCount: 1
 --- !u!114 &7680401481446223532
@@ -251,6 +296,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1174374356063063646}
     m_Modifications:
+    - target: {fileID: 2305560168729712556, guid: 59974bbdb216540e9b94be58c26d24c1,
+        type: 3}
+      propertyPath: type
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6482605968545988465, guid: 59974bbdb216540e9b94be58c26d24c1,
         type: 3}
       propertyPath: m_Name

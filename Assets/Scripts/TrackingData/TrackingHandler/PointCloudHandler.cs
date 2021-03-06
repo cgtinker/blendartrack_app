@@ -12,15 +12,19 @@ namespace ArRetarget
 		private List<Vector3> points;
 		private string filePath;
 		private bool lastFrame;
+		private bool recording;
+		private float pointDensity;
 
 		#region init
 		public void Init(string path, string title)
 		{
+			pointDensity = PlayerPrefs.GetFloat("pointDensity", 0.75f);
 			filePath = $"{path}{title}_{j_Prefix()}.json";
 			lastFrame = false;
 			JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "points", lastFrame: false);
 			arPointCloud = GameObject.FindGameObjectWithTag("pointCloud").GetComponent<ARPointCloud>();
 			ReceivePointCloud();
+			recording = true;
 		}
 		#endregion
 
@@ -32,6 +36,7 @@ namespace ArRetarget
 
 		public void StopTracking()
 		{
+			Debug.Log("Stopped PC Tracking");
 			lastFrame = true;
 		}
 
@@ -42,8 +47,9 @@ namespace ArRetarget
 
 			else
 			{
-				GetCurrentPoints();
+				Debug.Log("unsub from pc update");
 				arPointCloud.updated -= OnPointCloudChanged;
+				GetCurrentPoints();
 			}
 		}
 		#endregion
@@ -54,24 +60,37 @@ namespace ArRetarget
 		static string contents;
 		public void GetCurrentPoints()
 		{
-			NativeSlice<Vector3>? pointCloud = arPointCloud.positions;
+			if (!recording)
+				return;
 
-			foreach (Vector3 point in pointCloud)
+			NativeSlice<Vector3> pointCloud = (NativeSlice<Vector3>)arPointCloud.positions;
+
+			int amount = Mathf.FloorToInt(pointCloud.Length * pointDensity);
+
+			string json = "";
+			for (int i = 0; i < amount; i++)
 			{
-				string json = JsonUtility.ToJson(point);
-				(contents, curTick, write) = DataHelper.JsonContentTicker(
-					lastFrame: false, curTick: curTick, reqTick: 21, contents: contents, json: json);
+				json += JsonUtility.ToJson(pointCloud[i]);
+			}
 
-				//TODO: Check for closing
-				if (write)
-				{
-					JsonFileWriter.WriteDataToFile(
-						path: filePath, text: contents, title: "", lastFrame: lastFrame);
-					contents = "";
-				}
+			(contents, curTick, write) = DataHelper.JsonContentTicker(
+					lastFrame: lastFrame, curTick: curTick, reqTick: 21, contents: contents, json: json);
 
-				if (lastFrame)
-					filePath = null;
+			if (write && !lastFrame)
+			{
+				JsonFileWriter.WriteDataToFile(
+					path: filePath, text: contents, title: "", lastFrame: lastFrame);
+				contents = "";
+			}
+
+			if (write && lastFrame)
+			{
+				JsonFileWriter.WriteDataToFile(
+					path: filePath, text: contents, title: "", lastFrame: lastFrame);
+				contents = "";
+
+				recording = false;
+				filePath = null;
 			}
 		}
 

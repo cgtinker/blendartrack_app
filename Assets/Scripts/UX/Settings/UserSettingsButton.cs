@@ -32,6 +32,13 @@ namespace ArRetarget
 			this.isToggleGroup = toggleGroup;
 			this.settingsButtonManager = settingsButtonManager;
 
+
+		}
+
+		private IEnumerator Start()
+		{
+			yield return new WaitForEndOfFrame();
+
 			btnIsOn = GetUserPreference(settingsName);
 			ChangeSelectionToggleStatus(btnIsOn);
 		}
@@ -64,7 +71,7 @@ namespace ArRetarget
 		}
 
 		#region set and get user prefs
-		private bool GetUserPreference(string key)
+		public bool GetUserPreference(string key)
 		{
 			int m_val = PlayerPrefs.GetInt(key, -1);
 

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rectAnchor: 0
   rectPivot: 0
-  rectHeight: 3
+  rectHeight: 4
   ignoreAnchors: 1

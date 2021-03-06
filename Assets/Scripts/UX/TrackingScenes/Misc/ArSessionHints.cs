@@ -85,17 +85,10 @@ namespace ArRetarget
 				{
 					case TrackingType.PlaneTracking:
 					//planes found a sufficient lightning condifitions
-					if (PlanesFound() && !insufficientLightning && PlayerPrefs.GetInt("reference", -1) == 1 && !placedObject)
+					if (PlanesFound() && !insufficientLightning)
 					{
 						m_msg = $"Double Tap a location to{br} place a Reference Object. {br}{br}Tap long to remove it.";
 						//m_msg = $"Double Tap a location {br}to place a Reference Object.";
-					}
-
-					//if user doesnt play reference objs
-					else if (PlanesFound() && !insufficientLightning && PlayerPrefs.GetInt("reference", -1) == -1)
-					{
-						m_msg = "Ready for tracking device position.";
-						timeState = TimeState.infinite;
 					}
 
 					//planes found with insufficient lightning conditions
@@ -163,17 +156,12 @@ namespace ArRetarget
 				switch (type)
 				{
 					case TrackingType.PlaneTracking:
-					if (PlayerPrefs.GetInt("reference", -1) == 1 && !placedObject)
-					{
-						m_msg = $"Double Tap a location to{br} place a Reference Object. {br}{br}Tap and hold to remove it.";
-					}
 
-					else
-					{
-						m_msg = "Ready for tracking device position.";
-						timeState = TimeState.infinite;
-					}
-					break;
+						{
+							m_msg = $"Double Tap a location to{br} place a Reference Object. {br}{br}Tap and hold to remove it.";
+						}
+
+						break;
 
 					case TrackingType.FaceTracking:
 					if (faceAdded && faceRemoved)
