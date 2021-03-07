@@ -11,6 +11,7 @@ namespace ArRetarget
         private ARFaceManager m_faceManager;
         private string filePath;
 
+        #region initializing
         private void Start()
         {
             m_faceManager = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponent<ARFaceManager>();
@@ -18,6 +19,19 @@ namespace ArRetarget
             recording = false;
         }
 
+        //only works with a single face mesh
+        public void Init(string path, string title)
+        {
+            write = false;
+            //init json file on disk
+            filePath = $"{path}{title}_{j_Prefix()}.json";
+            JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "meshGeometry", lastFrame: false);
+            recording = true;
+            Debug.Log("init face mesh indicies handler");
+        }
+        #endregion
+
+        #region referencing face mesh
         private void OnDisable()
         {
             //unsub from the ar face changes event
@@ -44,7 +58,9 @@ namespace ArRetarget
             if (recording)
                 GetMeshIndices();
         }
+        #endregion
 
+        #region getting and writing data
         bool write = false;
         private void GetMeshIndices()
         {
@@ -61,26 +77,17 @@ namespace ArRetarget
             }
         }
 
-        //only works with a single face mesh
-        public void Init(string path, string title)
-        {
-            write = false;
-            //init json file on disk
-            filePath = $"{path}{title}_{j_Prefix()}.json";
-            JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "meshGeometry", lastFrame: false);
-            recording = true;
-            Debug.Log("init face mesh indicies handler");
-        }
-
         //json file prefix
         public string j_Prefix()
         {
             return "face_mesh";
         }
+        #endregion
 
-        static List<Vector3> s_Vertices = new List<Vector3>();
-        static List<int> s_Indices = new List<int>();
-        static List<Vector2> s_Uvs = new List<Vector2>();
+        #region accessing subsystem data
+        private static List<Vector3> s_Vertices = new List<Vector3>();
+        private static List<int> s_Indices = new List<int>();
+        private static List<Vector2> s_Uvs = new List<Vector2>();
         private MeshGeometry GetMeshGeometry()
         {
             MeshGeometry meshGeometry = new MeshGeometry();
@@ -115,5 +122,6 @@ namespace ArRetarget
 
             return true;
         }
+        #endregion
     }
 }

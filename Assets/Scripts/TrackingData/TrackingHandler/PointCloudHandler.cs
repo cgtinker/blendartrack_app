@@ -6,70 +6,98 @@ using Unity.Collections;
 namespace ArRetarget
 {
 
-    public class PointCloudHandler : MonoBehaviour, IInit<string, string>, IStop, IPrefix
-    {
-        ARPointCloud arPointCloud;
-        public List<Vector3> points;
-        private string filePath;
-        private bool lastFrame;
+	public class PointCloudHandler : MonoBehaviour, IInit<string, string>, IStop, IPrefix
+	{
+		private ARPointCloud arPointCloud;
+		private List<Vector3> points;
+		private string filePath;
+		private bool lastFrame;
+		private bool recording;
+		private float pointDensity;
 
-        public void Init(string path, string title)
-        {
-            filePath = $"{path}{title}_{j_Prefix()}.json";
-            lastFrame = false;
-            JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "points", lastFrame: false);
-            arPointCloud = GameObject.FindGameObjectWithTag("pointCloud").GetComponent<ARPointCloud>();
-            ReceivePointCloud();
-        }
+		#region init
+		public void Init(string path, string title)
+		{
+			pointDensity = PlayerPrefs.GetFloat("pointDensity", 0.75f);
+			filePath = $"{path}{title}_{j_Prefix()}.json";
+			lastFrame = false;
+			JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "points", lastFrame: false);
+			arPointCloud = GameObject.FindGameObjectWithTag("pointCloud").GetComponent<ARPointCloud>();
+			ReceivePointCloud();
+			recording = true;
+		}
+		#endregion
 
-        public void ReceivePointCloud()
-        {
-            arPointCloud.updated += OnPointCloudChanged;
-        }
+		#region referencing point cloud
+		public void ReceivePointCloud()
+		{
+			arPointCloud.updated += OnPointCloudChanged;
+		}
 
-        public void StopTracking()
-        {
-            lastFrame = true;
-        }
+		public void StopTracking()
+		{
+			Debug.Log("Stopped PC Tracking");
+			lastFrame = true;
+		}
 
-        private void OnPointCloudChanged(ARPointCloudUpdatedEventArgs eventArgs)
-        {
-            if (!lastFrame)
-                GetCurrentPoints();
+		private void OnPointCloudChanged(ARPointCloudUpdatedEventArgs eventArgs)
+		{
+			if (!lastFrame)
+				GetCurrentPoints();
 
-            else
-            {
-                GetCurrentPoints();
-                arPointCloud.updated -= OnPointCloudChanged;
-            }
-        }
+			else
+			{
+				Debug.Log("unsub from pc update");
+				arPointCloud.updated -= OnPointCloudChanged;
+				GetCurrentPoints();
+			}
+		}
+		#endregion
 
-        bool write;
-        int curTick;
-        static string contents;
-        public void GetCurrentPoints()
-        {
-            NativeSlice<Vector3>? pointCloud = arPointCloud.positions;
+		#region getting and writing data
+		bool write;
+		int curTick;
+		static string contents;
+		public void GetCurrentPoints()
+		{
+			if (!recording)
+				return;
 
-            foreach (Vector3 point in pointCloud)
-            {
-                string json = JsonUtility.ToJson(point);
-                (contents, curTick, write) = DataHelper.JsonContentTicker(lastFrame: false, curTick: curTick, reqTick: 21, contents: contents, json: json);
+			NativeSlice<Vector3> pointCloud = (NativeSlice<Vector3>)arPointCloud.positions;
 
-                if (write)
-                {
-                    JsonFileWriter.WriteDataToFile(path: filePath, text: contents, title: "", lastFrame: lastFrame);
-                    contents = "";
-                }
+			int amount = Mathf.FloorToInt(pointCloud.Length * pointDensity);
 
-                if (lastFrame)
-                    filePath = null;
-            }
-        }
+			string json = "";
+			for (int i = 0; i < amount; i++)
+			{
+				json += JsonUtility.ToJson(pointCloud[i]);
+			}
 
-        public string j_Prefix()
-        {
-            return "cloud";
-        }
-    }
+			(contents, curTick, write) = DataHelper.JsonContentTicker(
+					lastFrame: lastFrame, curTick: curTick, reqTick: 21, contents: contents, json: json);
+
+			if (write && !lastFrame)
+			{
+				JsonFileWriter.WriteDataToFile(
+					path: filePath, text: contents, title: "", lastFrame: lastFrame);
+				contents = "";
+			}
+
+			if (write && lastFrame)
+			{
+				JsonFileWriter.WriteDataToFile(
+					path: filePath, text: contents, title: "", lastFrame: lastFrame);
+				contents = "";
+
+				recording = false;
+				filePath = null;
+			}
+		}
+
+		public string j_Prefix()
+		{
+			return "cloud";
+		}
+		#endregion
+	}
 }

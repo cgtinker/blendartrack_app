@@ -12,6 +12,15 @@ namespace ArRetarget
         private ARFaceManager m_faceManager;
         private string filePath;
 
+        private bool updatedVerticesThisFrame;
+        private int frame;
+        private bool recording = false;
+        private static string jsonContents;
+        private int curTick;
+
+        private bool write;
+
+        #region init
         private void Awake()
         {
             //list to store native vertices
@@ -28,22 +37,28 @@ namespace ArRetarget
             m_faceManager.facesChanged += OnFaceUpdate;
         }
 
+        //only works with a single face mesh
+        public void Init(string path, string title)
+        {
+            //assign variables
+            lastFrame = false;
+            recording = true;
+            jsonContents = "";
+
+            //init json file on disk
+            filePath = $"{path}{title}_{j_Prefix()}.json";
+            JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "meshDataList", lastFrame: false);
+            Debug.Log("Initialized face mesh");
+        }
+        #endregion
+
+        #region Face Mesh Referencing
         private void OnDisable()
         {
             //unsub from the ar face changes event
             m_faceManager.facesChanged -= OnFaceUpdate;
         }
 
-        public void StopTracking()
-        {
-            lastFrame = true;
-        }
-
-        private bool updatedVerticesThisFrame;
-        private int frame;
-        private bool recording = false;
-        static string jsonContents;
-        int curTick;
         private void OnFaceUpdate(ARFacesChangedEventArgs args)
         {
             //assign newly added ar face
@@ -63,8 +78,14 @@ namespace ArRetarget
 
             GetMeshDataAndWriteJson();
         }
+        #endregion
 
-        bool write;
+        #region Getting and Writing Data
+        public void StopTracking()
+        {
+            lastFrame = true;
+        }
+
         private void GetMeshDataAndWriteJson()
         {
             if (!updatedVerticesThisFrame && recording)
@@ -93,27 +114,15 @@ namespace ArRetarget
             updatedVerticesThisFrame = false;
         }
 
-        //only works with a single face mesh
-        public void Init(string path, string title)
-        {
-            //assign variables
-            lastFrame = false;
-            recording = true;
-            jsonContents = "";
-
-            //init json file on disk
-            filePath = $"{path}{title}_{j_Prefix()}.json";
-            JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "meshDataList", lastFrame: false);
-            Debug.Log("Initialized face mesh");
-        }
-
         //json file prefix
         public string j_Prefix()
         {
             return "face";
         }
+        #endregion
 
-        static List<Vector3> s_Vertices;
+        #region Accessing Subsystem Data
+        private static List<Vector3> s_Vertices;
         private MeshData GetMeshData(int f)
         {
             //empty mesh data container
@@ -151,5 +160,6 @@ namespace ArRetarget
 
             return true;
         }
+        #endregion
     }
 }

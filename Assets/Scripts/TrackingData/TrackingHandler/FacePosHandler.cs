@@ -10,6 +10,7 @@ namespace ArRetarget
         ARFaceManager m_FaceManager;
         GameObject faceObj;
 
+        #region init
         private void Awake()
         {
             m_FaceManager = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponent<ARFaceManager>();
@@ -27,7 +28,9 @@ namespace ArRetarget
             JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "facePoseList", lastFrame: false);
             Debug.Log("init face pos");
         }
+        #endregion
 
+        #region getting and writing data
         public void GetFrameData(int frame, bool lastFrame)
         {
             if (faceObj != null)
@@ -59,7 +62,9 @@ namespace ArRetarget
         {
             return "f-pose";
         }
+        #endregion
 
+        #region referencing face
         private void OnDisable()
         {
             if (m_FaceManager != null)
@@ -78,5 +83,6 @@ namespace ArRetarget
                 faceObj = null;
             }
         }
+        #endregion
     }
 }

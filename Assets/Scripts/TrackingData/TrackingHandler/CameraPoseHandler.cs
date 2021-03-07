@@ -8,6 +8,10 @@ namespace ArRetarget
     {
         private GameObject mainCamera;
 
+        private int curTick;
+        private static string jsonContents;
+        private bool write;
+
         private void Start()
         {
             var dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
@@ -29,9 +33,6 @@ namespace ArRetarget
                 AccessingPoseData(frame, lastFrame);
         }
 
-        private int curTick;
-        static string jsonContents;
-        private bool write;
         private void AccessingPoseData(int frame, bool lastFrame)
         {
             //getting vertex data
