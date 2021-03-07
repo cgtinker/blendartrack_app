@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1df656a15190e409eaacbcf0d50cb16a, type: 3}
   m_Name: TutorialHeader
   m_EditorClassIdentifier: 
-  textSize: 21
+  textSize: 22
   fontStyle: 9
   alignment: 258
   overflow: 0
   rectSize: {x: 1, y: 1}
   rectAnchor: 0
   rectPivot: 0
+  onlyAdjustTextSize: 0

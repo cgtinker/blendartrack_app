@@ -10,10 +10,10 @@ namespace ArRetarget
 
 		private ARCameraManager cameraManager;
 
-		private void Start()
+		private IEnumerator Start()
 		{
-			var cam = GameObject.FindGameObjectWithTag("MainCamera");
-			cameraManager = cam.GetComponent<ARCameraManager>();
+			yield return new WaitForSeconds(0.2f);
+			cameraManager = this.gameObject.GetComponent<ARCameraManager>();
 
 			bool prefsAutofocus = IsAutoFocusPlayerPrefs();
 			bool curAutofocus = IsCameraAutoFocusMode();
