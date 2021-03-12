@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.XR.ARFoundation;
 using Unity.Collections;
+using System;
 
 namespace ArRetarget
 {
@@ -55,6 +56,21 @@ namespace ArRetarget
 		#endregion
 
 		#region getting and writing data
+		//used percent = value between 0.01f & 1.00f
+		private int GetStep(int arrayLength, float usedPercent)
+		{
+			int step;
+			float arrayPart = arrayLength * usedPercent;
+
+			if (arrayPart > 1)
+			{
+				step = Mathf.FloorToInt(arrayLength / arrayPart);
+				return step;
+			}
+
+			return arrayLength;
+		}
+
 		bool write;
 		int curTick;
 		static string contents;
@@ -65,17 +81,13 @@ namespace ArRetarget
 
 			NativeSlice<Vector3> pointCloud = (NativeSlice<Vector3>)arPointCloud.positions;
 
-			int amount = Mathf.FloorToInt(pointCloud.Length * pointDensity);
+			int step = GetStep(pointCloud.Length, pointDensity);
+			SetupSerializableData(pointCloud, step);
+			WriteDataToFile();
+		}
 
-			string json = "";
-			for (int i = 0; i < amount; i++)
-			{
-				json += JsonUtility.ToJson(pointCloud[i]);
-			}
-
-			(contents, curTick, write) = DataHelper.JsonContentTicker(
-					lastFrame: lastFrame, curTick: curTick, reqTick: 21, contents: contents, json: json);
-
+		private void WriteDataToFile()
+		{
 			if (write && !lastFrame)
 			{
 				JsonFileWriter.WriteDataToFile(
@@ -92,6 +104,20 @@ namespace ArRetarget
 				recording = false;
 				filePath = null;
 			}
+		}
+
+		private void SetupSerializableData(NativeSlice<Vector3> pointCloud, int step)
+		{
+			string json = "";
+
+			for (int i = 0; i < pointCloud.Length - step; i += step)
+			{
+				json += JsonUtility.ToJson(pointCloud[i]) + ",";
+			}
+
+			json += JsonUtility.ToJson(pointCloud[pointCloud.Length]);
+			(contents, curTick, write) = DataHelper.JsonContentTicker(
+					lastFrame: lastFrame, curTick: curTick, reqTick: 65, contents: contents, json: json);
 		}
 
 		public string j_Prefix()

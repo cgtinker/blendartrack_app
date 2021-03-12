@@ -12,11 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f33b67cdd78f045d383ca89489fbdca7, type: 3}
   m_Name: Share
   m_EditorClassIdentifier: 
-  buttonBackground: {fileID: 21300000, guid: a6a79f06504614223a13b1ad8add83ce, type: 3}
-  buttonBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
-  buttonScaleFactor: 1.3
-  iconColor: {r: 1, g: 1, b: 1, a: 1}
-  defaultButtonSize: 5
   icon: {fileID: 21300000, guid: 5ba2d5b3f43d940df8d07a48bb703d89, type: 3}
   iconSize: 5
   minPxSize: 125
