@@ -22,6 +22,7 @@ namespace ArRetarget
 			PlayerPrefs.SetInt("recordCam", 1);
 			PlayerPrefs.SetInt("autofocus", 1);
 
+			PlayerPrefs.SetFloat("pointDensity", 0.05f);
 			PlayerPrefs.SetInt("bitrate", 8);
 			PlayerPrefs.SetInt("vidzip", 1);
 		}

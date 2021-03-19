@@ -263,10 +263,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Trackers:
   - obj: {fileID: 6996387174992549102}
-    nameInPlayerPrefs: scene
+    nameInPlayerPrefs: default
     value: 0
   - obj: {fileID: 1835151213}
-    nameInPlayerPrefs: scene
+    nameInPlayerPrefs: default
     value: 0
   assigned: 0
 --- !u!4 &248870447
@@ -1523,6 +1523,11 @@ PrefabInstance:
     - target: {fileID: 6242476720557852833, guid: c0c65e55272604f7e835287c4ed4f6dd,
         type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6242476720557852833, guid: c0c65e55272604f7e835287c4ed4f6dd,
+        type: 3}
+      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6242476720576495139, guid: c0c65e55272604f7e835287c4ed4f6dd,
