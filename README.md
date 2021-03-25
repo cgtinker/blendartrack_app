@@ -1,8 +1,6 @@
-# Retargeter
+# blendartrack
 
-Retargeter is free to use and open source.
-
-With the mobile app retargeter you can easily track you enviroment. Just move your device slowly, place some reference objects and you are ready to track. You can also track your face to get an animated geometry. The tracking data gets stored locally on the device and can be exported as .JSONs in a .zip. There is no personal data nor cloud required. To import the data in blender you can use the [Blender Add-On Retargeter](https://github.com/cgtinker/Retargeter).
+With the mobile app blendartrack you can easily track you enviroment. Just move your device slowly, place some reference objects and you are ready to track. You can also track your face to get an animated geometry. The tracking data gets stored locally on the device and can be exported as .JSONs in a .zip. There is no personal data nor cloud required. To import the data in blender you can use the [Blender Add-On blendartrack](https://github.com/cgtinker/blendartrack).
 
 The exported data may be used in any Software, however please let me know before considering to publish third party software.
 
@@ -27,7 +25,7 @@ Currently a commercial addon is used to record the camera background. If happen 
 ## Setup
 
 **Development System:**
-macOS Catalina 10.15.17
+used macOS Catalina 10.15.17 (didn't try it on windows)
 
 
 **Build Requirements**
