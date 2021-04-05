@@ -53,7 +53,7 @@ namespace ArRetarget
 			//date time reference
 			string localDate = FileManagement.GetDateTimeText();
 
-			//path to generated zip
+			//path to generated or existing zip
 			string zip = FileManagement.CompressDirectories(selectedDirPaths);
 
 			//listing files to transfer for subject message

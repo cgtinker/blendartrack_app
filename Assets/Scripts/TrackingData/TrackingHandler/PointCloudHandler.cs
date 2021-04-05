@@ -19,7 +19,7 @@ namespace ArRetarget
 		#region init
 		public void Init(string path, string title)
 		{
-			pointDensity = PlayerPrefs.GetFloat("pointDensity", 0.05f);
+			pointDensity = PlayerPrefsHandler.Instance.GetFloat("pointDensity", 0.05f);
 			filePath = $"{path}{title}_{j_Prefix()}.json";
 			lastFrame = false;
 			JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "points", lastFrame: false);

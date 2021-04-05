@@ -63,14 +63,14 @@ namespace ArRetarget
 				break;
 
 				case State.Tutorial:
-				if (PlayerPrefs.GetInt("firstTimeUser", -1) == -1)
-					FirstTimeUser.SetPlayerPrefs();
+				if (PlayerPrefsHandler.Instance.GetInt("firstTimeUser", -1) == -1)
+					PlayerPrefsHandler.Instance.SetFirstTimeUserPrefs();
 
 				AsyncSceneManager.LoadScene("Tutorial");
 				break;
 
 				case State.RecentTracking:
-				string recentTrackingScene = PlayerPrefs.GetString("scene", "Camera Tracker");
+				string recentTrackingScene = PlayerPrefsHandler.Instance.GetString("scene", "Camera Tracker");
 
 				if (recentTrackingScene == "Camera Tracker")
 					SetState(State.CameraTracking);
@@ -132,7 +132,7 @@ namespace ArRetarget
 
 		private static void GetPostStartUpCase()
 		{
-			if (PlayerPrefs.GetInt("firstTimeUser", -1) == -1)
+			if (PlayerPrefsHandler.Instance.GetInt("firstTimeUser", -1) == -1)
 			{
 				if (DeviceManager.Instance.device == DeviceManager.Device.Android)
 					StateMachine.Instance.SetState(StateMachine.State.ArCoreSupport);
@@ -141,7 +141,7 @@ namespace ArRetarget
 					StateMachine.Instance.SetState(StateMachine.State.Tutorial);
 			}
 
-			else if ((PlayerPrefs.GetInt("tutorial", 1) == 1))
+			else if ((PlayerPrefsHandler.Instance.GetInt("tutorial", 1) == 1))
 				StateMachine.Instance.SetState(StateMachine.State.Tutorial);
 
 			else

@@ -24,7 +24,7 @@ namespace ArRetarget
 			//checking in player prefs (set in user prefers)
 			foreach (TrackerReference tracker in Trackers)
 			{
-				tracker.value = PlayerPrefs.GetInt(tracker.nameInPlayerPrefs, -1);
+				tracker.value = PlayerPrefsHandler.Instance.GetInt(tracker.nameInPlayerPrefs, -1);
 			}
 		}
 		#endregion

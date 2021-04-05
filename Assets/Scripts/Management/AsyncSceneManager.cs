@@ -63,7 +63,7 @@ namespace ArRetarget
 			switch (sceneType)
 			{
 				case SceneTypes.Tracking:
-				PlayerPrefs.SetString("scene", scene.name);
+				PlayerPrefsHandler.Instance.SetString("scene", scene.name);
 				previousLoadedScene = scene.name;
 				break;
 
@@ -86,7 +86,7 @@ namespace ArRetarget
 
 		public static void LoadStartupTrackingScene()
 		{
-			string sceneBeforeQuit = PlayerPrefs.GetString("scene", "Camera Tracker");
+			string sceneBeforeQuit = PlayerPrefsHandler.Instance.GetString("scene", "Camera Tracker");
 			LoadScene(sceneBeforeQuit);
 		}
 

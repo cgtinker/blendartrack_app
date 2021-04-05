@@ -57,13 +57,15 @@ namespace ArRetarget
 
 		private float GetUserPreference(string key)
 		{
-			float m_val = PlayerPrefs.GetFloat(key, defaultValue);
+			float m_val = PlayerPrefsHandler.Instance.GetFloat(key, defaultValue);
+			//float m_val = PlayerPrefs.GetFloat(key, defaultValue);
 			return m_val * factor;
 		}
 
 		private void SetUserPreference(string prefName, float value)
 		{
-			PlayerPrefs.SetFloat(prefName, value / factor);
+			PlayerPrefsHandler.Instance.SetFloat(prefName, value / factor);
+			//PlayerPrefs.SetFloat(prefName, value / factor);
 		}
 	}
 }

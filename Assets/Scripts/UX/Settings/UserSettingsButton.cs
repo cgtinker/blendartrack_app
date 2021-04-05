@@ -73,7 +73,8 @@ namespace ArRetarget
 		#region set and get user prefs
 		public bool GetUserPreference(string key)
 		{
-			int m_val = PlayerPrefs.GetInt(key, -1);
+			int m_val = PlayerPrefsHandler.Instance.GetInt(key, -1);
+			//int m_val = PlayerPrefs.GetInt(key, -1);
 
 			if (m_val == 1)
 				return true;
@@ -85,10 +86,16 @@ namespace ArRetarget
 		public void SetUserPreference(string prefName, bool status)
 		{
 			if (status == true)
-				PlayerPrefs.SetInt(prefName, 1);
+			{
+				//PlayerPrefs.SetInt(prefName, 1);
+				PlayerPrefsHandler.Instance.SetInt(prefName, 1);
+			}
 
 			else
-				PlayerPrefs.SetInt(prefName, -1);
+			{
+				//PlayerPrefs.SetInt(prefName, -1);
+				PlayerPrefsHandler.Instance.SetInt(prefName, -1);
+			}
 		}
 		#endregion
 	}

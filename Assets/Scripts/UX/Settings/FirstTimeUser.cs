@@ -3,6 +3,7 @@ using System.Collections;
 
 namespace ArRetarget
 {
+	/*
 	public class FirstTimeUser
 	{
 		/// <summary>
@@ -27,4 +28,5 @@ namespace ArRetarget
 			PlayerPrefs.SetInt("vidzip", 1);
 		}
 	}
+	*/
 }

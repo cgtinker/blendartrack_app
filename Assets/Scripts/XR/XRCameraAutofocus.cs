@@ -57,7 +57,7 @@ namespace ArRetarget
 
 		private bool IsAutoFocusPlayerPrefs()
 		{
-			int cur = PlayerPrefs.GetInt("autofocus", -1);
+			int cur = PlayerPrefsHandler.Instance.GetInt("autofocus", -1);
 			if (cur == 1)
 				return true;
 

@@ -8,315 +8,321 @@ using System.IO.Compression;
 
 namespace ArRetarget
 {
-    public static class FileManagement
-    {
-        #region date and text
-        public static string GetDateTime()
-        {
-            DateTime localDate = DateTime.Now;
-            string time = localDate.ToString($"yyyy-MM-dd_HH-mm-ss", CultureInfo.InvariantCulture);
-            return time;
-        }
+	public static class FileManagement
+	{
+		#region date and text
+		public static string GetDateTime()
+		{
+			DateTime localDate = DateTime.Now;
+			string time = localDate.ToString($"yyyy-MM-dd_HH-mm-ss", CultureInfo.InvariantCulture);
+			return time;
+		}
 
-        public static string GetDay()
-        {
-            DateTime localDate = DateTime.Now;
-            string day = localDate.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
-            return day;
-        }
+		public static string GetDay()
+		{
+			DateTime localDate = DateTime.Now;
+			string day = localDate.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
+			return day;
+		}
 
-        public static string GetDateTimeText()
-        {
-            DateTime dateTime = DateTime.Now;
-            return dateTime.ToString();
-        }
+		public static string GetDateTimeText()
+		{
+			DateTime dateTime = DateTime.Now;
+			return dateTime.ToString();
+		}
 
-        public static string GetParagraph()
-        {
-            string s = Environment.NewLine;
-            return s;
-        }
-        #endregion
+		public static string GetParagraph()
+		{
+			string s = Environment.NewLine;
+			return s;
+		}
+		#endregion
 
-        #region files
-        #region share / save files
-        public static double GetFileSize(string path)
-        {
-            long fileSize = new System.IO.FileInfo(path).Length;
-            double sizeMiB = fileSize / 1000000.0;
-            return sizeMiB;
-        }
+		#region files
+		#region share / save files
+		public static double GetFileSize(string path)
+		{
+			long fileSize = new System.IO.FileInfo(path).Length;
+			double sizeMiB = fileSize / 1000000.0;
+			return sizeMiB;
+		}
 
-        public static void WriteDataToDisk(string data, string persistentPath, string filename)
-        {
-            Debug.Log("Serializing json data");
+		public static void WriteDataToDisk(string data, string persistentPath, string filename)
+		{
+			Debug.Log("Serializing json data");
 
-            var path = $"{persistentPath}/{filename}";
-            File.WriteAllText(path: path, contents: data, encoding: System.Text.Encoding.UTF8);
-        }
+			var path = $"{persistentPath}/{filename}";
+			File.WriteAllText(path: path, contents: data, encoding: System.Text.Encoding.UTF8);
+		}
 
-        public static void ShareZip(string path, string subject, string text)
-        {
-            var nativeShare = new NativeShare();
-            if (ValidatePath(path))
-                nativeShare.AddFile(path);
+		public static void ShareZip(string path, string subject, string text)
+		{
+			var nativeShare = new NativeShare();
+			if (ValidatePath(path))
+				nativeShare.AddFile(path);
 
-            else
-                Debug.LogWarning("path to zip not valid");
+			else
+				Debug.LogWarning("path to zip not valid");
 
-            nativeShare.SetSubject(subject).SetText(text);
-            nativeShare.Share();
-        }
+			nativeShare.SetSubject(subject).SetText(text);
+			nativeShare.Share();
+		}
 
-        public static void ShareJsonFiles(List<string> pathList, string subject, string text)
-        {
-            var nativeShare = new NativeShare();
-            foreach (string path in pathList)
-            {
-                if (ValidatePath(path))
-                    nativeShare.AddFile(path);
-            }
+		public static void ShareJsonFiles(List<string> pathList, string subject, string text)
+		{
+			var nativeShare = new NativeShare();
+			foreach (string path in pathList)
+			{
+				if (ValidatePath(path))
+					nativeShare.AddFile(path);
+			}
 
-            nativeShare.SetSubject(subject).SetText(text);
-            nativeShare.Share();
-        }
-        #endregion
+			nativeShare.SetSubject(subject).SetText(text);
+			nativeShare.Share();
+		}
+		#endregion
 
-        #region copy files
-        public static void CopyFile(string sourceFile, string destFile)
-        {
-            if (ValidatePath(sourceFile))
-                File.Copy(sourceFile, destFile, true);
-        }
-        #endregion
+		#region copy files
+		public static void CopyFile(string sourceFile, string destFile)
+		{
+			if (ValidatePath(sourceFile))
+				File.Copy(sourceFile, destFile, true);
+		}
+		#endregion
 
-        #region delete files
-        public static void DeleteFilesAtPath(List<string> pathList)
-        {
-            foreach (string path in pathList)
-            {
-                DeleteFile(path);
-            }
-        }
+		#region delete files
+		public static void DeleteFilesAtPath(List<string> pathList)
+		{
+			foreach (string path in pathList)
+			{
+				DeleteFile(path);
+			}
+		}
 
-        public static void DeleteFile(string path)
-        {
-            if (ValidatePath(path))
-                File.Delete(path);
-        }
-        #endregion
+		public static void DeleteFile(string path)
+		{
+			if (ValidatePath(path))
+				File.Delete(path);
+		}
+		#endregion
 
-        #region json file info
-        public static FileInfo[] GetJsonsAtPath(string dir)
-        {
-            var dirInfo = new DirectoryInfo(dir);
-            FileInfo[] info = dirInfo.GetFiles("*.json");
-            return info;
-        }
+		#region json file info
+		public static FileInfo[] GetJsonsAtPath(string dir)
+		{
+			var dirInfo = new DirectoryInfo(dir);
+			FileInfo[] info = dirInfo.GetFiles("*.json");
+			return info;
+		}
 
-        public static FileInfo[] GetZipsAtPath(string dir)
-        {
-            var dirInfo = new DirectoryInfo(dir);
-            FileInfo[] info = dirInfo.GetFiles("*.zip");
-            return info;
-        }
+		public static FileInfo[] GetZipsAtPath(string dir)
+		{
+			var dirInfo = new DirectoryInfo(dir);
+			FileInfo[] info = dirInfo.GetFiles("*.zip");
+			return info;
+		}
 
-        public static string FileContents(string path)
-        {
-            string fileContents = File.ReadAllText(path, System.Text.Encoding.UTF8);
-            return fileContents;
-        }
+		public static string FileContents(string path)
+		{
+			string fileContents = File.ReadAllText(path, System.Text.Encoding.UTF8);
+			return fileContents;
+		}
 
-        public static bool ValidatePath(string mediaPath)
-        {
-            try
-            {
-                if (File.Exists(mediaPath))
-                    return true;
+		public static bool ValidatePath(string mediaPath)
+		{
+			try
+			{
+				if (File.Exists(mediaPath))
+					return true;
 
-                else
-                    return false;
-            }
+				else
+					return false;
+			}
 
-            catch (IOException ioExp)
-            {
-                Debug.Log(ioExp.Message);
-                return false;
-            }
-        }
-        #endregion
-        #endregion
+			catch (IOException ioExp)
+			{
+				Debug.Log(ioExp.Message);
+				return false;
+			}
+		}
+		#endregion
+		#endregion
 
-        #region directories
-        #region create
-        public static void CreateDirectory(string path)
-        {
-            try
-            {
-                if (ValidateDirectory(path) == true)
-                    return;
+		#region directories
+		#region create
+		public static void CreateDirectory(string path)
+		{
+			try
+			{
+				if (ValidateDirectory(path) == true)
+					return;
 
-                DirectoryInfo di = Directory.CreateDirectory(path);
-            }
+				DirectoryInfo di = Directory.CreateDirectory(path);
+			}
 
-            catch (Exception e)
-            {
-                Debug.LogWarning("Directory does already exist: " + e.ToString());
-            }
-        }
-        #endregion
+			catch (Exception e)
+			{
+				Debug.LogWarning("Directory does already exist: " + e.ToString());
+			}
+		}
+		#endregion
 
-        #region delete
-        public static void DeleteDirectories(List<string> tar_dirs)
-        {
-            Debug.Log("Deleting selected directories");
-            foreach (string dir in tar_dirs)
-            {
-                DeleteDirectory(dir);
-            }
-        }
+		#region delete
+		public static void DeleteDirectories(List<string> tar_dirs)
+		{
+			Debug.Log("Deleting selected directories");
+			foreach (string dir in tar_dirs)
+			{
+				DeleteDirectory(dir);
+			}
+		}
 
-        public static void DeleteDirectory(string tar_dir)
-        {
-            string[] files = Directory.GetFiles(tar_dir);
-            string[] dirs = GetDirectories(tar_dir);
+		public static void DeleteDirectory(string tar_dir)
+		{
+			string[] files = Directory.GetFiles(tar_dir);
+			string[] dirs = GetDirectories(tar_dir);
 
-            foreach (string file in files)
-            {
-                File.SetAttributes(file, FileAttributes.Normal);
-                File.Delete(file);
-            }
+			foreach (string file in files)
+			{
+				File.SetAttributes(file, FileAttributes.Normal);
+				File.Delete(file);
+			}
 
-            foreach (string dir in dirs)
-            {
-                DeleteDirectory(dir);
-            }
+			foreach (string dir in dirs)
+			{
+				DeleteDirectory(dir);
+			}
 
-            Directory.Delete(tar_dir, false);
-        }
-        #endregion
+			Directory.Delete(tar_dir, false);
+		}
+		#endregion
 
-        #region get
-        public static string[] GetDirectories(string path)
-        {
-            try
-            {
-                string[] directories = Directory.GetDirectories(path);
+		#region get
+		public static string[] GetDirectories(string path)
+		{
+			try
+			{
+				string[] directories = Directory.GetDirectories(path);
 
-                return directories;
-            }
+				return directories;
+			}
 
-            catch (Exception e)
-            {
-                Debug.LogWarning("Directory doesn't exist: " + e.ToString());
-                return new string[0];
-            }
-        }
+			catch (Exception e)
+			{
+				Debug.LogWarning("Directory doesn't exist: " + e.ToString());
+				return new string[0];
+			}
+		}
 
-        public static string GetDirectoryName(string path)
-        {
-            DirectoryInfo di = new DirectoryInfo(path);
-            return di.Name;
-        }
-        #endregion
+		public static string GetDirectoryName(string path)
+		{
+			DirectoryInfo di = new DirectoryInfo(path);
+			return di.Name;
+		}
+		#endregion
 
-        #region validate
-        public static bool ValidateDirectory(string path)
-        {
-            if (Directory.Exists(path))
-                return true;
+		#region validate
+		public static bool ValidateDirectory(string path)
+		{
+			if (Directory.Exists(path))
+				return true;
 
-            else
-                return false;
-        }
-        #endregion
-        #endregion
+			else
+				return false;
+		}
+		#endregion
+		#endregion
 
-        #region compress data
-        public static string CompressDirectories(List<string> selectedDirPaths)
-        {
-            if (selectedDirPaths.Count == 1)
-            {
-                CompressDir(selectedDirPaths[0], $"{selectedDirPaths[0]}.zip");
-                return $"{selectedDirPaths[0]}.zip";
-            }
+		#region compress data
+		public static string CompressDirectories(List<string> selectedDirPaths)
+		{
+			if (selectedDirPaths.Count == 1)
+			{
+				if (ValidatePath($"{selectedDirPaths[0]}.zip"))
+					return ($"{selectedDirPaths[0]}.zip");
 
-            else
-            {
-                //creating a tmp folder for ref
-                string tmp = RemoveSuffixFromEnd(selectedDirPaths[0], GetDirectoryName(selectedDirPaths[0]));
-                string curTime = GetDateTime();
-                string m_dir = $"{tmp}{curTime}";
-                CreateDirectory(m_dir);
-                Debug.Log(m_dir);
+				else
+				{
+					CompressDir(selectedDirPaths[0], $"{selectedDirPaths[0]}.zip");
+					return $"{selectedDirPaths[0]}.zip";
+				}
+			}
 
-                //compressing all dirs in the tmp folder
-                foreach (string dir in selectedDirPaths)
-                {
-                    string dirname = GetDirectoryName(dir);
-                    string tar = RemoveSuffixFromEnd(dir, dirname);
-                    CompressDir(dir, $"{tar}/{curTime}/{dirname}.zip");
-                }
+			else
+			{
+				//creating a tmp folder for ref
+				string tmp = RemoveSuffixFromEnd(selectedDirPaths[0], GetDirectoryName(selectedDirPaths[0]));
+				string curTime = GetDateTime();
+				string m_dir = $"{tmp}{curTime}";
+				CreateDirectory(m_dir);
+				Debug.Log(m_dir);
 
-                //compress the tmp folder
-                CompressDir(m_dir, m_dir + ".zip");
-                DeleteDirectory(m_dir);
+				//compressing all dirs in the tmp folder
+				foreach (string dir in selectedDirPaths)
+				{
+					string dirname = GetDirectoryName(dir);
+					string tar = RemoveSuffixFromEnd(dir, dirname);
+					CompressDir(dir, $"{tar}/{curTime}/{dirname}.zip");
+				}
 
-                return m_dir + ".zip";
-            }
-        }
+				//compress the tmp folder
+				CompressDir(m_dir, m_dir + ".zip");
+				DeleteDirectory(m_dir);
 
-        public static void CompressDir(string dirPath, string tarPath)
-        {
-            ZipFile.CreateFromDirectory(dirPath, tarPath);
-        }
-        #endregion
+				return m_dir + ".zip";
+			}
+		}
 
-        #region String methods
-        public static Int64 StringToInt(string input)
-        {
-            string tmp = string.Empty;
-            Int64 val = 0;
+		public static void CompressDir(string dirPath, string tarPath)
+		{
+			ZipFile.CreateFromDirectory(dirPath, tarPath);
+		}
+		#endregion
 
-            tmp = String.Join("", input.Where(char.IsDigit));
+		#region String methods
+		public static Int64 StringToInt(string input)
+		{
+			string tmp = string.Empty;
+			Int64 val = 0;
 
-            if (tmp.Length > 0)
-            {
-                bool t = Int64.TryParse(tmp, out val);
-            }
+			tmp = String.Join("", input.Where(char.IsDigit));
 
-            return val;
-        }
+			if (tmp.Length > 0)
+			{
+				bool t = Int64.TryParse(tmp, out val);
+			}
 
-        public static bool StringEndsWith(string path, string suffix)
-        {
-            if (path.EndsWith(suffix))
-                return true;
+			return val;
+		}
 
-            else
-                return false;
-        }
+		public static bool StringEndsWith(string path, string suffix)
+		{
+			if (path.EndsWith(suffix))
+				return true;
 
-        public static string RemoveSuffixFromEnd(this string s, string suffix)
-        {
-            if (s.EndsWith(suffix))
-                return s.Substring(0, s.Length - suffix.Length);
+			else
+				return false;
+		}
 
-            else
-                return s;
-        }
+		public static string RemoveSuffixFromEnd(this string s, string suffix)
+		{
+			if (s.EndsWith(suffix))
+				return s.Substring(0, s.Length - suffix.Length);
 
-        public static string RemoveLengthFromEnd(string s, int length)
-        {
-            try
-            {
-                return s.Substring(0, s.Length - length);
-            }
-            catch
-            {
-                return s;
-            }
-        }
-        #endregion
-    }
+			else
+				return s;
+		}
+
+		public static string RemoveLengthFromEnd(string s, int length)
+		{
+			try
+			{
+				return s.Substring(0, s.Length - length);
+			}
+			catch
+			{
+				return s;
+			}
+		}
+		#endregion
+	}
 }

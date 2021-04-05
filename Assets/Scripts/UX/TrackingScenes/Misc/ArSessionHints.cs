@@ -210,7 +210,7 @@ namespace ArRetarget
 			TrackingStateChanged += OnTrackingStateChanged;
 			ClearCached();
 
-			if (PlayerPrefs.GetInt("hints", -1) == -1)
+			if (PlayerPrefsHandler.Instance.GetInt("hints", -1) == -1)
 			{
 				type = TrackingType.none;
 			}

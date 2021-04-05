@@ -70,7 +70,7 @@ namespace ArRetarget
 			}
 			*/
 			//video settings generated at runtime (device dependant)
-			if (UserPreferences.Instance.CameraConfigList.Count > 0)
+			if (PlayerPrefsHandler.Instance.CameraConfigList.Count > 0)
 			{
 				//videoSettigsTitle = GenerateSettingsTitel("Video Settings");
 				GenerateRecordingSettingsButtons();
@@ -100,7 +100,7 @@ namespace ArRetarget
 		public void GenerateRecordingSettingsButtons()
 		{
 			//same settings available
-			if (UserPreferences.Instance.CameraConfigList.Count == recordingSettings.Count)
+			if (PlayerPrefsHandler.Instance.CameraConfigList.Count == recordingSettings.Count)
 			{
 				return;
 			}
@@ -121,12 +121,12 @@ namespace ArRetarget
 				recordingSettings.Clear();
 
 				//referencing the available configs
-				for (int i = 0; i < UserPreferences.Instance.CameraConfigList.Count; i++)
+				for (int i = 0; i < PlayerPrefsHandler.Instance.CameraConfigList.Count; i++)
 				{
 					SettingButtonData tmp = new SettingButtonData()
 					{
-						displayName = UserPreferences.Instance.CameraConfigList[i],
-						userPrefsName = UserPreferences.Instance.CameraConfigList[i]
+						displayName = PlayerPrefsHandler.Instance.CameraConfigList[i],
+						userPrefsName = PlayerPrefsHandler.Instance.CameraConfigList[i]
 					};
 
 					recordingSettings.Add(tmp);
