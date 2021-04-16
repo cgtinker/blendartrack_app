@@ -125,7 +125,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.5.2
+  bundleVersion: 0.5.3
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -172,8 +172,8 @@ PlayerSettings:
     Android: com.cgtinker.Retargeter
     iPhone: com.cgtinker.Retargeter
   buildNumber:
-    iPhone: 7
-  AndroidBundleVersionCode: 7
+    iPhone: 8
+  AndroidBundleVersionCode: 8
   AndroidMinSdkVersion: 24
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 0
@@ -273,7 +273,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: d9f3f0abcf307486f87e445b530c29ea, type: 3}
+      m_Icon: {fileID: 2800000, guid: 19323d84d005849ec8f99718dbe494e8, type: 3}
       m_Width: 128
       m_Height: 128
       m_Kind: 0
