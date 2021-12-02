@@ -1,6 +1,6 @@
 # blendartrack
 
-With the mobile app blendartrack you can easily track you enviroment. Just move your device slowly, place some reference objects and you are ready to track. You can also track your face to get an animated geometry. The tracking data gets stored locally on the device and can be exported as .JSONs in a .zip. There is no personal data nor cloud required. To import the data in blender you can use the [Blender Add-On blendartrack](https://github.com/cgtinker/blendartrack).
+With the mobile app blendartrack you can easily track you enviroment. Just move your device slowly, place some reference objects and you are ready to track. You can also track your face to get an animated geometry. The tracking data gets stored locally on the device and can be exported as .JSONs in a .zip. There is no personal data nor cloud required. To import the data in [Blender](https://www.blender.org/) you can use the [Blender Add-On blendartrack](https://github.com/cgtinker/blendartrack).
 
 The exported data may be used in any Software, however please let me know before considering to publish third party software.
 
