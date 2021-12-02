@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+
+
+
 public class DeviceManager : Singleton<DeviceManager>
 {
 	//depending on the device, different scenes will be available
@@ -56,6 +59,7 @@ public class DeviceManager : Singleton<DeviceManager>
 		}
 #endif
 #if UNITY_ANDROID
+		//todo: unsupported android devices
 		if (Application.platform == RuntimePlatform.Android)
 		{
 			device = Device.Android;
