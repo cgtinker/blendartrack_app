@@ -8,16 +8,9 @@ namespace ArRetarget
 	{
 		#region refs
 		public GameObject SettingsButtonPrefab;
-		//public GameObject SettingsTitelPrefab;
 		public GameObject videoSettingsHeader;
-		//public GameObject empty;
 
-		//private GameObject videoSettigsTitle;
 		public Transform SettingsObjParent;
-
-		//public List<SettingButtonData> cameraSettings = new List<SettingButtonData>();
-		//public List<SettingButtonData> faceSettings = new List<SettingButtonData>();
-		//public List<SettingButtonData> generalSettings = new List<SettingButtonData>();
 		private List<SettingButtonData> recordingSettings = new List<SettingButtonData>();
 		#endregion
 
@@ -28,47 +21,6 @@ namespace ArRetarget
 
 		public void GenerateSettingsButtons()
 		{
-			/*
-			//general
-			if (generalSettings.Count > 0)
-			{
-				GenerateSettingsTitel("General");
-				GenerateButtons(generalSettings, false);
-				GenerateEmptySpace();
-			}
-
-			//camera settings
-			if (cameraSettings.Count > 0)
-			{
-				//GenerateSettingsTitel("Camera Tracking");
-				GenerateButtons(cameraSettings, false);
-				GenerateEmptySpace();
-			}
-
-			switch (DeviceManager.Instance.device)
-			{
-				case DeviceManager.Device.iOS:
-				break;
-				case DeviceManager.Device.iOSX:
-				//face settings
-				if (faceSettings.Count > 0)
-				{
-					GenerateSettingsTitel("Face Tracking");
-					GenerateButtons(faceSettings, false);
-					GenerateEmptySpace();
-				}
-				break;
-				case DeviceManager.Device.Android:
-				//face settings
-				if (faceSettings.Count > 0)
-				{
-					GenerateSettingsTitel("Face Tracking");
-					GenerateButtons(faceSettings, false);
-					GenerateEmptySpace();
-				}
-				break;
-			}
-			*/
 			//video settings generated at runtime (device dependant)
 			if (PlayerPrefsHandler.Instance.CameraConfigList.Count > 0)
 			{
@@ -79,8 +31,6 @@ namespace ArRetarget
 
 
 		#region ui generation
-
-
 		//custom toggle group
 		public void OnToggleXRCameraSetting(string name)
 		{
@@ -107,12 +57,6 @@ namespace ArRetarget
 
 			else
 			{
-				/*
-				if (videoSettigsTitle == null)
-				{
-					videoSettigsTitle = GenerateSettingsTitel("Video Settings");
-				}
-				*/
 				//removing current
 				foreach (SettingButtonData data in recordingSettings)
 				{
@@ -160,25 +104,6 @@ namespace ArRetarget
 				tmp.transform.localScale = Vector3.one;
 			}
 		}
-
-		/*
-		private GameObject GenerateSettingsTitel(string displayName)
-		{
-			var tmp = Instantiate(SettingsTitelPrefab, Vector3.zero, Quaternion.identity);
-			var script = tmp.GetComponent<UserSettingsTitel>();
-			script.Init(displayName);
-			tmp.transform.SetParent(SettingsObjParent);
-			tmp.transform.localScale = Vector3.one;
-
-			return tmp;
-		}
-		private void GenerateEmptySpace()
-		{
-			var tmp = Instantiate(empty, Vector3.zero, Quaternion.identity);
-			tmp.transform.SetParent(SettingsObjParent);
-			tmp.transform.localScale = Vector3.one;
-		}
-		*/
 		#endregion
 		#endregion
 	}

@@ -40,12 +40,22 @@ namespace ArRetarget
 				{
 					for (int i = 0; i < configs.Length; i++)
 					{
-						availableConfigs.Add(configs[i].ToString());
+						//availableConfigs.Add(configs[i].ToString());
+						availableConfigs.Add(CameraConfigString(configs[i]));
 					}
 				}
 			}
 
 			return availableConfigs;
+		}
+
+		public string CameraConfigString(XRCameraConfiguration config)
+		{
+			Vector2Int resolution = config.resolution;
+			int? framerate = config.framerate;
+
+			string config_str = $"{resolution[0]}x{resolution[1]} at {framerate} fps";
+			return config_str;
 		}
 
 		//changing config based on player prefs
@@ -57,7 +67,7 @@ namespace ArRetarget
 				{
 					for (int i = 0; i < configs.Length; i++)
 					{
-						if (isPreferredConfig(configs[i]))
+						if (isPreferredConfig(CameraConfigString(configs[i])))
 						{
 							try
 							{
@@ -76,7 +86,7 @@ namespace ArRetarget
 		}
 
 		//preferd config stored in player prefs
-		static bool isPreferredConfig(XRCameraConfiguration config)
+		static bool isPreferredConfig(string config)
 		{
 			bool m_bool = false;
 
@@ -84,7 +94,7 @@ namespace ArRetarget
 			{
 				if (PlayerPrefsHandler.Instance.GetInt(PlayerPrefsHandler.Instance.CameraConfigList[i], -1) == 1)
 				{
-					if (PlayerPrefsHandler.Instance.CameraConfigList[i] == config.ToString())
+					if (PlayerPrefsHandler.Instance.CameraConfigList[i] == config)
 					{
 						m_bool = true;
 					}
@@ -99,25 +109,26 @@ namespace ArRetarget
 			if (!managerReceivedFrame)
 			{
 				managerReceivedFrame = true;
-
+				print("aa NEW STUFF");
 				if (cameraManager.descriptor.supportsCameraConfigurations)
 				{
 					//gets current config
 					var cameraConfiguration = cameraManager.currentConfiguration;
 					Assert.IsTrue(cameraConfiguration.HasValue);
-					Debug.Log($"Current Config: {cameraConfiguration}");
-					//assigning the current config
+					//current config has value
 					activeXRCameraConfig = (XRCameraConfiguration)cameraConfiguration;
+					Debug.Log($"Current Config: {CameraConfigString(activeXRCameraConfig)}");
 
 					//referencing available configs when frame received in user prefs dict
 					var availableConfigs = GetAvailableConfiguartionStrings();
 					PlayerPrefsHandler.Instance.ReferenceAvailableXRCameraConfigs(availableConfigs);
 
 					//keep current config if it's the previously set one
-					if (PlayerPrefsHandler.Instance.GetInt(cameraConfiguration.ToString(), -1) == 1)
+					if (PlayerPrefsHandler.Instance.GetInt(CameraConfigString(activeXRCameraConfig), -1) == 1)
 					{
 						Debug.Log("Current config has been the previously stored one");
-						PlayerPrefsHandler.Instance.SetDefaultXRCameraConfig(cameraConfiguration.ToString());
+						PlayerPrefsHandler.Instance.SetDefaultXRCameraConfig(
+							CameraConfigString(activeXRCameraConfig));
 						return;
 					}
 
@@ -145,7 +156,8 @@ namespace ArRetarget
 						}
 
 						Debug.Log("No previous config has been stored");
-						PlayerPrefsHandler.Instance.SetDefaultXRCameraConfig(cameraConfiguration.ToString());
+						PlayerPrefsHandler.Instance.SetDefaultXRCameraConfig(
+							CameraConfigString(activeXRCameraConfig));
 					}
 				}
 			}

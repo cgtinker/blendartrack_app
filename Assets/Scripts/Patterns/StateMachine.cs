@@ -63,10 +63,9 @@ namespace ArRetarget
 				break;
 
 				case State.Tutorial:
-				if (PlayerPrefsHandler.Instance.GetInt("firstTimeUser", -1) == -1)
-					PlayerPrefsHandler.Instance.SetFirstTimeUserPrefs();
-
 				AsyncSceneManager.LoadScene("Tutorial");
+				if (isFirstTimeUser())
+					setUserPrefOnFinishTutorial();
 				break;
 
 				case State.RecentTracking:
@@ -132,11 +131,10 @@ namespace ArRetarget
 
 		private static void GetPostStartUpCase()
 		{
-			if (PlayerPrefsHandler.Instance.GetInt("firstTimeUser", -1) == -1)
+			if (isFirstTimeUser())
 			{
 				if (DeviceManager.Instance.device == DeviceManager.Device.Android)
 					StateMachine.Instance.SetState(StateMachine.State.ArCoreSupport);
-
 				else
 					StateMachine.Instance.SetState(StateMachine.State.Tutorial);
 			}
@@ -146,6 +144,25 @@ namespace ArRetarget
 
 			else
 				StateMachine.Instance.SetState(StateMachine.State.RecentTracking);
+
+			Resources.UnloadUnusedAssets();
+		}
+		#endregion
+
+		#region player pref access
+		private static int firstTimeUserPref = 1;
+		private static bool isFirstTimeUser()
+		{
+			Debug.Log(PlayerPrefsHandler.Instance.GetInt("firstTimeUser", 0));
+			if (PlayerPrefsHandler.Instance.GetInt("firstTimeUser", firstTimeUserPref) == firstTimeUserPref)
+				return true;
+			else
+				return false;
+		}
+
+		private void setUserPrefOnFinishTutorial()
+		{
+			PlayerPrefsHandler.Instance.SetFirstTimeUserPrefs(-firstTimeUserPref);
 		}
 		#endregion
 
