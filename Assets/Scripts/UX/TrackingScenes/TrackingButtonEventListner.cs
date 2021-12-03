@@ -90,8 +90,27 @@ namespace ArRetarget
 				break;
 
 				case ButtonInput.Switch:
-				FlexRecorderEvent.SetActive(false);
-				StateMachine.Instance.SetState(StateMachine.State.SwitchTrackingType);
+				// todo: may adjust str comp
+				if (AsyncSceneManager.loadedScene == "Camera Tracker")
+					switch (DeviceManager.Instance.device)
+					{
+						//todo: case for unsupported android
+						case DeviceManager.Device.iOS:
+						inputHandler.GeneratedFilePopup($"your device doesn't feature face tracking", DeviceManager.Instance.device.ToString());
+						break;
+
+						default:
+						FlexRecorderEvent.SetActive(false);
+						StateMachine.Instance.SetState(StateMachine.State.SwitchTrackingType);
+						break;
+					}
+
+				else
+				{
+					FlexRecorderEvent.SetActive(false);
+					StateMachine.Instance.SetState(StateMachine.State.SwitchTrackingType);
+				}
+
 				break;
 
 				case ButtonInput.Filebrowser:

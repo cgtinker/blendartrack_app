@@ -66,10 +66,10 @@ public class CameraRecorder : MonoBehaviour, IInit<string, string>, IStop
 
 	private void InitRecorder(int width, int height, int fps, int bitrate, int keyframeInterval)
 	{
-		var br = bitrate * 1000000;
+		var br = bitrate * 1_000_000;
 
 		//recorder settings
-		recorder = new MP4Recorder(width: width, height: height, frameRate: fps, sampleRate: 0, channelCount: 0, bitrate: br, keyframeInterval: keyframeInterval);
+		recorder = new MP4Recorder(width: width, height: height, frameRate: fps, sampleRate: 0, channelCount: 0, videoBitRate: br, keyframeInterval: keyframeInterval);
 		clock = new FixedIntervalClock(fps, true);
 
 		//recorder camera input

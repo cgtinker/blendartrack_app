@@ -11,23 +11,7 @@ namespace ArRetarget
 	public class PlayerPrefsHandler : Singleton<PlayerPrefsHandler>
 	{
 		#region Reference dictionarys for default values
-		//private Dictionary<string, string> StringPrefDict = new Dictionary<string, string>();
-
-		/*
-		public Dictionary<string, int> IntPrefDict = new Dictionary<string, int>()
-		{
-			//scene ref
-			{ "scene", 1 },     //sets startup scene and saves last loaded scene
-
-			//tracker references
-			{ "recordCam", -1 },     // record video during cam capture
-			{ "recordFace", -1 },    // record video during face caputre
-			{ "cloud", -1 },         // recording point cloud data
-		};
-		*/
-		//private Dictionary<string, float> FloatPrefDict = new Dictionary<string, float>();
-
-		public Dictionary<string, int> CameraConfigDict = new Dictionary<string, int>();
+		//public Dictionary<string, int> CameraConfigDict = new Dictionary<string, int>();
 		public List<string> CameraConfigList = new List<string>();
 		#endregion
 
@@ -37,11 +21,11 @@ namespace ArRetarget
 		{
 			if (CameraConfigList.Count == 0)
 			{
-				GetAvailableXRCameraConfigs();
+				LoadPlayerPrefCameraConfigs();
 			}
 		}
 
-		void GetAvailableXRCameraConfigs()
+		void LoadPlayerPrefCameraConfigs()
 		{
 			for (int i = 0; i < 6; i++)
 			{
@@ -50,6 +34,7 @@ namespace ArRetarget
 				if (m_config != "")
 				{
 					CameraConfigList.Add(m_config);
+					print(m_config);
 				}
 			}
 		}
@@ -61,8 +46,8 @@ namespace ArRetarget
 			//only setting front camera settings as recording on android wasnt possible
 			if (availableConfigs.Count != CameraConfigList.Count)
 			{
+				print("initializing available user camera config preferences");
 				CameraConfigList.Clear();
-
 				for (int i = 0; i < availableConfigs.Count; i++)
 				{
 					if (!CameraConfigList.Contains(availableConfigs[i]))
@@ -79,6 +64,7 @@ namespace ArRetarget
 
 		public void SetDefaultXRCameraConfig(string config)
 		{
+			print("setting default camera config value");
 			for (int i = 0; i < CameraConfigList.Count; i++)
 			{
 				if (CameraConfigList[i] != config)
@@ -129,11 +115,12 @@ namespace ArRetarget
 		#endregion
 
 		#region first time user prefs
-		public void SetFirstTimeUserPrefs()
+		public void SetFirstTimeUserPrefs(int firstTimeUserKey)
 		{
+			print("Set first time user player preferences");
 			PlayerPrefs.DeleteAll();
 
-			PlayerPrefs.SetInt("firstTimeUser", 1);
+			PlayerPrefs.SetInt("firstTimeUser", firstTimeUserKey);
 			PlayerPrefs.SetInt("default", 1);
 
 			PlayerPrefs.SetString("scene", "Camera Tracker");

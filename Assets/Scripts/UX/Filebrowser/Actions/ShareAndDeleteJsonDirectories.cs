@@ -66,8 +66,8 @@ namespace ArRetarget
 			}
 
 			//setting up share message / text
-			string subject = "Retarget " + localDate;
-			string text = "" + "Retarget " + localDate + paragraph + paragraph +
+			string subject = "blendartrack " + localDate;
+			string text = "" + "blendartrack " + localDate + paragraph + paragraph +
 				"Attached Files: " + paragraph + filenames;
 			LoadingScreen.SetActive(false);
 

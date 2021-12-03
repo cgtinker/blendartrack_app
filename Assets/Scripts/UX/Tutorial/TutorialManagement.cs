@@ -60,7 +60,7 @@ namespace ArRetarget
 				SetCustomButtonVisibilty(false);
 				break;
 				case SlidePosition.Last:
-				customButtonText.text = "start retargeting";
+				customButtonText.text = "start tracking";
 				SetCustomButtonVisibilty(true);
 				break;
 			}
