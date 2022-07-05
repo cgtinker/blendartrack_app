@@ -58,9 +58,11 @@ namespace ArRetarget
 			return config_str;
 		}
 
-		//changing config based on player prefs
+		//changing config based on player prefs (called on enable after frame received)
 		public void ChangeConfig()
 		{
+			print("Using VGA Stream");
+			/*
 			if (cameraManager.descriptor.supportsCameraConfigurations)
 			{
 				using (var configs = cameraManager.GetConfigurations(Allocator.Temp))
@@ -83,6 +85,7 @@ namespace ArRetarget
 					}
 				}
 			}
+			*/
 		}
 
 		//preferd config stored in player prefs
