@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System;
-using System.Collections.Generic;
 using System.Collections;
 
 namespace ArRetarget
@@ -26,13 +24,26 @@ namespace ArRetarget
 		}
 
 		private State appState;
-		private State previousState;
+		public State AppState
+		{
+			get { return appState; }
+		}
 
+		private State previousState;
+		public State PreviousState
+		{
+			get { return previousState; }
+		}
 		public void SetState(State state)
 		{
 			appState = state;
+
 			UpdateState();
 		}
+
+		#region State Event
+
+		#endregion
 
 		private IEnumerator Start()
 		{
@@ -45,6 +56,8 @@ namespace ArRetarget
 		private void UpdateState()
 		{
 			OnPreviousArState();
+			XRSessionComponentProvider xrSessionComponentProvider = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponent<XRSessionComponentProvider>();
+
 
 			switch (appState)
 			{
@@ -92,6 +105,7 @@ namespace ArRetarget
 				case State.FaceTracking:
 				AsyncSceneManager.LoadScene("Face Mesh Tracker");
 				StartCoroutine(ARSessionState.EnableAR(enabled: true));
+				StartCoroutine(xrSessionComponentProvider.OnEnableFaceDetection());
 				ScreenOrientationManager.setOrientation = ScreenOrientationManager.Orientation.Auto;
 				ResetTrackerInterfaces();
 				break;
@@ -99,6 +113,7 @@ namespace ArRetarget
 				case State.CameraTracking:
 				AsyncSceneManager.LoadScene("Camera Tracker");
 				StartCoroutine(ARSessionState.EnableAR(enabled: true));
+				StartCoroutine(xrSessionComponentProvider.OnEnablePlaneDetection());
 				ScreenOrientationManager.setOrientation = ScreenOrientationManager.Orientation.Auto;
 				ResetTrackerInterfaces();
 				break;
@@ -153,7 +168,6 @@ namespace ArRetarget
 		private static int firstTimeUserPref = 1;
 		private static bool isFirstTimeUser()
 		{
-			Debug.Log(PlayerPrefsHandler.Instance.GetInt("firstTimeUser", 0));
 			if (PlayerPrefsHandler.Instance.GetInt("firstTimeUser", firstTimeUserPref) == firstTimeUserPref)
 				return true;
 			else
@@ -169,13 +183,17 @@ namespace ArRetarget
 		#region Reset ar tracking state
 		private void OnPreviousArState()
 		{
+			XRSessionComponentProvider xrSessionComponentProvider = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponent<XRSessionComponentProvider>();
+
 			switch (previousState)
 			{
 				case State.FaceTracking:
+				xrSessionComponentProvider.OnDisableFaceDetection();
 				StartCoroutine(ARSessionState.EnableAR(enabled: false));
 				ResetTrackerInterfaces();
 				break;
 				case State.CameraTracking:
+				xrSessionComponentProvider.OnDisablePlaneDetection();
 				StartCoroutine(ARSessionState.EnableAR(enabled: false));
 				ResetTrackerInterfaces();
 				break;

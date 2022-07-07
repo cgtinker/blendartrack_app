@@ -35,7 +35,6 @@ namespace ArRetarget
 
 		public void logReceived(string log, Message type)
 		{
-			Debug.Log(log);
 			msg = type;
 		}
 	}

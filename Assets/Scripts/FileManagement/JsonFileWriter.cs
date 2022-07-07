@@ -3,41 +3,46 @@
 
 public static class JsonFileWriter
 {
-    const string quote = "\"";
-    const string f = "]}";      //closing json list
-    const string w = ",";       //listing values
+	const string quote = "\"";
+	const string f = "]}";      //TODO: closing json list depends on input...
+	const string w = ",";       //listing values
 
-    public static string GetContainerPrefix(string containerName)
-    {
-        string containerPrefix = "{" + quote + containerName + quote + ":[";
-        return containerPrefix;
-    }
+	public static string GetContainerPrefix(string containerName)
+	{
+		string containerPrefix = "{" + quote + containerName + quote + ":[";
+		return containerPrefix;
+	}
 
-    //writing data directly in a .json file
-    public static void WriteDataToFile(string path, string text, string title, bool lastFrame)
-    {
-        if (!File.Exists(path))
-        {
-            //create a file to write to
-            using (StreamWriter sw = File.CreateText(path))
-            {
-                string m_prefix = GetContainerPrefix(title);
-                sw.WriteLine($"{m_prefix}");
-            }
-        }
+	//writing data directly in a .json file
+	public static void WriteDataToFile(string path, string text, string title, bool lastFrame)
+	{
+		if (path == null)
+		{
+			return;
+		}
 
-        else
-        {
-            //if the file exists, append text
-            using (StreamWriter sw = File.AppendText(path))
-            {
-                if (!lastFrame)
-                    sw.WriteLine($"{text}{w}");
+		if (!File.Exists(path))
+		{
+			//create a file to write to
+			using (StreamWriter sw = File.CreateText(path))
+			{
+				string m_prefix = GetContainerPrefix(title);
+				sw.WriteLine($"{m_prefix}");
+			}
+		}
 
-                //TODO: different data types requiere different closing types
-                else
-                    sw.WriteLine($"{text}");
-            }
-        }
-    }
+		else
+		{
+			//if the file exists, append text
+			using (StreamWriter sw = File.AppendText(path))
+			{
+				if (!lastFrame)
+					sw.WriteLine($"{text}{w}");
+
+				//TODO: different data types requiere different closing types
+				else
+					sw.WriteLine($"{text}");
+			}
+		}
+	}
 }

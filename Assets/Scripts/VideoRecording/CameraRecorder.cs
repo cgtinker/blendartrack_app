@@ -1,13 +1,18 @@
 ﻿using UnityEngine;
 using ArRetarget;
+
 using NatSuite.Recorders;
 using NatSuite.Recorders.Clocks;
 using NatSuite.Recorders.Inputs;
 
+
+
 public class CameraRecorder : MonoBehaviour, IInit<string, string>, IStop
 {
+
 	private CameraInput cameraInput;
 	private MP4Recorder recorder;
+	//private AudioDevice audioDevice;
 
 	private FixedIntervalClock clock;
 
@@ -90,4 +95,5 @@ public class CameraRecorder : MonoBehaviour, IInit<string, string>, IStop
 		//safe data in zip / gallery
 		FileManagement.CopyFile(sourceFile: path, destFile: $"{mediaDesitinationPath}{filename}");
 	}
+
 }

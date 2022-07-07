@@ -11,7 +11,9 @@ namespace ArRetarget
 		{
 			filePath = $"{path}{title}_{j_Prefix()}.json";
 			JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "anchorData", lastFrame: false);
+
 			referenceCreator = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponent<ReferenceCreator>();
+			print(referenceCreator);
 		}
 
 		public string j_Prefix()
@@ -22,7 +24,8 @@ namespace ArRetarget
 		static string jsonContents;
 		public void StopTracking()
 		{
-			for (int i = 0; i < referenceCreator.anchors.Count; i++)
+
+			for (int i = 0; i < referenceCreator?.anchors?.Count; i++)
 			{
 				var vector = referenceCreator.anchors[i].transform.position;
 				string json = JsonUtility.ToJson(vector);

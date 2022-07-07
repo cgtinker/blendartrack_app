@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.google.ar.core.arfoundation.extensions": "https://github.com/google-ar/arcore-unity-extensions.git",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.collab-proxy": "1.15.4",
     "com.unity.device-simulator": "3.0.3-preview",
@@ -14,6 +15,7 @@
     "com.unity.ugui": "1.0.0",
     "com.unity.xr.arcore": "4.1.10",
     "com.unity.xr.arfoundation": "4.1.10",
+    "com.unity.xr.arkit": "4.1.10",
     "com.unity.xr.arkit-face-tracking": "4.1.10",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",

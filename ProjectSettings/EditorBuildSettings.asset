@@ -5,9 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: Assets/Scenes/Main_BU.unity
+    guid: 82371dd3a50224c99a4f7d25cc6db696
   - enabled: 1
     path: Assets/Scenes/Main.unity
-    guid: 82371dd3a50224c99a4f7d25cc6db696
+    guid: 8b4885952e17d40c29df42b5411ae50b
   - enabled: 1
     path: Assets/Scenes/UI/StartUp.unity
     guid: 183634374b8d54651a54c66769b0f156
@@ -32,9 +35,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/UI/ArCoreSupport.unity
     guid: e3f10c6a2145e4d8dba5fab8713136be
-  - enabled: 0
-    path: Assets/Scenes/wtf.unity
-    guid: 88a0fa02a558b4fd4906db3dcc551bda
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 273c9ecc124c84beda7f536a4664f9ef,
       type: 2}

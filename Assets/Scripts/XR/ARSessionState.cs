@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
+using Google.XR.ARCoreExtensions;
 
 namespace ArRetarget
 {
@@ -8,12 +9,16 @@ namespace ArRetarget
 	{
 		public static IEnumerator EnableAR(bool enabled)
 		{
-			var m_arSession = GameObject.FindGameObjectWithTag("arSession");
-			var arSessionOrigin = GameObject.FindGameObjectWithTag("arSessionOrigin");
+			var _arSession = GameObject.FindGameObjectWithTag("arSession");
+			var _arSessionOrigin = GameObject.FindGameObjectWithTag("arSessionOrigin");
+			var _arCamera = _arSessionOrigin.transform.GetChild(0).gameObject;
 
-			if (m_arSession != null)
+			Debug.LogWarning($"Trying to change ArSession State - enabling: {enabled}");
+			if (_arSession != null)
 			{
-				var arSession = m_arSession.GetComponent<ARSession>();
+				var arSession = _arSession.GetComponent<ARSession>();
+				var arCoreExtension = _arSession.GetComponent<ARCoreExtensions>();
+				var arSessionOrigin = _arSessionOrigin.GetComponent<ARSessionOrigin>();
 
 				if (enabled)
 				{
@@ -22,14 +27,22 @@ namespace ArRetarget
 
 				yield return new WaitForEndOfFrame();
 
-				if (arSessionOrigin != null)
+
+				if (enabled == true)
 				{
-					arSessionOrigin.SetActive(enabled);
+					_arCamera.SetActive(enabled);
+					arSession.enabled = enabled;
+					arSessionOrigin.enabled = enabled;
+					arCoreExtension.enabled = enabled;
 				}
 
-
-
-				arSession.enabled = enabled;
+				else
+				{
+					arCoreExtension.enabled = enabled;
+					arSession.enabled = enabled;
+					arSessionOrigin.enabled = enabled;
+					_arCamera.SetActive(enabled);
+				}
 			}
 
 			else

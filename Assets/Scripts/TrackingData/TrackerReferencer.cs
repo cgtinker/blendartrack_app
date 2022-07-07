@@ -31,20 +31,20 @@ namespace ArRetarget
 
 		private IEnumerator SetReferences()
 		{
-			Debug.Log("Started Referencing");
+			Debug.Log("Tracker References initialized");
 			yield return new WaitForEndOfFrame();
 			var dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
 
 			for (int i = 0; i < Trackers.Count; i++)
 			{
-				//Debug.Log(Trackers[i].nameInPlayerPrefs + Trackers[i].value);
+				// Debug.Log(Trackers[i].nameInPlayerPrefs + Trackers[i].value);
 
 				if (Trackers[i].value >= 1)
 				{
-					//Debug.Log("set");
+					// Debug.Log($"setting {Trackers[i]}");
 					dataManager.SetRecorderReference(Trackers[i].obj);
 
-					var screenPosTracker = Trackers[i].obj.GetComponent<WorldToScreenPosHandler>();
+					//var screenPosTracker = Trackers[i].obj.GetComponent<WorldToScreenPosHandler>();
 				}
 			}
 		}

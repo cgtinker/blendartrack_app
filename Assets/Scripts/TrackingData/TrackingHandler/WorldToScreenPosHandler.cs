@@ -27,20 +27,25 @@ namespace ArRetarget
 			filePath = $"{path}{title}_{j_Prefix()}.json";
 			JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "screenPosData", lastFrame: false);
 
-
+			Debug.LogWarning("FIND ALL THAT SHIT===");
 			//screen space camera
 			if (arCamera == null)
 			{
 				var cam = GameObject.FindGameObjectWithTag("MainCamera");
 				arCamera = cam.GetComponent<Camera>();
+				Debug.Log("camera");
+				Debug.Log(arCamera);
 			}
-
+			Debug.Log("some other stuff");
 			if (arRaycastManager == null || arPlaneManager == null)
 			{
 				var sessionOrigin = GameObject.FindGameObjectWithTag("arSessionOrigin");
 				arRaycastManager = sessionOrigin.GetComponent<ARRaycastManager>();
 				arPlaneManager = sessionOrigin.GetComponent<ARPlaneManager>();
 				referenceCreator = sessionOrigin.GetComponent<ReferenceCreator>();
+				Debug.Log(arRaycastManager);
+				Debug.Log(arPlaneManager);
+				Debug.Log(referenceCreator);
 			}
 
 			curTick = 0;
@@ -55,7 +60,6 @@ namespace ArRetarget
 		#region getting and writing data
 		public void GetFrameData(int frame, bool lastFrame)
 		{
-
 			//Vector3 position = DeviationRay();
 			//Vector3 position = motionAnchor.transform.position;
 			Vector3 position = PosByMarker();
@@ -92,6 +96,7 @@ namespace ArRetarget
 		#region generating relative screen pos data
 		public Vector3 PosByMarker()
 		{
+			// casting ray to reference anchor for futher calibration
 			rayHit = false;
 
 			var markers = referenceCreator.anchors;
@@ -117,49 +122,13 @@ namespace ArRetarget
 
 			return tar;
 		}
-		/*
-        int iter = 0;
-        public Vector3 RayByPlanePosition()
-        {
-            iter = 0;
-            rayHit = false;
-            var trackables = arPlaneManager.trackables;
 
-            foreach (ARPlane plane in trackables)
-            {
-                iter++;
-                if (iter > iterations)
-                {
-                    rayHit = false;
-                    break;
-                }
-
-                var tmp_pos = plane.transform.position;
-                var tmp_point = arCamera.WorldToScreenPoint(tmp_pos);
-                var tmp_vec = new Vector3(tmp_point.x / camera_width, tmp_point.y / camera_height, tmp_point.z);
-
-                if (tmp_vec.z > 0 && tmp_vec.x > 0.1f && tmp_vec.y > 0.1f && tmp_vec.x < 0.9f && tmp_vec.y < 0.9f)
-                {
-                    tar = tmp_pos;
-                    rayHit = true;
-                    break;
-                }
-            }
-
-            if (!rayHit)
-            {
-                Debug.LogWarning("no planes?");
-                tar = DeviationRay();
-            }
-
-            return tar;
-        }
-        */
 		float iterations = 5;
 		bool rayHit;
 		Vector3 tar;
 		public Vector3 DeviationRay()
 		{
+			// Shooting random ray for further calibration
 			rayHit = false;
 
 			for (int i = 0; i < iterations; i++)
