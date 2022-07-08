@@ -36,7 +36,6 @@ namespace ArRetarget
 					jsonContents += json;
 			}
 
-			//TODO: Check if data gets closed
 			jsonContents += "]}";
 			JsonFileWriter.WriteDataToFile(path: filePath, text: jsonContents, title: "", lastFrame: true);
 			jsonContents = "";

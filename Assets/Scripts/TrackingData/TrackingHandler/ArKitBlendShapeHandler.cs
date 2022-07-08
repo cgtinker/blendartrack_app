@@ -9,34 +9,34 @@ using UnityEngine.XR.ARKit;
 
 namespace ArRetarget
 {
-    [RequireComponent(typeof(ARFace))]
-    public class ArKitBlendShapeHandler : MonoBehaviour, IInit<string, string>, IStop, IPrefix
-    {
+	[RequireComponent(typeof(ARFace))]
+	public class ArKitBlendShapeHandler : MonoBehaviour, IInit<string, string>, IStop, IPrefix
+	{
 #if UNITY_IOS && !UNITY_EDITOR
         //accessing sub system & init blend shape dict for mapping
         ARKitFaceSubsystem m_ARKitFaceSubsystem;
 #endif
-        private List<BlendShapeData> blendShapeDataList = new List<BlendShapeData>();
-        private bool recording = false;
-        ARFace m_Face;
-        private bool lastFrame = false;
+		private List<BlendShapeData> blendShapeDataList = new List<BlendShapeData>();
+		private bool recording = false;
+		ARFace m_Face;
+		private bool lastFrame = false;
 
-        void Awake()
-        {
-            m_Face = this.gameObject.GetComponent<ARFace>();
-        }
+		void Awake()
+		{
+			m_Face = this.gameObject.GetComponent<ARFace>();
+		}
 
-        private void Start()
-        {
-            TrackingDataManager dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
-            dataManager.SetRecorderReference(this.gameObject);
-        }
+		private void Start()
+		{
+			TrackingDataManager dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
+			dataManager.SetRecorderReference(this.gameObject);
+		}
 
-        private string filePath;
-        public void Init(string path, string title)
-        {
-            filePath = $"{path}{title}_{j_Prefix()}.json";
-            JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "blendShapeData", lastFrame: false);
+		private string filePath;
+		public void Init(string path, string title)
+		{
+			filePath = $"{path}{title}_{j_Prefix()}.json";
+			JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "blendShapeData", lastFrame: false);
 
 #if UNITY_IOS && !UNITY_EDITOR
             if(m_ARKitFaceSubsystem == null)
@@ -48,42 +48,41 @@ namespace ArRetarget
                 }
             }
 #endif
-            m_Face.updated += OnUpdated;
-            recording = true;
-            lastFrame = false;
-        }
+			m_Face.updated += OnUpdated;
+			recording = true;
+			lastFrame = false;
+		}
 
-        //json file prefix
-        public string j_Prefix()
-        {
-            return "face";
-        }
+		//json file prefix
+		public string j_Prefix()
+		{
+			return "face";
+		}
 
-        //if face is lost
-        void OnDisable()
-        {
+		//if face is lost
+		void OnDisable()
+		{
+			Debug.Log("Disabled Manager, stop referencing");
+			m_Face.updated -= OnUpdated;
+		}
 
-            Debug.Log("Disabled Manager, stop referencing");
-            m_Face.updated -= OnUpdated;
-        }
+		public void StopTracking()
+		{
+			lastFrame = true;
+		}
 
-        public void StopTracking()
-        {
-            lastFrame = true;
-        }
+		//receiving update
+		void OnUpdated(ARFaceUpdatedEventArgs eventArgs)
+		{
+			UpdateFaceFeatures();
+		}
 
-        //receiving update
-        void OnUpdated(ARFaceUpdatedEventArgs eventArgs)
-        {
-            UpdateFaceFeatures();
-        }
-
-        private int frame;
-        //while recoring updating facial features and store them as blendshapedata as soon the subsystem update occurs
-        void UpdateFaceFeatures()
-        {
-            if (recording)
-            {
+		private int frame;
+		//while recoring updating facial features and store them as blendshapedata as soon the subsystem update occurs
+		void UpdateFaceFeatures()
+		{
+			if (recording)
+			{
 #if UNITY_IOS && !UNITY_EDITOR
             List<BlendShape> tmpBlendShapes = new List<BlendShape>();
             frame++;
@@ -125,7 +124,7 @@ namespace ArRetarget
                 filePath = null;
             }
 #endif
-            }
-        }
-    }
+			}
+		}
+	}
 }

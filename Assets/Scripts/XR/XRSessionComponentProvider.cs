@@ -21,18 +21,26 @@ namespace ArRetarget
 		[SerializeField]
 		private GameObject arFaceMesh = null;
 
+		private ARSession arSession;
+		private Camera arDisplayCamera;
+		private ARCameraManager arCameraManager;
+
+		private void Start()
+		{
+			arSession = GameObject.FindGameObjectWithTag("arSession").GetComponent<ARSession>();
+			arDisplayCamera = GameObject.FindGameObjectWithTag("ARDisplayCamera").GetComponent<Camera>();
+			arCameraManager = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ARCameraManager>();
+		}
+
+
 		public IEnumerator OnEnableFaceDetection()
 		{
-			Debug.Log("Enabled Face Detection");
-			// Adding components to ar session
+			RequestCameraFacingDirection(CameraFacingDirection.User);
 			yield return new WaitForEndOfFrame();
-			// set camera facing direction
-			ARCameraManager arCameraManager = this.transform.GetChild(0).gameObject.GetComponent<ARCameraManager>();
-			if (arCameraManager.currentFacingDirection != CameraFacingDirection.User)
-			{
-				arCameraManager.requestedFacingDirection = CameraFacingDirection.User;
-			}
+			arSession.Reset();
+			yield return new WaitForEndOfFrame();
 
+			// Adding components to ar session
 			ARFaceManager arFaceManager = this.gameObject.AddComponent<ARFaceManager>();
 			ARInputManager arInputManager = this.gameObject.AddComponent<ARInputManager>();
 
@@ -40,26 +48,27 @@ namespace ArRetarget
 			arFaceManager.requestedMaximumFaceCount = 1;
 		}
 
-		public void OnDisableFaceDetection()
+		public IEnumerator OnDisableFaceDetection()
 		{
+			RequestCameraFacingDirection(CameraFacingDirection.None);
 			Debug.Log("Dsiabled Face Detection");
-
+			GameObject[] faces = GameObject.FindGameObjectsWithTag("face");
+			DestroyGameObjects(faces);
 			Destroy(this.gameObject.GetComponent<ARFaceManager>());
 			Destroy(this.gameObject.GetComponent<ARInputManager>());
 
+			yield return new WaitForEndOfFrame();
+			arSession.Reset();
 		}
 
 		public IEnumerator OnEnablePlaneDetection()
 		{
+			RequestCameraFacingDirection(CameraFacingDirection.World);
 			Debug.Log("Enabled Plane Detection");
 			yield return new WaitForEndOfFrame();
+			arSession.Reset();
+			yield return new WaitForEndOfFrame();
 			// set camera facing direction
-			ARCameraManager arCameraManager = this.transform.GetChild(0).gameObject.GetComponent<ARCameraManager>();
-			if (arCameraManager.currentFacingDirection != CameraFacingDirection.World)
-			{
-				arCameraManager.requestedFacingDirection = CameraFacingDirection.World;
-			}
-
 			// Adding components to ar session
 			ARPlaneManager arPlaneManager = this.gameObject.AddComponent<ARPlaneManager>();
 			ARPointCloudManager arPointCloudManager = this.gameObject.AddComponent<ARPointCloudManager>();
@@ -76,14 +85,60 @@ namespace ArRetarget
 			arReferenceCreator.LongTouchTime = arReferenceCreatingTabTimings[1];
 		}
 
-		public void OnDisablePlaneDetection()
+		public IEnumerator OnDisablePlaneDetection()
 		{
+			RequestCameraFacingDirection(CameraFacingDirection.None);
 			print("Try Destory plane componenrs");
+			GameObject[] planes = GameObject.FindGameObjectsWithTag("retarget");
+			DestroyGameObjects(planes);
+			GameObject[] clouds = GameObject.FindGameObjectsWithTag("pointCloud");
+			DestroyGameObjects(clouds);
+
 			Destroy(this.gameObject.GetComponent<ARPlaneManager>());
 			Destroy(this.gameObject.GetComponent<ARPointCloudManager>());
 			Destroy(this.gameObject.GetComponent<ARInputManager>());
 			Destroy(this.gameObject.GetComponent<ARRaycastManager>());
 			Destroy(this.gameObject.GetComponent<ReferenceCreator>());
+
+			yield return new WaitForEndOfFrame();
+			arSession.Reset();
+		}
+
+		private void DestroyGameObjects(GameObject[] objs)
+		{
+			foreach (GameObject obj in objs)
+			{
+				Destroy(obj);
+			}
+		}
+
+		private void RequestCameraFacingDirection(CameraFacingDirection direction)
+		{
+			switch (direction)
+			{
+				case CameraFacingDirection.None:
+				arDisplayCamera.enabled = false;
+				break;
+				case CameraFacingDirection.World:
+				arDisplayCamera.enabled = true;
+				break;
+				case CameraFacingDirection.User:
+				arDisplayCamera.enabled = true;
+				break;
+				default:
+				arDisplayCamera.enabled = false;
+				break;
+			}
+
+			SetCameraFacingDirection(direction);
+		}
+
+		private void SetCameraFacingDirection(CameraFacingDirection direction)
+		{
+			if (arCameraManager.currentFacingDirection != direction)
+			{
+				arCameraManager.requestedFacingDirection = direction;
+			}
 		}
 	}
 }

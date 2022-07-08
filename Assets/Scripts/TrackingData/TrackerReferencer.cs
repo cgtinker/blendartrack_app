@@ -37,14 +37,9 @@ namespace ArRetarget
 
 			for (int i = 0; i < Trackers.Count; i++)
 			{
-				// Debug.Log(Trackers[i].nameInPlayerPrefs + Trackers[i].value);
-
 				if (Trackers[i].value >= 1)
 				{
-					// Debug.Log($"setting {Trackers[i]}");
 					dataManager.SetRecorderReference(Trackers[i].obj);
-
-					//var screenPosTracker = Trackers[i].obj.GetComponent<WorldToScreenPosHandler>();
 				}
 			}
 		}

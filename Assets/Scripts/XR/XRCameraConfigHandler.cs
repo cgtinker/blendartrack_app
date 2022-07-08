@@ -11,7 +11,7 @@ namespace ArRetarget
 	[RequireComponent(typeof(ARCameraManager))]
 	public class XRCameraConfigHandler : MonoBehaviour
 	{
-		[SerializeField] ARCameraManager cameraManager = null;
+		private ARCameraManager cameraManager = null;
 		bool managerReceivedFrame;
 		public XRCameraConfiguration activeXRCameraConfig;
 
@@ -40,7 +40,6 @@ namespace ArRetarget
 				{
 					for (int i = 0; i < configs.Length; i++)
 					{
-						//availableConfigs.Add(configs[i].ToString());
 						availableConfigs.Add(CameraConfigString(configs[i]));
 					}
 				}
@@ -61,8 +60,6 @@ namespace ArRetarget
 		//changing config based on player prefs (called on enable after frame received)
 		public void ChangeConfig()
 		{
-			print("Using VGA Stream");
-			/*
 			if (cameraManager.descriptor.supportsCameraConfigurations)
 			{
 				using (var configs = cameraManager.GetConfigurations(Allocator.Temp))
@@ -85,7 +82,6 @@ namespace ArRetarget
 					}
 				}
 			}
-			*/
 		}
 
 		//preferd config stored in player prefs

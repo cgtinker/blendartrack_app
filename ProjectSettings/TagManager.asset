@@ -17,6 +17,8 @@ TagManager:
   - referencer
   - interfaceManager
   - recorder
+  - plane
+  - ARDisplayCamera
   layers:
   - Default
   - TransparentFX

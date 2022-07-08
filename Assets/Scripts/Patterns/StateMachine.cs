@@ -37,10 +37,9 @@ namespace ArRetarget
 		public void SetState(State state)
 		{
 			appState = state;
-
 			UpdateState();
 		}
-
+		private XRSessionComponentProvider xrSessionComponentProvider;
 		#region State Event
 
 		#endregion
@@ -49,6 +48,8 @@ namespace ArRetarget
 		{
 			yield return new WaitForEndOfFrame();
 			Debug.Log("Started State Machine");
+			xrSessionComponentProvider = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponent<XRSessionComponentProvider>();
+
 
 			SetState(State.StartUp);
 		}
@@ -56,8 +57,6 @@ namespace ArRetarget
 		private void UpdateState()
 		{
 			OnPreviousArState();
-			XRSessionComponentProvider xrSessionComponentProvider = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponent<XRSessionComponentProvider>();
-
 
 			switch (appState)
 			{
@@ -104,7 +103,7 @@ namespace ArRetarget
 
 				case State.FaceTracking:
 				AsyncSceneManager.LoadScene("Face Mesh Tracker");
-				StartCoroutine(ARSessionState.EnableAR(enabled: true));
+				//StartCoroutine(ARSessionState.EnableAR(enabled: true));
 				StartCoroutine(xrSessionComponentProvider.OnEnableFaceDetection());
 				ScreenOrientationManager.setOrientation = ScreenOrientationManager.Orientation.Auto;
 				ResetTrackerInterfaces();
@@ -112,7 +111,7 @@ namespace ArRetarget
 
 				case State.CameraTracking:
 				AsyncSceneManager.LoadScene("Camera Tracker");
-				StartCoroutine(ARSessionState.EnableAR(enabled: true));
+				//StartCoroutine(ARSessionState.EnableAR(enabled: true));
 				StartCoroutine(xrSessionComponentProvider.OnEnablePlaneDetection());
 				ScreenOrientationManager.setOrientation = ScreenOrientationManager.Orientation.Auto;
 				ResetTrackerInterfaces();
@@ -183,18 +182,16 @@ namespace ArRetarget
 		#region Reset ar tracking state
 		private void OnPreviousArState()
 		{
-			XRSessionComponentProvider xrSessionComponentProvider = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponent<XRSessionComponentProvider>();
-
 			switch (previousState)
 			{
 				case State.FaceTracking:
-				xrSessionComponentProvider.OnDisableFaceDetection();
-				StartCoroutine(ARSessionState.EnableAR(enabled: false));
+				StartCoroutine(xrSessionComponentProvider.OnDisableFaceDetection());
+				//StartCoroutine(ARSessionState.EnableAR(enabled: false));
 				ResetTrackerInterfaces();
 				break;
 				case State.CameraTracking:
-				xrSessionComponentProvider.OnDisablePlaneDetection();
-				StartCoroutine(ARSessionState.EnableAR(enabled: false));
+				StartCoroutine(xrSessionComponentProvider.OnDisablePlaneDetection());
+				//StartCoroutine(ARSessionState.EnableAR(enabled: false));
 				ResetTrackerInterfaces();
 				break;
 				default:

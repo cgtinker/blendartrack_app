@@ -18,22 +18,12 @@ public class ArCoreCameraRecorder : MonoBehaviour, IInit<string, string>, IStop
 	{
 		Debug.Log("init video recorder");
 		recordingConfig = ScriptableObject.CreateInstance<ARCoreRecordingConfig>();
-		Debug.LogWarning("config tracks " + recordingConfig.Tracks);
-		foreach (Track track in recordingConfig.Tracks)
-		{
-			Debug.Log(track);
-		}
 		Uri datasetUri = new System.Uri($"{path}{title}.mp4");
 		// explicit conversion
 		Uri absoluteUri = new System.Uri(datasetUri.AbsoluteUri);
 		recordingConfig.Mp4DatasetUri = absoluteUri;
 
 		recordingManager.StartRecording(recordingConfig);
-	}
-
-	void RecordingStatus()
-	{
-		Debug.Log("Current Recording Status: " + recordingManager.RecordingStatus);
 	}
 
 	public void StopTracking()
