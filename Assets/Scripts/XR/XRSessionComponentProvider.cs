@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
@@ -27,6 +26,13 @@ namespace ArRetarget
 			Debug.Log("Enabled Face Detection");
 			// Adding components to ar session
 			yield return new WaitForEndOfFrame();
+			// set camera facing direction
+			ARCameraManager arCameraManager = this.transform.GetChild(0).gameObject.GetComponent<ARCameraManager>();
+			if (arCameraManager.currentFacingDirection != CameraFacingDirection.User)
+			{
+				arCameraManager.requestedFacingDirection = CameraFacingDirection.User;
+			}
+
 			ARFaceManager arFaceManager = this.gameObject.AddComponent<ARFaceManager>();
 			ARInputManager arInputManager = this.gameObject.AddComponent<ARInputManager>();
 
@@ -47,6 +53,13 @@ namespace ArRetarget
 		{
 			Debug.Log("Enabled Plane Detection");
 			yield return new WaitForEndOfFrame();
+			// set camera facing direction
+			ARCameraManager arCameraManager = this.transform.GetChild(0).gameObject.GetComponent<ARCameraManager>();
+			if (arCameraManager.currentFacingDirection != CameraFacingDirection.World)
+			{
+				arCameraManager.requestedFacingDirection = CameraFacingDirection.World;
+			}
+
 			// Adding components to ar session
 			ARPlaneManager arPlaneManager = this.gameObject.AddComponent<ARPlaneManager>();
 			ARPointCloudManager arPointCloudManager = this.gameObject.AddComponent<ARPointCloudManager>();

@@ -13,7 +13,7 @@ namespace ArRetarget
 			var _arSessionOrigin = GameObject.FindGameObjectWithTag("arSessionOrigin");
 			var _arCamera = _arSessionOrigin.transform.GetChild(0).gameObject;
 
-			Debug.LogWarning($"Trying to change ArSession State - enabling: {enabled}");
+			//Debug.LogWarning($"Trying to change ArSession State - enabling: {enabled}");
 			if (_arSession != null)
 			{
 				var arSession = _arSession.GetComponent<ARSession>();
@@ -28,21 +28,21 @@ namespace ArRetarget
 				yield return new WaitForEndOfFrame();
 
 
-				if (enabled == true)
-				{
-					_arCamera.SetActive(enabled);
-					arSession.enabled = enabled;
-					arSessionOrigin.enabled = enabled;
-					arCoreExtension.enabled = enabled;
-				}
+				// if (enabled == true)
+				// {
+				// 	_arCamera.SetActive(enabled);
+				// 	arSession.enabled = enabled;
+				// 	arSessionOrigin.enabled = enabled;
+				// 	arCoreExtension.enabled = enabled;
+				// }
 
-				else
-				{
-					arCoreExtension.enabled = enabled;
-					arSession.enabled = enabled;
-					arSessionOrigin.enabled = enabled;
-					_arCamera.SetActive(enabled);
-				}
+				// else
+				// {
+				// 	arCoreExtension.enabled = enabled;
+				// 	arSession.enabled = enabled;
+				// 	arSessionOrigin.enabled = enabled;
+				// 	_arCamera.SetActive(enabled);
+				// }
 			}
 
 			else

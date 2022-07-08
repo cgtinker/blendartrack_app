@@ -26,33 +26,36 @@ namespace ArRetarget
 
 		private void SetAutoFocus(bool auto)
 		{
-			if (auto)
-				cameraManager.focusMode = UnityEngine.XR.ARSubsystems.CameraFocusMode.Auto;
-			else
-				cameraManager.focusMode = UnityEngine.XR.ARSubsystems.CameraFocusMode.Fixed;
+			cameraManager.autoFocusRequested = auto;
+			// if (auto)
+			// 	cameraManager.focusMode = UnityEngine.XR.ARSubsystems.CameraFocusMode.Auto;
+			// else
+			// 	cameraManager.focusMode = UnityEngine.XR.ARSubsystems.CameraFocusMode.Fixed;
 		}
 
 		private bool IsCameraAutoFocusMode()
 		{
-			var focusmode = cameraManager.focusMode;
+			bool focusmode = cameraManager.autoFocusEnabled;
+			return focusmode;
+			// var focusmode = cameraManager.focusMode;
 
-			bool autofocus;
-			switch (focusmode)
-			{
-				case UnityEngine.XR.ARSubsystems.CameraFocusMode.Auto:
-				autofocus = true;
-				break;
+			// bool autofocus;
+			// switch (focusmode)
+			// {
+			// 	case UnityEngine.XR.ARSubsystems.CameraFocusMode.Auto:
+			// 	autofocus = true;
+			// 	break;
 
-				case UnityEngine.XR.ARSubsystems.CameraFocusMode.Fixed:
-				autofocus = false;
-				break;
+			// 	case UnityEngine.XR.ARSubsystems.CameraFocusMode.Fixed:
+			// 	autofocus = false;
+			// 	break;
 
-				default:
-				autofocus = false;
-				break;
-			}
+			// 	default:
+			// 	autofocus = false;
+			// 	break;
+			// }
 
-			return autofocus;
+			// return autofocus;
 		}
 
 		private bool IsAutoFocusPlayerPrefs()

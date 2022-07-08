@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
-using System.Collections;
+using UnityEngine.XR.ARSubsystems;
 
 namespace ArRetarget
 {
@@ -248,7 +248,8 @@ namespace ArRetarget
 			if (m_CameraManager != null & enabled)
 			{
 				m_CameraManager.frameReceived += FrameChanged;
-				m_CameraManager.lightEstimationMode = UnityEngine.XR.ARSubsystems.LightEstimationMode.AmbientIntensity;
+				m_CameraManager.requestedLightEstimation = LightEstimation.AmbientIntensity;
+				// m_CameraManager.lightEstimationMode = UnityEngine.XR.ARSubsystems.LightEstimationMode.AmbientIntensity;
 			}
 			if (m_ReferenceCreator != null & enabled)
 				m_ReferenceCreator.CreatedMarker += OnPlacedObject;
@@ -263,7 +264,8 @@ namespace ArRetarget
 			if (m_CameraManager != null & enabled)
 			{
 				m_CameraManager.frameReceived += FrameChanged;
-				m_CameraManager.lightEstimationMode = UnityEngine.XR.ARSubsystems.LightEstimationMode.AmbientIntensity;
+				//m_CameraManager.lightEstimationMode = UnityEngine.XR.ARSubsystems.LightEstimationMode.AmbientIntensity;
+				m_CameraManager.requestedLightEstimation = LightEstimation.AmbientIntensity;
 			}
 			if (m_FaceManager != null & enabled)
 				m_FaceManager.facesChanged += OnFaceUpdate;
@@ -274,7 +276,8 @@ namespace ArRetarget
 			m_CameraManager = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ARCameraManager>();
 			if (m_CameraManager != null & enabled)
 			{
-				m_CameraManager.lightEstimationMode = UnityEngine.XR.ARSubsystems.LightEstimationMode.Disabled;
+				m_CameraManager.requestedLightEstimation = LightEstimation.None;
+				// m_CameraManager.lightEstimationMode = UnityEngine.XR.ARSubsystems.LightEstimationMode.Disabled;
 			}
 		}
 
@@ -345,7 +348,6 @@ namespace ArRetarget
 		//gets called about 3-6 times per second depending on fps
 		public void SetTimeState()
 		{
-
 			switch (timeState)
 			{
 				case TimeState.None:

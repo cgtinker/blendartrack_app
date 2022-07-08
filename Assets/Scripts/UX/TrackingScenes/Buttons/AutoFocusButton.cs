@@ -28,35 +28,37 @@ namespace ArRetarget
 
 		private bool IsFixedFocus()
 		{
-			var focusmode = cameraManager.focusMode;
+			bool focusmode = cameraManager.autoFocusEnabled;
+			return !focusmode;
+			// var focusmode = cameraManager.focusMode;
 
-			bool fixedFocus;
-			switch (focusmode)
-			{
-				case UnityEngine.XR.ARSubsystems.CameraFocusMode.Auto:
-				fixedFocus = false;
-				break;
+			// bool fixedFocus;
+			// switch (focusmode)
+			// {
+			// 	case UnityEngine.XR.ARSubsystems.CameraFocusMode.Auto:
+			// 	fixedFocus = false;
+			// 	break;
 
-				case UnityEngine.XR.ARSubsystems.CameraFocusMode.Fixed:
-				fixedFocus = true;
-				break;
+			// 	case UnityEngine.XR.ARSubsystems.CameraFocusMode.Fixed:
+			// 	fixedFocus = true;
+			// 	break;
 
-				default:
-				fixedFocus = true;
-				break;
-			}
+			// 	default:
+			// 	fixedFocus = true;
+			// 	break;
+			// }
 
-			return fixedFocus;
+			// return fixedFocus;
 		}
 
 		private void SetAutoFocus(bool auto)
 		{
 			Debug.Log("Set Auto Focus: " + auto);
-
-			if (auto)
-				cameraManager.focusMode = UnityEngine.XR.ARSubsystems.CameraFocusMode.Fixed;
-			else
-				cameraManager.focusMode = UnityEngine.XR.ARSubsystems.CameraFocusMode.Auto;
+			cameraManager.autoFocusRequested = auto;
+			// if (auto)
+			// 	cameraManager.focusMode = UnityEngine.XR.ARSubsystems.CameraFocusMode.Fixed;
+			// else
+			// 	cameraManager.focusMode = UnityEngine.XR.ARSubsystems.CameraFocusMode.Auto;
 		}
 
 		private void AdjustTextDisplay(bool auto)

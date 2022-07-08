@@ -40,8 +40,8 @@ namespace ArRetarget
 					Debug.Log("No ARSession obj available");
 			}
 
-			if (arSession && !arSession.matchFrameRate)
-				arSession.matchFrameRate = true;
+			if (arSession && !arSession.matchFrameRateRequested)
+				arSession.matchFrameRateRequested = true;
 
 			Debug.Log("Session started");
 		}
