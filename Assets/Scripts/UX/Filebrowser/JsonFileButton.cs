@@ -32,7 +32,7 @@ namespace ArRetarget
 		private IEnumerator Start()
 		{
 			yield return new WaitForEndOfFrame();
-			var obj = GameObject.FindGameObjectWithTag("interfaceManager");
+			var obj = GameObject.FindGameObjectWithTag(TagManager.InterfaceManager);
 			if (obj)
 				eventListener = obj.GetComponent<FilebrowserEventListener>();
 		}

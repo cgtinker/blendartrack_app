@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ArRetarget
 {
+	[RequireComponent(typeof(InputHandler))]
 	public class TrackingButtonEventListner : MonoBehaviour
 	{
 		#region Start
@@ -91,7 +90,7 @@ namespace ArRetarget
 
 				case ButtonInput.Switch:
 				// todo: may adjust str comp
-				if (AsyncSceneManager.loadedScene == "Camera Tracker")
+				if (AsyncSceneManager.loadedScene == AsyncSceneManager.CameraTracking)
 					switch (DeviceManager.Instance.device)
 					{
 						//todo: case for unsupported android

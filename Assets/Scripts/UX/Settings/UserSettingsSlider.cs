@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -58,14 +57,12 @@ namespace ArRetarget
 		private float GetUserPreference(string key)
 		{
 			float m_val = PlayerPrefsHandler.Instance.GetFloat(key, defaultValue);
-			//float m_val = PlayerPrefs.GetFloat(key, defaultValue);
 			return m_val * factor;
 		}
 
-		private void SetUserPreference(string prefName, float value)
+		private void SetUserPreference(string key, float value)
 		{
-			PlayerPrefsHandler.Instance.SetFloat(prefName, value / factor);
-			//PlayerPrefs.SetFloat(prefName, value / factor);
+			PlayerPrefsHandler.Instance.SetFloat(key, value / factor);
 		}
 	}
 }

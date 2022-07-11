@@ -108,7 +108,6 @@ namespace ArRetarget
 			if (!managerReceivedFrame)
 			{
 				managerReceivedFrame = true;
-				print("aa NEW STUFF");
 				if (cameraManager.descriptor.supportsCameraConfigurations)
 				{
 					//gets current config
@@ -150,7 +149,7 @@ namespace ArRetarget
 					{
 						if (availableConfigs.Count <= 1)
 						{
-							Debug.Log("there is just one config, not resetting");
+							Debug.Log("Aborted reset: Available Configs == 1");
 							return;
 						}
 

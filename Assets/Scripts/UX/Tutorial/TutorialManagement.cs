@@ -146,7 +146,7 @@ namespace ArRetarget
 
 		public void OnCloseTutorial()
 		{
-			PlayerPrefsHandler.Instance.SetInt("tutorial", -1);
+			PlayerPrefsHandler.Instance.SetInt(PlayerPrefsHandler.Tutorial, -1);
 			this.gameObject.GetComponent<ReturnToTrackingScene>().ReturnToTracking();
 		}
 		#endregion

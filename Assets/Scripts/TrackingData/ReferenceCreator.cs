@@ -1,10 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR.ARSubsystems;
 using UnityEngine.XR.ARFoundation;
 using System;
-using UnityEngine.EventSystems;
 
 namespace ArRetarget
 {
@@ -28,7 +26,7 @@ namespace ArRetarget
 
 		private void Start()
 		{
-			arCameraTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
+			arCameraTransform = GameObject.FindGameObjectWithTag(TagManager.MainCamera).transform;
 			StartCoroutine(RelativeScaleByDistance());
 		}
 
@@ -39,7 +37,7 @@ namespace ArRetarget
 
 			if (Physics.Raycast(ray, out RaycastHit hit))
 			{
-				if (hit.collider.tag == "anchor")
+				if (hit.collider.tag == TagManager.ARAnchor)
 				{
 					DeleteAnchor(hit.collider.gameObject);
 				}

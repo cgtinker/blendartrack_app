@@ -32,7 +32,7 @@ namespace ArRetarget
 			//match the frame rate of ar and unity updates
 			if (arSession == null)
 			{
-				var ob = GameObject.FindGameObjectWithTag("arSession");
+				var ob = GameObject.FindGameObjectWithTag(TagManager.ARSession);
 
 				if (ob)
 					arSession = ob.GetComponent<ARSession>();
@@ -49,7 +49,7 @@ namespace ArRetarget
 		//resetting as not all tracking models include all tracker interfaces
 		public void ResetTrackerInterfaces()
 		{
-			var referencer = GameObject.FindGameObjectWithTag("referencer");
+			var referencer = GameObject.FindGameObjectWithTag(TagManager.ARReferences);
 			if (referencer != null)
 			{
 				var script = referencer.GetComponent<TrackerReferencer>();

@@ -74,8 +74,6 @@ namespace ArRetarget
 		public bool GetUserPreference(string key)
 		{
 			int m_val = PlayerPrefsHandler.Instance.GetInt(key, -1);
-			//int m_val = PlayerPrefs.GetInt(key, -1);
-
 			if (m_val == 1)
 				return true;
 
@@ -87,13 +85,11 @@ namespace ArRetarget
 		{
 			if (status == true)
 			{
-				//PlayerPrefs.SetInt(prefName, 1);
 				PlayerPrefsHandler.Instance.SetInt(prefName, 1);
 			}
 
 			else
 			{
-				//PlayerPrefs.SetInt(prefName, -1);
 				PlayerPrefsHandler.Instance.SetInt(prefName, -1);
 			}
 		}

@@ -59,7 +59,7 @@ public class DeviceManager : Singleton<DeviceManager>
 		}
 #endif
 #if UNITY_ANDROID
-		//todo: unsupported android devices
+		//todo: unsupported android devices?
 		if (Application.platform == RuntimePlatform.Android)
 		{
 			device = Device.Android;

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
-using UnityEngine.XR.ARSubsystems;
 
 namespace ArRetarget
 {
@@ -205,12 +204,12 @@ namespace ArRetarget
 			br = FileManagement.GetParagraph();
 
 			if (inputHandler == null)
-				inputHandler = GameObject.FindGameObjectWithTag("interfaceManager").GetComponent<InputHandler>();
+				inputHandler = GameObject.FindGameObjectWithTag(TagManager.InterfaceManager).GetComponent<InputHandler>();
 
 			TrackingStateChanged += OnTrackingStateChanged;
 			ClearCached();
 
-			if (PlayerPrefsHandler.Instance.GetInt("hints", -1) == -1)
+			if (PlayerPrefsHandler.Instance.GetInt(PlayerPrefsHandler.SessionHints, -1) == -1)
 			{
 				type = TrackingType.none;
 			}
@@ -241,9 +240,9 @@ namespace ArRetarget
 		private void InitPlaneTrackingReferences()
 		{
 			//planeState = PlaneTrackingState.NewSession;
-			m_CameraManager = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ARCameraManager>();
-			m_PlaneManager = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponent<ARPlaneManager>();
-			m_ReferenceCreator = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponent<ReferenceCreator>();
+			m_CameraManager = GameObject.FindGameObjectWithTag(TagManager.MainCamera).GetComponent<ARCameraManager>();
+			m_PlaneManager = GameObject.FindGameObjectWithTag(TagManager.ARSessionOrigin).GetComponent<ARPlaneManager>();
+			m_ReferenceCreator = GameObject.FindGameObjectWithTag(TagManager.ARSessionOrigin).GetComponent<ReferenceCreator>();
 
 			if (m_CameraManager != null & enabled)
 			{
@@ -258,8 +257,8 @@ namespace ArRetarget
 		private void InitFaceTrackingReferences()
 		{
 			//faceState = FaceTrackingState.NewSession;
-			m_CameraManager = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ARCameraManager>();
-			m_FaceManager = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponent<ARFaceManager>();
+			m_CameraManager = GameObject.FindGameObjectWithTag(TagManager.MainCamera).GetComponent<ARCameraManager>();
+			m_FaceManager = GameObject.FindGameObjectWithTag(TagManager.ARSessionOrigin).GetComponent<ARFaceManager>();
 
 			if (m_CameraManager != null & enabled)
 			{
@@ -273,7 +272,7 @@ namespace ArRetarget
 
 		private void DisableSessionHints()
 		{
-			m_CameraManager = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ARCameraManager>();
+			m_CameraManager = GameObject.FindGameObjectWithTag(TagManager.MainCamera).GetComponent<ARCameraManager>();
 			if (m_CameraManager != null & enabled)
 			{
 				m_CameraManager.requestedLightEstimation = LightEstimation.None;

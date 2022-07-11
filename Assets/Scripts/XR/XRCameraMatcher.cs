@@ -2,6 +2,7 @@
 
 //https://forum.unity.com/threads/sync-multiple-cameras-with-arfoundation.718844/
 [ExecuteAlways]
+[RequireComponent(typeof(Camera))]
 public class XRCameraMatcher : MonoBehaviour
 {
 	public Camera sourceCamera;

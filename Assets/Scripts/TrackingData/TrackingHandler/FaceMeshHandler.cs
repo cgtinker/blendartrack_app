@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using Unity.Collections;
+using System.Collections;
 
 namespace ArRetarget
 {
@@ -27,13 +28,14 @@ namespace ArRetarget
 			s_Vertices = new List<Vector3>();
 		}
 
-		private void Start()
+		private IEnumerator Start()
 		{
+			yield return new WaitForEndOfFrame();
 			write = false;
 			//reference ar face component
-			TrackingDataManager dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
+			TrackingDataManager dataManager = GameObject.FindGameObjectWithTag(TagManager.TrackingDataManager).GetComponent<TrackingDataManager>();
 			dataManager.SetRecorderReference(this.gameObject);
-			m_faceManager = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponent<ARFaceManager>();
+			m_faceManager = GameObject.FindGameObjectWithTag(TagManager.ARSessionOrigin).GetComponent<ARFaceManager>();
 			m_faceManager.facesChanged += OnFaceUpdate;
 		}
 

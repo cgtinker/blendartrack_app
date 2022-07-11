@@ -28,7 +28,7 @@ namespace ArRetarget
 
 		private void Start()
 		{
-			TrackingDataManager dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
+			TrackingDataManager dataManager = GameObject.FindGameObjectWithTag(TagManager.TrackingDataManager).GetComponent<TrackingDataManager>();
 			dataManager.SetRecorderReference(this.gameObject);
 		}
 

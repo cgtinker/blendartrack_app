@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
@@ -25,19 +24,19 @@ namespace ArRetarget
 			}
 		}
 
-		private void SetAutoFocus(bool auto)
+		public void SetAutoFocus(bool auto)
 		{
 			cameraManager.autoFocusRequested = auto;
 		}
 
-		private bool IsCameraAutoFocusMode()
+		public bool IsCameraAutoFocusMode()
 		{
 			return cameraManager.autoFocusEnabled;
 		}
 
 		private bool IsAutoFocusPlayerPrefs()
 		{
-			if (PlayerPrefsHandler.Instance.GetInt("autofocus", -1) == 1)
+			if (PlayerPrefsHandler.Instance.GetInt(PlayerPrefsHandler.Autofocus, -1) == 1)
 				return true;
 			return false;
 		}

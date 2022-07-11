@@ -10,8 +10,15 @@ namespace ArRetarget
 
 	public class PlayerPrefsHandler : Singleton<PlayerPrefsHandler>
 	{
+		public static readonly string Autofocus = "autofocus";
+		public static readonly string Tutorial = "tutorial";
+		public static readonly string SessionHints = "hints";
+		public static readonly string PointDensity = "pointDensity";
+		public static readonly string Scene = "scene";
+
 		#region Reference dictionarys for default values
 		//public Dictionary<string, int> CameraConfigDict = new Dictionary<string, int>();
+		[HideInInspector]
 		public List<string> CameraConfigList = new List<string>();
 		#endregion
 
@@ -115,12 +122,12 @@ namespace ArRetarget
 		#endregion
 
 		#region first time user prefs
-		public void SetFirstTimeUserPrefs(int firstTimeUserKey)
+		public void SetFirstTimeUserPrefs()
 		{
 			print("Set first time user player preferences");
 			PlayerPrefs.DeleteAll();
 
-			PlayerPrefs.SetInt("firstTimeUser", firstTimeUserKey);
+			PlayerPrefs.SetInt("firstTimeUser", -1);
 			PlayerPrefs.SetInt("default", 1);
 
 			PlayerPrefs.SetString("scene", "Camera Tracker");
@@ -134,6 +141,12 @@ namespace ArRetarget
 			PlayerPrefs.SetInt("bitrate", 8);
 			PlayerPrefs.SetInt("vidzip", 1);
 		}
+
+		public bool IsFirstimeUser()
+		{
+			return (GetInt("firstTimeUser", 1) == 1);
+		}
+
 		#endregion
 		private void SavePreferences()
 		{

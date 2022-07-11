@@ -12,128 +12,132 @@ using TMPro;
 /// To test this feature yourself, use a supported device and uninstall ARCore.
 /// (Settings > Search for "ARCore" and uninstall or disable it.)
 /// </summary>
-public class SupportChecker : MonoBehaviour
+namespace ArRetarget
 {
-	private void Awake()
+	public class SupportChecker : MonoBehaviour
 	{
-		session = GameObject.FindGameObjectWithTag("arSession").GetComponent<ARSession>();
-	}
-
-	ARSession m_Session;
-
-	public ARSession session
-	{
-		get { return m_Session; }
-		set { m_Session = value; }
-	}
-
-	[SerializeField]
-	TextMeshProUGUI m_LogText;
-
-	public TextMeshProUGUI logText
-	{
-		get { return m_LogText; }
-		set { m_LogText = value; }
-	}
-
-	[SerializeField]
-	Button m_InstallButton;
-
-	public Button installButton
-	{
-		get { return m_InstallButton; }
-		set { m_InstallButton = value; }
-	}
-
-	void Log(string message)
-	{
-		m_LogText.text += $"<br>{message}\n";
-	}
-
-	IEnumerator CheckSupport()
-	{
-		SetInstallButtonActive(false);
-
-		Log("Checking for AR support...");
-
-		yield return ARSession.CheckAvailability();
-
-		if (ARSession.state == ARSessionState.NeedsInstall)
+		private void Awake()
 		{
-			Log("Your device supports AR, but requires a software update.");
-			Log("Attempting install...");
-			yield return ARSession.Install();
+			session = GameObject.FindGameObjectWithTag(TagManager.ARSession).GetComponent<ARSession>();
 		}
 
-		if (ARSession.state == ARSessionState.Ready)
-		{
-			Log("Your device supports AR!");
+		ARSession m_Session;
 
-			// To start the ARSession, we just need to enable it.
-			m_Session.enabled = true;
-			//this.gameObject.SetActive(false);
-			ArRetarget.StateMachine.Instance.SetState(ArRetarget.StateMachine.State.Tutorial);
+		public ARSession session
+		{
+			get { return m_Session; }
+			set { m_Session = value; }
 		}
-		else
+
+		[SerializeField]
+		TextMeshProUGUI m_LogText;
+
+		public TextMeshProUGUI logText
 		{
-			switch (ARSession.state)
-			{
-				case ARSessionState.Unsupported:
-				Log("Your device does not support AR.");
-				break;
-				case ARSessionState.NeedsInstall:
-				Log("The software update failed, or you declined the update.");
-
-				// In this case, we enable a button which allows the user
-				// to try again in the event they decline the update the first time.
-				SetInstallButtonActive(true);
-				break;
-			}
-
-			Log("\n[Software update failed. Please install ArCore via the AppStore. Retargeter requieres ArCore.]");
+			get { return m_LogText; }
+			set { m_LogText = value; }
 		}
-	}
 
-	void SetInstallButtonActive(bool active)
-	{
-		if (m_InstallButton != null)
-			m_InstallButton.gameObject.SetActive(active);
-	}
+		[SerializeField]
+		Button m_InstallButton;
 
-	IEnumerator Install()
-	{
-		SetInstallButtonActive(false);
-
-		if (ARSession.state == ARSessionState.NeedsInstall)
+		public Button installButton
 		{
-			Log("Attempting install...");
-			yield return ARSession.Install();
+			get { return m_InstallButton; }
+			set { m_InstallButton = value; }
+		}
+
+		void Log(string message)
+		{
+			m_LogText.text += $"<br>{message}\n";
+		}
+
+		IEnumerator CheckSupport()
+		{
+			SetInstallButtonActive(false);
+
+			Log("Checking for AR support...");
+
+			yield return ARSession.CheckAvailability();
 
 			if (ARSession.state == ARSessionState.NeedsInstall)
 			{
-				Log("The software update failed, or you declined the update.");
-				SetInstallButtonActive(true);
+				Log("Your device supports AR, but requires a software update.");
+				Log("Attempting install...");
+				yield return ARSession.Install();
 			}
-			else if (ARSession.state == ARSessionState.Ready)
+
+			if (ARSession.state == ARSessionState.Ready)
 			{
-				Log("Success! Starting AR session...");
+				Log("Your device supports AR!");
+
+				// To start the ARSession, we just need to enable it.
 				m_Session.enabled = true;
-				ArRetarget.StateMachine.Instance.SetState(ArRetarget.StateMachine.State.Tutorial);
+				//this.gameObject.SetActive(false);
+				StateMachine.Instance.SetState(
+					StateMachine.State.Tutorial);
+			}
+			else
+			{
+				switch (ARSession.state)
+				{
+					case ARSessionState.Unsupported:
+					Log("Your device does not support AR.");
+					break;
+					case ARSessionState.NeedsInstall:
+					Log("The software update failed, or you declined the update.");
+
+					// In this case, we enable a button which allows the user
+					// to try again in the event they decline the update the first time.
+					SetInstallButtonActive(true);
+					break;
+				}
+
+				Log("\n[Software update failed. Please install ArCore via the AppStore. Retargeter requieres ArCore.]");
 			}
 		}
-		else
+
+		void SetInstallButtonActive(bool active)
 		{
-			Log("Error: ARSession does not require install.");
+			if (m_InstallButton != null)
+				m_InstallButton.gameObject.SetActive(active);
 		}
-	}
 
-	public void OnInstallButtonPressed()
-	{
-		StartCoroutine(Install());
-	}
+		IEnumerator Install()
+		{
+			SetInstallButtonActive(false);
 
-	void OnEnable()
-	{
-		StartCoroutine(CheckSupport());
+			if (ARSession.state == ARSessionState.NeedsInstall)
+			{
+				Log("Attempting install...");
+				yield return ARSession.Install();
+
+				if (ARSession.state == ARSessionState.NeedsInstall)
+				{
+					Log("The software update failed, or you declined the update.");
+					SetInstallButtonActive(true);
+				}
+				else if (ARSession.state == ARSessionState.Ready)
+				{
+					Log("Success! Starting AR session...");
+					m_Session.enabled = true;
+					StateMachine.Instance.SetState(StateMachine.State.Tutorial);
+				}
+			}
+			else
+			{
+				Log("Error: ARSession does not require install.");
+			}
+		}
+
+		public void OnInstallButtonPressed()
+		{
+			StartCoroutine(Install());
+		}
+
+		void OnEnable()
+		{
+			StartCoroutine(CheckSupport());
+		}
 	}
 }

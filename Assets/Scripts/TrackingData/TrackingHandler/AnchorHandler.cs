@@ -12,7 +12,7 @@ namespace ArRetarget
 			filePath = $"{path}{title}_{j_Prefix()}.json";
 			JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "anchorData", lastFrame: false);
 
-			referenceCreator = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponent<ReferenceCreator>();
+			referenceCreator = GameObject.FindGameObjectWithTag(TagManager.ARSessionOrigin).GetComponent<ReferenceCreator>();
 			print(referenceCreator);
 		}
 

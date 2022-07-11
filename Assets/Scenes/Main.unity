@@ -181,7 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9c21b71926ef449089bf81bbe7e05c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arPlanePrefab: {fileID: 1072810992479095123, guid: 96155f66f31804cfbb4876f55088483f,
+  arPlanePrefab: {fileID: 1072810992479095123, guid: 6534ba587c6a64d93b791ea2cdc73e64,
     type: 3}
   arPointCloudPrefab: {fileID: 806020943187665433, guid: 930f627aebd4c41c9a3fc9efb47602cc,
     type: 3}
@@ -190,6 +190,10 @@ MonoBehaviour:
   arReferenceCreatingTabTimings: {x: 0.3, y: 0.8}
   arFaceMesh: {fileID: 3588910708775601286, guid: 20254e8393669412bb420308d0e1083a,
     type: 3}
+  arSession: {fileID: 2129253626}
+  arDisplayCameraObject: {fileID: 464690203}
+  arCameraManager: {fileID: 458977127}
+  arCameraBackground: {fileID: 458977129}
 --- !u!1 &458977126
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,7 +398,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &464690204
 Transform:
   m_ObjectHideFlags: 0
@@ -454,7 +458,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_BackGroundColor: {r: 0.20705765, g: 0.4433962, b: 0.24172524, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -548,7 +552,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_BackGroundColor: {r: 0.6320754, g: 0.08646317, b: 0.08646317, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

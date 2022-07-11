@@ -5,7 +5,7 @@ namespace ArRetarget
 {
 	public class StateMachine : Singleton<StateMachine>
 	{
-		#region App State
+		#region App States
 		public enum State
 		{
 			StartUp,
@@ -34,62 +34,90 @@ namespace ArRetarget
 		{
 			get { return previousState; }
 		}
+		#endregion
+
+
+		#region State Event
+
+		private IEnumerator Start()
+		{
+			yield return new WaitForEndOfFrame();
+
+			SetState(State.StartUp);
+		}
+
 		public void SetState(State state)
 		{
 			appState = state;
 			UpdateState();
 		}
-		private XRSessionComponentProvider xrSessionComponentProvider;
-		#region State Event
-
-		#endregion
-
-		private IEnumerator Start()
-		{
-			yield return new WaitForEndOfFrame();
-			Debug.Log("Started State Machine");
-			xrSessionComponentProvider = GameObject.FindGameObjectWithTag("arSessionOrigin").GetComponent<XRSessionComponentProvider>();
-
-
-			SetState(State.StartUp);
-		}
 
 		private void UpdateState()
 		{
-			OnPreviousArState();
+			// Previous State has been an Face or Camera Tracking Session
+			switch (previousState)
+			{
+				case State.FaceTracking:
+				StartCoroutine(XRSessionComponentProvider.Instance.OnDisableFaceDetection());
+				ResetTrackerInterfaces();
+				break;
+				case State.CameraTracking:
+				StartCoroutine(XRSessionComponentProvider.Instance.OnDisablePlaneDetection());
+				ResetTrackerInterfaces();
+				break;
+				default:
+				ScreenOrientationManager.setOrientation = ScreenOrientationManager.Orientation.Portrait;
+				break;
+			}
 
+			// Updating the app state
 			switch (appState)
 			{
 				case State.StartUp:
 				Screen.sleepTimeout = SleepTimeout.NeverSleep;
 				ScreenOrientationManager.setOrientation = ScreenOrientationManager.Orientation.Portrait;
-				AsyncSceneManager.LoadScene("StartUp");
+				AsyncSceneManager.LoadScene(AsyncSceneManager.StartUp);
 				break;
 
 				case State.PostStartUp:
-				GetPostStartUpCase();
-				break;
+				if (PlayerPrefsHandler.Instance.IsFirstimeUser())
+				{
+					if (DeviceManager.Instance.device == DeviceManager.Device.Android)
+						SetState(StateMachine.State.ArCoreSupport);
+					else
+						SetState(StateMachine.State.Tutorial);
+				}
+
+				else if ((PlayerPrefsHandler.Instance.GetInt(PlayerPrefsHandler.Tutorial, 1) == 1))
+					SetState(StateMachine.State.Tutorial);
+
+				else
+					SetState(StateMachine.State.RecentTracking);
+
+				Resources.UnloadUnusedAssets(); break;
 
 				case State.ArCoreSupport:
-				AsyncSceneManager.LoadScene("ArCoreSupport");
+				AsyncSceneManager.LoadScene(AsyncSceneManager.ArCoreSupport);
 				break;
 
 				case State.Tutorial:
-				AsyncSceneManager.LoadScene("Tutorial");
-				if (isFirstTimeUser())
-					setUserPrefOnFinishTutorial();
+				AsyncSceneManager.LoadScene(AsyncSceneManager.Tutorial);
+				if (PlayerPrefsHandler.Instance.IsFirstimeUser())
+					PlayerPrefsHandler.Instance.SetFirstTimeUserPrefs();
 				break;
 
 				case State.RecentTracking:
-				string recentTrackingScene = PlayerPrefsHandler.Instance.GetString("scene", "Camera Tracker");
+				string recentTrackingScene = PlayerPrefsHandler.Instance.GetString(
+					PlayerPrefsHandler.Scene, AsyncSceneManager.CameraTracking);
 
-				if (recentTrackingScene == "Camera Tracker")
+				if (recentTrackingScene == AsyncSceneManager.CameraTracking)
 					SetState(State.CameraTracking);
 				else
 					SetState(State.FaceTracking);
 				break;
 
 				case State.SwitchTrackingType:
+				// switching tracking type based on previous app state
 				switch (previousState)
 				{
 					case State.FaceTracking:
@@ -102,26 +130,25 @@ namespace ArRetarget
 				break;
 
 				case State.FaceTracking:
-				AsyncSceneManager.LoadScene("Face Mesh Tracker");
-				//StartCoroutine(ARSessionState.EnableAR(enabled: true));
-				StartCoroutine(xrSessionComponentProvider.OnEnableFaceDetection());
+				AsyncSceneManager.LoadScene(AsyncSceneManager.FaceTracking);
+				StartCoroutine(XRSessionComponentProvider.Instance.OnEnableFaceDetection());
 				ScreenOrientationManager.setOrientation = ScreenOrientationManager.Orientation.Auto;
 				ResetTrackerInterfaces();
 				break;
 
 				case State.CameraTracking:
-				AsyncSceneManager.LoadScene("Camera Tracker");
-				//StartCoroutine(ARSessionState.EnableAR(enabled: true));
-				StartCoroutine(xrSessionComponentProvider.OnEnablePlaneDetection());
+				AsyncSceneManager.LoadScene(AsyncSceneManager.CameraTracking);
+				StartCoroutine(XRSessionComponentProvider.Instance.OnEnablePlaneDetection());
 				ScreenOrientationManager.setOrientation = ScreenOrientationManager.Orientation.Auto;
 				ResetTrackerInterfaces();
 				break;
 
 				case State.Filebrowser:
-				AsyncSceneManager.LoadScene("Filebrowser");
+				AsyncSceneManager.LoadScene(AsyncSceneManager.Filebrowser);
 				FileManager.InstantPreview = false;
 
-				GameObject[] orphans = GameObject.FindGameObjectsWithTag("viewer");
+				GameObject[] orphans = GameObject.FindGameObjectsWithTag(TagManager.Viewer);
+
 				foreach (GameObject go in orphans)
 				{
 					Destroy(go);
@@ -129,80 +156,26 @@ namespace ArRetarget
 				break;
 
 				case State.JsonViewer:
-				AsyncSceneManager.LoadScene("JsonViewer");
+				AsyncSceneManager.LoadScene(AsyncSceneManager.JsonViewer);
 				break;
 
 				case State.Settings:
-				AsyncSceneManager.LoadScene("Settings");
+				AsyncSceneManager.LoadScene(AsyncSceneManager.Settings);
 				break;
 
 				default:
+				Debug.LogError($"Setting state failed.\nCurrent: {appState}, Previous: {previousState}");
 				break;
 			}
 
 			previousState = appState;
 		}
-
-		private static void GetPostStartUpCase()
-		{
-			if (isFirstTimeUser())
-			{
-				if (DeviceManager.Instance.device == DeviceManager.Device.Android)
-					StateMachine.Instance.SetState(StateMachine.State.ArCoreSupport);
-				else
-					StateMachine.Instance.SetState(StateMachine.State.Tutorial);
-			}
-
-			else if ((PlayerPrefsHandler.Instance.GetInt("tutorial", 1) == 1))
-				StateMachine.Instance.SetState(StateMachine.State.Tutorial);
-
-			else
-				StateMachine.Instance.SetState(StateMachine.State.RecentTracking);
-
-			Resources.UnloadUnusedAssets();
-		}
 		#endregion
-
-		#region player pref access
-		private static int firstTimeUserPref = 1;
-		private static bool isFirstTimeUser()
-		{
-			if (PlayerPrefsHandler.Instance.GetInt("firstTimeUser", firstTimeUserPref) == firstTimeUserPref)
-				return true;
-			else
-				return false;
-		}
-
-		private void setUserPrefOnFinishTutorial()
-		{
-			PlayerPrefsHandler.Instance.SetFirstTimeUserPrefs(-firstTimeUserPref);
-		}
-		#endregion
-
 		#region Reset ar tracking state
-		private void OnPreviousArState()
-		{
-			switch (previousState)
-			{
-				case State.FaceTracking:
-				StartCoroutine(xrSessionComponentProvider.OnDisableFaceDetection());
-				//StartCoroutine(ARSessionState.EnableAR(enabled: false));
-				ResetTrackerInterfaces();
-				break;
-				case State.CameraTracking:
-				StartCoroutine(xrSessionComponentProvider.OnDisablePlaneDetection());
-				//StartCoroutine(ARSessionState.EnableAR(enabled: false));
-				ResetTrackerInterfaces();
-				break;
-				default:
-				ScreenOrientationManager.setOrientation = ScreenOrientationManager.Orientation.Portrait;
-				break;
-			}
-		}
-
+		// todo: MOVE
 		private void ResetTrackerInterfaces()
 		{
-			var go = GameObject.FindGameObjectWithTag("manager");
+			var go = GameObject.FindGameObjectWithTag(TagManager.TrackingDataManager);
 
 			if (go)
 			{

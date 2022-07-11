@@ -27,25 +27,18 @@ namespace ArRetarget
 			filePath = $"{path}{title}_{j_Prefix()}.json";
 			JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "screenPosData", lastFrame: false);
 
-			Debug.LogWarning("FIND ALL THAT SHIT===");
 			//screen space camera
 			if (arCamera == null)
 			{
-				var cam = GameObject.FindGameObjectWithTag("MainCamera");
+				var cam = GameObject.FindGameObjectWithTag(TagManager.MainCamera);
 				arCamera = cam.GetComponent<Camera>();
-				Debug.Log("camera");
-				Debug.Log(arCamera);
 			}
-			Debug.Log("some other stuff");
 			if (arRaycastManager == null || arPlaneManager == null)
 			{
-				var sessionOrigin = GameObject.FindGameObjectWithTag("arSessionOrigin");
+				var sessionOrigin = GameObject.FindGameObjectWithTag(TagManager.ARSessionOrigin);
 				arRaycastManager = sessionOrigin.GetComponent<ARRaycastManager>();
 				arPlaneManager = sessionOrigin.GetComponent<ARPlaneManager>();
 				referenceCreator = sessionOrigin.GetComponent<ReferenceCreator>();
-				Debug.Log(arRaycastManager);
-				Debug.Log(arPlaneManager);
-				Debug.Log(referenceCreator);
 			}
 
 			curTick = 0;

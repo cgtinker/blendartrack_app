@@ -8,57 +8,22 @@ namespace ArRetarget
 	{
 		[SerializeField]
 		private TextMeshProUGUI text;
-		private ARCameraManager cameraManager;
+		private XRCameraAutofocus xrCameraAutofocus;
 
 		private void Start()
 		{
-			var cam = GameObject.FindGameObjectWithTag("MainCamera");
-			cameraManager = cam.GetComponent<ARCameraManager>();
+			var cam = GameObject.FindGameObjectWithTag(TagManager.MainCamera);
+			xrCameraAutofocus = cam.GetComponent<XRCameraAutofocus>();
 
-			bool fixedFocus = IsFixedFocus();
-			AdjustTextDisplay(!fixedFocus);
+			bool isAuto = xrCameraAutofocus.IsCameraAutoFocusMode();
+			AdjustTextDisplay(isAuto);
 		}
 
 		public void ToggleFocusMode()
 		{
-			bool fixedFocus = IsFixedFocus();
-			SetAutoFocus(!fixedFocus);
-			AdjustTextDisplay(fixedFocus);
-		}
-
-		private bool IsFixedFocus()
-		{
-			bool focusmode = cameraManager.autoFocusEnabled;
-			return !focusmode;
-			// var focusmode = cameraManager.focusMode;
-
-			// bool fixedFocus;
-			// switch (focusmode)
-			// {
-			// 	case UnityEngine.XR.ARSubsystems.CameraFocusMode.Auto:
-			// 	fixedFocus = false;
-			// 	break;
-
-			// 	case UnityEngine.XR.ARSubsystems.CameraFocusMode.Fixed:
-			// 	fixedFocus = true;
-			// 	break;
-
-			// 	default:
-			// 	fixedFocus = true;
-			// 	break;
-			// }
-
-			// return fixedFocus;
-		}
-
-		private void SetAutoFocus(bool auto)
-		{
-			Debug.Log("Set Auto Focus: " + auto);
-			cameraManager.autoFocusRequested = auto;
-			// if (auto)
-			// 	cameraManager.focusMode = UnityEngine.XR.ARSubsystems.CameraFocusMode.Fixed;
-			// else
-			// 	cameraManager.focusMode = UnityEngine.XR.ARSubsystems.CameraFocusMode.Auto;
+			bool isAuto = xrCameraAutofocus.IsCameraAutoFocusMode();
+			xrCameraAutofocus.SetAutoFocus(!isAuto);
+			AdjustTextDisplay(isAuto);
 		}
 
 		private void AdjustTextDisplay(bool auto)

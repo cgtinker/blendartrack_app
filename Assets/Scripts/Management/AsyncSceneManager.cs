@@ -7,6 +7,16 @@ namespace ArRetarget
 {
 	public class AsyncSceneManager : MonoBehaviour
 	{
+		public static readonly string CameraTracking = "Camera Tracker";
+		public static readonly string FaceTracking = "Face Mesh Tracker";
+		public static readonly string StartUp = "StartUp";
+		public static readonly string Filebrowser = "Filebrowser";
+		public static readonly string Settings = "Settings";
+		public static readonly string Tutorial = "Tutorial";
+		public static readonly string JsonViewer = "JsonViewer";
+		public static readonly string ArCoreSupport = "ArCoreSupport";
+		public static readonly string Main = "Main";
+
 		private static string previousLoadedScene;
 		public static string loadedScene
 		{
@@ -15,7 +25,7 @@ namespace ArRetarget
 		}
 
 		#region SceneTypes
-		public enum SceneTypes
+		private enum SceneTypes
 		{
 			Tracking,
 			UI,
@@ -24,27 +34,36 @@ namespace ArRetarget
 
 		private static SceneTypes sceneType;
 
+		// names have to match scene names in build settings
 		private static Dictionary<string, SceneTypes> SceneTypeDict = new Dictionary<string, SceneTypes>()
 		{
-			{ "Camera Tracker", SceneTypes.Tracking },
-			{ "Face Mesh Tracker", SceneTypes.Tracking },
-			{ "StartUp", SceneTypes.UI },
-			{ "Filebrowser", SceneTypes.UI },
-			{ "Settings", SceneTypes.UI },
-			{ "Tutorial", SceneTypes.UI },
-			{ "JsonViewer", SceneTypes.UI },
-			{ "ArCoreSupport", SceneTypes.UI },
-			{ "Main", SceneTypes.Persistent }
+			{ CameraTracking, SceneTypes.Tracking },
+			{ FaceTracking, SceneTypes.Tracking },
+			{ StartUp, SceneTypes.UI },
+			{ Filebrowser, SceneTypes.UI },
+			{ Settings, SceneTypes.UI },
+			{ Tutorial, SceneTypes.UI },
+			{ JsonViewer, SceneTypes.UI },
+			{ ArCoreSupport, SceneTypes.UI },
+			{ Main, SceneTypes.Persistent }
 		};
-
-		private static SceneTypes CheckSceneType(string sceneName)
-		{
-			sceneType = SceneTypeDict[sceneName];
-			return sceneType;
-		}
 		#endregion
 
-		#region on load scene store name
+
+		public static void LoadScene(string sceneName)
+		{
+			if (GetSceneType(sceneName) == SceneTypes.Persistent)
+				return;
+
+			if (SceneIsLoaded(previousLoadedScene))
+				UnloadSceneAsync(previousLoadedScene);
+
+			LoadSceneAsync(sceneName);
+		}
+
+		#region Private methods
+
+		#region Keep track on loaded Scenes
 		private void OnEnable()
 		{
 			SceneManager.sceneLoaded += OnSceneLoaded;
@@ -58,7 +77,7 @@ namespace ArRetarget
 		private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 		{
 			int loadedScenes = GetSceneCount();
-			CheckSceneType(scene.name);
+			sceneType = GetSceneType(scene.name);
 			Debug.Log($"Loaded {scene.name} successfully. {loadedScenes} loaded scenes active");
 			switch (sceneType)
 			{
@@ -84,25 +103,9 @@ namespace ArRetarget
 		}
 		#endregion
 
-		public static void LoadStartupTrackingScene()
+		private static int GetSceneCount()
 		{
-			string sceneBeforeQuit = PlayerPrefsHandler.Instance.GetString("scene", "Camera Tracker");
-			LoadScene(sceneBeforeQuit);
-		}
-
-		public static void LoadScene(string sceneName)
-		{
-			if (CheckSceneType(sceneName) == SceneTypes.Persistent)
-				return;
-
-			if (SceneIsLoaded(previousLoadedScene))
-				UnloadSceneAsync(previousLoadedScene);
-
-			LoadSceneAsync(sceneName);
-		}
-
-		public static int GetSceneCount()
-		{
+			// keep consistently 2 scenes running (avoid overload)
 			int count = SceneManager.sceneCount;
 			if (count > 2)
 				Debug.LogError("Scene Count: " + count);
@@ -110,13 +113,14 @@ namespace ArRetarget
 			return count;
 		}
 
+		private static SceneTypes GetSceneType(string sceneName)
+		{
+			return SceneTypeDict[sceneName];
+		}
+
 		private static bool SceneIsLoaded(string sceneName)
 		{
-			if (SceneManager.GetSceneByName(sceneName).isLoaded)
-				return true;
-
-			else
-				return false;
+			return SceneManager.GetSceneByName(sceneName).isLoaded;
 		}
 
 		private static void UnloadSceneAsync(string sceneName)
@@ -128,5 +132,6 @@ namespace ArRetarget
 		{
 			SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 		}
+		#endregion
 	}
 }

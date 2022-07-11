@@ -1334,6 +1334,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ARSessionHints
       objectReference: {fileID: 0}
+    - target: {fileID: 6482605968545988465, guid: 59974bbdb216540e9b94be58c26d24c1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6482605968545988471, guid: 59974bbdb216540e9b94be58c26d24c1,
         type: 3}
       propertyPath: m_RootOrder
@@ -1402,6 +1407,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CameraPoseHandler
+      objectReference: {fileID: 0}
+    - target: {fileID: 2892508069828396525, guid: 41d3f38dbfd5045e2bf4c03a658cc3c0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2892508069828396527, guid: 41d3f38dbfd5045e2bf4c03a658cc3c0,
         type: 3}
@@ -1536,6 +1546,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TrackerReferencerSample
+      objectReference: {fileID: 0}
+    - target: {fileID: 7158528351622248123, guid: d83a13ea2b6024eeeb93f194377f8154,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d83a13ea2b6024eeeb93f194377f8154, type: 3}

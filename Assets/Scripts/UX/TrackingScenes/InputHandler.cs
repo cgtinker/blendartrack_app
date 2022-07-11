@@ -28,7 +28,7 @@ namespace ArRetarget
 
 		private void Awake()
 		{
-			GameObject obj = GameObject.FindGameObjectWithTag("manager");
+			GameObject obj = GameObject.FindGameObjectWithTag(TagManager.TrackingDataManager);
 			dataManager = obj.GetComponent<TrackingDataManager>();
 			OnFinishRecordingPrefab.SetActive(false);
 			Timer.SetActive(false);

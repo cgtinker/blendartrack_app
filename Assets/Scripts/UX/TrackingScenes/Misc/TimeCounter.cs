@@ -1,48 +1,51 @@
 ﻿using UnityEngine;
 using TMPro;
 
-//simple timer as user feedback on press recording
-public class TimeCounter : MonoBehaviour
+namespace ArRetarget
 {
-	private float time;
-	public TextMeshProUGUI text;
-	private bool recording = false;
-
-	private void OnEnable()
+	//simple timer as user feedback on press recording
+	public class TimeCounter : MonoBehaviour
 	{
-		StartTimer();
-	}
+		private float time;
+		public TextMeshProUGUI text;
+		private bool recording = false;
 
-	private void OnDisable()
-	{
-		StopTimer();
-	}
-
-	private void StartTimer()
-	{
-		time = 0.0f;
-		recording = true;
-	}
-
-	private void StopTimer()
-	{
-		time = 0.0f;
-		recording = false;
-	}
-
-	// Update is called once per frame
-	private void Update()
-	{
-		if (recording)
+		private void OnEnable()
 		{
-			time += Time.deltaTime;
+			StartTimer();
+		}
 
-			string minutes = Mathf.Floor(time / 60).ToString("00");
-			string seconds = Mathf.Floor(time % 60).ToString("00");
+		private void OnDisable()
+		{
+			StopTimer();
+		}
 
-			string tmp = $"{minutes}:{seconds}";
+		private void StartTimer()
+		{
+			time = 0.0f;
+			recording = true;
+		}
 
-			text.text = tmp;
+		private void StopTimer()
+		{
+			time = 0.0f;
+			recording = false;
+		}
+
+		// Update is called once per frame
+		private void Update()
+		{
+			if (recording)
+			{
+				time += Time.deltaTime;
+
+				string minutes = Mathf.Floor(time / 60).ToString("00");
+				string seconds = Mathf.Floor(time % 60).ToString("00");
+
+				string tmp = $"{minutes}:{seconds}";
+
+				text.text = tmp;
+			}
 		}
 	}
 }

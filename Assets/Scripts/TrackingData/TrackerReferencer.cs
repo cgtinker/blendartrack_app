@@ -33,7 +33,7 @@ namespace ArRetarget
 		{
 			Debug.Log("Tracker References initialized");
 			yield return new WaitForEndOfFrame();
-			var dataManager = GameObject.FindGameObjectWithTag("manager").GetComponent<TrackingDataManager>();
+			var dataManager = GameObject.FindGameObjectWithTag(TagManager.TrackingManager).GetComponent<TrackingDataManager>();
 
 			for (int i = 0; i < Trackers.Count; i++)
 			{

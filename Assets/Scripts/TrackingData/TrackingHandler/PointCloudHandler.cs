@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine.XR.ARFoundation;
 using Unity.Collections;
-using System;
 
 namespace ArRetarget
 {
@@ -19,11 +18,11 @@ namespace ArRetarget
 		#region init
 		public void Init(string path, string title)
 		{
-			pointDensity = PlayerPrefsHandler.Instance.GetFloat("pointDensity", 0.05f);
+			pointDensity = PlayerPrefsHandler.Instance.GetFloat(PlayerPrefsHandler.PointDensity, 0.05f);
 			filePath = $"{path}{title}_{j_Prefix()}.json";
 			lastFrame = false;
 			JsonFileWriter.WriteDataToFile(path: filePath, text: "", title: "points", lastFrame: false);
-			arPointCloud = GameObject.FindGameObjectWithTag("pointCloud").GetComponent<ARPointCloud>();
+			arPointCloud = GameObject.FindGameObjectWithTag(TagManager.ARPointCloud).GetComponent<ARPointCloud>();
 			ReceivePointCloud();
 			recording = true;
 		}
