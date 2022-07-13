@@ -33,6 +33,8 @@ namespace ArRetarget
 		private ARCameraManager arCameraManager;
 		[SerializeField]
 		private ARCameraBackground arCameraBackground;
+		[SerializeField]
+		private XRCameraConfigHandler arCameraConfigHandler;
 
 		public IEnumerator OnEnableFaceDetection()
 		{
@@ -44,7 +46,7 @@ namespace ArRetarget
 			arSession.Reset();
 
 			yield return new WaitForEndOfFrame();
-			EnableARDisplayCamera(true);
+			StartCoroutine(EnableARDisplayCamera(true));
 
 			// Adding components to ar session
 			ARFaceManager arFaceManager = this.gameObject.AddComponent<ARFaceManager>();
@@ -65,7 +67,7 @@ namespace ArRetarget
 			SetCameraFacingDirection(CameraFacingDirection.World);
 
 			yield return new WaitForEndOfFrame();
-			EnableARDisplayCamera(true);
+			StartCoroutine(EnableARDisplayCamera(true));
 
 			// set camera facing direction
 			// adding components to ar session
@@ -89,7 +91,7 @@ namespace ArRetarget
 		{
 			Debug.Log("Disabling Face Detection");
 			// disable the display camera before changing camera facing direction
-			EnableARDisplayCamera(false);
+			StartCoroutine(EnableARDisplayCamera(false));
 			yield return new WaitForEndOfFrame();
 
 			// camera facing direction gets changed on loading camera tracking
@@ -112,7 +114,7 @@ namespace ArRetarget
 		{
 			Debug.Log("Disabling Plane Detection");
 
-			EnableARDisplayCamera(false);
+			StartCoroutine(EnableARDisplayCamera(false));
 			yield return new WaitForEndOfFrame();
 
 			// Keep camera state as it gets switched on intializing camera tracker
@@ -146,19 +148,18 @@ namespace ArRetarget
 			}
 		}
 
-		private void EnableARDisplayCamera(bool enable)
+		private IEnumerator EnableARDisplayCamera(bool enable)
 		{
-			if (arDisplayCameraObject.activeSelf != enable)
-			{
-				arDisplayCameraObject.SetActive(enable);
-			}
-
 			if (arCameraBackground.enabled != enable)
-			{
 				arCameraBackground.enabled = enable;
-			}
-
-			Debug.Log($"{arCameraBackground.isActiveAndEnabled} - camera background active and enabled");
+			// Waiting for camera frames to push in
+			yield return new WaitForEndOfFrame();
+			arCameraConfigHandler.SetCameraConfig();
+			// Enable the display camera with a delay as setting the config
+			// pauses the AR session
+			yield return new WaitForSeconds(0.65f);
+			if (arDisplayCameraObject.activeSelf != enable)
+				arDisplayCameraObject.SetActive(enable);
 		}
 
 		private void SetCameraFacingDirection(CameraFacingDirection direction)

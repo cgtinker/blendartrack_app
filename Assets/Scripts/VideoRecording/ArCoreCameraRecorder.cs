@@ -1,7 +1,6 @@
 using UnityEngine;
 using Google.XR.ARCoreExtensions;
 using System;
-using ArRetarget;
 
 namespace ArRetarget
 {
@@ -10,6 +9,7 @@ namespace ArRetarget
 	{
 		private ARRecordingManager recordingManager;
 		private ARCoreRecordingConfig recordingConfig;
+		private ARCoreExtensions arCoreExtension;
 
 		void Start()
 		{

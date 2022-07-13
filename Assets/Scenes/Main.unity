@@ -194,6 +194,7 @@ MonoBehaviour:
   arDisplayCameraObject: {fileID: 464690203}
   arCameraManager: {fileID: 458977127}
   arCameraBackground: {fileID: 458977129}
+  arCameraConfigHandler: {fileID: 458977131}
 --- !u!1 &458977126
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,8 +209,8 @@ GameObject:
   - component: {fileID: 458977129}
   - component: {fileID: 458977134}
   - component: {fileID: 458977128}
-  - component: {fileID: 458977131}
   - component: {fileID: 458977130}
+  - component: {fileID: 458977131}
   m_Layer: 0
   m_Name: AR Camera
   m_TagString: MainCamera
@@ -305,6 +306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41a24fc5582004942961ad723acb5b82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraManager: {fileID: 458977127}
 --- !u!20 &458977132
 Camera:
   m_ObjectHideFlags: 0
@@ -458,7 +460,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.20705765, g: 0.4433962, b: 0.24172524, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -552,7 +554,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.6320754, g: 0.08646317, b: 0.08646317, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -593,7 +595,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 528276076}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.25, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
