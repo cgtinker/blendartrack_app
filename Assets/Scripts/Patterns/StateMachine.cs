@@ -92,7 +92,6 @@ namespace ArRetarget
 				case State.FaceTracking:
 				string loadFaceSceneName = "Face Mesh Tracker";
 #if UNITY_IOS && !UNITY_EDITOR
-#endif
 				bool shape_keys = Convert.ToBoolean(PlayerPrefsHandler.Instance.GetInt("face_shape_keys", 0));
 				bool face_mesh = Convert.ToBoolean(PlayerPrefsHandler.Instance.GetInt("face_mesh", 1));
 
@@ -102,13 +101,13 @@ namespace ArRetarget
 				}
 				else if (shape_keys && face_mesh)
 				{
-					loadFaceSceneName = "Shape Key Tracker";
+					loadFaceSceneName = "ShapeKeyMeshTracker";
 				}
 				else
 				{
 					loadFaceSceneName = "Face Mesh Tracker";
 				}
-
+#endif
 
 				AsyncSceneManager.LoadScene(loadFaceSceneName);
 
