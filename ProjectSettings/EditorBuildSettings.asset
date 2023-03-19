@@ -21,6 +21,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Tracking/Face Mesh Tracker.unity
     guid: 6abb2efede512461b8e1175576713eb4
   - enabled: 1
+    path: Assets/Scenes/Tracking/Shape Key Tracker.unity
+    guid: 26eeb938186e447d0ae9f04353ce6973
+  - enabled: 1
     path: Assets/Scenes/UI/Filebrowser.unity
     guid: c7930c214ab4e4d02a1b2f163509352e
   - enabled: 1

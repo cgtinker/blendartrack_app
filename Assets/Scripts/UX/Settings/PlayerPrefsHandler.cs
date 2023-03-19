@@ -133,6 +133,9 @@ namespace ArRetarget
 			PlayerPrefs.SetFloat("pointDensity", 0.05f);
 			PlayerPrefs.SetInt("bitrate", 8);
 			PlayerPrefs.SetInt("vidzip", 1);
+
+			PlayerPrefs.SetInt("face_shape_keys", 0);
+			PlayerPrefs.SetInt("face_mesh", 1);
 		}
 		#endregion
 		private void SavePreferences()

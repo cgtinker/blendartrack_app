@@ -90,7 +90,28 @@ namespace ArRetarget
 				break;
 
 				case State.FaceTracking:
-				AsyncSceneManager.LoadScene("Face Mesh Tracker");
+				string loadFaceSceneName = "Face Mesh Tracker";
+#if UNITY_IOS && !UNITY_EDITOR
+#endif
+				bool shape_keys = Convert.ToBoolean(PlayerPrefsHandler.Instance.GetInt("face_shape_keys", 0));
+				bool face_mesh = Convert.ToBoolean(PlayerPrefsHandler.Instance.GetInt("face_mesh", 1));
+
+				if (shape_keys && !face_mesh)
+				{
+					loadFaceSceneName = "Shape Key Tracker";
+				}
+				else if (shape_keys && face_mesh)
+				{
+					loadFaceSceneName = "Shape Key Tracker";
+				}
+				else
+				{
+					loadFaceSceneName = "Face Mesh Tracker";
+				}
+
+
+				AsyncSceneManager.LoadScene(loadFaceSceneName);
+
 				StartCoroutine(ARSessionState.EnableAR(enabled: true));
 				ScreenOrientationManager.setOrientation = ScreenOrientationManager.Orientation.Auto;
 				ResetTrackerInterfaces();
